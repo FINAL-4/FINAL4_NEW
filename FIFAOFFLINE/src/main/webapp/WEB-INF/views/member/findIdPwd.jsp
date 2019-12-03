@@ -312,7 +312,7 @@ function sendEmail(idOrPwd){
 								+ $("#email2P").val()
 					}
 				}
-				emailjs.init("user_1Xuzxxg4iKutLXCbWcLL9");
+				emailjs.init("user_HlxjcXkwprYA6BotVhghI");
 				emailjs.send("asdhyoo@gmail.com", "template_k2P6Sw73", emailC)
 						.then(
 								function(response) {
