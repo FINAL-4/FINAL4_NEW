@@ -50,9 +50,7 @@
 		
 		/* Center the image and position the close button */
 		.imgcontainer {
-		  text-align: center;
-		  margin: 24px 0 12px 0;
-		  position: relative;
+		 position: relative;
 		}
 
 		.container {
@@ -116,7 +114,7 @@
 		  background-color: #fefefe;
 		  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
 		  border: 1px solid #888;
-		  width: 80%; /* Could be more or less, depending on screen size */
+		  width: 100%; /* Could be more or less, depending on screen size */
 		}
 		
 		/* The Close Button (x) */
@@ -151,10 +149,14 @@
 						<a class="menu__item" href="nlist.do" style = "border: none;"> <span class="menu__item-name">공지    </span></a>  
 						<a class="menu__item" href="tlist.tm" id="teamMenu"> <span class="menu__item-name">팀       </span> </a>
 						<a class="menu__item" href="playMain.pl" id = "playerMenu" style = "border:none;"> <span class="menu__item-name">용병     </span> </a> 
-						<a class="menu__item" href="goMatch.ma" id = "matchMenu" style = "border: none;"> <span class="menu__item-name">매칭     </span></a>
-
-						<a class="menu__item" href="#" style = "border: none;"> <span class="menu__item-name">마이페이지     </span></a>
-						<span><img id = "login-logo" src="resources/images/login-b.png" width="30px;" height="30px;" onclick="document.getElementById('id01').style.display='block'"></span> 
+						<a class="menu__item" href="goMatch.ma" style = "border: none;"> <span class="menu__item-name">매칭     </span></a>
+						<c:if test="${!empty sessionScope.loginUser }">
+						<a class="menu__item" href="mypage.me" style = "border: none;"> <span class="menu__item-name">마이페이지     </span></a></c:if>
+						<span>
+						<c:if test="${empty sessionScope.loginUser }">
+						<img id = "login-logo" src="resources/images/login-e.png" width="30px;" height="30px;" onclick="document.getElementById('id01').style.display='block'">
+						</c:if>
+						</span> 
 
 						
 					</nav>
@@ -198,20 +200,17 @@
 		</div>
 		
 		<script>
-		// Get the modal
+	
 		
 		var modal = document.getElementById('id01');
 		
-		// When the user clicks anywhere outside of the modal, close it
+		
 		window.onclick = function(event) {
 		    if (event.target == modal) {
 		        modal.style.display = "none";
 		    }
 		}
-		$(".close").click(function(){
-			/* modal.style.display="none"; */
-			alert("얍");
-		});
+		
 		</script>
 		
 		

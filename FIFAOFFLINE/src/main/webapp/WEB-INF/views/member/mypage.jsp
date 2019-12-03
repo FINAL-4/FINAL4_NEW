@@ -1,6 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%-- <%
+String[] checkedInterest = new String[4];
 
+if(session.getAttribute("loginUser"). != null){	//사용자가 회원가입시 흥미버튼을 체크했다면
+	String[] interests = m.getInterest().split(",");
+
+	for(int i=0; i<interests.length ; i++){
+		switch(interests[i]){
+			case "GK" : checkedInterest[0] = "checked"; break;
+			case "DF" : checkedInterest[1] = "checked"; break;
+			case "MF" : checkedInterest[2] = "checked"; break;
+			case "FW" : checkedInterest[3] = "checked"; break;
+
+		}
+	}
+}
+%> --%>
 
 <!DOCTYPE html>
 <html>
@@ -224,18 +241,7 @@ th{
   	margin: 50px auto 0 auto;
   	width: 80%;
 }
-/* 개인정보 탭  */
-.collapsible {
-  background-color: #777;
-  color: white;
-  cursor: pointer;
-  padding: 18px;
-  width: 100%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
-}
+
 
 .active, .collapsible:hover {
   background-color: #555;
@@ -299,7 +305,7 @@ canvas
 				<form id="joinForm" enctype="multipart/form-data"
 					action="join.me" method="post">
 					<h2 align="center">
-						<em>FIFAOFFLINE에 오신 것을 환영합니다.</em>
+						<em>회 원 수 정</em>
 					</h2>
 					
 					
@@ -307,42 +313,43 @@ canvas
 					<table align="center"   >
 						<tr>
 							<th width="200px;">아이디</th>
-							<td><input id="userId" type="text" maxlength="13"
-								name="userId" requi#f53f29>
-								<div id="checkId" class="checkInfo" style="font-size: 0.7em"></div></td>
-							<!--requi#f53f29 미입력시 값을 입력하세요 문구뜸  -->
-							<!-- <td width ="200px"><div id="idCheck" class = "btns"">중복확인</div></td> -->
+							<td><input id="userId" type="text" maxlength="13" value="${loginUser.userId }" 
+								name="userId" >
 						</tr>
 						<tr>
 							<th>비밀번호</th>
 							<td><input id="userPwd" type="password" maxlength="20"
-								name="userPwd" requi#f53f29>
+								name="userPwd" value="${$loginUser.userPwd }" requi#f53f29>
 								<div id="checkPwd" class="checkInfo" style="font-size: 0.7em"></div></td>
 						</tr>
 						<tr>
 							<th>비밀번호 확인</th>
 							<td><input id="userPwd2" type="password" maxlength="20"
-								name="userPwd2" requi#f53f29>
+								name="userPwd2" value="${$loginUser.userPwd }" requi#f53f29>
 								<div id="checkPwd2" class="checkInfo" style="font-size: 0.7em"></div></td>
 						</tr>
 						<tr>
 							<th>  이름 </th>
-							<td><input id = "userName" type = "text" maxlength="5" name="userName" requi#f53f29>
+							<td><input id = "userName" type = "text" maxlength="5" name="userName" value="${loginUser.userName }" requi#f53f29>
 							<div id = "checkName" class = "checkInfo" style = "font-size : 0.7em"></div></td>
 						</tr>
 						<tr>
 							<th>생년월일</th>
 							<td>
 								<div id="joinTdbirth">
-									<input type="text" id="birthDay" maxlength="6" name="birthDay" placeholder="191129"
+									<input type="text" id="birthDay" maxlength="6" name="birthDay" placeholder="191129" value="${loginUser.birthDay }"
 										style="width: 159px;margin-right:5px;" requi#f53f29>
-										
+									
 									<input id="genderM" type="radio" name="gender" value="M"
-										style="width: 18px; height: 18px;" requi#f53f29 checked>
-									<label for="genderM">남</label> <input id="genderY"
+										style="width: 18px; height: 18px;" requi#f53f29 >
+									<label for="genderM">남</label> 
+									
+									<input id="genderY"
 										type="radio" name="gender" value="F"
 										style="width: 18px; height: 18px; " requi#f53f29> <label
 										for="genderY">여</label>
+										
+										
 								</div>
 								<div id="checkRRN" class="checkInfo" style="font-size: 0.7em"></div>
 							</td>
@@ -365,15 +372,21 @@ canvas
 						</tr>
 						<tr>
 							<th>이메일</th>
+							<c:forTokens var="mail" items="${loginUser.userEmail}" delims="@" varStatus="status">
+				 			<c:if test="${status.index eq 0}">
 							<td id="emailPt">
-							<input type="text" name="emailId"
-								style="width: 141px; margin-right: 5px;"
-								requi#f53f29="requi#f53f29">
-							<em>@</em>
-							<input
-								type="text" name="email2" value="naver.com"
-								style="width: 220px; margin-left: 0px;" ReadOnly="true"
+								<input type="text" name="emailId"
+								style="width: 141px; margin-right: 5px;" value="${mail}"
+								requi#f53f29="requi#f53f29"></td>
+							</c:if>
+								<em>@</em>
+							<c:if test="${status.index eq 1}">
+								<input
+								type="text" name="email2" value="${mail}"
+								style="width: 220px; margin-left: 0px;" ReadOnly="true" 
 								placeholder="naver.com">
+							</c:if>
+							</c:forTokens>
 							</td>
 							<td><select id="selctEmail" name="selctEmail" class="info"
 								style="width: 150px; margin-left: 0px; height: 40px;"
@@ -388,17 +401,19 @@ canvas
 									<option value="daum.net">daum.net</option>
 									<option value="etc">직접입력</option>
 							</select></td>
+							
+							
 						</tr>
 						<tr>
 							<th>주요활동지</th>
 							<td><input type="text" name="address"
-								class="postcodify_address" value="" readonly></td>
+								class="postcodify_address" value="${loginUser.address }" readonly></td>
 							<td>
-								<button type="button" id="postcodify_search_button"
-									style="size:">검색</button>
+								<button type="button" id="postcodify_search_button">
+								검색
+								</button>
 							</td>
 						</tr>
-
 						<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
 						<script>
 					$(function(){
@@ -422,6 +437,7 @@ canvas
 						
 						<script src = "https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js">
 						</script>
+						
 						<canvas
 							  id = "canvas">
 						</canvas>
@@ -433,6 +449,7 @@ canvas
 							       type = "file"
 							       multiple = "false"
 							       accept = "image/*"
+							       value="${loginUser.profile }"
 							       onchange = "upload()" style = "width: 280px;">
 							</td>
 						</tr>
@@ -445,28 +462,39 @@ canvas
 						  ima1.drawTo (Ican);
 						}
 						</script>
+						
 						<tr>
 							<td colspan="4" style="text-align : center;">
 								포지션
 							</td>
 						</tr>
 						<tr>
+						<c:forTokens var="pos" items="${loginUser.position}" delims="," varStatus="status">
+				 		<c:if test="${status.index eq 0}">
 							<td>
 								<input type="checkbox" id="GK" name="position" value="GK" style = "width: 20px;">
 								<label for="GK">골키퍼</label>
 							</td>
-							<td>
+							</c:if>
+							<c:if test="${status.index eq 1}">
+							<td>1
 								<input type="checkbox" id="DF" name="position" value="DF" style = "width: 20px;">
-								<label for="DF">수격수</label>
+								<label for="DF">수비수</label>
 							</td>
+							</c:if>
+							<c:if test="${status.index eq 2}">
 							<td>
 								<input type="checkbox" id="MF" name="position" value="MF" style = "width: 20px;">
 								<label for="MF">미드필더</label>
 							</td>
+							</c:if>
+							<c:if test="${status.index eq 3}">
 							<td>
 								<input type="checkbox" id="FW" name="position" value="FW" style = "width: 20px;">
 								<label for="FW">공격수</label>
 							</td>
+							</c:if>
+							</c:forTokens>
 						</tr>
 						
 						<script>
@@ -491,25 +519,14 @@ function checkboxArr() {
 					</table>
 					</div>
 					
-					<table id="personinfo" align="center">
-						<tr>
-							<td>
-								<p>
-									<span style="font-size: 18px;"> KHFIFAOFFLINE에 가입하시는 것에
-										대해 동의합니다.</span><input type="checkbox" id="userinfo1">
-								</p>
-
-							</td>
-						</tr>
-					</table>
+					
 					
 					<div align="center">
 						<!-- submit 방법 1 (함수활용해서 submit하기 )(requi#f53f29동작 안함) -->
 						<!-- <div class = "btns" id = "joinBtn" onclick = "insertMember();">가입하기</div> 함수방식은 requi#f53f29 적용이안됨 -->
 						<input type="button" class="btns" id="joinBtn"
-							onclick="insertMember()" value="가입하기">
-						<!-- submit 방법 2 -->
-						<!-- submit버튼으로 만들어서 실행해야 input태그들의 requi#f53f29이 발동함 -->
+							onclick="insertMember()" value="수정하기">
+
 
 						<!-- InsertMemberServlet 만들러 감 -->
 						<!-- <div class = "btns" id = "goMain" onclick = "goMain();">메인으로</div> -->
@@ -557,7 +574,7 @@ function checkboxArr() {
 	////////////////////////////////////////////////// 유효성검사 /////////////////////////////////////////////
 	
 		
-		idCheck = false;
+		
 		pwdCheck = false;
 		pwdCheck2 = false;
 		nameCheck = false;
@@ -566,40 +583,6 @@ function checkboxArr() {
 		
 		
 		
-		$("#userId").keyup(function() {
-			var userId = $("#userId").val();
-			var idRe = /^[a-z,A-z,0-9]{4,12}$/;
-
-			$.ajax({
-				url : "",
-				data : {
-					userId : userId
-				},
-				success : function(data) {
-					if (userId == "") {
-						$("#checkId").css("color", "#f53f29");
-						$("#userId").css("border", "2px solid #f53f29");
-						$("#checkId").text("아이디를 입력하세요.");
-						idCheck = false;
-					} else if (!idRe.test(userId)) {
-						$("#checkId").css("color", "#f53f29");
-						$("#userId").css("border", "2px solid #f53f29");
-						$("#checkId").text("4-12의 영문자,숫자만 입력가능합니다.");
-						idCheck = false;
-					} else if (data > 0) {
-						$("#checkId").css("color", "#f53f29");
-						$("#userId").css("border", "2px solid #f53f29");
-						$("#checkId").text("중복된 아이디입니다.");
-						idCheck = false;
-					} else {
-						$("#checkId").text("사용가능한 아이디입니다.");
-						$("#checkId").css("color", "green");
-						$("#userId").css("border", "2px solid blue");
-						idCheck = true;
-					}
-				}
-			});
-		});
 
 		$("#userPwd").keyup(function() {
 			var userPwd = $("#userPwd").val();
@@ -729,10 +712,7 @@ function checkboxArr() {
 		
 		// 회원가입 하기 함수
 		function insertMember(){
-			if(idCheck == false){
-				alert("아이디를 확인해주세요.");
-				$("#userId").focus();
-			}else if(pwdCheck  == false){
+			 if(pwdCheck  == false){
 				alert("비밀번호를 확인해주세요.");
 				$("#userPwd").focus();
 			}else if(pwdCheck2  == false){

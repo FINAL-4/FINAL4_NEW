@@ -27,9 +27,11 @@
 	  AND USER_PWD=#{userPwd}
 	  AND STATUS='Y'
   </select>
+  
+  
   <insert id="insertMember" parameterType="Member">
   	INSERT INTO MEMBER
-  	VALUES(SEQ_UID.NEXTVAL, #{userId}, #{userEmail}, #{userPwd}, #{userName}, #{birthDay}, #{gender}, #{profile}, #{address}, #{phone}, #{position}, DEFAULT, DEFAULT, SYSDATE)
+  	VALUES(SEQ_UID.NEXTVAL, #{userId}, #{userEmail}, #{userPwd}, #{userName}, #{birthDay}, #{gender}, #{address},#{profile}, #{position}, #{phone}, DEFAULT, DEFAULT, SYSDATE)
   </insert>
   
   
