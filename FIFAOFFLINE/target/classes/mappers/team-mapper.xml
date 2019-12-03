@@ -5,32 +5,46 @@
   <resultMap type="Team" id="teamResultSet">
   	<id property="teamNo" column="TEAM_NO"/>
   	<result property="userNo" column="USER_NO"/>
-  	<result property="userName" column="NAME"/>
+  	<result property="userName" column="USER_NAME"/>
   	<result property="userId" column="USER_ID"/>
+  	<result property="profile" column="PROFILE"/>
   	<result property="teamName" column="TEAM_NAME"/>
   	<result property="teamImage" column="TEAM_IMAGE"/>
   	<result property="teamAdver" column="TEAM_ADVER"/>
+  	<result property="recruitCount" column="RECRUITCOUNT"/>
   	<result property="resisterDay" column="RESISTERDAY"/>
   	<result property="ad_status" column="AD_STATUS"/>
   	<result property="teamArea" column="TEAM_AREA"/>
   	<result property="teamIntro" column="TEAM_INTRO"/>
-  	
-  	<!-- <collection property="teamMember" javaType="java.util.ArrayList" resultMap="TeamMemberResultSet"/> -->
-  	<!-- <collection property="t_Joined_Member" javaType="java.util.ArrayList" resultMap="JoinedResultSet"/> -->
   </resultMap>
   
   <!-- 콜렉션용 팀에 속한 멤버 -->
   <resultMap type="TeamMember" id="TeamMemberResultSet">
-  	<id property="userNo" column="USER_NO"/>
-  	<result property="teamNo" column="TEAM_NO"/>
+  	<id property="teamNo" column="TEAM_NO"/>
+  	<result property="userNo" column="USER_NO"/>
+  	<result property="name" column="USER_NAME"/>
+  	<result property="profile" column="PROFILE"/>
   	<result property="t_Grade" column="T_GRADE"/>
+  </resultMap>
+  
+  <!-- 세션에 올릴 내가 속한 팀 -->
+  <resultMap type="MyTeam" id="MyTeamResultSet">
+  	<id property="teamNo" column="TEAM_NO"/>
+  	<result property="userNo" column="USER_NO"/>
+  	<result property="t_Grade" column="T_GRADE"/>
+  	<result property="teamName" column="TEAM_NAME"/>
+  	<result property="teamImage" column="TEAM_IMAGE"/>
+  	<result property="teamArea" column="TEAM_AREA"/>
+  	<result property="teamIntro" column="TEAM_INTRO"/>
   </resultMap>
   
   <!-- 콜렉션용 팀에 신청한 유저 / 팀이 초대한 유저 ResultMap -->
   <resultMap type="TeamJoinedMember" id="JoinedResultSet">
-  	<id property="userNo" column="USER_NO"/>
-  	<result property="teamNo" column="TEAM_NO"/>
-  	<result property="reg_Date" column="FROMINVITE"/>
+  	<id property="teamNo" column="TEAM_NO"/>
+  	<result property="userNo" column="USER_NO"/>
+  	<result property="name" column="USER_NAME"/>
+  	<result property="profile" column="PROFILE"/>
+  	<result property="reg_Date" column="REG_DATE"/>
   	<result property="fromInvite" column="FROMINVITE"/>
   	<result property="reg_Status" column="REG_STATUS"/>
   </resultMap>
@@ -44,6 +58,25 @@
   	<result property="ad_status" column="AD_STATUS"/>
   </resultMap>
   
+  
+  <resultMap type="Member" id="memberResultSet">
+  	<id property="userNo" column="USER_NO"/>
+	<result property="userId" column="USER_ID"/>
+	<result property="userPwd" column="USER_PWD"/>
+	<result property="userName" column="USER_NAME"/>
+	<result property="userEmail" column="USER_EMAIL"/>
+	<result property="birthDay" column="BIRTHDAY"/>
+	<result property="gender" column="GENDER"/>
+	<result property="phone" column="PHONE"/>
+	<result property="position" column="POSITION"/>
+	<result property="address" column="ADDRESS"/>
+	<result property="status" column="STATUS"/>
+	<result property="aCount" column="A_COUNT"/>
+	<result property="joinDate" column="JOINDATE"/>
+	<!-- 변수명 디비값 -->
+  </resultMap>
+  
+  
   <select id="getListCount" resultType="_int">
   	SELECT COUNT(*)
   	FROM TEAM_AD
@@ -51,13 +84,7 @@
   </select>
   
   <select id="selectList" resultMap="teamResultSet">
-  	<!-- SELECT *
-  	FROM TEAM T
-  	JOIN TEAM_AD TA ON(T.TEAM_NO = TA.TEAM_NO)
-  	LEFT JOIN T_JOINED_MEMBER TJM ON(T.TEAM_NO = TJM.TEAM_NO)
-  	JOIN T_MEMBER TM ON(TJM.TEAM_NO = TM.TEAM_NO)
-  	ORDER BY RESISTERDAY DESC -->
-  	SELECT T.TEAM_NO,T.USER_NO,M.NAME,M.USER_ID,T.TEAM_NAME,T.TEAM_IMAGE,TA.TEAM_ADVER,
+  	SELECT T.TEAM_NO,T.USER_NO,M.USER_NAME,M.USER_ID,M.PROFILE,T.TEAM_NAME,T.TEAM_IMAGE,TA.TEAM_ADVER,
   		   TA.RESISTERDAY,TA.AD_STATUS,T.TEAM_AREA,T.TEAM_INTRO
   	FROM TEAM T
     JOIN MEMBER M ON (T.USER_NO = M.USER_NO)
@@ -65,9 +92,57 @@
   	ORDER BY RESISTERDAY DESC
   </select>
   
+  <select id="teamDetail" resultMap="teamResultSet" parameterType="_int">
+  	SELECT T.TEAM_NO,T.USER_NO,M.USER_NAME,M.USER_ID,M.PROFILE,T.TEAM_NAME,T.TEAM_IMAGE,TA.TEAM_ADVER,
+  		   TA.RESISTERDAY,TA.AD_STATUS,T.TEAM_AREA,T.TEAM_INTRO	,TA.RECRUITCOUNT		  
+  	FROM TEAM T
+  	JOIN MEMBER M ON (T.USER_NO = M.USER_NO)
+  	JOIN TEAM_AD TA ON (T.TEAM_NO = TA.TEAM_NO)
+  	WHERE T.TEAM_NO=#{tNo}			  	  		  
+  </select>
   
+  <select id="selectJoinList" resultMap="JoinedResultSet" parameterType="_int">
+  	SELECT * 
+  	FROM T_JOINED_MEMBER TJM
+  	JOIN MEMBER M ON(TJM.USER_NO = M.USER_NO)
+  	WHERE FROMINVITE='T' AND REG_STATUS='N' AND TEAM_NO=#{tNo}
+  </select>
   
+  <select id="selectMemberList" resultMap="TeamMemberResultSet">
+  	SELECT *
+  	FROM T_MEMBER TM
+  	JOIN MEMBER M ON(TM.USER_NO = M.USER_NO)
+  	WHERE TEAM_NO=#{tNo}
+  </select>
+  
+  <select id="selectMyTeam" resultMap="MyTeamResultSet">
+  	SELECT TM.USER_NO, TM.TEAM_NO, TM.T_GRADE, T.TEAM_NAME,T.TEAM_IMAGE,T.TEAM_AREA,T.TEAM_INTRO
+	FROM T_MEMBER TM
+	JOIN TEAM T ON(T.USER_NO = TM.USER_NO)
+	WHERE TM.USER_NO=#{userNo}
+  </select>
+  
+  <select id="getModalUser" resultMap="memberResultSet">
+  	SELECT *
+  	FROM MEMBER
+  	WHERE USER_NO=#{userNo}
+  </select>
+  
+  <delete id="joinedCancel" parameterType="TeamJoinedMember">
+  	DELETE FROM 
+  	T_JOINED_MEMBER
+  	WHERE USER_NO=#{userNo} AND TEAM_NO=#{teamNo} AND FROMINVITE='T'
+  </delete>
+  
+  <insert id="teamJoin" parameterType="TeamJoinedMember">
+  	INSERT INTO T_MEMBER VALUES
+  	(#{userNo},#{teamNo},2)
+  </insert>
 
+  <insert id="applyTeam" parameterType="TeamJoinedMember">
+  	INSERT INTO T_JOINED_MEMBER VALUES
+  	(#{userNo},#{teamNo},'T',SYSDATE,'N')
+  </insert>
   
 
 </mapper>
