@@ -283,6 +283,7 @@ div[id^="player"]{
 			  		</div>
 			  		<div class="back"  onclick="toggleTrsf(3)">
 			  		해당 용병에 대한 포지션 및 가능 시간 등 상세정보 
+			  		<input type = button value= "가나다" onclick="test()">
 			  		</div>
 			  	</div>
 			</div>
@@ -329,7 +330,7 @@ div[id^="player"]{
 			</tr>
 			</thead>
 			<tbody>
-			<c:forEach var="tp" items="${list }">
+			<c:forEach var="tp" items="${team }">
 				<c:url var="ptDetail" value="playTeamDetail.pl">
 					<c:param name="rNum" value="${tp.rNum }"/>
 				</c:url>
@@ -340,7 +341,7 @@ div[id^="player"]{
 			    		<img src="<%=request.getContextPath()%>/resources/images/logo.png" style="width:100%; height:100%; padding-left:25px;">
 			    	</div>
 			    </td>
-			    <td class="playList">팀명은 어케 받아야하지 ? join 문 써야하는건가 </td>
+			    <td class="playList">${tp.teamName } </td>
 			    <td class="playList">${tp.rTitle }</td>
 			    <td class="playList">${tp.rPlace }</td>
 			    <td class="playList">${tp.rDay }</td>
@@ -426,7 +427,10 @@ function toggleTrsf(id) {
 		card.css("transform", "");
 		card.addClass("change");
 	}   
-}  // 여기까지 카드 뒤집기 
+}  // 여기까지 카드 뒤집기
+function test(){
+	alert("aerat");
+}
 </script>
 
 <jsp:include page = "../common/footer.jsp"/>

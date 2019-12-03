@@ -2,6 +2,7 @@ package com.kh.FIFAOFFLINE.player.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.FIFAOFFLINE.player.model.vo.P_ENROLL;
 import com.kh.FIFAOFFLINE.player.model.vo.P_RECRUIT;
 
 public interface PlayerService {
@@ -15,6 +16,10 @@ public interface PlayerService {
 	public int teamPlayListDelete(int rNum);
 
 	public int playTeamModify(P_RECRUIT pr);
+
+	public int playPersonEnroll(P_ENROLL pe);
+
+	public ArrayList<P_ENROLL> personPlayList();
 
 	
 

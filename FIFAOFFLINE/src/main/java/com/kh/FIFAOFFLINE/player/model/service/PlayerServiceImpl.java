@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.FIFAOFFLINE.player.model.dao.PlayerDao;
+import com.kh.FIFAOFFLINE.player.model.vo.P_ENROLL;
 import com.kh.FIFAOFFLINE.player.model.vo.P_RECRUIT;
 
 @Service("pService")
@@ -39,6 +40,17 @@ public class PlayerServiceImpl implements PlayerService{
 	public int playTeamModify(P_RECRUIT pr) {
 		// System.out.println("써비스 수정 test : " + pr);
 		return pDao.playTeamModify(pr);
+	}
+
+	@Override
+	public int playPersonEnroll(P_ENROLL pe) {
+		// System.out.println("써삐쓰 등록 test : " + pe);
+		return pDao.playPersonEnroll(pe);
+	}
+
+	@Override
+	public ArrayList<P_ENROLL> personPlayList() {
+		return pDao.personPlayList();
 	}
 
 	
