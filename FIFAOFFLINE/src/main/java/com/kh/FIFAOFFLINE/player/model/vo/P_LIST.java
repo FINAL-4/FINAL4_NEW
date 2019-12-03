@@ -2,47 +2,47 @@ package com.kh.FIFAOFFLINE.player.model.vo;
 
 public class P_LIST {
 
-	private int R_NUM;
-	private int USER_NO;
-	private String ACCEPT;
+	private int rNum;
+	private int userNo;
+	private String accept;
 	
 	public P_LIST() {}
 
-	public P_LIST(int r_NUM, int uSER_NO, String aCCEPT) {
+	public P_LIST(int rNum, int userNo, String accept) {
 		super();
-		R_NUM = r_NUM;
-		USER_NO = uSER_NO;
-		ACCEPT = aCCEPT;
+		this.rNum = rNum;
+		this.userNo = userNo;
+		this.accept = accept;
 	}
 
-	public int getR_NUM() {
-		return R_NUM;
+	public int getrNum() {
+		return rNum;
 	}
 
-	public void setR_NUM(int r_NUM) {
-		R_NUM = r_NUM;
+	public void setrNum(int rNum) {
+		this.rNum = rNum;
 	}
 
-	public int getUSER_NO() {
-		return USER_NO;
+	public int getUserNo() {
+		return userNo;
 	}
 
-	public void setUSER_NO(int uSER_NO) {
-		USER_NO = uSER_NO;
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
 	}
 
-	public String getACCEPT() {
-		return ACCEPT;
+	public String getAccept() {
+		return accept;
 	}
 
-	public void setACCEPT(String aCCEPT) {
-		ACCEPT = aCCEPT;
+	public void setAccept(String accept) {
+		this.accept = accept;
 	}
 
 	@Override
 	public String toString() {
-		return "P_LIST [R_NUM=" + R_NUM + ", USER_NO=" + USER_NO + ", ACCEPT=" + ACCEPT + "]";
+		return "P_LIST [rNum=" + rNum + ", userNo=" + userNo + ", accept=" + accept + "]";
 	}
-	
+
 	
 }

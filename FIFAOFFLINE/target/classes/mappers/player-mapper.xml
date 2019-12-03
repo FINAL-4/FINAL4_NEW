@@ -20,19 +20,25 @@
 		<result property="rcDate" column="R_C_DATE"/>
 		<result property="rmDate" column="R_M_DATE"/>
 		<result property="rStatus" column="R_STATUS"/>
+		<result property="teamName" column="TEAM_NAME"/>
+		<result property="teamImage" column="TEAM_IMAGE"/>
+		<result property="userName" column="USER_NAME"/>
 	</resultMap>
 	
 	<!-- 팀용병 리스트 보여주기 쿼리문 -->
 	<select id="teamPlayList" resultMap="recruitResultSet">
 		SELECT *
-		FROM P_RECRUIT
+		FROM P_RECRUIT P
+		JOIN TEAM T ON(P.TEAM_NO = T.TEAM_NO)
 		ORDER BY R_DAY, R_S_HOUR, R_S_MIN
 	</select>
 	
 	<!-- 팀용병 글 상세보기 쿼리문 -->
 	<select id="playTeamDetail" parameterType="_int" resultMap="recruitResultSet">
 		SELECT * 
-		FROM P_RECRUIT
+		FROM P_RECRUIT P
+		JOIN TEAM T ON(P.TEAM_NO = T.TEAM_NO)
+		JOIN MEMBER M ON(T.USER_NO = M.USER_NO)
 		WHERE R_NUM=#{rNum} AND R_STATUS='N'
 	</select>
 	
