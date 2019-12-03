@@ -1,5 +1,4 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -157,6 +156,7 @@ hr.new4 {
 	<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; height:800px; margin:auto; padding-bottom:50px;">
 		<div style="height:100%; width:100%; border-bottom:3px solid red;">
 			<div class="example">
+			<button class="createAD" onclick="createAD()">모집글 작성</button>
 			<br><br><br>
 				<p class="searchBInfo">지역으로 검색하세요.</p>
 				<div class="searchButtons">
@@ -208,7 +208,7 @@ hr.new4 {
 			    <td>${team.userName }</td>
 			    <td>${team.teamArea }</td>
 			    <td>${team.teamIntro }</td>
-			    <td>${status.count }</td>
+			    <td>${team.recruitCount}</td>
   			</tr>
   			<tr class="spacetr"></tr>
 			</c:forEach>
@@ -324,6 +324,11 @@ $(document).on("click",".teamselector",function(){
 			$(this).toggleClass('clicked');
 		});
 	});
+</script>
+<script>
+	function createAD(){
+		location.href="createAD.tm";
+	}
 </script>
 
 

@@ -76,4 +76,14 @@ public class TeamDao {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("teamMapper.applyTeam",tjm);
 	}
+
+	public int deleteTeamAD(Integer teamNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("teamMapper.deleteTeamAD",teamNo);
+	}
+
+	public int updateTeamAD(Team t) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("teamMapper.updateTeamAD", t);
+	}
 }

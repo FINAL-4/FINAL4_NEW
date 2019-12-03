@@ -83,4 +83,16 @@ public class TeamServiceImpl implements TeamService{
 		// TODO Auto-generated method stub
 		return tDao.applyTeam(tjm);
 	}
+
+	@Override
+	public int deleteTeamAD(Integer teamNo) {
+		// TODO Auto-generated method stub
+		return tDao.deleteTeamAD(teamNo);
+	}
+
+	@Override
+	public int updateTeamAD(Team t) {
+		// TODO Auto-generated method stub
+		return tDao.updateTeamAD(t);
+	}
 }

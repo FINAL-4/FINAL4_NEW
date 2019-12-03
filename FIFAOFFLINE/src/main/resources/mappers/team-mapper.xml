@@ -85,7 +85,7 @@
   
   <select id="selectList" resultMap="teamResultSet">
   	SELECT T.TEAM_NO,T.USER_NO,M.USER_NAME,M.USER_ID,M.PROFILE,T.TEAM_NAME,T.TEAM_IMAGE,TA.TEAM_ADVER,
-  		   TA.RESISTERDAY,TA.AD_STATUS,T.TEAM_AREA,T.TEAM_INTRO
+  		   TA.RESISTERDAY,TA.AD_STATUS,T.TEAM_AREA,T.TEAM_INTRO,TA.RECRUITCOUNT
   	FROM TEAM T
     JOIN MEMBER M ON (T.USER_NO = M.USER_NO)
     JOIN TEAM_AD TA ON(T.TEAM_NO = TA.TEAM_NO)
@@ -143,6 +143,19 @@
   	INSERT INTO T_JOINED_MEMBER VALUES
   	(#{userNo},#{teamNo},'T',SYSDATE,'N')
   </insert>
+  
+  <delete id="deleteTeamAD" parameterType="_int">
+  	DELETE FROM
+  	TEAM_AD
+  	WHERE TEAM_NO=#{team_no}
+  </delete>
+  
+  <update id="updateTeamAD" parameterType="Team">
+  	UPDATE TEAM_AD
+  	SET TEAM_ADVER=#{teamAdver}, RECRUITCOUNT=#{recruitCount}
+  	WHERE TEAM_NO = #{teamNo}
+  	
+  </update>
   
 
 </mapper>

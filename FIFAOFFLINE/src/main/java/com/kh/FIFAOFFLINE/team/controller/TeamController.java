@@ -206,5 +206,64 @@ public class TeamController {
 		return "home";
 	}
 	
+	@RequestMapping("deleteTeamAD.tm")
+	public ModelAndView deleteTeamAD(ModelAndView mv,
+									@RequestParam(value="teamNo", required=false) Integer teamNo) {
+		
+		int result = tService.deleteTeamAD(teamNo);
+		
+		
+		mv.setViewName("home");
+		
+		return mv;
+	}
+	
+	@RequestMapping("updateTeamView.tm")
+	public ModelAndView updateTeamView(ModelAndView mv,
+			@RequestParam(value="teamNo", required=false) Integer teamNo) {
+	
+		// 값이 개같이 나오니깐 그냥 쿼리문하나하나 왔다리갔다리하면서 받아오자 줮같네 ㅡㅡ
+		int tNo = teamNo;
+				
+		Team t = tService.teamDetail(tNo);
+		ArrayList<TeamJoinedMember> joinList = tService.selectJoinList(tNo);
+		ArrayList<TeamMember> memberList = tService.selectMemberList(tNo);
+				
+		if(t != null) {
+			mv.addObject("t",t);
+			mv.addObject("joinList",joinList);
+			mv.addObject("memberList",memberList);
+			mv.setViewName("team/teamUpdateView");
+					
+			System.out.println(t);
+				
+		}else {
+			throw new TeamException("팀 수정하기 실패");
+		}
+			
+		return mv;
+	}
+	
+	@RequestMapping("updateTeamAD.tm")
+	public ModelAndView updateTeamAD(ModelAndView mv,Team t) {
+		
+		int result = tService.updateTeamAD(t);
+		
+		mv.setViewName("home");
+		
+		return mv;
+	}
+	
+	@RequestMapping("createAD.tm")
+	public ModelAndView createAD(ModelAndView mv) {
+		
+		mv.setViewName("team/teamAdCreate");
+		
+		return mv;
+		
+	}
+	
+	
+	
 	
 }

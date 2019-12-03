@@ -31,6 +31,10 @@ public interface TeamService {
 	int teamJoin(TeamJoinedMember tjm);
 
 	int applyTeam(TeamJoinedMember tjm);
+
+	int deleteTeamAD(Integer teamNo);
+
+	int updateTeamAD(Team t);
 	
 	
 
