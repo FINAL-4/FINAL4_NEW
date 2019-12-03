@@ -23,12 +23,13 @@ public class P_ENROLL {
 	private String phone;
 	private String proFile;
 	private String gender;
+	private String aCount;
 	
 	public P_ENROLL() {}
 
 	public P_ENROLL(int eNum, int userNo, String eTitle, String eManner, String eSkill, String ePlace, String ePlaceX,
 			String ePlaceY, String eDay, String esHour, String efHour, String eContent, Date ecDate, String eStatus,
-			String userName, String position, String phone, String proFile, String gender) {
+			String userName, String position, String phone, String proFile, String gender, String aCount) {
 		super();
 		this.eNum = eNum;
 		this.userNo = userNo;
@@ -49,6 +50,7 @@ public class P_ENROLL {
 		this.phone = phone;
 		this.proFile = proFile;
 		this.gender = gender;
+		this.aCount = aCount;
 	}
 
 	public int geteNum() {
@@ -203,15 +205,24 @@ public class P_ENROLL {
 		this.gender = gender;
 	}
 
+	public String getaCount() {
+		return aCount;
+	}
+
+	public void setaCount(String aCount) {
+		this.aCount = aCount;
+	}
+
 	@Override
 	public String toString() {
 		return "P_ENROLL [eNum=" + eNum + ", userNo=" + userNo + ", eTitle=" + eTitle + ", eManner=" + eManner
 				+ ", eSkill=" + eSkill + ", ePlace=" + ePlace + ", ePlaceX=" + ePlaceX + ", ePlaceY=" + ePlaceY
 				+ ", eDay=" + eDay + ", esHour=" + esHour + ", efHour=" + efHour + ", eContent=" + eContent
 				+ ", ecDate=" + ecDate + ", eStatus=" + eStatus + ", userName=" + userName + ", position=" + position
-				+ ", phone=" + phone + ", proFile=" + proFile + ", gender=" + gender + "]";
+				+ ", phone=" + phone + ", proFile=" + proFile + ", gender=" + gender + ", aCount=" + aCount + "]";
 	}
 
+	
 	
 	
 	

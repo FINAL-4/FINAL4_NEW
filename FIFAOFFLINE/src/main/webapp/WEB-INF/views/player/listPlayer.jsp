@@ -255,6 +255,8 @@ div[id^="player"]{
 <div id = "outer" style = "margin-top:180px; background-image: url('resources/images/ba2.jpg'); background-size:100% 100%;">
 	<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; height:800px; margin:auto; padding-bottom:50px;">
 		<div id = "title"> 오늘의 추천 용병 </div> <br><br><br><br>
+		<c:forEach var="pp" items="${person }">
+			
 		<div class="card-carousel">
 			<div class="my-card">
 			  	<div id = "player1" class = "change">
@@ -262,7 +264,10 @@ div[id^="player"]{
 			  			<img src="resources/images/tot.jpg" style="width:100%; height:100%;">
 			  		</div>
 			  		<div class="back"  onclick="toggleTrsf(1)">
-			  			<img src="resources/images/son.png" style="width:100%; height:100%;">
+			  			${pp.eTitle }
+			  			${pp.eManner }
+			  			${pp.eSkill }
+			  			
 			  		</div>
 				</div>
 			</div>
@@ -307,7 +312,8 @@ div[id^="player"]{
 			  		</div>
 			  	</div>
 			  </div> 
-			</div> <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			</div>
+			</c:forEach> <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 			<div id = btn> 
 				<input type = button id = playerEnroll value = "개인 용병 등록" onclick="playerEnroll()">
 				<input type = button id = playerRecruit value = "팀 용병 모집" onclick="playerRecruit()"> 

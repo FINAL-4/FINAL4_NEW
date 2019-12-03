@@ -27,12 +27,15 @@ public class PlayerController {
 		ArrayList<P_RECRUIT> team = pService.teamPlayList();
 		ArrayList<P_ENROLL> person = pService.personPlayList();
 		
+		System.out.println("team : " + team );
+		System.out.println("person : " + person);
+		
 		if(team != null && person != null && team.size() > 0 && person.size() > 0) {
 			mv.addObject("team", team);
 			mv.addObject("person", person);
 			mv.setViewName("player/listPlayer");
 		} else {
-			throw new PlayerException("팀용병 리스트 조회 실패");
+			throw new PlayerException("용병 리스트 조회 실패");
 		}
 		return mv;
 	}
