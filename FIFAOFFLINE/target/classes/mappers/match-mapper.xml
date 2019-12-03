@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="matchMapper">
+  <resultMap type="Match" id="matchingResultSet">
+	<id property = "mId" column="MID"/>
+	<result property="teamNo" column="TEAM_NO"/>
+	<result property="mTitle" column="M_TITLE"/>
+	<result property="mContent" column="M_CONTENTS"/>
+	<result property="mSystem" column="M_SYSTEM"/>
+	<result property="dues" column="DUES"/>
+	<result property="mLocationName" column="LOCATION"/>
+	<result property="mLocationX" column="LOCATIONX"/>
+	<result property="mLocationY" column="LOCATIONY"/>
+	<result property="mDay" column="M_DAY"/>
+	<result property="sHour" column="START_HOUR"/>
+	<result property="sMinute" column="START_MINUTE"/>
+	<result property="eHour" column="END_HOUR"/>
+	<result property="eMinute" column="END_MINUTE"/>
+	<result property="createDate" column="CREATE_DATE"/>
+	<result property="mStatus" column="M_STATUS"/>
+  </resultMap>
+  
+  <resultMap type="AppMatch" id="appMatchingResultSet">
+	<id property = "amId" column="AMID"/>
+	<result property="teamNo" column="TEAM_NO"/>
+	<result property="mId" column="MID"/>
+	<result property="appDate" column="APP_DATE"/>
+	<result property="amStatus" column="AM_STATUS"/>
+  </resultMap>
+  
+  <!-- 매치생성 -->
+  <insert id="insertMatching" parameterType="Match">
+  	INSERT INTO MATCHING
+  	VALUES(SEQ_MID.NEXTVAL, #{teamNo}, #{mTitle}, #{mContent}, #{mSystem}, #{dues}, #{mDay}, #{sHour}, #{sMinute}
+  			, #{eHour}, #{eMinute}, #{mLocationName}, #{mLocationX}, #{mLocationY}, SYSDATE, 'Y')
+  
+  </insert>
+  
+  
+  
+  <!-- 모든 리스트 받아오기 -->
+  <select id="selectAllList" resultMap="matchingResultSet">
+  	SELECT *
+  	FROM MATCHING
+  	WHERE M_STATUS='Y'
+  	ORDER BY CREATE_DATE DESC
+  </select>
+ 
+ 
+ 
+ <!-- 매치선택 -->
+ <select id="selectMatch" resultMap="matchingResultSet">
+ 	SELECT *
+ 	FROM MATCHING
+ 	WHERE M_STATUS='Y' AND MID=#{mId}
+ </select>
+ 
+ 
+ 
+ <!-- 매치신청 받아오기 -->
+ <select id="selectAppMatch" resultMap="appMatchingResultSet">
+ 	SELECT *
+ 	FROM APP_MATCHING
+ 	WHERE AM_STATUS='Y' AND MID=#{mId}
+ </select>
+ 
+ 
+ 
+ <!-- 매치신청하기 -->
+ <insert id="insertAppMatching" parameterType="hashmap">
+ 	INSERT INTO APP_MATCHING
+ 	VALUES(SEQ_AMID.NEXTVAL, #{tId}, #{mId}, SYSDATE, 'Y')
+ </insert>
+ 
+ 
+ 
+ 
+ <!-- 필터 적용한 매치 리스트 받아오기 -->
+ <select id="selectNewList" resultMap="matchingResultSet">
+ 	SELECT *
+ 	FROM MATCHING
+ 	WHERE M_STATUS = 'Y'
+ 	<if test="eDate != null and sDate != null">
+ 	AND (M_DAY &lt;= #{eDate} AND M_DAY &gt;= #{sDate})
+ 	</if>
+ 	<if test="mSystem != ''">
+ 	AND M_SYSTEM = #{mSystem}
+ 	</if>
+ 	<if test="mon != '' or tue != '' or wed != '' or thu != ''
+ 				  or fri != '' or sat != '' or sun != ''">
+ 		AND(M_STATUS = 'N'
+	 	<if test="mon != ''">
+	 	OR TO_CHAR(M_DAY, 'D')=2
+	 	</if>
+	 	<if test="tue != ''">
+	 	OR TO_CHAR(M_DAY, 'D')=3
+	 	</if>
+	 	<if test="wed != ''">
+	 	OR TO_CHAR(M_DAY, 'D')=4
+	 	</if>
+	 	<if test="thu != ''">
+	 	OR TO_CHAR(M_DAY, 'D')=5
+	 	</if>
+	 	<if test="fri != ''">
+	 	OR TO_CHAR(M_DAY, 'D')=6
+	 	</if>
+	 	<if test="sat != ''">
+	 	OR TO_CHAR(M_DAY, 'D')=7
+	 	</if>
+	 	<if test="sun != ''">
+	 	OR TO_CHAR(M_DAY, 'D')=1
+	 	</if>
+	 	)
+ 	</if>
+ 	<if test="time1 != '' or time2 != '' or time3 != ''
+ 				  or time4 != '' or time5 != '' or time6 != ''">
+ 		AND(M_STATUS = 'N'
+	 	<if test="time1 != ''">
+	 	OR (TO_NUMBER(START_HOUR) &gt;= 0 AND TO_NUMBER(END_HOUR) &lt;= 4)
+	 	</if>
+	 	<if test="time2 != ''">
+	 	OR (TO_NUMBER(START_HOUR) &gt;= 4 AND TO_NUMBER(END_HOUR) &lt;= 8)
+	 	</if>
+	 	<if test="time3 != ''">
+	 	OR (TO_NUMBER(START_HOUR) &gt;= 8 AND TO_NUMBER(END_HOUR) &lt;= 12)
+	 	</if>
+	 	<if test="time4 != ''">
+	 	OR (TO_NUMBER(START_HOUR) &gt;= 12 AND TO_NUMBER(END_HOUR) &lt;= 16)
+	 	</if>
+	 	<if test="time5 != ''">
+	 	OR (TO_NUMBER(START_HOUR) &gt;= 16 AND TO_NUMBER(END_HOUR) &lt;= 20)
+	 	</if>
+	 	<if test="time6 != ''">
+	 	OR (TO_NUMBER(START_HOUR) &gt;= 20 AND TO_NUMBER(END_HOUR) &lt;= 24)
+	 	</if>
+ 		)
+ 	</if>
+ </select>
+ 
+</mapper>

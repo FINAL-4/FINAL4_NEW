@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="playerMapper">
+	
+	<resultMap type="P_RECRUIT" id="recruitResultSet">
+		<id property="rNum" column="R_NUM"/>
+		<result property="teamNo" column="TEAM_NO"/>
+		<result property="rTitle" column="R_TITLE"/>
+		<result property="rPlace" column="R_PLACE"/>
+		<result property="rPlaceX" column="R_PlACE_X"/>
+		<result property="rPlaceY" column="R_PLACE_Y"/>
+		<result property="rDay" column="R_DAY"/>
+		<result property="rsHour" column="R_S_HOUR"/>
+		<result property="rsMin" column="R_S_MIN"/>
+		<result property="rfHour" column="R_F_HOUR"/>
+		<result property="rfMin" column="R_F_MIN"/>
+		<result property="deadline" column="DEADLINE"/>
+		<result property="rMoney" column="R_MONEY"/>
+		<result property="rContent" column="R_CONTENT"/>
+		<result property="rcDate" column="R_C_DATE"/>
+		<result property="rmDate" column="R_M_DATE"/>
+		<result property="rStatus" column="R_STATUS"/>
+	</resultMap>
+	
+	<!-- 팀용병 리스트 보여주기 쿼리문 -->
+	<select id="teamPlayList" resultMap="recruitResultSet">
+		SELECT *
+		FROM P_RECRUIT
+		ORDER BY R_DAY, R_S_HOUR, R_S_MIN
+	</select>
+	
+	<!-- 팀용병 글 상세보기 쿼리문 -->
+	<select id="playTeamDetail" parameterType="_int" resultMap="recruitResultSet">
+		SELECT * 
+		FROM P_RECRUIT
+		WHERE R_NUM=#{rNum} AND R_STATUS='N'
+	</select>
+	
+	<!-- 용병 모집 등록 쿼리문 -->
+	<insert id="playTeamCreate" parameterType="P_RECRUIT">
+		INSERT INTO P_RECRUIT
+		VALUES(SEQ_P_RE.NEXTVAL, #{teamNo}, #{rTitle}, #{rPlace}, #{rPlaceX}, #{rPlaceY},
+		       #{rDay}, #{rsHour}, #{rsMin}, #{rfHour}, #{rfMin}, #{deadline}, #{rMoney}, #{rContent}, 
+		       SYSDATE, SYSDATE, DEFAULT)
+	</insert>
+	
+	<!-- 용병 모집 등록글 삭제 쿼리문 -->
+	<delete id="playTeamDelete" parameterType="_int">
+		DELETE FROM P_RECRUIT
+		WHERE R_NUM=#{rNum}
+	</delete>
+	
+	<!-- 용병 모집 등록글 수정 쿼리문 -->
+	<update id="playTeamModify" parameterType="P_RECRUIT">
+		UPDATE P_RECRUIT
+		SET R_TITLE=#{rTitle},
+		    R_PLACE=#{rPlace}, R_PLACE_X=#{rPlaceX}, R_PLACE_Y=#{rPlaceY},
+		    R_DAY=#{rDay}, R_S_HOUR=#{rsHour}, R_S_MIN=#{rsMin}, R_F_HOUR=#{rfHour}, R_F_MIN=#{rfMin},
+		    DEADLINE=#{deadline}, R_MONEY=#{rMoney}, R_CONTENT=#{rContent},
+		    R_M_DATE=SYSDATE
+		WHERE R_NUM=#{rNum}
+	</update>
+</mapper>
