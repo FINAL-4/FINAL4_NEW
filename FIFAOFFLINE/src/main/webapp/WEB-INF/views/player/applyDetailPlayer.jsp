@@ -66,6 +66,7 @@
 	margin-top: 2%;
 }
 #recruitBtn, #applyBtn {
+	margin-left : 60px;
 	width:250px;
 	height: 40px;
 	font-size: 1.5em;
@@ -157,12 +158,12 @@ h6{
 			<input type = button id = modifyBtn value = "글 수정하기" onclick = "location.href='${tplModify}'" class="addressB">
 	</div>
 </div>
-	<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style="height: 730px; width: 90%; border: black; margin: auto;">
+	<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style="height: 800px; width: 90%; border: black; margin: auto;">
 																													<!-- 730 --> 
 		<div id = playContent style = "float:left">																					
 		<table align = center>
 			<tr>
-				<img id = "picture" src="/resources/images/${pRecruit.teamImage}">
+				<img id = "picture" src="resources/images/${pRecruit.teamImage }">
 			</tr>
 			<tr>
 				<td colspan = 2 style = "width: 100%; text-align: center;"> ${pRecruit.teamName } </td> 
@@ -219,7 +220,7 @@ h6{
 		-->
 			<div id = btn>
 				<input type = button id = applyingBtn value = "신  청  현  황" style="margin-right:26%">
-				<input type = button id = recruitBtn value = "모집 리스트 보기" onclick = "location.href='playMain.pl'" style="margin-right:1%">
+				<input type = button id = recruitBtn value = "모집 리스트 보기" onclick = "location.href='playMain.pl'">
 				<input type = button id = applyBtn value = "신청하기">
 			</div>
 			

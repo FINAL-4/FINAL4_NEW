@@ -24,6 +24,29 @@
 		<result property="teamImage" column="TEAM_IMAGE"/>
 		<result property="userName" column="USER_NAME"/>
 	</resultMap>
+
+	<resultMap type="P_ENROLL" id="enrollResultSet">
+		<id property="eNum" column="E_NUM"/>
+		<result property="userNo" column="USER_NO"/>
+		<result property="eTitle" column="E_TITLE"/>
+		<result property="eManner" column="E_MANNER"/>
+		<result property="eSkill" column="E_SKILL"/>
+		<result property="ePlace" column="E_PLACE"/>
+		<result property="ePlaceX" column="E_PLACE_X"/>
+		<result property="ePlaceY" column="E_PLACE_Y"/>
+		<result property="eDay" column="E_DAY"/>
+		<result property="esHour" column="E_S_HOUR"/>
+		<result property="efHour" column="E_F_HOUR"/>
+		<result property="eContent" column="E_CONTENT"/>
+		<result property="ecDate" column="E_C_DATE"/>
+		<result property="eStatus" column="E_STATUS"/>
+		<result property="userName" column="USER_NAME"/>
+		<result property="position" column="POSITION"/>
+		<result property="phone" column="PHONE"/>
+		<result property="proFile" column="PROFILE"/>
+		<result property="gender" column="GENDER"/>
+		<result property="aCount" column="A_COUNT"/>
+	</resultMap>
 	
 	<!-- 팀용병 리스트 보여주기 쿼리문 -->
 	<select id="teamPlayList" resultMap="recruitResultSet">
@@ -42,7 +65,7 @@
 		WHERE R_NUM=#{rNum} AND R_STATUS='N'
 	</select>
 	
-	<!-- 용병 모집 등록 쿼리문 -->
+	<!-- 용병 모집 쿼리문 -->
 	<insert id="playTeamCreate" parameterType="P_RECRUIT">
 		INSERT INTO P_RECRUIT
 		VALUES(SEQ_P_RE.NEXTVAL, #{teamNo}, #{rTitle}, #{rPlace}, #{rPlaceX}, #{rPlaceY},
@@ -50,13 +73,13 @@
 		       SYSDATE, SYSDATE, DEFAULT)
 	</insert>
 	
-	<!-- 용병 모집 등록글 삭제 쿼리문 -->
+	<!-- 용병 모집 글 삭제 쿼리문 -->
 	<delete id="playTeamDelete" parameterType="_int">
 		DELETE FROM P_RECRUIT
 		WHERE R_NUM=#{rNum}
 	</delete>
 	
-	<!-- 용병 모집 등록글 수정 쿼리문 -->
+	<!-- 용병 모집 글 수정 쿼리문 -->
 	<update id="playTeamModify" parameterType="P_RECRUIT">
 		UPDATE P_RECRUIT
 		SET R_TITLE=#{rTitle},
@@ -66,4 +89,20 @@
 		    R_M_DATE=SYSDATE
 		WHERE R_NUM=#{rNum}
 	</update>
+	
+	<!-- 개인 용병 리스트 쿼리문 -->
+	<select id="personPlayList" resultMap="enrollResultSet">
+		SELECT *
+		FROM P_ENROLL P 
+		JOIN MEMBER M ON(P.USER_NO = M.USER_NO)
+		ORDER BY A_COUNT, E_DAY, E_S_HOUR
+	</select>
+	
+	<!-- 용병 등록 쿼리문 -->
+	<insert id="playPersonEnroll" parameterType="P_ENROLL">
+		INSERT INTO P_ENROLL
+		VALUES(SEQ_P_EN.NEXTVAL, #{userNo}, #{eTitle}, #{eManner}, #{eSkill}, #{ePlace}, #{ePlaceX}, #{ePlaceY}, #{eDay}, 
+			   #{esHour}, #{efHour}, #{eContent}, SYSDATE, DEFAULT)
+	</insert>
+	
 </mapper>

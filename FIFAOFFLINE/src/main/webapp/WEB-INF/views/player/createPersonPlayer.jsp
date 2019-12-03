@@ -275,7 +275,7 @@ input, select{
 <jsp:include page = "../common/header.jsp"/>
 <body>
 <div id="outer" style="margin-top: 15px; border-bottom: 5px solid grey; border-top: 5px solid grey; margin-left: 5%; margin-right:5%; width: 90%; ">
-<div id = "title">팀 용병 모집</div>
+<div id = "title">개인 용병 등록</div>
 	<div class="ha-waypoint" data-animate-down="ha-header-show"
 		data-animate-up="ha-header-subshow"
 		style="height: 730px; width: 90%; border: black; margin: auto;">
@@ -284,7 +284,7 @@ input, select{
 	<div class="row">
 		<div class="container">
 			<div class="row">
-				<form id = "createForm" action="playCreate.pl" method = "post">
+				<form id = "createForm" action="playEnroll.pl" method = "post">
 					<div class="col-xs-10 col-xs-offset-1" id="container">
 						<div class="res-steps-container">
 							<div class="res-steps res-step-one active"
@@ -324,34 +324,31 @@ input, select{
 				<div id = "infoTable" style = "width: 50%; margin-left: 30%; margin-right: 20%; ">
 					<table>
 					<tr>
-						<td style = "width: 40%; font-size: 20px; text-align: center">용병 모집 제목</td>
+						<td style = "width: 40%; font-size: 20px; text-align: center">용병 등록 제목</td>
 						<td style = "width: 60%;">
-							<input id = "playerTitle" name = "rTitle" type = "text" style = "width: 400px;">
+							<input id = "playerTitle" name = "eTitle" type = "text" style = "width: 400px;">
 						</td>
 					</tr>
 					<tr>
-						<td style = "width: 40%; font-size: 20px; text-align: center">용병 인원 설정</td>
-						<td>
-							<select id = "playerSelect" name = "deadline" style = "width: 100%;">
-								<option value = "">==선택==</option>
-								<option value = "1">1명</option>
-								<option value = "2">2명</option>
-								<option value = "3">3명</option>
-								<option value = "4">4명</option>
-								<option value = "5">5명</option>
-								<option value = "6">6명</option>
-								<option value = "7">7명</option>
-								<option value = "8">8명</option>
-								<option value = "9">9명</option>
-								<option value = "10">10명</option>
-								<option value = "11">11명</option>
+						<td style = "width:40%; font-size : 20px; text-align:center"> 매너 </td>
+						<td> 
+							<select id = manner name = "eManner" style = "width: 400px; text-align: center;">
+								<option value="">매너</option>
+								<option value="상">상</option>
+								<option value="중">중</option>
+								<option value="하">하</option>
 							</select>
 						</td>
 					</tr>
 					<tr>
-						<td style = "width: 40%; font-size: 20px; text-align: center">참가비</td>
+						<td style = "width:40%; font-size : 20px; text-align:center"> 실력 </td>
 						<td>
-							<input id ="playerMoney" name = "rMoney" onkeyup="checkNumber(this);" type = "text" maxlength="7">
+							<select id = skill name = "eSkill" style = "width: 400px; text-align: center;">
+								<option value="">실력</option>
+								<option value="상">상</option>
+								<option value="중">중</option>
+								<option value="하">하</option>
+							</select>
 						</td>
 					</tr>
 					</table>
@@ -386,10 +383,10 @@ input, select{
 							</td>
 							<td style = "width: 500%">
 								<h6 style = "margin: 0px;">선택된 장소</h6>
-								<h3 id = "cplace" style = "margin-top: 2px;">장소를 선택하세요.</h3>
-								<input id = "cplaceName" name = "rPlace" style = "display: none;"></input>
-								<input id = "cplaceX" name = "rPlaceX" style = "display: none;"></input>
-								<input id = "cplaceY" name = "rPlaceY" style = "display: none;"></input>
+								<h3 id = "cplace" style = "margin-top: 2px;">가능한 장소를 선택하세요</h3>
+								<input id = "cplaceName" name = "ePlace" style = "display: none;"></input>
+								<input id = "cplaceX" name = "ePlaceX" style = "display: none;"></input>
+								<input id = "cplaceY" name = "ePlaceY" style = "display: none;"></input>
 							</td>
 						</tr>
 					</table>
@@ -434,13 +431,13 @@ input, select{
 							<td style = "width: 40%"><h6 style = "margin: 0px;">선택된 날짜</h6>
 							<h4 id = "dayInfo" style = "font-size: 22px; margin-top: 0px; margin-bottom: 0px;">날짜를 선택하세요.</h4></td>
 							<td style = "width: 40%">
-							<input type = "text" id = "mDayInfo" name = "rDay" style = "display: none;"></input>
+							<input type = "text" id = "mDayInfo" name = "eDay" style = "display: none;"></input>
 							</td>
 						</tr>
 						<tr>
-							<td><h4>시작 시간</h4></td>
+							<td><h4>참여 가능 시간</h4></td>
 							<td>
-								<select name = "rsHour" style = "width: 100px; text-align: center;">
+								<select name = "esHour" style = "width: 100px; text-align: center;">
 									<%for(int i = 0 ; i<10 ; i++){ %>
 									<option value = "0<%=i%>">0<%=i%></option>
 									<%}%>
@@ -450,22 +447,11 @@ input, select{
 								</select>
 								시
 							</td>
-							<td>
-								<select name = "rsMin" style = "width: 100px;">
-									<option value = "00">00</option>
-									<option value = "10">10</option>
-									<option value = "20">20</option>
-									<option value = "30">30</option>
-									<option value = "40">40</option>
-									<option value = "50">50</option>
-								</select>
-								분
-							</td>
 						</tr>
 						<tr>
-							<td><h4>종료 시간</h4></td>
+							<td><h4>참여 가능 시간</h4></td>
 							<td>
-								<select name ="rfHour" style = "width: 100px;">
+								<select name ="efHour" style = "width: 100px;">
 									<%for(int i = 0 ; i<10 ; i++){ %>
 									<option value = "0<%=i%>">0<%=i%></option>
 									<%}%>
@@ -474,17 +460,6 @@ input, select{
 									<%}%>
 								</select>
 								시
-							</td>
-							<td>
-								<select name ="rfMin" style = "width: 100px;">
-									<option value = "00">00</option>
-									<option value = "10">10</option>
-									<option value = "20">20</option>
-									<option value = "30">30</option>
-									<option value = "40">40</option>
-									<option value = "50">50</option>
-								</select>
-								분
 							</td>
 						</tr>
 					</table>
@@ -504,42 +479,28 @@ input, select{
 		<div class="res-step-form col-md-8 col-md-offset-2 res-form-four" style = "/* border: 3px solid yellow; */ width: 80%; height: 570px;">
 				<div class = "contents" style = "margin-left: 25%; margin-right: 25%; margin-top: 0px;">
 					<h2 style = "padding-top: 50px; margin-top: 0px; margin-bottom: 0px;">남기는말</h2>
-					<textarea id = "mContent" name = "rContent" rows="10" cols="80" style = "resize: none;" value ="" ></textarea>
+					<textarea id = "mContent" name = "eContent" rows="10" cols="80" style = "resize: none;" value ="" ></textarea>
 				</div>
 				<div class = "btns" align="center">
 					<button type="button"
 						class="btn btn-default btn res-btn-orange"
 						data-class=".res-form-four">Back</button>
-					<button type="button" 
-						class="btn" onclick = "submitCreate();"
-						data-class=".res-form-four">Submit</button>
-									</div>
-								</div>
-							</div>
-						</form>
-					</div>
+					<button class="btn" onclick = "submitCreate();" data-class=".res-form-four">Submit</button>
 				</div>
-			</div>
-		</section>
+		</div>
+		</div>
+		</form>
 	</div>
+	</div>
+</div>
+</section>
+</div>
 </div>
 
 <script type="text/javascript">
 	function submitCreate(){		
 		if($$("#playerTitle").val() == ""){
-			alert("매치 제목을 입력하세요.");
-			$$("#basicLabel").click();
-			return false;
-		}else if($$("#teamSelect").val() == ""){
-			alert("팀을 선택하세요.");
-			$$("#basicLabel").click();
-			return false;
-		}else if($$("#playerSelect").val() == ""){
-			alert("매치 유형을 선택하세요.");
-			$$("#basicLabel").click();
-			return false;
-		}else if($$("#dues").val() == ""){
-			alert("회비를 입력하세요.");
+			alert("용병 등록 제목을 입력하세요.");
 			$$("#basicLabel").click();
 			return false;
 		}else if($$("#cplace").html() == "장소를 선택하세요."){
@@ -552,6 +513,14 @@ input, select{
 			return false;
 		}else if($$("#mContent").val() == ""){
 			alert("남기실 말을 입력하세요.");
+			return false;
+		}else if($$("#skill").val() == ""){
+			alert("실력을 선택하세요.");
+			$$("#basicLabel").click();
+			return false;
+		}else if($$("#manner").val() == "") {
+			alert("매너를 선택하세요.");
+			$$("#basicLabel").click();
 			return false;
 		}
 		$$("#createForm").submit();
