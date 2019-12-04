@@ -1,5 +1,4 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -296,13 +295,13 @@ hr.new4 {
 <div id = "outer" style = "margin-top:180px;">
 	
 	
-<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; height:780px; margin:auto; padding-bottom:0px;">
-		<div id = "searchContent" style="height:100%; width:100%; border-bottom:3px solid grey;">
+<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; height:800px; margin:auto; padding-bottom:0px;">
+		<div id = "searchContent" style="height:100%; width:100%; border-bottom:3px solid grey; margin-top: 100px;">
 			<div style = "height: 10%; border-bottom: 2px solid grey;">
-				<h1 style="font-size:45px; margin-bottom: 10px; margin-top: 0px; width: 80%; display: inline-block;">팀원 모집</h1>
+				<h1 style="font-size:45px; margin-bottom: 10px; margin-top: 00px; width: 80%; display: inline-block;">팀원 모집</h1>
 				<div id = "btns" style = "width: 19%;">
 					<button type = "button" style = "width: 45%; height: 100%; padding: 15px; margin-right: 5%; font-size: 15px;" class="addressB">나의 매치</button>
-					<button type = "button" style = "width: 45%; height: 100%; padding: 15px; font-size: 15px;" class="addressB" onclick = "goCreateMatch();">매치 생성</button>
+					<button type = "button" style = "width: 45%; height: 100%; padding: 15px; font-size: 15px;" class="addressB" onclick = "goCreateMatch('${loginUser}')">매치 생성</button>
 				</div>			
 			</div>
 
@@ -326,6 +325,7 @@ hr.new4 {
 								<button type = "button" id = "fri" class = "addressB">금</button>
 								<button type = "button" id = "sat" class = "addressB">토</button>
 								<button type = "button" id = "sun" class = "addressB">일</button>
+								
 							</div>
 						</td>
 					</tr>
@@ -429,8 +429,16 @@ hr.new4 {
 
 
 <script type="text/javascript">
-	function goCreateMatch(){
-		location.href="goCreateMatch.ma";
+
+	
+	function goCreateMatch(loginUser){
+		
+		if(loginUser == ""){
+			alert("로그인이 필요합니다.");
+			return false;
+		}else{
+			location.href="goCreateMatch.ma";
+		}
 	}
 
 
@@ -539,10 +547,9 @@ hr.new4 {
 				time2:time2, time3:time3, time4:time4, time5:time5, time6:time6 
 			},
 			success:function(data){
-					alert("실행은 됐음!");
 					$("#matchingList").html("");
 				for(var i in data){
-					$("#matchingList").html("<table id = 'matchingTable'  style  = 'height: 150px;' onclick = 'goMatchDetail("+data[i].mId+");'>"+
+					$("#matchingList").append("<table id = 'matchingTable'  style  = 'height: 150px;' onclick = 'goMatchDetail("+data[i].mId+");'>"+
 							"<tr style = 'height: 33%;'>"+
 								"<td rowspan='2' style = 'width: 20%; height: 80%; text-align: center;'>"+
 									"<div id = 'teamLogo' style = 'width: 60%; margin-left:20%; margin-right: 20%; border: 1px solid red;'>"+

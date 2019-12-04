@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -410,9 +411,11 @@ input, select{
 														<td>
 															<select id = "teamSelect" name = "teamNo" style = "width: 100%;">
 																<option value = "">==선택==</option>
-																<option value = "1">팀1</option>
-																<option value = "2">팀2</option>
-																<option value = "3">팀3</option>
+																<c:forEach var="team" items="${myTeam }">
+																<c:if test="${team.t_Grade == 1 }">
+																<option value = "${team.teamNo }">${team.teamName }</option>
+																</c:if>
+																</c:forEach>
 															</select>
 														</td>
 													</tr>

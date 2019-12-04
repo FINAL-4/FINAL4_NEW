@@ -108,25 +108,6 @@ public class MatchController {
 		}
 	}
 	
-	@RequestMapping("showNewList.ma")
-	public void showNewList(HttpServletResponse response, MatchFilter mf, String startDate, String endDate) throws JsonIOException, IOException {
-		response.setContentType("application/json; charset=utf-8");
-		
-		if(startDate != "" && endDate != "") {
-			mf.setsDate(Date.valueOf(startDate));
-			mf.seteDate(Date.valueOf(endDate));
-		}
-		
-		ArrayList<Match> mList = maService.getNewMatchList(mf);
-		
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-		
-		if(mList != null) {
-			gson.toJson(mList,response.getWriter());
-		}else{
-			gson.toJson("none",response.getWriter());
-		}
-	}
 	
 	@RequestMapping("comMatch.ma")
 	public void comMatch() {

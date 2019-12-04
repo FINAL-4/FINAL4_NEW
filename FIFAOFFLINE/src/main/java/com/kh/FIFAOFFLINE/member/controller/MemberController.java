@@ -58,7 +58,7 @@ public class MemberController {
 		Member loginUser=mService.loginMember(m);
 		int userNo = loginUser.getUserNo();
 		ArrayList<Team> myTeam = tService.selectMyTeam(userNo);
-		System.out.println(loginUser);
+		System.out.println(myTeam);
 		if(loginUser !=null) {
 			session.setAttribute("loginUser", loginUser);
 			session.setAttribute("myTeam", myTeam);
