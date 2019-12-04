@@ -34,5 +34,10 @@
   	VALUES(SEQ_UID.NEXTVAL, #{userId}, #{userEmail}, #{userPwd}, #{userName}, #{birthDay}, #{gender}, #{address},#{profile}, #{position}, #{phone}, DEFAULT, DEFAULT, SYSDATE)
   </insert>
   
+  <select id="idCheck" parameterType="string" resultType="_int">
+		select count(*)
+		from member
+		where USER_ID=#{id}
+	</select>
   
 </mapper>
