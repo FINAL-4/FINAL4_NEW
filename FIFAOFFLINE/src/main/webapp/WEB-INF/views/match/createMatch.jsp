@@ -350,6 +350,7 @@ input, select{
 </head>
 <jsp:include page = "../common/header.jsp"/>
 <body>
+
 	<div id = "title" style = "font-size: 40px; margin-top: 80px; margin-left: 5%;">매치 생성</div>
 	<div id="outer" style="margin-top: 15px; border-bottom: 5px solid grey; border-top: 5px solid grey; margin-left: 5%; margin-right:5%; width: 90%; ">
 		<div class="ha-waypoint" data-animate-down="ha-header-show"
@@ -413,7 +414,7 @@ input, select{
 																<option value = "1">팀1</option>
 																<option value = "2">팀2</option>
 																<option value = "3">팀3</option>
-															</select>
+															</select>${loginUser.userName }
 														</td>
 													</tr>
 													<tr>

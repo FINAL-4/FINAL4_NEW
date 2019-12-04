@@ -40,13 +40,12 @@ public class MatchController {
 		mv.addObject("mList", mList);
 		mv.setViewName("match/matchListView");
 		
-		System.out.println("실행되었습니다 !!");
-		
 		return mv;
 	}
 	
 	@RequestMapping("goCreateMatch.ma")
 	public String goCreateMatching() {
+		
 		return "match/createMatch";
 	}
 	
@@ -56,7 +55,7 @@ public class MatchController {
 		int result = maService.insertMatching(m);
 		
 		if(result == 1) {
-			return "forward:goMatch.ma";			
+			return "redirect:goMatch.ma";			
 		}else {
 			throw new MatchException("매치 등록 실패 !");
 		}
@@ -88,26 +87,7 @@ public class MatchController {
 		return "match/matchListView";
 	}
 	
-	@RequestMapping("showNewList.ma")
-	public void showNewList(HttpServletResponse response, MatchFilter mf, String startDate, String endDate) throws JsonIOException, IOException {
-		response.setContentType("application/json; charset=utf-8");
-		
-		if(startDate != "" && endDate != "") {
-			mf.setsDate(Date.valueOf(startDate));
-			mf.seteDate(Date.valueOf(endDate));
-		}
-		
-		ArrayList<Match> mList = maService.getNewMatchList(mf);
-		
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-		
-		if(mList != null) {
-			gson.toJson(mList,response.getWriter());
-		}else{
-			gson.toJson("none",response.getWriter());
-		}
-	}
-	
+
 	@RequestMapping("showNewList.ma")
 	public void showNewList(HttpServletResponse response, MatchFilter mf, String startDate, String endDate) throws JsonIOException, IOException {
 		response.setContentType("application/json; charset=utf-8");

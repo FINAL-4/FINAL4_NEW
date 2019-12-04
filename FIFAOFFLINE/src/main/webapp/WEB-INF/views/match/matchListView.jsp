@@ -1,7 +1,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -135,6 +137,20 @@ hr.new4 {
 	background-color:white;
 	border:2px solid black;
 }
+
+.createBtn{
+	color: black;
+	background-color:white;
+	border:2px solid black;
+}
+
+.createBtn:hover{
+   color:white;
+   background: black;
+
+}
+
+
 .clicked{
    color:white;
    background: black;
@@ -293,7 +309,15 @@ hr.new4 {
 
 <body>
 
+
+
+
+
+
+
+
 <div id = "outer" style = "margin-top:180px;">
+	
 	
 	
 <div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; height:780px; margin:auto; padding-bottom:0px;">
@@ -302,7 +326,7 @@ hr.new4 {
 				<h1 style="font-size:45px; margin-bottom: 10px; margin-top: 0px; width: 80%; display: inline-block;">팀원 모집</h1>
 				<div id = "btns" style = "width: 19%;">
 					<button type = "button" style = "width: 45%; height: 100%; padding: 15px; margin-right: 5%; font-size: 15px;" class="addressB">나의 매치</button>
-					<button type = "button" style = "width: 45%; height: 100%; padding: 15px; font-size: 15px;" class="addressB" onclick = "goCreateMatch();">매치 생성</button>
+					<button type = "button" style = "width: 45%; height: 100%; padding: 15px; font-size: 15px;" class="createBtn" onclick = "goCreateMatch(${loginUser})">매치 생성</button>
 				</div>			
 			</div>
 
@@ -311,8 +335,7 @@ hr.new4 {
 					<tr>
 						<td>
 							<div id = "matchingDate" class = "search">
-								<h3>시합 날짜</h3>
-								<input type = "date" id = "sDate" value = "">부터
+ 								<input type = "date" id = "sDate" value = "">${loginUser }
 								<input type = "date" id = "eDate" value = "">까지
 							</div>
 						</td>
@@ -362,7 +385,7 @@ hr.new4 {
 		</div>
 	</div>
 	
-
+	
 	<div class="ha-waypoint" data-animate-down="ha-header-shrink" data-animate-up="ha-header-show" style = "width: 90%; margin: auto;">
 		<div id = "matchingList">
 			<c:forEach var="match" items="${mList }" varStatus="status">
@@ -421,19 +444,21 @@ hr.new4 {
 
 <script type="text/javascript">
 	function goMatchDetail(mId){
+		
 		location.href="goMatchDetail.ma?mId="+mId;
 	}
+	
+	
+	function goCreateMatch(m){
 
-
-</script>
-
-
-<script type="text/javascript">
-	function goCreateMatch(){
-		location.href="goCreateMatch.ma";
+		if(m == null){
+			alert("로그인이 필요한 기능입니다.");
+		}else{
+			location.href="goCreateMatch.ma"; 		
+		}
+		
 	}
-
-
+	
 </script>
 
 
@@ -473,6 +498,7 @@ hr.new4 {
 
 	/* 날짜가 선택되었을 시 */
 	$(function(){
+		
 		$("#eDate").change(function(){
 			if($("#sDate").val() == ""){
 				alert("시작날짜를 입력하세요.");
