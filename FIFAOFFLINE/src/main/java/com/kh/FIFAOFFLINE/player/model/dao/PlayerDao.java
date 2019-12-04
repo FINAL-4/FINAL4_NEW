@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.FIFAOFFLINE.player.model.vo.P_ENROLL;
 import com.kh.FIFAOFFLINE.player.model.vo.P_RECRUIT;
 
 @Repository("pDao")
@@ -41,6 +42,15 @@ public class PlayerDao {
 	public int playTeamModify(P_RECRUIT pr) {
 		System.out.println("다오 수정 테스트 : " + pr);
 		return sqlSession.update("playerMapper.playTeamModify", pr);
+	}
+
+	public int playPersonEnroll(P_ENROLL pe) {
+		// System.out.println("다오 등록 테스트 : " + pe);
+		return sqlSession.insert("playerMapper.playPersonEnroll", pe);
+	}
+
+	public ArrayList<P_ENROLL> personPlayList() {
+		return (ArrayList)sqlSession.selectList("playerMapper.personPlayList");
 	}
 
 	

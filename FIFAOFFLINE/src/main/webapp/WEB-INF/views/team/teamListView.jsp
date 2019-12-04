@@ -1,5 +1,4 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -26,15 +25,12 @@
   clear: both;
   display: table;
 }
-/* .example{
-	float:right;
-} */
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
   width: 100%;
-  /* border: 1px solid #ddd; */
-  /* border-top: 1px solid #444444; */
+
 
 }
 
@@ -59,15 +55,6 @@ th {
 	/* border-bottom: 1px solid #444444; */
 }
 
-/* .teamtest{
-	text-align:center;
-	align:center;
-} */
-
-/* tr{
-  background-color:#F2FF9D;
-  cursor:pointer;
-} */
 
 .timgtag{
 	display:inline-block;
@@ -118,9 +105,7 @@ hr.new4 {
 	font-size:16px;
 	margin-right:60px;
 }
-/* .searchButtons{
-	padding-top:300px;
-} */
+
 .searchBInfo{
 	/* text-align:left; */
 	margin-bottom:0px;
@@ -158,66 +143,7 @@ hr.new4 {
   
 }
 
-/* Modal Content/Box */
-.modal-content {
-  background-color: #fefefe;
-  margin-top:600px;
-  padding: 20px;
-  border: 1px solid #888;
-  width:360px;
-  height:450px;
-  margin-right:10px;
-  border-radius:5px; /* Could be more or less, depending on screen size */
 
-}
-
-.carousel{
-	padding-bottom:25px;
-}
-
-.carousel-cell {
-  width:360px;
-  height:450px;
-  margin-right:10px;
-  border-radius:5px;
-}
-
-
-div[id^="test"]{ 
-  position:relative;
-  width:100%;
-  height:100%;
-  transform-style: preserve-3d;
-  transform-origin: center right;
-  perspective:1200px;
-  
-  
-  }
-  
-.front {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  backface-visibility: hidden;
-  transition: transform 1s;
-  padding: 5px;
-  border:1px solid black;
-}
-
-
-.back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  backface-visibility: hidden;
-  background: white;
-  transform: rotateY(180deg);
-  transition: transform 1s;
-  padding: 5px;
-  border:1px solid black;
-}
 
 
 </style>
@@ -230,6 +156,7 @@ div[id^="test"]{
 	<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; height:800px; margin:auto; padding-bottom:50px;">
 		<div style="height:100%; width:100%; border-bottom:3px solid red;">
 			<div class="example">
+			<button class="createAD" onclick="createAD()">모집글 작성</button>
 			<br><br><br>
 				<p class="searchBInfo">지역으로 검색하세요.</p>
 				<div class="searchButtons">
@@ -268,50 +195,46 @@ div[id^="test"]{
 			
 
 			<tbody>
+			<c:if test="${!empty list }">
 			<c:forEach var="team" items="${list}" varStatus="status">
-    		<tr class="teamselector" onclick="tdetail(${status.count});">
+    		<tr class="teamselector">
 			    <td class="teamtest">
 			    	<div style="height:200px; width:200px" class="Timgtag">
-			    		<input type="hidden" value="${status.count }" class="hiddenTno${status.count}">
+			    		<input type="hidden" value="${team.teamNo }" class="hiddenTno${status.count}">
 			    		<img id="mImg${status.count }" src="resources/images/testimage/${team.teamImage }" style="width:100%; height:100%; padding-left:25px;">
 			    	</div>
 			    </td>
-			    <td class="teamtest">${team.teamName }</td>
-			    <td class="teamtest">${team.userName }</td>
-			    <td class="teamtest">${team.teamArea }</td>
-			    <td class="teamtest">${team.teamIntro }</td>
-			    <td class="teamtest">${status.count }</td>
+			    <td>${team.teamName }</td>
+			    <td>${team.userName }</td>
+			    <td>${team.teamArea }</td>
+			    <td>${team.teamIntro }</td>
+			    <td>${team.recruitCount}</td>
   			</tr>
   			<tr class="spacetr"></tr>
 			</c:forEach>
+			</c:if>
+			<c:if test="${empty list }">
+				<tr>
+					<td colspan='6'>
+						<p>모집글이 없습니다</p>
+					</td>	
+				</tr>
+			</c:if>
   			</tbody>
 		</table>
 		<button class="moreList" onclick="moreList();">더 보 기</button>
-		<textarea class="dataTest"></textarea>
 	</div>
 </div>
-<div id="myModal" class="modal" align="center">
-	<div class="modal-content" style="width:360px; height:450px; margin-right:10px; border-radius:5px; margin-right:35%; margin-top:10%; position:fixed">
-		<div id = "test" class = "change">
-  								<div class="front card">
-  									<div class="card-header">
-                						<div class="card-header-btn">모집 유무</div>
-                							<img src="/resources/images/logo.png" width="100%" height="100%"/>
-            						</div>
-            							<div class="card-body">
-               			 				<p class="category">팀장이름 : 조던 헨더슨</p>
-                						<h1>LiverPool F.C</h1>
-                						<p class="description">팀 소개 : 애칭 - 레즈(The Reds) / 정식명칭 : LiverPool Football Club / 창단 : 1892년 6월 3일 / 소속리그 : 프리미어 리그</p>
-            							</div>
-            							<div class="card-footer">
-                							<p>활동 지역 : 잉글랜드 머지사이드 주 리버풀 (안필드)</p>
-           								</div>
-  								</div>
-  								<div class="back">
-  								</div>
-							</div>
-	</div>
-</div>
+
+<script>
+$(document).on("click",".teamselector",function(){
+	var teamNo=$(this).children().eq(0).children().children().eq(0).val();
+	location.href='tdetail.tm?teamNo='+teamNo;
+	
+}); 
+ 
+
+</script>
 <script>
 	var $head = $( '#ha-header' );
 	$( '.ha-waypoint' ).each( function(i) {
@@ -332,41 +255,63 @@ div[id^="test"]{
 <script>
 
 	var page = 2;
-	
-	function tdetail(id){
-		alert($(".hiddenTno"+id).val());
-	}
 
 	function moreList(){
 		
 		$.ajax({
 			url:"moreList.tm",
 			data:{page:page},
+			dataType:"json",
 			success:function(data){
-				if(${pi.maxPage+1}!=page){
-									
-					$tbody = $("tbody");
-					var appendStr="";
-					for(var i in data.list){
-						appendStr += "<tr class='teamselector' onclick='tdetail("+i+")'>";
-						appendStr += "<td class='teamtest'>";
-						appendStr += "<div style='height:200px; width:200px' class='Timgtag'>";
-						appendStr += "<input type='hidden' value='"+i+"'class='hiddenTno"+i+"'>";
-						appendStr += "<img id='mImg"+i+"'src='resources/images/testimage/"+data.list[i].teamImage+"'style='width:100%; height:100%; padding-left:25px;'>";
-						appendStr += "</div>";
-						appendStr += "</td>";
-						appendStr += "<td class='teamtest'>"+data.list[i].teamName+"</td>";
-						appendStr += "<td class='teamtest'>"+data.list[i].teamName+"</td>";
-						appendStr += "<td class='teamtest'>"+data.list[i].teamName+"</td>";
-						appendStr += "<td class='teamtest'>"+data.list[i].teamName+"</td>";
-						appendStr += "<td class='teamtest'>"+data.list[i].teamName+"</td>";
-						appendStr += "</tr>";
-						appendStr += "<tr class='spacetr'>";
+				if((${pi.maxPage}+1)!=page){
+					if(data.list.length==7){
+						$tbody = $("tbody");
+						var appendStr="";
+						for(var i in data.list){
+							appendStr += "<tr class='teamselector'>";
+							appendStr += "<td class='teamtest'>";
+							appendStr += "<div style='height:200px; width:200px' class='Timgtag'>";
+							appendStr += "<input type='hidden' value='"+data.list[i].teamNo+"'class='hiddenTno"+i+"'>";
+							appendStr += "<img id='mImg"+i+"'src='resources/images/testimage/"+data.list[i].teamImage+"'style='width:100%; height:100%; padding-left:25px;'>";
+							appendStr += "</div>";
+							appendStr += "</td>";
+							appendStr += "<td class='teamtest'>"+data.list[i].teamName+"</td>";
+							appendStr += "<td class='teamtest'>"+data.list[i].userName+"</td>";
+							appendStr += "<td class='teamtest'>"+data.list[i].teamArea+"</td>";
+							appendStr += "<td class='teamtest'>"+data.list[i].teamIntro+"</td>";
+							appendStr += "<td class='teamtest'>"+i+"</td>";
+							appendStr += "</tr>";
+							appendStr += "<tr class='spacetr'>";
+							appendStr += "</tr>";
+						}
+
+					}else if(data.list.length<7){
+						$tbody = $("tbody");
+						var appendStr="";
+						for(var i in data.list){
+							appendStr += "<tr class='teamselector'>";
+							appendStr += "<td class='teamtest'>";
+							appendStr += "<div style='height:200px; width:200px' class='Timgtag'>";
+							appendStr += "<input type='hidden' value='"+data.list[i].teamNo+"'class='hiddenTno"+i+"'>";
+							appendStr += "<img id='mImg"+i+"'src='resources/images/testimage/"+data.list[i].teamImage+"'style='width:100%; height:100%; padding-left:25px;'>";
+							appendStr += "</div>";
+							appendStr += "</td>";
+							appendStr += "<td class='teamtest'>"+data.list[i].teamName+"</td>";
+							appendStr += "<td class='teamtest'>"+data.list[i].userName+"</td>";
+							appendStr += "<td class='teamtest'>"+data.list[i].teamArea+"</td>";
+							appendStr += "<td class='teamtest'>"+data.list[i].teamIntro+"</td>";
+							appendStr += "<td class='teamtest'>"+i+"</td>";
+							appendStr += "</tr>";
+							appendStr += "<tr class='spacetr'>";
+							appendStr += "</tr>";
+							
+							$(".moreList").remove();
+						}
+					}else if(data.list.length==0){
+						$(".moreList").remove();
 					}
 					page++;
-					}else{
-					alert("끝");
-					}
+				}
 				
 				$tbody.append(appendStr);
 			}
@@ -381,26 +326,11 @@ div[id^="test"]{
 	});
 </script>
 <script>
-var modal = document.getElementById("myModal");
-
-
-//When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-if (event.target == modal) {
- modal.style.display = "none";
-}
-}
-
-/* $(function(){
-	$('img').hover(function(){
-		modal.style.display="block";
-	});
-	
-	$(".close").click(function(){
-		modal.style.display="none";
-	});
-}); */
+	function createAD(){
+		location.href="createAD.tm";
+	}
 </script>
+
 
 <jsp:include page = "../common/footer.jsp"/>
 </body>

@@ -1,4 +1,3 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -351,7 +350,6 @@ input, select{
 </head>
 <jsp:include page = "../common/header.jsp"/>
 <body>
-
 	<div id = "title" style = "font-size: 40px; margin-top: 80px; margin-left: 5%;">매치 생성</div>
 	<div id="outer" style="margin-top: 15px; border-bottom: 5px solid grey; border-top: 5px solid grey; margin-left: 5%; margin-right:5%; width: 90%; ">
 		<div class="ha-waypoint" data-animate-down="ha-header-show"
@@ -412,11 +410,9 @@ input, select{
 														<td>
 															<select id = "teamSelect" name = "teamNo" style = "width: 100%;">
 																<option value = "">==선택==</option>
-																<c:forEach var="team" items="${myTeam }">
-																<c:if test="${team.t_Grade == 1 }">
-																<option value = "${team.teamNo }">${team.teamName }</option>
-																</c:if>
-																</c:forEach>
+																<option value = "1">팀1</option>
+																<option value = "2">팀2</option>
+																<option value = "3">팀3</option>
 															</select>
 														</td>
 													</tr>

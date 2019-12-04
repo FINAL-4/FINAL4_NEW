@@ -10,7 +10,7 @@
   var $$ = jQuery.noConflict();
 </script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.min.js'></script>
-<script src="resources/js/jquery.hovercard.min.js"></script>
+
 <title>Insert title here</title>
 <style>
 /* ---------선택된 메뉴 색상 변경-------- */
@@ -231,9 +231,126 @@ h6{
 			<div id = btn style = "margin-left: 30%;">
 					<input type = button id = applyingBtn value = "신  청  현  황" style = "margin-right: 26%;" onclick = "showAppMatch();">
 					<input type = button id = recruitBtn value = "돌아가기" onclick = "location.href='goMatch.ma'" style = "margin-right: 1%;">
-					<input type = button id = applyBtn value = "신청하기" onclick = "appMatch()">
+					<div class="con-tooltip bottom">
+						<input type = button id = applyBtn value = "신청하기" onclick = "appMatch()">
+						<div class="tooltip ">
+				        	<select id = "teamSelect" name = "teamNo" style = "width: 100%;">
+								<option value = "">==선택==</option>
+								<c:forEach var="team" items="${myTeam }">
+									<c:choose>
+										<c:when test="${team.t_Grade == 1 }">
+											<option value = "${team.teamNo }">${team.teamName }</option>
+										</c:when>
+										<c:otherwise>
+											<h2>주장을 맡은 팀이 없습니다.</h2>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</select>
+				        </div>
+					</div>
 			</div>	
 			
+			<style>
+			
+				/* ---------------------------------------- 툴팁  종료-------------------------------------*/
+				
+				.con-tooltip {
+				
+				  position: relative;
+				  margin: 10px;
+				  
+				  display: inline-block;
+				  
+				  transition: all 0.3s ease-in-out;
+				  cursor: default;
+				
+				}
+				
+				/*tooltip */
+				.tooltip {
+				  visibility: hidden;
+				  z-index: 10;
+				  opacity: .40;
+				  
+				  width: 140%;
+				  height: 200px;
+				  padding: 0px 5px;
+				
+				  background: black;
+				  color: white;
+				  
+				  position: absolute;
+				  top:-140%;
+				  left: -25%;
+				  
+				
+				  font: 25px;
+				
+				  transform: translateY(9px);
+				  transition: all 0.3s ease-in-out;
+				  
+				  box-shadow: 0 0 3px rgba(56, 54, 54, 0.86);
+				}
+				
+				.tooltip:hover {
+
+				
+				  background: white;
+				  color: black;
+
+				
+				  font: 25px;
+
+				}
+				
+				
+				/* tooltip  after*/
+				.tooltip::after {
+				  content: "";
+				  width: 0;
+				  height: 0;
+				  
+				  border-style: solid;
+				  border-width: 0 0 0 0;
+				  border-color: black transparent transparent transparent;
+				
+				  position: absolute;
+				  left: 40%;
+				
+				}
+				
+				.con-tooltip:hover .tooltip{
+				  visibility: visible;
+				  transform: translateY(-10px);
+				  opacity: 1;
+				  transition: .3s linear;
+				  animation: odsoky 1s ease-in-out infinite  alternate;
+				
+				}
+				@keyframes odsoky {
+				  0%{
+				    transform: translateY(1px);	
+				  }
+				
+				  100%{
+				    transform: translateY(1px);	
+				  }
+				
+				}
+			
+				.bottom:hover {transform: translateY(6px);}
+			
+				.bottom .tooltip { top:115%; left:-20%; }
+				
+				.bottom .tooltip::after{
+				  top:-17%;
+				  left:40%;
+				  transform: rotate(180deg);
+				}
+				
+				/* ---------------------------------------- 툴팁  종료-------------------------------------*/
+			</style>
 			
 			
 			
@@ -374,20 +491,7 @@ h6{
 </script>
 
 
-           
-
-<script type="text/javascript">
-	$$(document).ready(function () {
-                            var hoverHTMLDemoOpenLeft = "zzzzzzzzzzzzzz";
-                        
-    $$("#applyBtn").hovercard({
-        detailsHTML: hoverHTMLDemoOpenLeft,
-        width: 350,
-        openOnRight: true
-    });
-});
-</script>
-
+       
 
 
 

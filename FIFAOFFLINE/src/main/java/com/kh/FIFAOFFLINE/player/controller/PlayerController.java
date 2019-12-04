@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.FIFAOFFLINE.player.model.exception.PlayerException;
 import com.kh.FIFAOFFLINE.player.model.service.PlayerService;
+import com.kh.FIFAOFFLINE.player.model.vo.P_ENROLL;
 import com.kh.FIFAOFFLINE.player.model.vo.P_RECRUIT;
 
 @Controller
@@ -23,13 +24,18 @@ public class PlayerController {
 	// 용병 메인페이지 (개인용병리스트 + 팀용병리스트)
 	@RequestMapping("playMain.pl")
 	public ModelAndView playMain(ModelAndView mv) {
-		ArrayList<P_RECRUIT> list = pService.teamPlayList();
+		ArrayList<P_RECRUIT> team = pService.teamPlayList();
+		ArrayList<P_ENROLL> person = pService.personPlayList();
 		
-		if(list != null && list.size() > 0) {
-			mv.addObject("list", list);
+		System.out.println("team : " + team );
+		System.out.println("person : " + person);
+		
+		if(team != null && person != null && team.size() > 0 && person.size() > 0) {
+			mv.addObject("team", team);
+			mv.addObject("person", person);
 			mv.setViewName("player/listPlayer");
 		} else {
-			throw new PlayerException("팀용병 리스트 조회 실패");
+			throw new PlayerException("용병 리스트 조회 실패");
 		}
 		return mv;
 	}
@@ -38,6 +44,7 @@ public class PlayerController {
 	@RequestMapping("playTeamDetail.pl")
 	public ModelAndView playTeamDetail(ModelAndView mv, int rNum) {
 		P_RECRUIT pRecruit = pService.playTeamDetail(rNum);
+		
 		// System.out.println("controller test rNum : " + rNum);
 		if(pRecruit != null) {
 			mv.addObject("pRecruit", pRecruit);
@@ -54,13 +61,25 @@ public class PlayerController {
 		return "player/createTeamPlayer";
 	}
 	
-	// 용병 등록 글 작성 페이지(개인)
+	// 용병 등록 글 작성 페이지(개인)  
 	@RequestMapping("playPersonCreate.pl")
 	public String playPersonCreate() {
 		return "player/createPersonPlayer";
 	}
 	
-	// 용병 모집 등록 
+	// 용병 등록 
+	@RequestMapping(value = "playEnroll.pl", method = RequestMethod.POST)
+	public String playPersonEnroll(HttpServletRequest request, P_ENROLL pe) {
+		int result = pService.playPersonEnroll(pe);
+		
+		if(result > 0) {
+			return "redirect:playMain.pl";
+		} else {
+			throw new PlayerException("용병 등록 실패");
+		}
+	}
+	
+	// 용병 모집  
 	@RequestMapping(value = "playCreate.pl", method = RequestMethod.POST)
 	public String playTeamCreate(HttpServletRequest request, P_RECRUIT pr) {
 		/* 

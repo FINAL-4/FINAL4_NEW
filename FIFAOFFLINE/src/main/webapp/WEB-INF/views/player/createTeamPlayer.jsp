@@ -525,19 +525,11 @@ input, select{
 <script type="text/javascript">
 	function submitCreate(){		
 		if($$("#playerTitle").val() == ""){
-			alert("매치 제목을 입력하세요.");
+			alert("용병 모집 제목을 입력하세요.");
 			$$("#basicLabel").click();
 			return false;
-		}else if($$("#teamSelect").val() == ""){
-			alert("팀을 선택하세요.");
-			$$("#basicLabel").click();
-			return false;
-		}else if($$("#playerSelect").val() == ""){
-			alert("매치 유형을 선택하세요.");
-			$$("#basicLabel").click();
-			return false;
-		}else if($$("#dues").val() == ""){
-			alert("회비를 입력하세요.");
+		}else if($$("#playerMoney").val() == ""){
+			alert("참가비를 입력하세요.");
 			$$("#basicLabel").click();
 			return false;
 		}else if($$("#cplace").html() == "장소를 선택하세요."){

@@ -29,6 +29,8 @@ import org.springframework.web.servlet.mvc.annotation.ModelAndViewResolver;
 import com.kh.FIFAOFFLINE.member.model.exception.MemberException;
 import com.kh.FIFAOFFLINE.member.model.service.MemberService;
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
+import com.kh.FIFAOFFLINE.team.model.service.TeamService;
+import com.kh.FIFAOFFLINE.team.model.vo.Team;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -36,6 +38,9 @@ public class MemberController {
 
 	@Autowired
 	private MemberService mService;
+	
+	@Autowired
+	private TeamService tService;
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
@@ -56,9 +61,17 @@ public class MemberController {
 		
 		
 		Member loginUser=mService.loginMember(m);
+
+		
 		System.out.println(loginUser);
+
+		int userNo = loginUser.getUserNo();
+		ArrayList<Team> myTeam = tService.selectMyTeam(userNo);
+		System.out.println(myTeam);
+
 		if(loginUser !=null) {
 			session.setAttribute("loginUser", loginUser);
+			session.setAttribute("myTeam", myTeam);
 		}else {
 			throw new  MemberException("로그인실패");
 		}

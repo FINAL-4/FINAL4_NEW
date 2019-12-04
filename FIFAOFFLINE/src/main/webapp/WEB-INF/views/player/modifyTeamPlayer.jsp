@@ -265,6 +265,14 @@ input, select{
 }
 /* 위에는 현모형 css 
 밑에부터 나 css */
+#playerMenu .menu__item-name::after,
+#playerMenu .menu__item-name::before{
+   background: red;
+}
+#playerMenu.menu__item::after,
+#playerMenu.menu__item::before{
+   color: red;
+}
 #title{
 	font-size: 40px; 
 	margin-top: 120px; 
@@ -273,7 +281,7 @@ input, select{
 </style>
 </head>
 <jsp:include page = "../common/header.jsp"/>
-<body>
+<body>  
 <div id="outer" style="margin-top: 15px; border-bottom: 5px solid grey; border-top: 5px solid grey; margin-left: 5%; margin-right:5%; width: 90%; ">
 <div id = "title">${pr.rTitle } 수정</div>
 	<div class="ha-waypoint" data-animate-down="ha-header-show"
@@ -285,6 +293,7 @@ input, select{
 		<div class="container">
 			<div class="row">
 				<form id = "modifyForm" action="teamPlayListModify.pl" method = "post">
+				<input type = "hidden" name = "rNum" value = "${pr.rNum }">
 					<div class="col-xs-10 col-xs-offset-1" id="container">
 						<div class="res-steps-container">
 							<div class="res-steps res-step-one active"
@@ -358,9 +367,7 @@ input, select{
 				</div>
 			</div>
 			<div class = "btns" align="center">
-				<c:url var="playMain" value="playMain.pl">
-				</c:url>
-				<button type="button" onclick="location.href='${playMain}'" style = "float : none;"
+				<button type="button" onclick="javascript:history.go(-1)" style = "float : none;"
 					class="btn btn-default col-xs-offset-1 btn res-btn-orange"
 					data-class=".res-form-two">Back</button>
 				<button type="button"
@@ -441,7 +448,7 @@ input, select{
 							<td><h4>시작 시간</h4></td>
 							<td>
 								<select name = "rsHour" style = "width: 100px; text-align: center;">
-									<option value = "rsHour">${pr.rsHour }</option>
+									<option value = "${pr.rsHour }">${pr.rsHour }</option>
 									<%for(int i = 0 ; i<10 ; i++){ %>
 									<option value = "0<%=i%>">0<%=i%></option>
 									<%}%>
@@ -453,7 +460,7 @@ input, select{
 							</td>
 							<td>
 								<select name = "rsMin" style = "width: 100px;">
-									<option value = "0"> ${pr.rsMin }</option>
+									<option value = "${pr.rsMin }"> ${pr.rsMin }</option>
 									<option value = "00">00</option>
 									<option value = "10">10</option>
 									<option value = "20">20</option>
@@ -468,7 +475,7 @@ input, select{
 							<td><h4>종료 시간</h4></td>
 							<td>
 								<select name ="rfHour" style = "width: 100px;">
-									<option value = "rfHour">${pr.rfHour }</option>
+									<option value = "${pr.rfHour }">${pr.rfHour }</option>
 									<%for(int i = 0 ; i<10 ; i++){ %>
 									<option value = "0<%=i%>">0<%=i%></option>
 									<%}%>
@@ -480,7 +487,7 @@ input, select{
 							</td>
 							<td>
 								<select name ="rfMin" style = "width: 100px;">
-									<option value = "0">${pr.rfMin }</option>
+									<option value = "${pr.rfMin }">${pr.rfMin }</option>
 									<option value = "00">00</option>
 									<option value = "10">10</option>
 									<option value = "20">20</option>
