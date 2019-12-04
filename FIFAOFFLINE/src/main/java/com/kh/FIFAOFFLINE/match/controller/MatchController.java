@@ -87,6 +87,7 @@ public class MatchController {
 		return "match/matchListView";
 	}
 	
+<<<<<<< HEAD
 
 	@RequestMapping("showNewList.ma")
 	public void showNewList(HttpServletResponse response, MatchFilter mf, String startDate, String endDate) throws JsonIOException, IOException {
@@ -107,6 +108,7 @@ public class MatchController {
 			gson.toJson("none",response.getWriter());
 		}
 	}
+
 	
 	@RequestMapping("comMatch.ma")
 	public void comMatch() {

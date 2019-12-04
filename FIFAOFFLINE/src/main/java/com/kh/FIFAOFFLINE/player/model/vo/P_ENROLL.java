@@ -1,79 +1,229 @@
 package com.kh.FIFAOFFLINE.player.model.vo;
 
+import java.sql.Date;
+
 public class P_ENROLL {
 
-	private int E_NUM;
-	private int USER_NO;
-	private String E_PLACE;
-	private String E_DAY;
-	private String E_CONTENT;
-	private String E_STATUS;
+	private int eNum;
+	private int userNo;
+	private String eTitle;
+	private String eManner;
+	private String eSkill;
+	private String ePlace;
+	private String ePlaceX;
+	private String ePlaceY;
+	private String eDay;
+	private String esHour;
+	private String efHour;
+	private String eContent;
+	private Date ecDate;
+	private String eStatus;
+	private String userName;
+	private String position;
+	private String phone;
+	private String proFile;
+	private String gender;
+	private String aCount;
 	
 	public P_ENROLL() {}
 
-	public P_ENROLL(int e_NUM, int uSER_NO, String e_PLACE, String e_DAY, String e_CONTENT, String e_STATUS) {
+	public P_ENROLL(int eNum, int userNo, String eTitle, String eManner, String eSkill, String ePlace, String ePlaceX,
+			String ePlaceY, String eDay, String esHour, String efHour, String eContent, Date ecDate, String eStatus,
+			String userName, String position, String phone, String proFile, String gender, String aCount) {
 		super();
-		E_NUM = e_NUM;
-		USER_NO = uSER_NO;
-		E_PLACE = e_PLACE;
-		E_DAY = e_DAY;
-		E_CONTENT = e_CONTENT;
-		E_STATUS = e_STATUS;
+		this.eNum = eNum;
+		this.userNo = userNo;
+		this.eTitle = eTitle;
+		this.eManner = eManner;
+		this.eSkill = eSkill;
+		this.ePlace = ePlace;
+		this.ePlaceX = ePlaceX;
+		this.ePlaceY = ePlaceY;
+		this.eDay = eDay;
+		this.esHour = esHour;
+		this.efHour = efHour;
+		this.eContent = eContent;
+		this.ecDate = ecDate;
+		this.eStatus = eStatus;
+		this.userName = userName;
+		this.position = position;
+		this.phone = phone;
+		this.proFile = proFile;
+		this.gender = gender;
+		this.aCount = aCount;
 	}
 
-	public int getE_NUM() {
-		return E_NUM;
+	public int geteNum() {
+		return eNum;
 	}
 
-	public void setE_NUM(int e_NUM) {
-		E_NUM = e_NUM;
+	public void seteNum(int eNum) {
+		this.eNum = eNum;
 	}
 
-	public int getUSER_NO() {
-		return USER_NO;
+	public int getUserNo() {
+		return userNo;
 	}
 
-	public void setUSER_NO(int uSER_NO) {
-		USER_NO = uSER_NO;
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
 	}
 
-	public String getE_PLACE() {
-		return E_PLACE;
+	public String geteTitle() {
+		return eTitle;
 	}
 
-	public void setE_PLACE(String e_PLACE) {
-		E_PLACE = e_PLACE;
+	public void seteTitle(String eTitle) {
+		this.eTitle = eTitle;
 	}
 
-	public String getE_DAY() {
-		return E_DAY;
+	public String geteManner() {
+		return eManner;
 	}
 
-	public void setE_DAY(String e_DAY) {
-		E_DAY = e_DAY;
+	public void seteManner(String eManner) {
+		this.eManner = eManner;
 	}
 
-	public String getE_CONTENT() {
-		return E_CONTENT;
+	public String geteSkill() {
+		return eSkill;
 	}
 
-	public void setE_CONTENT(String e_CONTENT) {
-		E_CONTENT = e_CONTENT;
+	public void seteSkill(String eSkill) {
+		this.eSkill = eSkill;
 	}
 
-	public String getE_STATUS() {
-		return E_STATUS;
+	public String getePlace() {
+		return ePlace;
 	}
 
-	public void setE_STATUS(String e_STATUS) {
-		E_STATUS = e_STATUS;
+	public void setePlace(String ePlace) {
+		this.ePlace = ePlace;
+	}
+
+	public String getePlaceX() {
+		return ePlaceX;
+	}
+
+	public void setePlaceX(String ePlaceX) {
+		this.ePlaceX = ePlaceX;
+	}
+
+	public String getePlaceY() {
+		return ePlaceY;
+	}
+
+	public void setePlaceY(String ePlaceY) {
+		this.ePlaceY = ePlaceY;
+	}
+
+	public String geteDay() {
+		return eDay;
+	}
+
+	public void seteDay(String eDay) {
+		this.eDay = eDay;
+	}
+
+	public String getEsHour() {
+		return esHour;
+	}
+
+	public void setEsHour(String esHour) {
+		this.esHour = esHour;
+	}
+
+	public String getEfHour() {
+		return efHour;
+	}
+
+	public void setEfHour(String efHour) {
+		this.efHour = efHour;
+	}
+
+	public String geteContent() {
+		return eContent;
+	}
+
+	public void seteContent(String eContent) {
+		this.eContent = eContent;
+	}
+
+	public Date getEcDate() {
+		return ecDate;
+	}
+
+	public void setEcDate(Date ecDate) {
+		this.ecDate = ecDate;
+	}
+
+	public String geteStatus() {
+		return eStatus;
+	}
+
+	public void seteStatus(String eStatus) {
+		this.eStatus = eStatus;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getProFile() {
+		return proFile;
+	}
+
+	public void setProFile(String proFile) {
+		this.proFile = proFile;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getaCount() {
+		return aCount;
+	}
+
+	public void setaCount(String aCount) {
+		this.aCount = aCount;
 	}
 
 	@Override
 	public String toString() {
-		return "P_ENROLL [E_NUM=" + E_NUM + ", USER_NO=" + USER_NO + ", E_PLACE=" + E_PLACE + ", E_DAY=" + E_DAY
-				+ ", E_CONTENT=" + E_CONTENT + ", E_STATUS=" + E_STATUS + "]";
+		return "P_ENROLL [eNum=" + eNum + ", userNo=" + userNo + ", eTitle=" + eTitle + ", eManner=" + eManner
+				+ ", eSkill=" + eSkill + ", ePlace=" + ePlace + ", ePlaceX=" + ePlaceX + ", ePlaceY=" + ePlaceY
+				+ ", eDay=" + eDay + ", esHour=" + esHour + ", efHour=" + efHour + ", eContent=" + eContent
+				+ ", ecDate=" + ecDate + ", eStatus=" + eStatus + ", userName=" + userName + ", position=" + position
+				+ ", phone=" + phone + ", proFile=" + proFile + ", gender=" + gender + ", aCount=" + aCount + "]";
 	}
+
+	
+	
 	
 	
 }

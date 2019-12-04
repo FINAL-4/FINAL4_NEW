@@ -12,15 +12,23 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 import com.kh.FIFAOFFLINE.common.Pagination;
+import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.team.model.exception.TeamException;
 import com.kh.FIFAOFFLINE.team.model.service.TeamService;
 import com.kh.FIFAOFFLINE.team.model.vo.PageInfo;
 import com.kh.FIFAOFFLINE.team.model.vo.Team;
+import com.kh.FIFAOFFLINE.team.model.vo.TeamJoinedMember;
+import com.kh.FIFAOFFLINE.team.model.vo.TeamMember;
 
 @Controller
 public class TeamController {
@@ -43,16 +51,11 @@ public class TeamController {
 		
 		ArrayList<Team> list = tService.selectList(pi);
 		
-		
-		if(list != null && list.size() > 0) {	// 게시글이 있다면
-			mv.addObject("list",list);
-			mv.addObject("pi", pi);
-			mv.setViewName("team/teamListView");
+		mv.addObject("list",list);
+		mv.addObject("pi", pi);
+		mv.setViewName("team/teamListView");
 			
-			System.out.println(list);
-		}else {
-			throw new TeamException("팀원 모집 게시글 불러오기 실패..");
-		}
+		
 	
 		return mv;
 	}
@@ -99,7 +102,8 @@ public class TeamController {
 			jObj.put("userName",t.getUserName());
 			jObj.put("teamName",t.getTeamName());
 			jObj.put("teamImage",t.getTeamImage());
-			jObj.put("teamArea",t.getTeamIntro());
+			jObj.put("teamArea",t.getTeamArea());
+			jObj.put("teamIntro",t.getTeamIntro());
 			jObj.put("teamAdver",t.getTeamAdver());
 			jObj.put("resisterDay",t.getResisterDay());
 			jObj.put("ad_status",t.getAd_status());
@@ -126,4 +130,140 @@ public class TeamController {
 		
 
 	}
+	
+	@RequestMapping("tdetail.tm")
+	public ModelAndView teamDetail(ModelAndView mv,
+									@RequestParam(value="teamNo", required=false) Integer teamNo) {
+
+		// 값이 개같이 나오니깐 그냥 쿼리문하나하나 왔다리갔다리하면서 받아오자 줮같네 ㅡㅡ
+		int tNo = teamNo;
+		
+		Team t = tService.teamDetail(tNo);
+		ArrayList<TeamJoinedMember> joinList = tService.selectJoinList(tNo);
+		ArrayList<TeamMember> memberList = tService.selectMemberList(tNo);
+		
+		if(t != null) {
+			mv.addObject("t",t);
+			mv.addObject("joinList",joinList);
+			mv.addObject("memberList",memberList);
+			mv.setViewName("team/teamDetailView");
+			
+			System.out.println(t);
+		
+		}else {
+			throw new TeamException("팀 자세히보기 실패");
+		}
+	
+		return mv;
+	}
+	
+	@RequestMapping("modal.tm")
+	public void getModalUser(HttpServletResponse response, int userNo) throws JsonIOException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		Member m = tService.getModalUser(userNo);
+		
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(m,response.getWriter());
+	}
+	
+
+	
+	@RequestMapping("cancel.tm")
+	public void joinedCancel(HttpServletResponse response, TeamJoinedMember tjm) throws JsonIOException, IOException {
+		
+		System.out.println(tjm);
+		
+		int result = tService.joinedCancel(tjm);
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(result,response.getWriter());
+	}
+	
+	@RequestMapping("agree.tm")
+	public void joinedAgree(HttpServletResponse response, TeamJoinedMember tjm) throws JsonIOException, IOException {
+		
+		System.out.println(tjm);
+		
+		int result = 0;
+		
+		int deleteResult = tService.joinedAgree(tjm);
+		if(deleteResult>0) {
+			result = tService.teamJoin(tjm);
+		}
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(result,response.getWriter());
+	}
+	
+	@RequestMapping("applyTeam.tm")
+	public String applyTeam(TeamJoinedMember tjm, HttpServletRequest request) {
+		
+		int result = tService.applyTeam(tjm);
+		
+		System.out.println(result);
+		
+		return "home";
+	}
+	
+	@RequestMapping("deleteTeamAD.tm")
+	public ModelAndView deleteTeamAD(ModelAndView mv,
+									@RequestParam(value="teamNo", required=false) Integer teamNo) {
+		
+		int result = tService.deleteTeamAD(teamNo);
+		
+		
+		mv.setViewName("home");
+		
+		return mv;
+	}
+	
+	@RequestMapping("updateTeamView.tm")
+	public ModelAndView updateTeamView(ModelAndView mv,
+			@RequestParam(value="teamNo", required=false) Integer teamNo) {
+	
+		// 값이 개같이 나오니깐 그냥 쿼리문하나하나 왔다리갔다리하면서 받아오자 줮같네 ㅡㅡ
+		int tNo = teamNo;
+				
+		Team t = tService.teamDetail(tNo);
+		ArrayList<TeamJoinedMember> joinList = tService.selectJoinList(tNo);
+		ArrayList<TeamMember> memberList = tService.selectMemberList(tNo);
+				
+		if(t != null) {
+			mv.addObject("t",t);
+			mv.addObject("joinList",joinList);
+			mv.addObject("memberList",memberList);
+			mv.setViewName("team/teamUpdateView");
+					
+			System.out.println(t);
+				
+		}else {
+			throw new TeamException("팀 수정하기 실패");
+		}
+			
+		return mv;
+	}
+	
+	@RequestMapping("updateTeamAD.tm")
+	public ModelAndView updateTeamAD(ModelAndView mv,Team t) {
+		
+		int result = tService.updateTeamAD(t);
+		
+		mv.setViewName("home");
+		
+		return mv;
+	}
+	
+	@RequestMapping("createAD.tm")
+	public ModelAndView createAD(ModelAndView mv) {
+		
+		mv.setViewName("team/teamAdCreate");
+		
+		return mv;
+		
+	}
+	
+	
+	
+	
 }

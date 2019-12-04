@@ -21,12 +21,15 @@ public class P_RECRUIT {
 	private Date rcDate;
 	private Date rmDate;
 	private String rStatus;
+	private String teamName;
+	private String teamImage;
+	private String userName;
 	
 	public P_RECRUIT() {}
 
 	public P_RECRUIT(int rNum, int teamNo, String rTitle, String rPlace, String rPlaceX, String rPlaceY, String rDay,
 			String rsHour, String rsMin, String rfHour, String rfMin, String deadline, String rMoney, String rContent,
-			Date rcDate, Date rmDate, String rStatus) {
+			Date rcDate, Date rmDate, String rStatus, String teamName, String teamImage, String userName) {
 		super();
 		this.rNum = rNum;
 		this.teamNo = teamNo;
@@ -45,6 +48,9 @@ public class P_RECRUIT {
 		this.rcDate = rcDate;
 		this.rmDate = rmDate;
 		this.rStatus = rStatus;
+		this.teamName = teamName;
+		this.teamImage = teamImage;
+		this.userName = userName;
 	}
 
 	public int getrNum() {
@@ -183,13 +189,42 @@ public class P_RECRUIT {
 		this.rStatus = rStatus;
 	}
 
+	public String getTeamName() {
+		return teamName;
+	}
+
+	public void setTeamName(String teamName) {
+		this.teamName = teamName;
+	}
+
+	public String getTeamImage() {
+		return teamImage;
+	}
+
+	public void setTeamImage(String teamImage) {
+		this.teamImage = teamImage;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	@Override
 	public String toString() {
 		return "P_RECRUIT [rNum=" + rNum + ", teamNo=" + teamNo + ", rTitle=" + rTitle + ", rPlace=" + rPlace
 				+ ", rPlaceX=" + rPlaceX + ", rPlaceY=" + rPlaceY + ", rDay=" + rDay + ", rsHour=" + rsHour + ", rsMin="
 				+ rsMin + ", rfHour=" + rfHour + ", rfMin=" + rfMin + ", deadline=" + deadline + ", rMoney=" + rMoney
-				+ ", rContent=" + rContent + ", rcDate=" + rcDate + ", rmDate=" + rmDate + ", rStatus=" + rStatus + "]";
+				+ ", rContent=" + rContent + ", rcDate=" + rcDate + ", rmDate=" + rmDate + ", rStatus=" + rStatus
+				+ ", teamName=" + teamName + ", teamImage=" + teamImage + ", userName=" + userName + "]";
 	}
 
+	
+	
+
+	
 		
 }

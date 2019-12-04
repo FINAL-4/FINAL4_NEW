@@ -255,6 +255,8 @@ div[id^="player"]{
 <div id = "outer" style = "margin-top:180px; background-image: url('resources/images/ba2.jpg'); background-size:100% 100%;">
 	<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; height:800px; margin:auto; padding-bottom:50px;">
 		<div id = "title"> 오늘의 추천 용병 </div> <br><br><br><br>
+		<c:forEach var="pp" items="${person }">
+			
 		<div class="card-carousel">
 			<div class="my-card">
 			  	<div id = "player1" class = "change">
@@ -262,7 +264,10 @@ div[id^="player"]{
 			  			<img src="resources/images/tot.jpg" style="width:100%; height:100%;">
 			  		</div>
 			  		<div class="back"  onclick="toggleTrsf(1)">
-			  			<img src="resources/images/son.png" style="width:100%; height:100%;">
+			  			${pp.eTitle }
+			  			${pp.eManner }
+			  			${pp.eSkill }
+			  			
 			  		</div>
 				</div>
 			</div>
@@ -283,6 +288,7 @@ div[id^="player"]{
 			  		</div>
 			  		<div class="back"  onclick="toggleTrsf(3)">
 			  		해당 용병에 대한 포지션 및 가능 시간 등 상세정보 
+			  		<input type = button value= "가나다" onclick="test()">
 			  		</div>
 			  	</div>
 			</div>
@@ -306,7 +312,8 @@ div[id^="player"]{
 			  		</div>
 			  	</div>
 			  </div> 
-			</div> <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			</div>
+			</c:forEach> <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 			<div id = btn> 
 				<input type = button id = playerEnroll value = "개인 용병 등록" onclick="playerEnroll()">
 				<input type = button id = playerRecruit value = "팀 용병 모집" onclick="playerRecruit()"> 
@@ -329,7 +336,7 @@ div[id^="player"]{
 			</tr>
 			</thead>
 			<tbody>
-			<c:forEach var="tp" items="${list }">
+			<c:forEach var="tp" items="${team }">
 				<c:url var="ptDetail" value="playTeamDetail.pl">
 					<c:param name="rNum" value="${tp.rNum }"/>
 				</c:url>
@@ -340,7 +347,7 @@ div[id^="player"]{
 			    		<img src="<%=request.getContextPath()%>/resources/images/logo.png" style="width:100%; height:100%; padding-left:25px;">
 			    	</div>
 			    </td>
-			    <td class="playList">팀명은 어케 받아야하지 ? join 문 써야하는건가 </td>
+			    <td class="playList">${tp.teamName } </td>
 			    <td class="playList">${tp.rTitle }</td>
 			    <td class="playList">${tp.rPlace }</td>
 			    <td class="playList">${tp.rDay }</td>
@@ -426,7 +433,10 @@ function toggleTrsf(id) {
 		card.css("transform", "");
 		card.addClass("change");
 	}   
-}  // 여기까지 카드 뒤집기 
+}  // 여기까지 카드 뒤집기
+function test(){
+	alert("aerat");
+}
 </script>
 
 <jsp:include page = "../common/footer.jsp"/>

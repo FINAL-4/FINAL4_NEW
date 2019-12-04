@@ -17,6 +17,7 @@ public class Match {
 	private String sMinute;
 	private String eHour;
 	private String eMinute;
+	private int mtId;
 	private Date createDate;
 	private String mStatus;
 	
@@ -26,7 +27,7 @@ public class Match {
 
 	public Match(String mId, int teamNo, String mTitle, String mContent, String mSystem, String dues,
 			String mLocationName, String mLocationX, String mLocationY, Date mDay, String sHour, String sMinute,
-			String eHour, String eMinute, Date createDate, String mStatus) {
+			String eHour, String eMinute, int mtId, Date createDate, String mStatus) {
 		super();
 		this.mId = mId;
 		this.teamNo = teamNo;
@@ -42,6 +43,7 @@ public class Match {
 		this.sMinute = sMinute;
 		this.eHour = eHour;
 		this.eMinute = eMinute;
+		this.mtId = mtId;
 		this.createDate = createDate;
 		this.mStatus = mStatus;
 	}
@@ -187,6 +189,16 @@ public class Match {
 	}
 
 
+	public int getMtId() {
+		return mtId;
+	}
+
+
+	public void setMtId(int mtId) {
+		this.mtId = mtId;
+	}
+
+
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -212,9 +224,10 @@ public class Match {
 		return "Match [mId=" + mId + ", teamNo=" + teamNo + ", mTitle=" + mTitle + ", mContent=" + mContent
 				+ ", mSystem=" + mSystem + ", dues=" + dues + ", mLocationName=" + mLocationName + ", mLocationX="
 				+ mLocationX + ", mLocationY=" + mLocationY + ", mDay=" + mDay + ", sHour=" + sHour + ", sMinute="
-				+ sMinute + ", eHour=" + eHour + ", eMinute=" + eMinute + ", createDate=" + createDate + ", mStatus="
-				+ mStatus + "]";
+				+ sMinute + ", eHour=" + eHour + ", eMinute=" + eMinute + ", mtId=" + mtId + ", createDate="
+				+ createDate + ", mStatus=" + mStatus + "]";
 	}
+
 	
 	
 	
