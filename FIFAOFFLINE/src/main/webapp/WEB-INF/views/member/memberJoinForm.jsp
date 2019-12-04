@@ -390,13 +390,17 @@ canvas
 							</select></td>
 						</tr>
 						<tr>
-							<th>주요활동지</th>
-							<td><input type="text" name="address"
+							<th>주소</th>
+							<td><input type="text" name="address1"
 								class="postcodify_address" value="" readonly></td>
 							<td>
 								<button type="button" id="postcodify_search_button"
 									style="size:">검색</button>
 							</td>
+						</tr>
+						<tr>
+							<td>상세 주소</td>
+							<td><input type="text" name="address2" class="postcodify_extra_info" value=""></td>
 						</tr>
 
 						<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
@@ -457,7 +461,7 @@ canvas
 							</td>
 							<td>
 								<input type="checkbox" id="DF" name="position" value="DF" style = "width: 20px;">
-								<label for="DF">수격수</label>
+								<label for="DF">수비수</label>
 							</td>
 							<td>
 								<input type="checkbox" id="MF" name="position" value="MF" style = "width: 20px;">
@@ -508,12 +512,11 @@ function checkboxArr() {
 						<!-- <div class = "btns" id = "joinBtn" onclick = "insertMember();">가입하기</div> 함수방식은 requi#f53f29 적용이안됨 -->
 						<input type="button" class="btns" id="joinBtn"
 							onclick="insertMember()" value="가입하기">
-						<!-- submit 방법 2 -->
-						<!-- submit버튼으로 만들어서 실행해야 input태그들의 requi#f53f29이 발동함 -->
+						
 
-						<!-- InsertMemberServlet 만들러 감 -->
+						
 						<!-- <div class = "btns" id = "goMain" onclick = "goMain();">메인으로</div> -->
-						<input type="button" class="btns" id="goMain" onclick="goMain()"
+						<input type="button" class="btns" id="goMain" onclick="location.href='home.do'"
 							value="메인으로">
 					</div>
 				</form>
@@ -568,12 +571,12 @@ function checkboxArr() {
 		
 		$("#userId").keyup(function() {
 			var userId = $("#userId").val();
-			var idRe = /^[a-z,A-z,0-9]{4,12}$/;
+			var idRe = /^[a-z,A-Z,0-9]{4,12}$/;
 
 			$.ajax({
-				url : "",
+				url : "Du.me",
 				data : {
-					userId : userId
+					id : userId
 				},
 				success : function(data) {
 					if (userId == "") {
@@ -586,7 +589,7 @@ function checkboxArr() {
 						$("#userId").css("border", "2px solid #f53f29");
 						$("#checkId").text("4-12의 영문자,숫자만 입력가능합니다.");
 						idCheck = false;
-					} else if (data > 0) {
+					} else if (data.Usable ==false) {
 						$("#checkId").css("color", "#f53f29");
 						$("#userId").css("border", "2px solid #f53f29");
 						$("#checkId").text("중복된 아이디입니다.");
@@ -598,6 +601,7 @@ function checkboxArr() {
 						idCheck = true;
 					}
 				}
+				
 			});
 		});
 
@@ -716,7 +720,7 @@ function checkboxArr() {
 			} else if (!RRNre.test(rrn)) {
 				$("#checkRRN").css("color", "#f53f29");
 				$("#birthDay").css("border", "2px solid #f53f29");
-				$("#checkRRN").text("정확한 생년월일 8자리");
+				$("#checkRRN").text("정확한 생년월일 6자리");
 				rrnCheck  = false;
 			} else {
 				$("#checkRRN").css("color", "blue");
@@ -770,10 +774,6 @@ function checkboxArr() {
 		
 		
 		
-		// 메인으로 이동 함수
-		function goMain() {
-			location.href = "home.do";
-		}
 		
 		
 		
