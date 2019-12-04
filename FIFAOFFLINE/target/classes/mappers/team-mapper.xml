@@ -22,7 +22,7 @@
   <resultMap type="TeamMember" id="TeamMemberResultSet">
   	<id property="teamNo" column="TEAM_NO"/>
   	<result property="userNo" column="USER_NO"/>
-  	<result property="name" column="USER_NAME"/>
+  	<result property="userName" column="USER_NAME"/>
   	<result property="profile" column="PROFILE"/>
   	<result property="t_Grade" column="T_GRADE"/>
   </resultMap>
@@ -54,6 +54,7 @@
   	<id property="userNo" column="USER_NO"/>
   	<result property="teamNo" column="TEAM_NO"/>
   	<result property="teamAdver" column="TEAM_ADVER"/>
+  	<result property="recruitCount" column="RECRUITCOUNT"/>
   	<result property="resisterDay" column="RESISTERDAY"/>
   	<result property="ad_status" column="AD_STATUS"/>
   </resultMap>
@@ -154,8 +155,23 @@
   	UPDATE TEAM_AD
   	SET TEAM_ADVER=#{teamAdver}, RECRUITCOUNT=#{recruitCount}
   	WHERE TEAM_NO = #{teamNo}
-  	
   </update>
   
+  <select id="selectTeamLeader" parameterType="_int" resultMap="teamResultSet">
+  	SELECT TEAM_NO,TEAM_NAME
+  	FROM TEAM
+  	WHERE USER_NO=#{userNo}
+  </select>
+  
+  <insert id="ADinsert" parameterType="TeamAD">
+  	INSERT INTO TEAM_AD
+  	VALUES(#{userNo},#{teamNo},#{teamAdver},SYSDATE,#{recruitCount},'Y')
+  </insert>
+  
+  <insert id="insertTeam" parameterType="Team">
+  	INSERT INTO TEAM
+  	VALUES(SEQ_TID.NEXTVAL,#{userNo},#{teamName},#{teamImage},#{teamArea},#{teamIntro})
+  	
+  </insert>
 
 </mapper>
