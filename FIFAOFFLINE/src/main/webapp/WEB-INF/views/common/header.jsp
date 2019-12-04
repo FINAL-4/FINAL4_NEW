@@ -57,6 +57,11 @@
 		  padding: 16px;
 		}
 		
+		#login-logo:hover{
+		 opacity: 0.1;
+		 cursor: pointer;
+		 
+		}
 		span.find {
 		  float: right;
 		  /* padding-top: 16px; */
@@ -114,7 +119,7 @@
 		  background-color: #fefefe;
 		  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
 		  border: 1px solid #888;
-		  width: 100%; /* Could be more or less, depending on screen size */
+		  width: 70%; /* Could be more or less, depending on screen size */
 		}
 		
 		/* The Close Button (x) */
@@ -154,7 +159,11 @@
 						<a class="menu__item" href="mypage.me" style = "border: none;"> <span class="menu__item-name">마이페이지     </span></a></c:if>
 						<span>
 						<c:if test="${empty sessionScope.loginUser }">
-						<img id = "login-logo" src="resources/images/login-e.png" width="30px;" height="30px;" onclick="document.getElementById('id01').style.display='block'">
+						<img id = "login-logo" src="resources/images/login.png" width="30px;" height="30px;" onclick="document.getElementById('id01').style.display='block'">
+						</c:if>
+						<c:if test="${!empty sessionScope.loginUser }">
+						<c:url var = "logout" value="logout.me"/>
+						<img id = "logout-logo" src="resources/images/logout.png" width="30px;" height="30px;" onclick="location.href='${logout}'">
 						</c:if>
 						</span> 
 
@@ -169,7 +178,7 @@
 		
 
 		<div id="id01" class="modal">
-		  
+		 
 		  <form class="modal-content animate" action="login.me" method="post">
 		<div class="imgcontainer">
      		 <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>

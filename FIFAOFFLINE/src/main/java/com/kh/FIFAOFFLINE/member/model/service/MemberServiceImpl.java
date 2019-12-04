@@ -20,4 +20,9 @@ public class MemberServiceImpl implements MemberService{
 	
 		return mDao.insertMember(m);
 	}
+	@Override
+	public int checkIdDup(String id) {
+		
+		return  mDao.checkIdDup(id);
+	}
 }

@@ -16,6 +16,7 @@
 	<result property="sMinute" column="START_MINUTE"/>
 	<result property="eHour" column="END_HOUR"/>
 	<result property="eMinute" column="END_MINUTE"/>
+	<result property="mtId" column="MTID"/>
 	<result property="createDate" column="CREATE_DATE"/>
 	<result property="mStatus" column="M_STATUS"/>
   </resultMap>
@@ -32,7 +33,7 @@
   <insert id="insertMatching" parameterType="Match">
   	INSERT INTO MATCHING
   	VALUES(SEQ_MID.NEXTVAL, #{teamNo}, #{mTitle}, #{mContent}, #{mSystem}, #{dues}, #{mDay}, #{sHour}, #{sMinute}
-  			, #{eHour}, #{eMinute}, #{mLocationName}, #{mLocationX}, #{mLocationY}, SYSDATE, 'Y')
+  			, #{eHour}, #{eMinute}, #{mLocationName}, #{mLocationX}, #{mLocationY}, DEFAULT, SYSDATE, 'Y')
   
   </insert>
   

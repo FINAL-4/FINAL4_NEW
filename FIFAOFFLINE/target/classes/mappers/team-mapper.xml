@@ -116,10 +116,17 @@
   	WHERE TEAM_NO=#{tNo}
   </select>
   
-  <select id="selectMyTeam" resultMap="MyTeamResultSet">
+<!--   <select id="selectMyTeam" resultMap="MyTeamResultSet">
   	SELECT TM.USER_NO, TM.TEAM_NO, TM.T_GRADE, T.TEAM_NAME,T.TEAM_IMAGE,T.TEAM_AREA,T.TEAM_INTRO
 	FROM T_MEMBER TM
 	JOIN TEAM T ON(T.USER_NO = TM.USER_NO)
+	WHERE TM.USER_NO=#{userNo}
+  </select> -->
+  
+    <select id="selectMyTeam" resultMap="MyTeamResultSet">
+  	SELECT TM.USER_NO, TM.TEAM_NO, TM.T_GRADE, T.TEAM_NAME,T.TEAM_IMAGE,T.TEAM_AREA,T.TEAM_INTRO
+	FROM T_MEMBER TM
+	JOIN TEAM T ON(T.TEAM_NO = TM.TEAM_NO)
 	WHERE TM.USER_NO=#{userNo}
   </select>
   
