@@ -363,6 +363,7 @@ input, select{
 					<div class="container">
 						<div class="row">
 							<form id = "createForm" action="createMatch.ma">
+								<input type = "hidden" name = "userNo" value = "${loginUser.userNo}">
 								<div class="col-xs-10 col-xs-offset-1" id="container">
 									<div class="res-steps-container">
 										<div class="res-steps res-step-one active"

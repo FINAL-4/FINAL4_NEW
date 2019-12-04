@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
 
 
 <!DOCTYPE html>
@@ -383,6 +383,9 @@ hr.new4 {
 	
 	
 	<div class="ha-waypoint" data-animate-down="ha-header-shrink" data-animate-up="ha-header-show" style = "width: 90%; margin: auto;">
+		
+		<c:choose>
+		<c:when test = "${fn:length(mList) != 0 }">
 		<div id = "matchingList">
 			<c:forEach var="match" items="${mList }" varStatus="status">
 				<table id = "matchingTable"  style  = "height: 150px;" onclick = "goMatchDetail(${match.mId});">
@@ -434,6 +437,15 @@ hr.new4 {
 				</table>
 			</c:forEach>
 		</div>
+		</c:when>
+		<c:otherwise>
+			<div>
+				<h1 style = "text-align: center; font-size: 30px;">등록된 매치가 존재하지 않습니다.</h1>
+			</div>
+		</c:otherwise>
+		</c:choose>
+		
+		
 	</div>
 </div>
 

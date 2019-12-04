@@ -47,5 +47,15 @@ public class MatchDao {
 		return (ArrayList)sqlSession.selectList("matchMapper.selectNewList", mf);
 	}
 
+	public int checkAppMatch(HashMap<String, Integer> hm) {
+		
+		return sqlSession.selectOne("matchMapper.selectAppMatching", hm);
+	}
+
+	public int cancleAm(HashMap<String, Integer> hm) {
+		
+		return sqlSession.delete("matchMapper.cancleAppMatch", hm);
+	}
+
 
 }

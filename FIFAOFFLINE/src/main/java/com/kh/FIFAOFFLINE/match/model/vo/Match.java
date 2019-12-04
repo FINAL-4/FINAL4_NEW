@@ -3,8 +3,9 @@ package com.kh.FIFAOFFLINE.match.model.vo;
 import java.sql.Date;
 
 public class Match {
-	private String mId;
+	private int mId;
 	private int teamNo;
+	private int userNo;
 	private String mTitle;
 	private String mContent;
 	private String mSystem;
@@ -25,12 +26,13 @@ public class Match {
 	public Match() {}
 
 
-	public Match(String mId, int teamNo, String mTitle, String mContent, String mSystem, String dues,
+	public Match(int mId, int teamNo, int userNo, String mTitle, String mContent, String mSystem, String dues,
 			String mLocationName, String mLocationX, String mLocationY, Date mDay, String sHour, String sMinute,
 			String eHour, String eMinute, int mtId, Date createDate, String mStatus) {
 		super();
 		this.mId = mId;
 		this.teamNo = teamNo;
+		this.userNo = userNo;
 		this.mTitle = mTitle;
 		this.mContent = mContent;
 		this.mSystem = mSystem;
@@ -49,12 +51,12 @@ public class Match {
 	}
 
 
-	public String getmId() {
+	public int getmId() {
 		return mId;
 	}
 
 
-	public void setmId(String mId) {
+	public void setmId(int mId) {
 		this.mId = mId;
 	}
 
@@ -66,6 +68,16 @@ public class Match {
 
 	public void setTeamNo(int teamNo) {
 		this.teamNo = teamNo;
+	}
+
+
+	public int getUserNo() {
+		return userNo;
+	}
+
+
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
 	}
 
 
@@ -221,12 +233,18 @@ public class Match {
 
 	@Override
 	public String toString() {
-		return "Match [mId=" + mId + ", teamNo=" + teamNo + ", mTitle=" + mTitle + ", mContent=" + mContent
-				+ ", mSystem=" + mSystem + ", dues=" + dues + ", mLocationName=" + mLocationName + ", mLocationX="
-				+ mLocationX + ", mLocationY=" + mLocationY + ", mDay=" + mDay + ", sHour=" + sHour + ", sMinute="
-				+ sMinute + ", eHour=" + eHour + ", eMinute=" + eMinute + ", mtId=" + mtId + ", createDate="
-				+ createDate + ", mStatus=" + mStatus + "]";
+		return "Match [mId=" + mId + ", teamNo=" + teamNo + ", userNo=" + userNo + ", mTitle=" + mTitle + ", mContent="
+				+ mContent + ", mSystem=" + mSystem + ", dues=" + dues + ", mLocationName=" + mLocationName
+				+ ", mLocationX=" + mLocationX + ", mLocationY=" + mLocationY + ", mDay=" + mDay + ", sHour=" + sHour
+				+ ", sMinute=" + sMinute + ", eHour=" + eHour + ", eMinute=" + eMinute + ", mtId=" + mtId
+				+ ", createDate=" + createDate + ", mStatus=" + mStatus + "]";
 	}
+
+	
+	
+
+
+
 
 	
 	

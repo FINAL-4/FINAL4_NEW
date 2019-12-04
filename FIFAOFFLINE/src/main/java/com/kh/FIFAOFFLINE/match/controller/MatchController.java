@@ -67,6 +67,7 @@ public class MatchController {
 		
 		ArrayList<AppMatch> amList = maService.getAppMatchList(mId);
 		
+		System.out.println(amList);
 		mv.addObject("amList", amList);
 		mv.addObject("match", ma);
 		mv.setViewName("match/applyDetailMatching");
@@ -75,19 +76,26 @@ public class MatchController {
 	}
 	
 	@RequestMapping("appMatch.ma")
-	public String appMatch(int mId, int tId) {
+	public void appMatch(HttpServletResponse response, int mId, int tId, int userNo) throws JsonIOException, IOException {
+		response.setContentType("application/json; charset=utf-8");
 		
 		HashMap<String, Integer> hm = new HashMap<String, Integer>();
 		hm.put("mId", mId);
 		hm.put("tId", tId);
+		hm.put("userNo", userNo);
 		
+
 		int result = maService.appMatch(hm);
 		
+		System.out.println(result);
 		
-		return "match/matchListView";
+		if(result == 1) {
+			new Gson().toJson(result, response.getWriter());
+		}else{
+			new Gson().toJson(0, response.getWriter());
+		}
 	}
-	
-<<<<<<< HEAD
+
 
 	@RequestMapping("showNewList.ma")
 	public void showNewList(HttpServletResponse response, MatchFilter mf, String startDate, String endDate) throws JsonIOException, IOException {
@@ -139,5 +147,41 @@ public class MatchController {
 			System.out.println(e.getCode());
 		}
 	}
+	
+	
+	@RequestMapping("checkAppMatch.ma")
+	public void checkAppMatch(HttpServletResponse response, int mId, int tId) throws JsonIOException, IOException {
+		response.setContentType("application/json; charset=utf-8");
+		
+		HashMap<String, Integer> hm = new HashMap<String, Integer>();
+		hm.put("mId", mId);
+		hm.put("tId", tId);
+		
+		int result = maService.checkAppMatch(hm);
+		
+		
+		new Gson().toJson(result, response.getWriter());
+	
+	}
+	
+	
+	@RequestMapping("cancleAm.ma")
+	public void cancleAppMatch(HttpServletResponse response, int mId, int tId) throws JsonIOException, IOException {
+		response.setContentType("application/json; charset=utf-8");
+		
+		HashMap<String, Integer> hm = new HashMap<String, Integer>();
+		hm.put("mId", mId);
+		hm.put("tId", tId);
+		
+		int result = maService.cancleAm(hm);
+		
+		if(result == 1) {
+			new Gson().toJson(result, response.getWriter());
+		}else {
+			new Gson().toJson(0, response.getWriter());
+		}
+	}
+	
+	
 	
 }

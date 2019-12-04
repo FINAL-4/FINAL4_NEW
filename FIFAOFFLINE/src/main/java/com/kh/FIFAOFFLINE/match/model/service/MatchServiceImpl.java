@@ -55,6 +55,18 @@ public class MatchServiceImpl implements MatchService{
 		return maDao.getNewMatchList(mf);
 	}
 
+	@Override
+	public int checkAppMatch(HashMap<String, Integer> hm) {
+		
+		return maDao.checkAppMatch(hm);
+	}
+
+	@Override
+	public int cancleAm(HashMap<String, Integer> hm) {
+		
+		return maDao.cancleAm(hm);
+	}
+
 
 
 

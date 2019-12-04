@@ -21,4 +21,8 @@ public interface MatchService {
 
 	ArrayList<Match> getNewMatchList(MatchFilter mf);
 
+	int checkAppMatch(HashMap<String, Integer> hm);
+
+	int cancleAm(HashMap<String, Integer> hm);
+
 }
