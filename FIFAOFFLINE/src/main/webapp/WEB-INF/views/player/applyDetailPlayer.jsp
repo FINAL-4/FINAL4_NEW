@@ -258,9 +258,9 @@ h6{
 	
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e5f9f6250199748b3a23d7b3d7d88dde&libraries=services"></script>
 <script type="text/javascript">
-	var X = Number("${match.mLocationX }");
-	var Y = Number("${match.mLocationY }");
-	var N = "${match.mLocationName}";
+	var X = Number("${pRecruit.rPlaceX }");
+	var Y = Number("${pRecruit.rPlaceY }");
+	var N = "${pRecruit.rPlace}";
 	
 	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	mapOption = {

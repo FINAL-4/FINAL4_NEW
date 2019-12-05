@@ -66,7 +66,7 @@
 	margin-top: 2%;
 }
 #recruitBtn, #applyBtn {
-	margin-left : 1000px;
+	margin-left:30px;
 	width:250px;
 	height: 40px;
 	font-size: 1.5em;
@@ -74,6 +74,9 @@
 	background: black;
 	border: 1px solid black;
 	color:white;
+}
+#applyBtn{
+	margin-left:980px;
 }
 #deleteBtn{
 	background:black;
@@ -143,10 +146,12 @@ h6{
 			<c:param name="eNum" value="${pEnroll.eNum }"/>
 		</c:url>
 		<c:url var="pplModify" value="personPlayListModifyView.pl">
-			<c:param name="eNum" value="${ppEnroll.eNum }"/>
+			<c:param name="eNum" value="${pEnroll.eNum }"/>
 		</c:url>					 
-			<input type = button id = deleteBtn value = "글 삭제하기" onclick="location.href='${pplDelte}'">
-			<input type = button id = modifyBtn value = "글 수정하기" onclick = "location.href='${pplModify}'" class="addressB">
+		<c:if test="${loginUser.userNo == pEnroll.userNo}">
+			<input type = button id = deleteBtn value = "글 삭제하기" onclick = "deleteBtn()">
+			<input type = button id = modifyBtn value = "글 수정하기" onclick = "modifyBtn()" class="addressB"> 
+		</c:if>
 	</div>
 </div>
 	<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style="height: 850px; width: 90%; border: black; margin: auto;">
@@ -154,7 +159,7 @@ h6{
 		<div id = playContent style = "float:left">																					
 		<table align = center>
 			<tr>
-				<img id = "picture" src="resources/images/tot.jpg">
+				<img id = "picture" src="resources/proFiles/${pEnroll.proFile }">
 			</tr>
 			<tr>
 				<td colspan = 2 style = "width: 100%; text-align: center;"> ${pEnroll.userName } </td> 
@@ -207,23 +212,23 @@ h6{
 			<h6 style = "margin-bottom: 5px;">상세위치 </h6>
 			<div id = "map" style = "width: 420px; height: 400px; float: left; border: 2px solid grey;"></div>
 		</div>
-		<!-- 기능시 구현!
-		글 작성자가 로그인 시 신청하기 버튼 대신  글삭제하기 + 신청현황 보여주기
-		글 작성자 제외 로그인 시 글 삭제하기 + 신청현황 버튼 안보이기  
-		신청하기는 글 작성자 제외 모두 가능 (용병은 같은 팀원에서는 신청하기 못하게 신청하면 원래 같은 팀이라는 문구 나오게) 
-		-->
-			<div id = btn>
+		<div id = btn>
+		<c:if test="${loginUser.userNo != pEnroll.userNo}">
+			<c:url var="psa" value="personApply.pl">
+				<c:param name="userNo" value="${pEnroll.userNo }"/>
+			</c:url>
+				<input type = button id = applyBtn value = "신청하기" onclick = "applyBtn()">
+		</c:if>
 				<input type = button id = recruitBtn value = "모집 리스트 보기" onclick = "location.href='playMain.pl'">
-				<input type = button id = applyBtn value = "신청하기">
-			</div>
+		</div>
 	</div>	
 </div>
 	
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e5f9f6250199748b3a23d7b3d7d88dde&libraries=services"></script>
 <script type="text/javascript">
-	var X = Number("${match.mLocationX }");
-	var Y = Number("${match.mLocationY }");
-	var N = "${match.mLocationName}";
+	var X = Number("${pEnroll.ePlaceX }");
+	var Y = Number("${pEnroll.ePlaceY }");
+	var N = "${pEnroll.ePlace}";
 	
 	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	mapOption = {
@@ -298,30 +303,32 @@ h6{
 	});
 </script>
 
-<script	src="https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.js"></script>
 <script type="text/javascript">
-	function showAppMatch(){
-			$$("#applyDetail").bPopup();
+	function applyBtn(){
+		var applyBtn = confirm("정말로 신청하시겠습니까?");
+		if(applyBtn){
+			location.href="${psa}";
+		} else {
+			return false;
+		}
 	}
-
-</script>
-<script type="text/javascript">
-	function appMatch(){
-		location.href="appMatch.ma?mId="+${match.mId}+"&tId=4";
-		
+	
+	function deleteBtn(){
+		var deleteBtn = confirm("정말로 삭제하시겠습니까 ?");
+		if(deleteBtn){
+			location.href='${pplDelete}'
+		}else{
+			return false;
+		}
 	}
-
-</script>
-<script type="text/javascript">
-	$$(document).ready(function () {
-                            var hoverHTMLDemoOpenLeft = "zzzzzzzzzzzzzz";
-                        
-    $$("#applyBtn").hovercard({
-        detailsHTML: hoverHTMLDemoOpenLeft,
-        width: 350,
-        openOnRight: true
-    });
-});
+	function modifyBtn(){
+	var modifyBtn = confirm("정말로 수정하시겠습니까 ?");
+		if(modifyBtn){
+			location.href='${pplModify}'
+		} else {
+			return false;
+		}
+	}
 </script>
 
 <jsp:include page = "../common/footer.jsp"/>

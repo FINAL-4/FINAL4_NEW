@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.player.model.dao.PlayerDao;
 import com.kh.FIFAOFFLINE.player.model.vo.P_ENROLL;
 import com.kh.FIFAOFFLINE.player.model.vo.P_RECRUIT;
@@ -55,13 +56,13 @@ public class PlayerServiceImpl implements PlayerService{
 
 	@Override
 	public P_ENROLL playPersonDetail(int eNum) {
-		System.out.println("써비스 디테일 뷰 테스트 : " + eNum);
+	//	System.out.println("써비스 디테일 뷰 테스트 : " + eNum);
 		return pDao.playPersonDetail(eNum);
 	}
 
 	@Override
 	public int personPlayListDelete(int eNum) {
-		System.out.println("써비스 삭제 뷰 테스트 : " + eNum);
+	//	System.out.println("써비스 삭제 뷰 테스트 : " + eNum);
 		return pDao.personPlayListDelete(eNum);
 	}
 
@@ -69,6 +70,14 @@ public class PlayerServiceImpl implements PlayerService{
 	public int playPersonModify(P_ENROLL pe) {
 		return pDao.playPersonModify(pe);
 	}
+
+	@Override
+	public int personApply(int userNo) {
+		return pDao.personApply(userNo);
+	}
+
+
+	
 
 	
 }

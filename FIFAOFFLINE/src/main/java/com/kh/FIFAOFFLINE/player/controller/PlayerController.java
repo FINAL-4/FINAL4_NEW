@@ -3,6 +3,7 @@ package com.kh.FIFAOFFLINE.player.controller;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.FIFAOFFLINE.member.model.service.MemberService;
+import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.player.model.exception.PlayerException;
 import com.kh.FIFAOFFLINE.player.model.service.PlayerService;
 import com.kh.FIFAOFFLINE.player.model.vo.P_ENROLL;
@@ -42,11 +45,12 @@ public class PlayerController {
 	public ModelAndView playPersonDetail(ModelAndView mv, int eNum) {
 		P_ENROLL pEnroll = pService.playPersonDetail(eNum);
 		
-		System.out.println("컨트롤러 상세 뷰 테스트  : " + eNum);
+		// System.out.println("컨트롤러 상세 뷰 테스트  : " + eNum);
 		
 		if(pEnroll != null) {
 			mv.addObject("pEnroll", pEnroll);
 			mv.setViewName("player/applyDetailPerson");
+		//	System.out.println("컨트롤러 test : " + pEnroll);
 		} else {
 			throw new PlayerException("용병 등록 글 상세보기 실패");
 		}
@@ -82,8 +86,14 @@ public class PlayerController {
 	
 	// 용병 등록 
 	@RequestMapping(value = "playEnroll.pl", method = RequestMethod.POST)
-	public String playPersonEnroll(HttpServletRequest request, P_ENROLL pe) {
+	public String playPersonEnroll(HttpServletRequest request, P_ENROLL pe, HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int userNo = loginUser.getUserNo();
+		pe.setUserNo(userNo);
+		
 		int result = pService.playPersonEnroll(pe);
+		
 		
 		if(result > 0) {
 			return "redirect:playMain.pl";
@@ -94,7 +104,7 @@ public class PlayerController {
 	
 	// 용병 모집  
 	@RequestMapping(value = "playCreate.pl", method = RequestMethod.POST)
-	public String playTeamCreate(HttpServletRequest request, P_RECRUIT pr) {
+	public String playTeamCreate(HttpServletRequest request, P_RECRUIT pr, HttpSession session) {
 		/* 
 		System.out.println("마감 인원 : "+request.getParameter("deadline"));
 		System.out.println("참가비 : "+request.getParameter("rMoney"));
@@ -111,6 +121,7 @@ public class PlayerController {
 		System.out.println("========================================");
 		System.out.println("남기는말 : "+request.getParameter("rContent"));
 		*/
+		
 		
 		int result = pService.playTeamCreate(pr); 
 		
@@ -155,7 +166,7 @@ public class PlayerController {
 	@RequestMapping("personPlayListModify.pl")
 	public ModelAndView playPersonModify(ModelAndView mv, P_ENROLL pe, HttpServletRequest request) {
 		int result = pService.playPersonModify(pe);
-		System.out.println("컨트롤러 테스트 수정 : " + result);
+	//	System.out.println("컨트롤러 테스트 수정 : " + result);
 		if(result > 0) {
 			mv.setViewName("redirect:playMain.pl");
 		} else {
@@ -191,5 +202,20 @@ public class PlayerController {
 			throw new PlayerException("용병 등록 글 삭제 실패");
 		}
  	} 
+	
+	// 개인 용병 신청 승인
+	@RequestMapping("personApply.pl")
+	public ModelAndView personApply(ModelAndView mv, int userNo, HttpServletRequest request) {
+		System.out.println("컨트롤러 신청 " + userNo);
+		int result = pService.personApply(userNo);
+		
+		if(result > 0 ) {
+			System.out.println("컨트롤러 신청 : " + result);
+			mv.setViewName("redirect:playMain.pl");
+		} else {
+			throw new PlayerException("개인 용병 신청 실패");
+		}
+		return mv;
+	}
 	
 }
