@@ -22,6 +22,7 @@ import com.kh.FIFAOFFLINE.match.model.service.MatchService;
 import com.kh.FIFAOFFLINE.match.model.vo.AppMatch;
 import com.kh.FIFAOFFLINE.match.model.vo.Match;
 import com.kh.FIFAOFFLINE.match.model.vo.MatchFilter;
+import com.kh.FIFAOFFLINE.match.model.vo.SmsInfo;
 
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
@@ -31,113 +32,290 @@ public class MatchController {
 
 	@Autowired
 	private MatchService maService;
-	
+
 	@RequestMapping("goMatch.ma")
 	public ModelAndView goMatching(ModelAndView mv) {
-		
+
 		ArrayList<Match> mList = maService.getAllMatchList();
-		
+
 		mv.addObject("mList", mList);
 		mv.setViewName("match/matchListView");
-		
+
+
 		return mv;
 	}
-	
+
 	@RequestMapping("goCreateMatch.ma")
 	public String goCreateMatching() {
-		
+
 		return "match/createMatch";
 	}
-	
-	
+
 	@RequestMapping("createMatch.ma")
 	public String createMatching(HttpServletRequest request, Match m) {
 		int result = maService.insertMatching(m);
-		
-		if(result == 1) {
-			return "redirect:goMatch.ma";			
-		}else {
+
+		if (result == 1) {
+			return "redirect:goMatch.ma";
+		} else {
 			throw new MatchException("매치 등록 실패 !");
 		}
 	}
-	
+
 	@RequestMapping("goMatchDetail.ma")
 	public ModelAndView goMatchDetail(ModelAndView mv, int mId) {
 		Match ma = maService.getMatch(mId);
-		
+
 		ArrayList<AppMatch> amList = maService.getAppMatchList(mId);
-		
+
+
 		mv.addObject("amList", amList);
 		mv.addObject("match", ma);
 		mv.setViewName("match/applyDetailMatching");
-		
+
 		return mv;
 	}
-	
+
 	@RequestMapping("appMatch.ma")
-	public String appMatch(int mId, int tId) {
-		
+	public void appMatch(HttpServletResponse response, int mId, int tId, int userNo)
+			throws JsonIOException, IOException {
+		response.setContentType("application/json; charset=utf-8");
+
 		HashMap<String, Integer> hm = new HashMap<String, Integer>();
 		hm.put("mId", mId);
 		hm.put("tId", tId);
-		
-		int result = maService.appMatch(hm);
-		
-		
-		return "match/matchListView";
-	}
-	
+		hm.put("userNo", userNo);
 
+		int result = maService.appMatch(hm);
+
+
+		if (result == 1) {
+			new Gson().toJson(result, response.getWriter());
+		} else {
+			new Gson().toJson(0, response.getWriter());
+		}
+	}
 
 	@RequestMapping("showNewList.ma")
-	public void showNewList(HttpServletResponse response, MatchFilter mf, String startDate, String endDate) throws JsonIOException, IOException {
+	public void showNewList(HttpServletResponse response, MatchFilter mf, String startDate, String endDate)
+			throws JsonIOException, IOException {
 		response.setContentType("application/json; charset=utf-8");
-		
-		if(startDate != "" && endDate != "") {
+
+		if (startDate != "" && endDate != "") {
 			mf.setsDate(Date.valueOf(startDate));
 			mf.seteDate(Date.valueOf(endDate));
 		}
-		
+
 		ArrayList<Match> mList = maService.getNewMatchList(mf);
-		
+
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-		
-		if(mList != null) {
-			gson.toJson(mList,response.getWriter());
-		}else{
-			gson.toJson("none",response.getWriter());
+
+		if (mList != null) {
+			gson.toJson(mList, response.getWriter());
+		} else {
+			gson.toJson("none", response.getWriter());
 		}
 	}
 
-	
-	@RequestMapping("comMatch.ma")
-	public void comMatch() {
+	@RequestMapping("showMyList.ma")
+	public void showMyList(HttpServletResponse response, String tidArr) throws JsonIOException, IOException {
+		response.setContentType("application/json; charset=utf-8");
 
+		String[] array = tidArr.split(",");
+
+		ArrayList<Match> mList = new ArrayList<Match>();
+		for (int i = 0; i < array.length; i++) {
+			Match m = maService.getMyMatchList(Integer.valueOf(array[i]));
+			if (m != null) {
+				mList.add(m);
+			}
+		}
+
+
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+
+		if (mList != null) {
+			gson.toJson(mList, response.getWriter());
+		} else {
+			gson.toJson("none", response.getWriter());
+		}
+
+	}
+
+	@RequestMapping("checkAppMatch.ma")
+	public void checkAppMatch(HttpServletResponse response, int mId, int tId) throws JsonIOException, IOException {
+		response.setContentType("application/json; charset=utf-8");
+
+		HashMap<String, Integer> hm = new HashMap<String, Integer>();
+		hm.put("mId", mId);
+		hm.put("tId", tId);
+
+		int result = maService.checkAppMatch(hm);
+
+		new Gson().toJson(result, response.getWriter());
+
+	}
+
+	@RequestMapping("cancleAm.ma")
+	public void cancleAppMatch(HttpServletResponse response, int mId, int tId) throws JsonIOException, IOException {
+		response.setContentType("application/json; charset=utf-8");
+
+		HashMap<String, Integer> hm = new HashMap<String, Integer>();
+		hm.put("mId", mId);
+		hm.put("tId", tId);
+
+		int result = maService.cancleAm(hm);
+
+		if (result == 1) {
+			new Gson().toJson(result, response.getWriter());
+		} else {
+			new Gson().toJson(0, response.getWriter());
+		}
+	}
+
+	@RequestMapping("goUpdateMatch.ma")
+	public ModelAndView goUpdateMatch(Match m) {
+
+		ModelAndView mv = new ModelAndView();
+
+		mv.addObject("match", m);
+		mv.setViewName("match/updateMatch");
+
+		return mv;
+	}
+
+	@RequestMapping("updateMatch.ma")
+	public String updateMatch(Match m) {
+
+		int result = maService.updateMatch(m);
+
+		ModelAndView mv = new ModelAndView();
+
+		if (result == 1) {
+			return "redirect:goMatch.ma";
+			/* goMatchDetail(mv, m.getmId()); */
+		} else {
+			throw new MatchException("매치 수정 실패 !");
+		}
+	}
+
+	@RequestMapping("deleteMatch.ma")
+	public String deleteMatch(ModelAndView mv, int mId) {
+
+		int result = maService.deleteMatch(mId);
+
+		if (result == 1) {
+			return "redirect:goMatch.ma";
+		} else {
+			throw new MatchException("매치 수정 실패 !");
+		}
+	}
+
+	@RequestMapping("checkSelectTeam.ma")
+	public void checkSelectTeam(HttpServletResponse response, int tId) throws JsonIOException, IOException {
+		response.setContentType("application/json; charset=utf-8");
+
+		int result = maService.checkSelectTeam(tId);
+
+		new Gson().toJson(result, response.getWriter());
+
+	}
+
+	@RequestMapping("confirmMatching.ma")
+	public void confirmMatching(HttpServletResponse response, Match m, AppMatch am, String amTeamName,
+			String amUserName, String mTeamName, String mUserName, int amTeamNo, int mTeamNo) throws JsonIOException, IOException {
+
+		am.setTeamNo(amTeamNo);
+		am.setTeamName(amTeamName);
+		am.setUserName(amUserName);
+		m.setTeamName(mTeamName);
+		m.setUserName(mUserName);
+		m.setTeamNo(mTeamNo);
+		m.setMtId(amTeamNo);
+		
+		HashMap<String, Integer> hm = new HashMap<String, Integer>();
+		hm.put("mId", m.getmId());
+		hm.put("mtId", m.getMtId());
+
+		
+		int result = maService.confirmMatch(hm);
+		
+		String text = "";
+		int count = 0;
+		
+		if(result == 1) {
+			
+			ArrayList<SmsInfo> amSi = maService.getSmsInfo(am.getTeamNo());
+			for(int i = 0 ; i<amSi.size() ; i++) {
+				amSi.get(i).setPhone(amSi.get(i).getPhone().replace("-", ""));
+				text = "안녕하세요. FIFAOFFLINE입니다.\n"
+						+ "성사된 매치에 대한 정보입니다.\n"
+						+ "매칭된 팀 : "+mTeamName+"VS"+amTeamName+"\n"
+						+ "장소 : "+m.getmLocationName()+"\n"
+						+ "일시 : "+m.getmDay()+"\n"
+						+ "시간 : "+m.getsHour()+":"+m.getsMinute()+"~"+m.geteHour()+":"+m.geteMinute()+"\n"
+						+ "참가비 : "+m.getDues()+"\n"
+						+ "항상 이용해주셔서 감사합니다. ";
+				count = sendMSG(amSi.get(i).getUserName(), amSi.get(i).getPhone(), text, count);
+			}
+			
+			ArrayList<SmsInfo> mSi = maService.getSmsInfo(m.getTeamNo());
+			for(int i = 0 ; i<mSi.size() ; i++) {
+				mSi.get(i).setPhone(mSi.get(i).getPhone().replace("-", ""));
+				text = "안녕하세요. FIFAOFFLINE입니다.\n"
+						+ "성사된 매치에 대한 정보입니다.\n"
+						+ "매칭된 팀 : "+amTeamName+"VS"+mTeamName+"\n"
+						+ "장소 : "+m.getmLocationName()+"\n"
+						+ "일시 : "+m.getmDay()+"\n"
+						+ "시간 : "+m.getsHour()+":"+m.getsMinute()+"~"+m.geteHour()+":"+m.geteMinute()+"\n"
+						+ "참가비 : "+m.getDues()+"\n"
+						+ "항상 이용해주셔서 감사합니다. ";
+				count = sendMSG(mSi.get(i).getUserName(), mSi.get(i).getPhone(), text, count);
+				
+			}
+		
+			new Gson().toJson(count, response.getWriter());
+		}else {
+			new Gson().toJson("failed", response.getWriter());
+		}
+	}
+	
+	
+	public int sendMSG(String name, String phone, String text, int count) {
 		// ==============문자 보내기===================
 
-		String api_key = "NCSI7A3WWC9BDVZZ";
-		String api_secret = "WVXLL6QKHJXWZXQHZBJYHGRHUW06A9HL";
-
 		
-		Message coolsms = new Message(api_key, api_secret);
+		  String api_key = "NCSI7A3WWC9BDVZZ"; 
+		  String api_secret = "WVXLL6QKHJXWZXQHZBJYHGRHUW06A9HL";
+		  
+		 
+		  Message coolsms = new Message(api_key, api_secret);
+		  
 
-		// 4 params(to, from, type, text) are mandatory. must be filled
-		HashMap<String, String> params = new HashMap<String, String>();
-		params.put("to", "01033406861");
-		params.put("from", "01033406861");
-		params.put("type", "SMS");
-		params.put("text", "Coolsms Testing Message!");
-		/* params.put("app_version", "test app 1.2"); */
-
-		try {
-			JSONObject obj = (JSONObject) coolsms.send(params);
-			System.out.println("전송 성공");
-			System.out.println(obj.toString());
-		} catch (CoolsmsException e) {
-			System.out.println("전송 실패");
-			System.out.println(e.getMessage());
-			System.out.println(e.getCode());
-		}
+		  // 4 params(to, from, type, text) are mandatory. must be filled
+		  HashMap<String, String> params = new HashMap<String, String>();
+		  params.put("to", phone); 
+		  params.put("from", "01033406861");
+		  params.put("type", "LMS"); params.put("text", text);
+			/* params.put("app_version", "test app 1.2"); */
+		  
+		  try { 
+			  JSONObject obj = (JSONObject) coolsms.send(params);
+			  System.out.println("전송 성공"); 
+			  //System.out.println(obj.toString());
+			  return ++count;
+			  } catch(CoolsmsException e) { 
+			  System.out.println("전송 실패");
+			  System.out.println(e.getMessage()); 
+			  System.out.println(e.getCode());
+			  return count;
+			}
+		
+		  
+		// ===========================================
 	}
 	
+	
+	
+
 }

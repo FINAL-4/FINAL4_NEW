@@ -275,7 +275,7 @@ input, select{
 <jsp:include page = "../common/header.jsp"/>
 <body>
 <div id="outer" style="margin-top: 15px; border-bottom: 5px solid grey; border-top: 5px solid grey; margin-left: 5%; margin-right:5%; width: 90%; ">
-<div id = "title">개인 용병 등록</div>
+<div id = "title">${pe.eTitle } 수정</div>
 	<div class="ha-waypoint" data-animate-down="ha-header-show"
 		data-animate-up="ha-header-subshow"
 		style="height: 730px; width: 90%; border: black; margin: auto;">
@@ -284,7 +284,8 @@ input, select{
 	<div class="row">
 		<div class="container">
 			<div class="row">
-				<form id = "createForm" action="playEnroll.pl" method = "post">
+				<form id = "modifyForm" action="personPlayListModify.pl" method = "post">
+				<input type = hidden name = "eNum" value="${pe.eNum }">
 					<div class="col-xs-10 col-xs-offset-1" id="container">
 						<div class="res-steps-container">
 							<div class="res-steps res-step-one active"
@@ -326,14 +327,14 @@ input, select{
 					<tr>
 						<td style = "width: 40%; font-size: 20px; text-align: center">용병 등록 제목</td>
 						<td style = "width: 60%;">
-							<input id = "playerTitle" name = "eTitle" type = "text" style = "width: 400px;">
+							<input id = "playerTitle" name = "eTitle" type = "text" value="${pe.eTitle }" style = "width: 400px;">
 						</td>
 					</tr>
 					<tr>
 						<td style = "width:40%; font-size : 20px; text-align:center"> 매너 </td>
 						<td> 
 							<select id = manner name = "eManner" style = "width: 400px; text-align: center;">
-								<option value="">매너</option>
+								<option value="0">${pe.eManner }</option>
 								<option value="상">상</option>
 								<option value="중">중</option>
 								<option value="하">하</option>
@@ -344,7 +345,7 @@ input, select{
 						<td style = "width:40%; font-size : 20px; text-align:center"> 실력 </td>
 						<td>
 							<select id = skill name = "eSkill" style = "width: 400px; text-align: center;">
-								<option value="">실력</option>
+								<option value="0">${pe.eSkill }</option>
 								<option value="상">상</option>
 								<option value="중">중</option>
 								<option value="하">하</option>
@@ -383,10 +384,10 @@ input, select{
 							</td>
 							<td style = "width: 500%">
 								<h6 style = "margin: 0px;">선택된 장소</h6>
-								<h3 id = "cplace" style = "margin-top: 2px;">가능한 장소를 선택하세요</h3>
+								<h3 id = "cplace" style = "margin-top: 2px;">${pe.ePlace }</h3>
 								<input id = "cplaceName" name = "ePlace" style = "display: none;"></input>
-								<input id = "cplaceX" name = "ePlaceX" style = "display: none;"></input>
-								<input id = "cplaceY" name = "ePlaceY" style = "display: none;"></input>
+								<input id = "cplaceX" name = "ePlaceX" value="${pe.ePlaceX }" style = "display: none;"></input>
+								<input id = "cplaceY" name = "ePlaceY" value="${pe.ePlaceY }" style = "display: none;"></input>
 							</td>
 						</tr>
 					</table>
@@ -429,7 +430,7 @@ input, select{
 						<tr>
 							<td style = "width: 30%"><h4>날짜</h4></td>
 							<td style = "width: 40%"><h6 style = "margin: 0px;">선택된 날짜</h6>
-							<h4 id = "dayInfo" style = "font-size: 22px; margin-top: 0px; margin-bottom: 0px;">날짜를 선택하세요.</h4></td>
+							<h4 id = "dayInfo" style = "font-size: 22px; margin-top: 0px; margin-bottom: 0px;">${pe.eDay }</h4></td>
 							<td style = "width: 40%">
 							<input type = "text" id = "mDayInfo" name = "eDay" style = "display: none;"></input>
 							</td>
@@ -438,6 +439,7 @@ input, select{
 							<td><h4>참여 가능 시간</h4></td>
 							<td>
 								<select name = "esHour" style = "width: 100px; text-align: center;">
+									<option value = "${pe.esHour }">${pe.esHour }</option>
 									<%for(int i = 0 ; i<10 ; i++){ %>
 									<option value = "0<%=i%>">0<%=i%></option>
 									<%}%>
@@ -452,6 +454,7 @@ input, select{
 							<td><h4>참여 가능 시간</h4></td>
 							<td>
 								<select name ="efHour" style = "width: 100px;">
+									<option value = "${pe.efHour }">${pe.efHour }</option>
 									<%for(int i = 0 ; i<10 ; i++){ %>
 									<option value = "0<%=i%>">0<%=i%></option>
 									<%}%>
@@ -479,13 +482,13 @@ input, select{
 		<div class="res-step-form col-md-8 col-md-offset-2 res-form-four" style = "/* border: 3px solid yellow; */ width: 80%; height: 570px;">
 				<div class = "contents" style = "margin-left: 25%; margin-right: 25%; margin-top: 0px;">
 					<h2 style = "padding-top: 50px; margin-top: 0px; margin-bottom: 0px;">남기는말</h2>
-					<textarea id = "mContent" name = "eContent" rows="10" cols="80" style = "resize: none;" value ="" ></textarea>
+					<textarea id = "mContent" name = "eContent" rows="10" cols="80" style = "resize: none;">${pe.eContent }</textarea>
 				</div>
 				<div class = "btns" align="center">
 					<button type="button"
 						class="btn btn-default btn res-btn-orange"
 						data-class=".res-form-four">Back</button>
-					<button class="btn" onclick = "submitCreate();" data-class=".res-form-four">Submit</button>
+					<button class="btn" onclick = "submitModify();" data-class=".res-form-four">Submit</button>
 				</div>
 		</div>
 		</div>
@@ -498,7 +501,7 @@ input, select{
 </div>
 
 <script type="text/javascript">
-	function submitCreate(){		
+	function submitModify(){		
 		if($$("#playerTitle").val() == ""){
 			alert("용병 등록 제목을 입력하세요.");
 			$$("#basicLabel").click();
@@ -523,7 +526,7 @@ input, select{
 			$$("#basicLabel").click();
 			return false;
 		}
-		$$("#createForm").submit();
+		$$("#modifyForm").submit();
 	}
 </script>
 	<!-- 카카오 맵 -->
