@@ -338,11 +338,11 @@ canvas
 										style="width: 130px;margin-right:35px;" requi#f53f29>
 										
 									<input id="genderM" type="radio" name="gender" value="M"
-										style="width: 18px; height: 18px;" requi#f53f29 checked>
-									<label for="genderM">남</label> <input id="genderY"
+										style="width: 18px; height: 18px;" requi#f53f29>
+									<label for="genderM">남</label> <input id="genderF"
 										type="radio" name="gender" value="F"
 										style="width: 18px; height: 18px; " requi#f53f29> <label
-										for="genderY">여</label>
+										for="genderF">여</label>
 								</div>
 								<div id="checkRRN" class="checkInfo" style="font-size: 0.7em"></div>
 							</td>
@@ -375,7 +375,8 @@ canvas
 								style="width: 220px; margin-left: 0px;" ReadOnly="true"
 								placeholder="naver.com">
 							</td>
-							<td><select id="selctEmail" name="selctEmail" class="info"
+							<td>
+							<select id="selctEmail" name="selctEmail" class="info"
 								style="width: 150px; margin-left: 0px;"
 								onchange="SetEmailTail(selctEmail.options[this.selectedIndex].value)">
 									<!-- <option value = "notSelected">====선택====</option> -->
@@ -387,7 +388,8 @@ canvas
 									<option value="hotmail.com">hotmail.com</option>
 									<option value="daum.net">daum.net</option>
 									<option value="etc">직접입력</option>
-							</select></td>
+							</select>
+							</td>
 						</tr>
 						<tr>
 							<th>주소</th>
@@ -399,7 +401,7 @@ canvas
 						</tr>
 						<tr>
 							<th>상세 주소</th>
-							<td><input type="text" name="address2" class="postcodify_extra_info" value=""></td>
+							<td><input type="text" name="address2" class="postcodify_extra_info" value=" "></td>
 						</tr>
 
 						<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
