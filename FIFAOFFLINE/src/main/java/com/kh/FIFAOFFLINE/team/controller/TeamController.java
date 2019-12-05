@@ -1,12 +1,15 @@
 package com.kh.FIFAOFFLINE.team.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -16,17 +19,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.kh.FIFAOFFLINE.common.Pagination;
+import com.kh.FIFAOFFLINE.member.model.exception.MemberException;
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.team.model.exception.TeamException;
 import com.kh.FIFAOFFLINE.team.model.service.TeamService;
 import com.kh.FIFAOFFLINE.team.model.vo.PageInfo;
 import com.kh.FIFAOFFLINE.team.model.vo.Team;
+import com.kh.FIFAOFFLINE.team.model.vo.TeamAD;
 import com.kh.FIFAOFFLINE.team.model.vo.TeamJoinedMember;
 import com.kh.FIFAOFFLINE.team.model.vo.TeamMember;
 
@@ -37,7 +44,7 @@ public class TeamController {
 	private TeamService tService;
 	
 	@RequestMapping("tlist.tm")
-	public ModelAndView teamList(ModelAndView mv,
+	public ModelAndView teamList(ModelAndView mv, HttpSession session,
 									@RequestParam(value="page", required=false) Integer page) {
 		int currentPage = 1;
 		if(page != null) {
@@ -51,8 +58,16 @@ public class TeamController {
 		
 		ArrayList<Team> list = tService.selectList(pi);
 		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int userNo = loginUser.getUserNo();
+		
+		ArrayList<Team> teamLeader = tService.selectTeamLeader(userNo);
+		
+		System.out.println(teamLeader);
+		
 		mv.addObject("list",list);
 		mv.addObject("pi", pi);
+		mv.addObject("teamLeader",teamLeader);
 		mv.setViewName("team/teamListView");
 			
 		
@@ -114,7 +129,7 @@ public class TeamController {
 		JSONObject sendJson = new JSONObject();
 					
 		sendJson.put("list",jArr);
-		/* sendJson.put("pi",jArr2); */
+		sendJson.put("pi",jArr2);
 		
 		System.out.println(sendJson);
 		
@@ -254,13 +269,101 @@ public class TeamController {
 		return mv;
 	}
 	
-	@RequestMapping("createAD.tm")
-	public ModelAndView createAD(ModelAndView mv) {
+	@RequestMapping("ADinsert.tm")
+	public ModelAndView ADinsertView(ModelAndView mv, TeamAD ta, HttpSession session){
 		
-		mv.setViewName("team/teamAdCreate");
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int userNo = loginUser.getUserNo();
+		ta.setUserNo(userNo);
+		
+		int result = tService.ADinsert(ta);
+		
+		mv.setViewName("home");
 		
 		return mv;
+	}
+	
+	@RequestMapping("createTeamView.tm")
+	public ModelAndView createTeam(ModelAndView mv) {
 		
+		mv.setViewName("team/createTeamView");
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="createTeam.tm",method = RequestMethod.POST)
+	public String memberInsert(HttpServletRequest request, Team t , TeamMember tm, Model model,HttpSession session,
+			@RequestParam(value="uploadFile",required = false)MultipartFile file)
+	{
+		
+		
+		System.out.println("파일명 : " +file);
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int userNo = loginUser.getUserNo();
+		t.setUserNo(userNo);
+		tm.setUserNo(userNo);
+		
+		
+		
+		if(!file.getOriginalFilename().contentEquals("")) {
+			String teamImage = saveFile(file, request);
+			
+			if(teamImage != null) {	// 파일이 잘 저장된 경우
+				t.setTeamImage(file.getOriginalFilename());
+			}
+		}
+		System.out.println("tm :" + tm);
+		System.out.println(t);
+		int result = tService.insertTeam(t);
+		select 
+		
+		if(result > 0) {
+			/*
+			int result2 = tService.insertTeamMember(ta);
+			if(result2 > 0) {
+				return "home";
+			}else {
+				throw new MemberException("회원 가입 실패!!");
+			}
+			*/
+			return "home";
+		}else {
+			throw new MemberException("회원 가입 실패!!");
+		}
+		
+		
+		
+	}
+	
+	public String saveFile(MultipartFile file, HttpServletRequest request) {
+		// 파일이 저장될 경로를 설정하는 메소드
+		
+		
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		
+		String savePath = root + "\\images\\team";
+		
+		File folder = new File(savePath);
+		
+		
+		if(!folder.exists())
+		{
+			folder.mkdirs();
+		}
+		
+		String teamImage = folder + "\\" +file.getOriginalFilename(); // 실제 저장될 파일 경로 + 파일명
+		
+		try {
+			file.transferTo(new File(teamImage)); // 이 때 파일이 저장된다.
+			// 이게 실행되서 파일이 경로에 저장될려면 pom.xml에서 파일 업로드 관련 라이브러리 두개를 추가하고
+			// root-context.xml에서 파일 크기 지정을 해줘야지만 파일이 저장된다!!!!!!!!!!!
+			
+		}catch(Exception e) {
+			System.out.println("파일 전송 에러 : " + e.getMessage());
+		}
+		
+		return teamImage;
 	}
 	
 	

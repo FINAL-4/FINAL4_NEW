@@ -363,6 +363,7 @@ input, select{
 					<div class="container">
 						<div class="row">
 							<form id = "createForm" action="createMatch.ma">
+								<input type = "hidden" name = "userNo" value = "${loginUser.userNo}">
 								<div class="col-xs-10 col-xs-offset-1" id="container">
 									<div class="res-steps-container">
 										<div class="res-steps res-step-one active"
@@ -613,6 +614,39 @@ input, select{
 
 
 <script type="text/javascript">
+$(function(){
+	$("#teamSelect").change(function(){
+		
+		var tId = $("#teamSelect  option:selected").val();
+		
+		
+		$.ajax({
+			url:"checkSelectTeam.ma",
+			data:{tId:tId
+			},
+			success:function(data){
+				if(data != "0" ){
+					alert("이미 진행 중이거나 점수를 등록하지 않은 매치가 있습니다.\n이전 매칭을 삭제하거나 점수를 등록해주세요.");
+					$("#teamSelect").val("").prop("selected", true);
+				}
+
+			},
+			error:function(request, status, errorData){
+				alert("error code: " + request.status + "\n"
+						+"message: " + request.responseText
+						+"error: " + errorData);
+			}
+		})
+		
+	});
+});
+
+
+
+</script>
+
+
+<script type="text/javascript">
 
 	function submitCreate(){
 		
@@ -645,6 +679,11 @@ input, select{
 			return false;
 		}
 		
+		if(!confirm("매치를 생성하시겠습니까?")){
+			return false;
+		}
+		
+		alert("매치를 생성합니다.");
 		
 		$$("#createForm").submit();
 	}

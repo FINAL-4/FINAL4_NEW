@@ -4,6 +4,8 @@
   <resultMap type="Match" id="matchingResultSet">
 	<id property = "mId" column="MID"/>
 	<result property="teamNo" column="TEAM_NO"/>
+	<result property="userNo" column="USER_NO"/>
+	<result property="userName" column="USER_NAME"/>
 	<result property="mTitle" column="M_TITLE"/>
 	<result property="mContent" column="M_CONTENTS"/>
 	<result property="mSystem" column="M_SYSTEM"/>
@@ -19,20 +21,33 @@
 	<result property="mtId" column="MTID"/>
 	<result property="createDate" column="CREATE_DATE"/>
 	<result property="mStatus" column="M_STATUS"/>
+	<result property="teamName" column="TEAM_NAME"/>
+	<result property="teamImg" column="TEAM_IMAGE"/>
   </resultMap>
   
   <resultMap type="AppMatch" id="appMatchingResultSet">
 	<id property = "amId" column="AMID"/>
 	<result property="teamNo" column="TEAM_NO"/>
+	<result property="userNo" column="USER_NO"/>
+	<result property="userName" column="USER_NAME"/>
 	<result property="mId" column="MID"/>
 	<result property="appDate" column="APP_DATE"/>
 	<result property="amStatus" column="AM_STATUS"/>
+	<result property="teamName" column="TEAM_NAME"/>
+	<result property="teamImg" column="TEAM_IMAGE"/>
+  </resultMap>
+  
+  <resultMap type="SmsInfo" id="smsInfoResultSet">
+	<result property="tGrade" column="T_GRADE"/>
+	<!-- <result property="phone" column="PHONE"/> -->
+	<result property="phone" column="POSITION"/>
+	<result property="userName" column="USER_NAME"/>
   </resultMap>
   
   <!-- 매치생성 -->
   <insert id="insertMatching" parameterType="Match">
   	INSERT INTO MATCHING
-  	VALUES(SEQ_MID.NEXTVAL, #{teamNo}, #{mTitle}, #{mContent}, #{mSystem}, #{dues}, #{mDay}, #{sHour}, #{sMinute}
+  	VALUES(SEQ_MID.NEXTVAL, #{teamNo}, #{userNo}, #{mTitle}, #{mContent}, #{mSystem}, #{dues}, #{mDay}, #{sHour}, #{sMinute}
   			, #{eHour}, #{eMinute}, #{mLocationName}, #{mLocationX}, #{mLocationY}, DEFAULT, SYSDATE, 'Y')
   
   </insert>
@@ -42,8 +57,10 @@
   <!-- 모든 리스트 받아오기 -->
   <select id="selectAllList" resultMap="matchingResultSet">
   	SELECT *
-  	FROM MATCHING
-  	WHERE M_STATUS='Y'
+ 	FROM MATCHING MA
+    JOIN TEAM T ON(T.TEAM_NO = MA.TEAM_NO)
+    JOIN MEMBER M ON(M.USER_NO = MA.USER_NO)
+ 	WHERE M_STATUS='Y'
   	ORDER BY CREATE_DATE DESC
   </select>
  
@@ -52,7 +69,9 @@
  <!-- 매치선택 -->
  <select id="selectMatch" resultMap="matchingResultSet">
  	SELECT *
- 	FROM MATCHING
+ 	FROM MATCHING MA
+    JOIN TEAM T ON(T.TEAM_NO = MA.TEAM_NO)
+    JOIN MEMBER M ON(M.USER_NO = MA.USER_NO)
  	WHERE M_STATUS='Y' AND MID=#{mId}
  </select>
  
@@ -61,7 +80,9 @@
  <!-- 매치신청 받아오기 -->
  <select id="selectAppMatch" resultMap="appMatchingResultSet">
  	SELECT *
- 	FROM APP_MATCHING
+ 	FROM APP_MATCHING AM
+ 	JOIN TEAM T ON(T.TEAM_NO = AM.TEAM_NO)
+ 	JOIN MEMBER M ON(AM.USER_NO = M.USER_NO)
  	WHERE AM_STATUS='Y' AND MID=#{mId}
  </select>
  
@@ -70,7 +91,7 @@
  <!-- 매치신청하기 -->
  <insert id="insertAppMatching" parameterType="hashmap">
  	INSERT INTO APP_MATCHING
- 	VALUES(SEQ_AMID.NEXTVAL, #{tId}, #{mId}, SYSDATE, 'Y')
+ 	VALUES(SEQ_AMID.NEXTVAL, #{tId}, #{userNo}, #{mId}, SYSDATE, 'Y')
  </insert>
  
  
@@ -79,7 +100,9 @@
  <!-- 필터 적용한 매치 리스트 받아오기 -->
  <select id="selectNewList" resultMap="matchingResultSet">
  	SELECT *
- 	FROM MATCHING
+ 	FROM MATCHING MA
+    JOIN TEAM T ON(T.TEAM_NO = MA.TEAM_NO)
+    JOIN MEMBER M ON(M.USER_NO = MA.USER_NO)
  	WHERE M_STATUS = 'Y'
  	<if test="eDate != null and sDate != null">
  	AND (M_DAY &lt;= #{eDate} AND M_DAY &gt;= #{sDate})
@@ -138,4 +161,57 @@
  	</if>
  </select>
  
+ <select id="selectAppMatching" parameterType="hashmap" resultType="_int">
+ 	SELECT COUNT(*)
+ 	FROM APP_MATCHING
+ 	WHERE TEAM_NO = #{tId} AND MID = #{mId}
+ </select>
+ 
+ <delete id="cancleAppMatch" parameterType="hashmap">
+ 	DELETE FROM APP_MATCHING
+ 	WHERE TEAM_NO = #{tId} AND MID = #{mId}
+
+ </delete>
+ 
+ <update id="updateMatch">
+ 	UPDATE MATCHING
+ 	SET M_TITLE=#{mTitle}, M_CONTENTS=#{mContent}, M_SYSTEM=#{mSystem}, DUES=#{dues}, M_DAY=#{mDay}, START_HOUR=#{sHour}, START_MINUTE=#{sMinute}, 
+ 		END_HOUR=#{eHour}, END_MINUTE=#{eMinute}, LOCATION=#{mLocationName}, LOCATIONX=#{mLocationX}, LOCATIONY=#{mLocationY}
+ 	WHERE MID=#{mId}
+ </update>
+ 
+ 
+ <update id="deleteMatch">
+ 	UPDATE MATCHING
+ 	SET M_STATUS='N'
+ 	WHERE MID=#{mId}
+ </update>
+ 
+   <select id="selectMyList" parameterType="_int" resultMap="matchingResultSet">
+  	SELECT *
+ 	FROM MATCHING MA
+    JOIN TEAM T ON(T.TEAM_NO = MA.TEAM_NO)
+    JOIN MEMBER M ON(M.USER_NO = MA.USER_NO)
+ 	WHERE M_STATUS='Y' AND T.TEAM_NO = #{tId}
+  </select>
+ 
+ <select id="selectCheckTeam" parameterType="_int" resultType="_int">
+ 	SELECT COUNT(*)
+ 	FROM MATCHING
+ 	WHERE TEAM_NO=#{tId} AND (M_STATUS='Y' OR M_STATUS='ING')
+ </select>
+
+	<update id="confirmMatch" parameterType="hashmap">
+		UPDATE MATCHING
+ 		SET M_STATUS='ING',MTID=#{mtId}
+ 		WHERE MID=#{mId}
+	</update>
+
+	<select id="selectSmsInfo" resultMap="smsInfoResultSet">
+		SELECT *
+		FROM MEMBER M
+		JOIN MATCHING MA ON(M.USER_NO=MA.USER_NO)
+		WHERE TEAM_NO=#{teamNo}
+	</select>
+
 </mapper>

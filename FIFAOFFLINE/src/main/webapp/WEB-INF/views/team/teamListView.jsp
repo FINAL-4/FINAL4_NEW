@@ -88,6 +88,10 @@ tbody tr:nth-child(4n-1) {
    	color: red;
 }
 
+#teamMenu .menu__item-name{
+	color: red;
+}
+
 .teamselector:hover{
 	background-color:#8EA8DB;
 	cursor:pointer;
@@ -129,9 +133,59 @@ hr.new4 {
    background: #2AF08E;
 }
 /* The Modal (background) */
-.modal {
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+/* Add a background color when the inputs get focus */
+input[type=text]:focus, input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for all buttons */
+/* button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+} */
+
+/* button:hover {
+  opacity:1;
+} */
+
+/* Extra styles for the cancel button */
+.cancelbtnM {
+  padding: 14px 20px;
+  background-color: #f44336;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.cancelbtnM, .signupbtnM {
+  float: left;
+  width: 50%;
+}
+
+/* Add padding to container elements */
+.containerM {
+  padding: 16px;
+}
+
+/* The Modal (background) */
+.modalM {
   display: none; /* Hidden by default */
-  /* position: fixed; /* Stay in place */ */
+  position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   left: 0;
   top: 0;
@@ -139,9 +193,93 @@ hr.new4 {
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  
+  background-color: rgba(0,0,0,0.4); 
+  padding-top: 100px;
 }
+
+/* Modal Content/Box */
+.modal-contentM {
+  background-color: #fefefe;
+  margin: auto; /* 5% from the top, 15% from the bottom and centered */
+  margin-top:210px;
+  padding:20px;
+  border: 1px solid #888;
+  width: 1000px; /* Could be more or less, depending on screen size */
+
+}
+
+/* Style the horizontal ruler */
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+ 
+/* The Close Button (x) */
+.closeM {
+  float:right;
+  font-size: 40px;
+  font-weight: bold;
+  color: #f1f1f1;
+}
+
+.closeM:hover,
+.closeM:focus {
+  color: #f44336;
+  cursor: pointer;
+}
+
+/* Clear floats */
+.clearfixM::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Change styles for cancel button and signup button on extra small screens */
+@media screen and (max-width: 300px) {
+  .cancelbtnM, .signupbtnM {
+     width: 100%;
+  }
+}
+
+.createAD{
+	float:right;
+	background:white;
+	color:black;
+	width:15%;
+	font-size:1.7em;
+	border:1px solid black;
+	transition: all 0.5s;
+}
+.createAD:hover{
+	background:black;
+	color:white;
+	cursor:pointer;
+}
+
+textarea{
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+.createTeam{
+	float:right;
+	background:white;
+	color:black;
+	width:15%;
+	font-size:1.7em;
+	border:1px solid black;
+	transition: all 0.5s;
+	margin-right:20px;
+}
+.createTeam:hover{
+	background:black;
+	color:white;
+	cursor:pointer;
+}
+
 
 
 
@@ -156,7 +294,6 @@ hr.new4 {
 	<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; height:800px; margin:auto; padding-bottom:50px;">
 		<div style="height:100%; width:100%; border-bottom:3px solid red;">
 			<div class="example">
-			<button class="createAD" onclick="createAD()">모집글 작성</button>
 			<br><br><br>
 				<p class="searchBInfo">지역으로 검색하세요.</p>
 				<div class="searchButtons">
@@ -179,6 +316,8 @@ hr.new4 {
   			
 			<h1 style="font-size:48px;">&nbsp;&nbsp;팀원 모집</h1>
 		</div>
+		<button class="createAD" onclick="document.getElementById('createAD').style.display='block'">모집글 작성</button>
+		<button class="createTeam" onclick="location.href='createTeamView.tm'">팀 생성</button>
 	</div>
 	<div class="ha-waypoint" data-animate-down="ha-header-shrink" data-animate-up="ha-header-show" style = "width: 90%; margin: auto;">
 		<table>
@@ -226,6 +365,37 @@ hr.new4 {
 	</div>
 </div>
 
+<div id="createAD" class="modalM">
+  <form class="modal-contentM" action="ADinsert.tm" method="post">
+   <span onclick="document.getElementById('createAD').style.display='none'" class="closeM" title="Close Modal">&times;</span>
+    <div class="containerM">
+      <h1>모집글 작성</h1>
+      <p>여러 팀의 팀장일 경우 팀을 선택후 등록하세요.</p>
+      <select id="myTeam" style="width:200px" name="teamNo">
+      	<option selected value="0">팀을 선택하세요.</option>
+      	<c:forEach var="leader" items="${teamLeader}" varStatus="status">
+      	<option value="${leader.teamNo}">${leader.teamName }</option>
+      	</c:forEach>
+      </select>
+      <hr>
+      <label for="recruitCount"><b>모집할 팀원 수</b></label>
+      <input type="text" placeholder="모집하실 팀원수를 입력하세요." name="recruitCount" required>
+
+      <label for="team_Adver"><b>본인의 팀을 홍보하세요.</b></label><br><br>
+      <textarea placeholder="팀 구인 광고를 작성하세요" name="teamAdver" cols="175" rows="10" wrap="hard" required></textarea>
+     
+      
+
+      <p>글을 등록하기 전에 먼저 본인의 팀 정보를 확인하세요. <a href="#" style="color:dodgerblue">팀 정보 보러가기</a>.</p>
+
+      <div class="clearfixM">
+        <button type="button" onclick="document.getElementById('createAD').style.display='none'" class="cancelbtnM">취소</button>
+        <button type="submit" class="signupbtnM">등록</button>
+      </div>
+    </div>
+  </form>
+</div>
+
 <script>
 $(document).on("click",".teamselector",function(){
 	var teamNo=$(this).children().eq(0).children().children().eq(0).val();
@@ -264,7 +434,7 @@ $(document).on("click",".teamselector",function(){
 			dataType:"json",
 			success:function(data){
 				if((${pi.maxPage}+1)!=page){
-					if(data.list.length==7){
+					if(data.list.length==${pi.boardLimit}){
 						$tbody = $("tbody");
 						var appendStr="";
 						for(var i in data.list){
@@ -285,7 +455,7 @@ $(document).on("click",".teamselector",function(){
 							appendStr += "</tr>";
 						}
 
-					}else if(data.list.length<7){
+					}else if(data.list.length<${pi.boardLimit}){
 						$tbody = $("tbody");
 						var appendStr="";
 						for(var i in data.list){
@@ -307,7 +477,7 @@ $(document).on("click",".teamselector",function(){
 							
 							$(".moreList").remove();
 						}
-					}else if(data.list.length==0){
+					}else if(data.pi.currentPage == (data.pi.maxPage)+1){
 						$(".moreList").remove();
 					}
 					page++;
@@ -326,9 +496,15 @@ $(document).on("click",".teamselector",function(){
 	});
 </script>
 <script>
-	function createAD(){
-		location.href="createAD.tm";
-	}
+//Get the modal
+var modal = document.getElementById('createAD');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
 </script>
 
 
