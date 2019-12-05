@@ -50,6 +50,7 @@ public class MemberController {
 		
 		return "member/memberJoinForm";
 	}
+	
 	@RequestMapping("find.me")
 	public String findIP() {
 	return "member/findIdPwd";
@@ -85,7 +86,7 @@ public class MemberController {
 		return "home";
 	}
 	
-	@RequestMapping(value =  "join.me" , method = RequestMethod.POST)
+	@RequestMapping(value = "join.me", method = RequestMethod.POST)
 
 	public String memberInsert(HttpServletRequest request, Member m,Model model,
 			@RequestParam("phone1") String phone1,
@@ -142,8 +143,6 @@ public class MemberController {
 	
 	
 public String saveFile(MultipartFile file, HttpServletRequest request) {
-		// 파일이 저장될 경로를 설정하는 메소드
-		
 		
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		

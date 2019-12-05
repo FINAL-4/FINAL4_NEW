@@ -352,7 +352,7 @@ input, select{
 <jsp:include page = "../common/header.jsp"/>
 <body>
 
-	<div id = "title" style = "font-size: 40px; margin-top: 80px; margin-left: 5%;">매치 생성</div>
+	<div id = "title" style = "font-size: 40px; margin-top: 80px; margin-left: 5%;">매치 수정</div>
 	<div id="outer" style="margin-top: 15px; border-bottom: 5px solid grey; border-top: 5px solid grey; margin-left: 5%; margin-right:5%; width: 90%; ">
 		<div class="ha-waypoint" data-animate-down="ha-header-show"
 			data-animate-up="ha-header-subshow"
@@ -362,8 +362,9 @@ input, select{
 				<div class="row">
 					<div class="container">
 						<div class="row">
-							<form id = "createForm" action="createMatch.ma">
+							<form id = "updateForm" action="updateMatch.ma">
 								<input type = "hidden" name = "userNo" value = "${loginUser.userNo}">
+								<input type = "hidden" name = "mId" value = "${match.mId}">
 								<div class="col-xs-10 col-xs-offset-1" id="container">
 									<div class="res-steps-container">
 										<div class="res-steps res-step-one active"
@@ -405,20 +406,17 @@ input, select{
 												<tr>
 														<td style = "width: 40%; font-size: 20px; text-align: center">매치 제목</td>
 														<td style = "width: 60%;">
-															<input id = "mTitle" name = "mTitle" type = "text" style = "width: 400px;">
+															<input id = "mTitle" name = "mTitle" type = "text" style = "width: 400px;" value = "${match.mTitle} ">
 														</td>
 													</tr>
 													<tr>
 														<td style = "width: 40%; font-size: 20px; text-align: center">팀 선택</td>
 														<td>
-															<select id = "teamSelect" name = "teamNo" style = "width: 100%;">
-																<option value = "">==선택==</option>
-																<c:forEach var="team" items="${myTeam }">
-																<c:if test="${team.t_Grade == 1 }">
-																<option value = "${team.teamNo }">${team.teamName }</option>
-																</c:if>
-																</c:forEach>
-															</select>
+															<c:forEach var="team" items="${myTeam }">
+															<c:if test="${team.teamNo == match.teamNo }">
+															<input type = "text" value = "${team.teamName }" readonly>
+															</c:if>
+															</c:forEach>
 														</td>
 													</tr>
 													<tr>
@@ -426,20 +424,20 @@ input, select{
 														<td>
 															<select id = "systemSelect" name = "mSystem" style = "width: 100%;">
 																<option value = "">==선택==</option>
-																<option value = "5 VS 5">5 VS 5</option>
-																<option value = "6 VS 6">6 VS 6</option>
-																<option value = "7 VS 7">7 VS 7</option>
-																<option value = "8 VS 8">8 VS 8</option>
-																<option value = "9 VS 9">9 VS 9</option>
-																<option value = "10 VS 10">10 VS 10</option>
-																<option value = "11 VS 11">11 VS 11</option>
+																<option value = "5 VS 5" <c:if test="${match.mSystem == '5 VS 5'}">selected</c:if>>5 VS 5</option>
+																<option value = "6 VS 6" <c:if test="${match.mSystem == '6 VS 6'}">selected</c:if>>6 VS 6</option>
+																<option value = "7 VS 7" <c:if test="${match.mSystem == '7 VS 7'}">selected</c:if>>7 VS 7</option>
+																<option value = "8 VS 8" <c:if test="${match.mSystem == '8 VS 8'}">selected</c:if>>8 VS 8</option>
+																<option value = "9 VS 9" <c:if test="${match.mSystem == '9 VS 9'}">selected</c:if>>9 VS 9</option>
+																<option value = "10 VS 10" <c:if test="${match.mSystem == '10 VS 10'}">selected</c:if>>10 VS 10</option>
+																<option value = "11 VS 11" <c:if test="${match.mSystem == '11 VS 11'}">selected</c:if>>11 VS 11</option>
 															</select>
 														</td>
 													</tr>
 													<tr>
 														<td style = "width: 40%; font-size: 20px; text-align: center">회비</td>
 														<td>
-															<input id ="dues" name = "dues" onkeyup="checkNumber(this);" type = "text" maxlength="7">
+															<input id ="dues" name = "dues" onkeyup="checkNumber(this);" type = "text" maxlength="7" value = "${match.dues}">
 														</td>
 													</tr>
 												</table>
@@ -464,15 +462,15 @@ input, select{
 											<div id = "placeInfo" style = "display: inline-block; margin-left: 10%;">
 												<table>
 													<tr>
-														<td style = "width: 30%"><input id = "keyword" type = "text" value = "강남역" style = "margin: 0px; padding: 0px; font-size: 20px;"></td>
+														<td style = "width: 30%"><input id = "keyword" type = "text" value = "${match.mLocationName}" style = "margin: 0px; padding: 0px; font-size: 20px;"></td>
 														<!-- <td style = "width: 40%"><button id = "searchLocation" onclick = "searchPlaces(); return false;">검색하기</button></td> -->
 														<td style = "width: 20%"><button id = "searchLocation" onclick = "searchPlaces(); return false;">검색</button></td>
 														<td style = "width: 500%">
 															<h6 style = "margin: 0px;">선택된 장소</h6>
-															<h3 id = "cplace" style = "margin-top: 2px;">장소를 선택하세요.</h3>
-															<input id = "cplaceName" name = "mLocationName" style = "display: none;"></input>
-															<input id = "cplaceX" name = "mLocationX" style = "display: none;"></input>
-															<input id = "cplaceY" name = "mLocationY" style = "display: none;"></input>
+															<h3 id = "cplace" style = "margin-top: 2px;">${match.mLocationName}</h3>
+															<input id = "cplaceName" name = "mLocationName" style = "display: none;" value = "${match.mLocationName}"></input>
+															<input id = "cplaceX" name = "mLocationX" style = "display: none;" value = "${match.mLocationX}"></input>
+															<input id = "cplaceY" name = "mLocationY" style = "display: none;" value = "${match.mLocationY}"></input>
 														</td>
 													</tr>
 												</table>
@@ -515,30 +513,30 @@ input, select{
 												<table id = "timeInfoTable" style = "border: none;">
 													<tr>
 														<td style = "width: 30%"><h4>날짜</h4></td>
-														<td style = "width: 40%"><h6 style = "margin: 0px;">선택된 날짜</h6><h4 id = "dayInfo" style = "font-size: 22px; margin-top: 0px; margin-bottom: 0px;">날짜를 선택하세요.</h4></td>
-														<td style = "width: 40%"><input type = "text" id = "mDayInfo" name = "mDay" style = "display: none;"></input></td>
+														<td style = "width: 40%"><h6 style = "margin: 0px;">선택된 날짜</h6><h4 id = "dayInfo" style = "font-size: 22px; margin-top: 0px; margin-bottom: 0px;">${match.mDay} </h4></td>
+														<td style = "width: 40%"><input type = "text" id = "mDayInfo" name = "mDay" style = "display: none;" value = "${match.mDay}"></input></td>
 													</tr>
 													<tr>
 														<td><h4>시작 시간</h4></td>
 														<td>
 															<select name = "sHour" style = "width: 100px; text-align: center;">
-																<%for(int i = 0 ; i<10 ; i++){ %>
-																<option value = "0<%=i%>">0<%=i%></option>
-																<%}%>
-																<%for(int i = 10 ; i<25 ; i++){ %>
-																<option value = "<%=i%>"><%=i%></option>
-																<%}%>
+																<c:forEach begin="0" end="9" var = "i">
+																<option value = "0${i }" <c:if test="${match.sHour == i}">selected</c:if>>0${i }</option>
+																</c:forEach>
+																<c:forEach begin="10" end="24" var = "j">
+																<option value = "${j }" <c:if test="${match.sHour == j }">selected</c:if>>${j }</option>
+																</c:forEach>
 															</select>
 															시
 														</td>
 														<td>
 															<select name = "sMinute" style = "width: 100px;">
-																<option value = "00">00</option>
-																<option value = "10">10</option>
-																<option value = "20">20</option>
-																<option value = "30">30</option>
-																<option value = "40">40</option>
-																<option value = "50">50</option>
+																<option value = "00" <c:if test="${match.sMinute == '00'}">selected</c:if>>00</option>
+																<option value = "10" <c:if test="${match.sMinute == '10'}">selected</c:if>>10</option>
+																<option value = "20" <c:if test="${match.sMinute == '20'}">selected</c:if>>20</option>
+																<option value = "30" <c:if test="${match.sMinute == '30'}">selected</c:if>>30</option>
+																<option value = "40" <c:if test="${match.sMinute == '40'}">selected</c:if>>40</option>
+																<option value = "50" <c:if test="${match.sMinute == '50'}">selected</c:if>>50</option>
 															</select>
 															분
 														</td>
@@ -547,23 +545,23 @@ input, select{
 														<td><h4>종료 시간</h4></td>
 														<td>
 															<select name ="eHour" style = "width: 100px;">
-																<%for(int i = 0 ; i<10 ; i++){ %>
-																<option value = "0<%=i%>">0<%=i%></option>
-																<%}%>
-																<%for(int i = 10 ; i<25 ; i++){ %>
-																<option value = "<%=i%>"><%=i%></option>
-																<%}%>
+																<c:forEach begin="0" end="9" var = "i">
+																<option value = "0${i }" <c:if test="${match.eHour == i}">selected</c:if>>0${i }</option>
+																</c:forEach>
+																<c:forEach begin="10" end="24" var = "j">
+																<option value = "${j }" <c:if test="${match.eHour == j }">selected</c:if>>${j }</option>
+																</c:forEach>
 															</select>
 															시
 														</td>
 														<td>
 															<select name ="eMinute" style = "width: 100px;">
-																<option value = "00">00</option>
-																<option value = "10">10</option>
-																<option value = "20">20</option>
-																<option value = "30">30</option>
-																<option value = "40">40</option>
-																<option value = "50">50</option>
+																<option value = "00" <c:if test="${match.eMinute == '00'}">selected</c:if>>00</option>
+																<option value = "10" <c:if test="${match.eMinute == '10'}">selected</c:if>>10</option>
+																<option value = "20" <c:if test="${match.eMinute == '20'}">selected</c:if>>20</option>
+																<option value = "30" <c:if test="${match.eMinute == '30'}">selected</c:if>>30</option>
+																<option value = "40" <c:if test="${match.eMinute == '40'}">selected</c:if>>40</option>
+																<option value = "50" <c:if test="${match.eMinute == '50'}">selected</c:if>>50</option>
 															</select>
 															분
 														</td>
@@ -585,7 +583,7 @@ input, select{
 									<div class="res-step-form col-md-8 col-md-offset-2 res-form-four" style = "/* border: 3px solid yellow; */ width: 80%; height: 570px;">
 											<div class = "contents" style = "margin-left: 25%; margin-right: 25%; margin-top: 0px;">
 												<h2 style = "padding-top: 50px; margin-top: 0px; margin-bottom: 0px;">남기는말</h2>
-												<textarea id = "mContent" name = "mContent" rows="10" cols="80" style = "resize: none;" value ="" ></textarea>
+												<textarea id = "mContent" name = "mContent" rows="10" cols="80" style = "resize: none;" value ="${match.mContent }" >${match.mContent }</textarea>
 											</div>
 											<div class = "btns" align="center">
 												<button type="button"
@@ -610,39 +608,6 @@ input, select{
 	function goMatch(){
 		location.href='goMatch.ma';
 	}
-</script>
-
-
-<script type="text/javascript">
-$(function(){
-	$("#teamSelect").change(function(){
-		
-		var tId = $("#teamSelect  option:selected").val();
-		
-		
-		$.ajax({
-			url:"checkSelectTeam.ma",
-			data:{tId:tId
-			},
-			success:function(data){
-				if(data != "0" ){
-					alert("이미 진행 중이거나 점수를 등록하지 않은 매치가 있습니다.\n이전 매칭을 삭제하거나 점수를 등록해주세요.");
-					$("#teamSelect").val("").prop("selected", true);
-				}
-
-			},
-			error:function(request, status, errorData){
-				alert("error code: " + request.status + "\n"
-						+"message: " + request.responseText
-						+"error: " + errorData);
-			}
-		})
-		
-	});
-});
-
-
-
 </script>
 
 
@@ -679,13 +644,12 @@ $(function(){
 			return false;
 		}
 		
-		if(!confirm("매치를 생성하시겠습니까?")){
+		if(!confirm("정보를 수정하시겠습니까?")){
 			return false;
 		}
 		
-		alert("매치를 생성합니다.");
-		
-		$$("#createForm").submit();
+		alert("로 이동합니다");
+		$$("#updateForm").submit();
 	}
 </script>
 
@@ -1080,15 +1044,6 @@ $(document).ready(function(){
 	});
 
 </script>
-
-
-
-
-
-
-
-
-
 
 
 <script>
