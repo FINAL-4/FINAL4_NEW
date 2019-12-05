@@ -362,7 +362,7 @@ input, select{
 				</c:url>
 				<button type="button" onclick="location.href='${playMain}'" style = "float : none;"
 					class="btn btn-default col-xs-offset-1 btn res-btn-orange"
-					data-class=".res-form-two">Back</button>
+					data-class=".res-form-two">Main</button>
 				<button type="button"
 					class="btn btn-default btn res-btn-gray"
 					data-class=".res-form-one">Next</button>

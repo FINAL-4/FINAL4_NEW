@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -122,6 +124,7 @@ public class TeamController {
 			jObj.put("teamAdver",t.getTeamAdver());
 			jObj.put("resisterDay",t.getResisterDay());
 			jObj.put("ad_status",t.getAd_status());
+			jObj.put("recruitCount", t.getRecruitCount());
 			
 			jArr.add(jObj);
 		}
@@ -199,12 +202,20 @@ public class TeamController {
 	public void joinedAgree(HttpServletResponse response, TeamJoinedMember tjm) throws JsonIOException, IOException {
 		
 		System.out.println(tjm);
+		int teamNo = tjm.getTeamNo();
 		
+		int updateCount = 0;
 		int result = 0;
+		int deleteAD = 0;
+		int deleteTJM = 0;
 		
 		int deleteResult = tService.joinedAgree(tjm);
 		if(deleteResult>0) {
 			result = tService.teamJoin(tjm);
+			updateCount = tService.updateCount(teamNo);
+			deleteAD = tService.deleteAD();
+			deleteTJM = tService.deleteTJM(teamNo);
+			
 		}
 		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
@@ -316,17 +327,22 @@ public class TeamController {
 		System.out.println("tm :" + tm);
 		System.out.println(t);
 		int result = tService.insertTeam(t);
-		select 
+		
+		
 		
 		if(result > 0) {
-			/*
-			int result2 = tService.insertTeamMember(ta);
-			if(result2 > 0) {
-				return "home";
-			}else {
-				throw new MemberException("회원 가입 실패!!");
-			}
-			*/
+			String createdTeamName = t.getTeamName();
+			Team createdTeam = tService.selectCreatedTeam(createdTeamName);
+			int createdTeamNo = createdTeam.getTeamNo();
+			
+			tm.setTeamNo(createdTeamNo);
+			
+			int result2 = tService.insertCreatedTeamMember(tm);
+			session.removeAttribute("myTeam");
+			
+			ArrayList<Team> myTeam = tService.selectMyTeam(userNo);
+			session.setAttribute("myTeam", myTeam);
+			
 			return "home";
 		}else {
 			throw new MemberException("회원 가입 실패!!");
@@ -364,6 +380,37 @@ public class TeamController {
 		}
 		
 		return teamImage;
+	}
+	
+	@RequestMapping("Du.tm")
+	public ModelAndView idDuplicateCheck(String teamName, ModelAndView mv) {
+		Map map =new HashMap();
+		boolean Usable =tService.checkTeamNameDup(teamName)==0?true:false;
+		map.put("Usable", Usable);
+		mv.addAllObjects(map);
+		mv.setViewName("team/createTeamView");
+		return mv;
+	}
+	
+	@RequestMapping("DupAD.tm")
+	public void isDuplicateAD(int teamNo, HttpServletResponse response) throws JsonIOException, IOException {
+		int dup = tService.selectDupAD(teamNo);
+		System.out.println(dup);
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(dup,response.getWriter());
+	}
+	
+	@RequestMapping("dupApply.tm")
+	public void isDuplicateApply(TeamJoinedMember tjm, HttpServletResponse response) throws JsonIOException, IOException {
+		
+		int dup = tService.selectDupApply(tjm);
+		
+		System.out.println("신청했냐? : " + dup);
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(dup,response.getWriter());
+		
 	}
 	
 	

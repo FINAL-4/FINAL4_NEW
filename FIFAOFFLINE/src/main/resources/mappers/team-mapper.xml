@@ -116,14 +116,7 @@
   	WHERE TEAM_NO=#{tNo}
   </select>
   
-<!--   <select id="selectMyTeam" resultMap="MyTeamResultSet">
-  	SELECT TM.USER_NO, TM.TEAM_NO, TM.T_GRADE, T.TEAM_NAME,T.TEAM_IMAGE,T.TEAM_AREA,T.TEAM_INTRO
-	FROM T_MEMBER TM
-	JOIN TEAM T ON(T.USER_NO = TM.USER_NO)
-	WHERE TM.USER_NO=#{userNo}
-  </select> -->
-  
-    <select id="selectMyTeam" resultMap="MyTeamResultSet">
+  <select id="selectMyTeam" resultMap="MyTeamResultSet">
   	SELECT TM.USER_NO, TM.TEAM_NO, TM.T_GRADE, T.TEAM_NAME,T.TEAM_IMAGE,T.TEAM_AREA,T.TEAM_INTRO
 	FROM T_MEMBER TM
 	JOIN TEAM T ON(T.TEAM_NO = TM.TEAM_NO)
@@ -178,7 +171,54 @@
   <insert id="insertTeam" parameterType="Team">
   	INSERT INTO TEAM
   	VALUES(SEQ_TID.NEXTVAL,#{userNo},#{teamName},#{teamImage},#{teamArea},#{teamIntro})
-  	
   </insert>
+  
+  <select id="checkTeamNameDup" parameterType="string" resultType="_int">
+	SELECT COUNT(*)
+	FROM TEAM
+	WHERE TEAM_NAME=#{teamName}
+  </select>
+  
+  <select id="selectedCreatedTeam" parameterType="string" resultMap="teamResultSet">
+  	SELECT TEAM_NO
+  	FROM TEAM
+  	WHERE TEAM_NAME=#{createdTeamName}
+  </select>
+  
+  <insert id="insertCreatedTeamMember" parameterType="TeamMember">
+  	INSERT INTO T_MEMBER
+  	VALUES(#{userNo},#{teamNo},1)
+  </insert>
+  
+  <select id="selectDupAd" parameterType="_int" resultType="_int">
+  	SELECT COUNT(*)
+  	FROM TEAM_AD
+  	WHERE TEAM_NO = #{teamNo}
+  	
+  </select>
+  
+  <select id="selectDupApply" parameterType="TeamJoinedMember" resultType="_int">
+	SELECT COUNT(*)
+	FROM T_JOINED_MEMBER
+	WHERE TEAM_NO=#{teamNo} AND USER_NO=#{userNo}  
+  </select>
+  
+  <update id="updateCount" parameterType="_int">
+  	UPDATE TEAM_AD
+  	SET RECRUITCOUNT = RECRUITCOUNT -1
+  	WHERE TEAM_NO = #{teamNo}
+  </update>
+  
+  <delete id="deleteAD">
+  	DELETE FROM 
+  	TEAM_AD
+  	WHERE RECRUITCOUNT=0
+  </delete>
+  
+  <delete id="deleteTJM">
+  	DELETE FROM
+  	T_JOINED_MEMBER
+  	WHERE TEAM_NO = #{teamNo}
+  </delete>
 
 </mapper>

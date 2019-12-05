@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script
@@ -120,13 +121,12 @@ select{
 	
 }
 #postcodify_search_button {
-	background-color: #f1f1f1;
+	background-color: banana;
 	color: black;
-	border-radius: 16px;
-	width: 150px;
+	border-radius: 15px;
+	margin-top : 20px;
 	height: 40px;
-	text-align: center;
-	border: 1px solid blue;
+	text-align: left;
 	border: none;
 	padding: 10px 16px;
 	font-size: 15px;
@@ -191,7 +191,7 @@ th{
 	
 }
 #joinTdbirth{
-	margin-right : 77px;
+	margin-right : 80px;
 }
 
 .scrollheader {
@@ -303,7 +303,7 @@ canvas
 					</h2>
 					
 					
-					<div style = "border: 2px solid red; width: 55%;  display: inline-block;">
+					<div style = "width: 55%;  display: inline-block;">
 					<table align="center"   >
 						<tr>
 							<th width="200px;">아이디</th>
@@ -334,15 +334,15 @@ canvas
 							<th>생년월일</th>
 							<td>
 								<div id="joinTdbirth">
-									<input type="text" id="birthDay" maxlength="6" name="birthDay" placeholder="191129"
-										style="width: 159px;margin-right:5px;" requi#f53f29>
+									<input type="text" id="birthDay" maxlength="6" name="birthDay" placeholder="ex)191129"
+										style="width: 130px;margin-right:35px;" requi#f53f29>
 										
 									<input id="genderM" type="radio" name="gender" value="M"
-										style="width: 18px; height: 18px;" requi#f53f29 checked>
-									<label for="genderM">남</label> <input id="genderY"
+										style="width: 18px; height: 18px;" requi#f53f29>
+									<label for="genderM">남</label> <input id="genderF"
 										type="radio" name="gender" value="F"
 										style="width: 18px; height: 18px; " requi#f53f29> <label
-										for="genderY">여</label>
+										for="genderF">여</label>
 								</div>
 								<div id="checkRRN" class="checkInfo" style="font-size: 0.7em"></div>
 							</td>
@@ -367,7 +367,7 @@ canvas
 							<th>이메일</th>
 							<td id="emailPt">
 							<input type="text" name="emailId"
-								style="width: 141px; margin-right: 5px;"
+								style="width: 141px;"
 								requi#f53f29="requi#f53f29">
 							<em>@</em>
 							<input
@@ -375,8 +375,9 @@ canvas
 								style="width: 220px; margin-left: 0px;" ReadOnly="true"
 								placeholder="naver.com">
 							</td>
-							<td><select id="selctEmail" name="selctEmail" class="info"
-								style="width: 150px; margin-left: 0px; height: 40px;"
+							<td>
+							<select id="selctEmail" name="selctEmail" class="info"
+								style="width: 150px; margin-left: 0px;"
 								onchange="SetEmailTail(selctEmail.options[this.selectedIndex].value)">
 									<!-- <option value = "notSelected">====선택====</option> -->
 									<option value="naver.com">naver.com</option>
@@ -387,20 +388,20 @@ canvas
 									<option value="hotmail.com">hotmail.com</option>
 									<option value="daum.net">daum.net</option>
 									<option value="etc">직접입력</option>
-							</select></td>
+							</select>
+							</td>
 						</tr>
 						<tr>
 							<th>주소</th>
 							<td><input type="text" name="address1"
 								class="postcodify_address" value="" readonly></td>
-							<td>
-								<button type="button" id="postcodify_search_button"
-									style="size:">검색</button>
+							<td style="text-align:left;">
+								<button type="button" id="postcodify_search_button"><i class="fa fa-search"></i>검색</button>
 							</td>
 						</tr>
 						<tr>
-							<td>상세 주소</td>
-							<td><input type="text" name="address2" class="postcodify_extra_info" value=""></td>
+							<th>상세 주소</th>
+							<td><input type="text" name="address2" class="postcodify_extra_info" value=" "></td>
 						</tr>
 
 						<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
@@ -473,7 +474,7 @@ canvas
 							</td>
 						</tr>
 						
-						<script>
+						<!-- <script>
 function checkboxArr() {
     var checkArr = [];     // 배열 초기화
     $("input[name='position']:checked").each(function(i)){
@@ -491,7 +492,7 @@ function checkboxArr() {
 }
 
 </script>
-						
+ -->						
 					</table>
 					</div>
 					
@@ -777,22 +778,7 @@ function checkboxArr() {
 		
 		
 		
-		$(".btns").hover(function() {
-			  $(this).css({"cursor": "pointer"});
-			}, function(){
-			 //$(this).css({"background":"black"})
-			});
-
 		
-		$(function() {
-			var BPOPUP = '';
-			$('#idCheck').on('click', function(e) {
-				e.preventDefault();
-				BPOPUP = $('#idCheckPop').bPopup({
-
-				});
-			});
-		});
 	</script>
 
 

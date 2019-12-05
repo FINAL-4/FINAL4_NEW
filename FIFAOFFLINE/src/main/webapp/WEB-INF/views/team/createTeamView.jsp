@@ -473,14 +473,14 @@ label{
 										<div class="res-steps res-step-two" data-class=".res-form-two">
 											<div class="res-step-bar">2</div>
 											<div class="res-progress-bar"></div>
-											<div class="res-progress-title" id = "locationLabel"
+											<div class="res-progress-title" id = "logoLabel"
 												style="width: 170px; margin: auto;">팀 로고</div>
 										</div>
 										<div class="res-steps res-step-three"
 											data-class=".res-form-three">
 											<div class="res-step-bar">3</div>
 											<div class="res-progress-bar"></div>
-											<div class="res-progress-title" id = "timeLabel"
+											<div class="res-progress-title" id = "introLabel"
 												style="width: 170px; margin: auto;">팀 소개</div>
 										</div>
 										<div class="res-steps res-step-four"
@@ -503,6 +503,7 @@ label{
 														<td style = "width: 40%; font-size: 20px; text-align: center">팀 이름</td>
 														<td style = "width: 60%;">
 															<input id="teamName" name="teamName" type = "text" style = "width: 400px;">
+															<div id="checkId" class="checkInfo" style="font-size: 0.7em"></div>
 														</td>
 													</tr>
 													<tr>
@@ -559,7 +560,7 @@ label{
 											<canvas id = "teamImgTag"  style = "display: inline-block;">
 											
 											</canvas>
-											<input type="file" name="uploadFile" id = "uploadFile" style="display:inline;" onchange = "upload()">
+											<input type="file" name="uploadFile" id ="uploadFile" onchange = "upload()">
 										</div>
 										
 										
@@ -609,7 +610,7 @@ label{
 													<tr>
 														<td style = "width: 40%; font-size: 20px; text-align: center">팀 소개</td>
 														<td style = "width:60%;">
-															<textarea id = "copyTeamIntro" name = "mContent" rows="10" cols="50" style = "resize: none;" value =""></textarea>
+															<textarea id = "copyTeamIntro" rows="10" cols="50" style = "resize: none;"></textarea>
 														</td>		
 													</tr>
 												</table>
@@ -619,7 +620,7 @@ label{
 												<button type="button"
 													class="btn btn-default btn res-btn-orange"
 													data-class=".res-form-four">이전으로</button>
-												<button type="submit" 
+												<button type="button" onclick="submitCreate();"
 													class="btn"
 													data-class=".res-form-four">제출</button>
 											</div>
@@ -642,71 +643,91 @@ label{
 
 
 <script type="text/javascript">
-
+	
+	var isImg = false;
+	var teamNameCheck = false;
+	var checkValue = document.getElementById("chkvalue").value;
+	
 	function submitCreate(){
+		var teamName = document.getElementById("teamName").value;
+		var teamIntro = document.getElementById("teamIntro").value;
+		var basicLabel = document.getElementById("basicLabel");
+		var logoLabel = document.getElementById("logoLabel");
+		var introLabel = document.getElementById("introLabel");
 		
-		if($$("#teamName").val() == ""){
-			alert("팀 명을 입력하세요.");
-			$$("#basicLabel").click();
+		if(teamName == ""){
+			alert("팀명을 입력하세요");
+			basicLabel.click();
 			return false;
-		/* }else if($$("#teamImage").val() == ""){
-			alert("팀 로고를 넣어주세요.");
-			$$("#basicLabel").click();
-			return false; */
-		}else if($$("#teamIntro").val() == ""){
-			alert("팀 소개란을 입력하세요.");
-			$$("#basicLabel").click();
+		}else if(checkValue == "0"){
+			alert("팀 활동지역을 입력하세요");
+			basicLabel.click();
 			return false;
-		}else if($$("#chkvalue").val() == "0"){
-			alert("활동지역을 선택하세요.");
-			$$("#basicLabel").click();
+		}else if(!isImg){
+			alert("이미지를 입력하세요");
+			logoLabel.click();
 			return false;
+		}else if(teamIntro == ""){
+			alert("팀 소개를 입력하세요");
+			introLabel.click();
+			return false;
+		}else if(!teamNameCheck){
+			alert("팀 이름을 확인하세요.");
+			basicLabel.click();
+			return false;
+		}
+		
+		
 		
 		$$("#createForm").submit();
 	}
-</script>
 
-<script>
 	function upload(){
 	var Ican = document.getElementById ("teamImgTag");
 	var proup = document.getElementById ("uploadFile");
 	var ima1 = new SimpleImage (proup);
 	ima1.drawTo (Ican);
+	
+	isImg = true;
 	}
-</script>
+	
+	$("#teamName").keyup(function() {
+		var teamName = document.getElementById("teamName").value;
+		var idRe = /^[a-z,A-Z,0-9,가-힣]{2,12}$/;
 
+		$.ajax({
+			url : "Du.tm",
+			data : {
+				teamName : teamName
+			},
+			success : function(data) {
+				if (teamName == "") {
+					$("#checkId").css("color", "#f53f29");
+					$("#teamName").css("border", "2px solid #f53f29");
+					$("#checkId").text("팀 이름을 입력하세요.");
+					teamNameCheck = false;
+				} else if (!idRe.test(teamName)) {
+					$("#checkId").css("color", "#f53f29");
+					$("#teamName").css("border", "2px solid #f53f29");
+					$("#checkId").text("2-12의 영문자,숫자,한글만 입력가능합니다.");
+					teamNameCheck = false;
+				} else if (data.Usable ==false) {
+					$("#checkId").css("color", "#f53f29");
+					$("#teamName").css("border", "2px solid #f53f29");
+					$("#checkId").text("중복된 팀 이름입니다.");
+					teamNameCheck = false;
+				} else {
+					$("#checkId").text("사용가능한 팀 이름입니다.");
+					$("#checkId").css("color", "green");
+					$("#teamName").css("border", "2px solid blue");
+					teamNameCheck = true;
+				}
+			}
+			
+		});
+	});
+</script>
 <script type="text/javascript">
-	function checkNumber(num) { 
-		num.value = comma(uncomma(num.value)); 
-	}
-	
-	function comma(str) { 
-		str = String(str); 
-		return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,'); 
-	} 
-	
-	function uncomma(str) { 
-		str = String(str); 
-		return str.replace(/[^\d]+/g, ''); 
-	}
-
-
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	<script type="text/javascript">
 $(document).ready(function(){
 	var steps = ['.res-step-one','.res-step-two','.res-step-three','.res-step-four'];
 		var i = 1;
@@ -819,11 +840,11 @@ $(document).ready(function(){
 
 function oneCheckbox(a){
     var obj = document.getElementsByName("teamArea");
+    checkValue = "1";
 
     for(var i=0; i<obj.length; i++){
 
         if(obj[i] != a){
-			$$("#chkvalue").val("1");
             obj[i].checked = false;
         }
     }
