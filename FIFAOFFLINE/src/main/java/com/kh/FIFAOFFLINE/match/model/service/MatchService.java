@@ -6,6 +6,7 @@ import java.util.HashMap;
 import com.kh.FIFAOFFLINE.match.model.vo.AppMatch;
 import com.kh.FIFAOFFLINE.match.model.vo.Match;
 import com.kh.FIFAOFFLINE.match.model.vo.MatchFilter;
+import com.kh.FIFAOFFLINE.match.model.vo.SmsInfo;
 
 public interface MatchService {
 
@@ -24,5 +25,17 @@ public interface MatchService {
 	int checkAppMatch(HashMap<String, Integer> hm);
 
 	int cancleAm(HashMap<String, Integer> hm);
+
+	int updateMatch(Match m);
+
+	int deleteMatch(int mId);
+
+	Match getMyMatchList(int tId);
+
+	int checkSelectTeam(int tId);
+
+	int confirmMatch(HashMap<String, Integer> hm);
+
+	ArrayList<SmsInfo> getSmsInfo(int teamNo);
 
 }

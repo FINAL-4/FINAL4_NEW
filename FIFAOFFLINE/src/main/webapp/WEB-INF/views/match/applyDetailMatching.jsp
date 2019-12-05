@@ -160,6 +160,19 @@ h6{
 
 }
 
+#teamView{
+	background: black;
+	color: white;
+	border: 1px solid black;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+#teamView:hover{
+	background: white;
+	color: black;
+
+}
 
 
 /* ---------------------------------------- 툴팁  종료-------------------------------------*/
@@ -280,8 +293,24 @@ h6{
 		<div style = "width: 14%; display: inline-block;">
 			<c:choose>
 			<c:when test="${loginUser.userNo == match.userNo}">
-			<input type = button id = deleteBtn value = "글 삭제하기" onclick="location.href='${tplDelter}'" style = "width: 45%; height: 40px; padding: 0px; margin-right: 5%; font-size: 15px;">
-			<input type = button id = modifyBtn value = "글 수정하기" onclick = "location.href='playTeamModify.pl'" style = "width: 45%; height: 40px; padding: 0px; font-size: 15px;" class="addressB">
+			<input type = button id = deleteBtn value = "글 삭제하기" onclick="deleteMatch(${match.mId })" style = "width: 45%; height: 40px; padding: 0px; margin-right: 5%; font-size: 15px;">
+				<c:url var="goUpdateMatch" value="goUpdateMatch.ma">
+				<c:param name="mId" value="${match.mId }"/>
+				<c:param name="teamNo" value="${match.teamNo }"/>
+				<c:param name="mContent" value="${match.mContent }"/>
+				<c:param name="mTitle" value="${match.mTitle }"/>
+				<c:param name="mSystem" value="${match.mSystem }"/>
+				<c:param name="dues" value="${match.dues }"/>
+				<c:param name="mLocationName" value="${match.mLocationName }"/>
+				<c:param name="mLocationX" value="${match.mLocationX }"/>
+				<c:param name="mLocationY" value="${match.mLocationY }"/>
+				<c:param name="mDay" value="${match.mDay }"/>
+				<c:param name="sHour" value="${match.sHour }"/>
+				<c:param name="sMinute" value="${match.sMinute }"/>
+				<c:param name="eHour" value="${match.eHour }"/>
+				<c:param name="eMinute" value="${match.eMinute }"/>
+				</c:url>
+			<input type = button id = modifyBtn value = "글 수정하기" onclick = "location.href='${goUpdateMatch}'" style = "width: 45%; height: 40px; padding: 0px; font-size: 15px;" class="addressB">
 			</c:when>
 			<c:otherwise>
 			</c:otherwise>
@@ -297,12 +326,13 @@ h6{
 				<table align = "center" >
 					<tr>
 						<img id = "logo" src="resources/images/logo.png" width="50%;" height="300px;" style = "margin-left: 25%; margin-right: 25%;">
+						${match.teamImg } 
 					</tr>
 					<tr>
-						<td colspan="2" style = "width: 100%; text-align: center;">팀 이름 어떻게 받지</td>
+						<td colspan="2" style = "width: 100%; text-align: center;">${match.teamName }</td>
 					</tr>
 					<tr>
-						<td style = "width: 50%; margin-left: 25%; margin-right: 25%;"><button>팀정보 보기</button></td>
+						<td style = "width: 50%; margin-left: 25%; margin-right: 25%;"><button id = "teamView">팀정보 보기</button></td>
 					</tr>
 				</table>
 			</div>
@@ -386,10 +416,13 @@ h6{
 					<td style = "width: 25%;">
 						<c:choose>
 						<c:when test="${loginUser.userNo == match.userNo}">
-						<input type = button id = "matchingBtn" name = "O" value="매칭하기" style="background: black; color:white; font-size: 15px;" onclick = "">
+						<input type = button id = "matchingBtn" name = "O" value="매칭하기" style="background: black; color:white; font-size: 15px;"
+								 onclick = "confirmAm(${appMatch.teamNo}, ${match.mId},'${appMatch.teamName }', '${appMatch.userName}', ${match.teamNo },
+								  '${match.teamName }', '${match.userName }', '${match.mSystem }', '${match.mLocationName }', '${match.mDay }','${match.sHour }',
+								  '${match.sMinute }','${match.eHour }','${match.eMinute }','${match.dues }')">
 						</c:when>
 						<c:when test="${loginUser.userNo == appMatch.userNo}">
-						<input type = button id = "cancleBtn" name = "O" value="신청취소" style="background: black; color:white; font-size: 15px;" onclick = "cancleAm(${appMatch.teamNo}, ${match.mId});">
+						<input type = button id = "cancleBtn" name = "O" value="신청취소" style="background: black; color:white; font-size: 15px;" onclick = "cancleAm(${appMatch.teamNo}, ${match.mId})">
 						</c:when>
 						<c:otherwise>
 						</c:otherwise>
@@ -503,6 +536,62 @@ h6{
 
 
 <script type="text/javascript">
+
+	function confirmAm(amTeamNo, mId, amTeamName, amUserName, mTeamNo, mTeamName, mUserName, mSystem, mLocationName, mDay, sHour, sMinute, eHour, eMinute, dues){
+		$.ajax({
+			url:"confirmMatching.ma",
+			data:{amTeamNo:amTeamNo,
+				mId:mId, 
+				amTeamName:amTeamName,
+				amUserName:amUserName,
+				mTeamNo:mTeamNo,
+				mTeamName:mTeamName, 
+				mUserName:mUserName,
+				mSystem:mSystem, 
+				mLocationName:mLocationName,
+				mDay:mDay,
+				sHour:sHour,
+				sMinute:sMinute,
+				eHour:eHour,
+				eMinute:eMinute,
+				dues:dues
+			},
+			success:function(data){
+				alert(data+"명에게 문자 돌렷음");
+			},
+			error:function(request, status, errorData){
+				alert("error code: " + request.status + "\n"
+						+"message: " + request.responseText
+						+"error: " + errorData);
+			}
+		})
+		
+	}
+
+	
+	
+
+</script>
+
+
+
+
+
+
+<script type="text/javascript">
+
+	function deleteMatch(mId){
+		if(!confirm("매칭을 삭제하시겠습니까?")){
+			return false;
+		}
+		
+		alert("매칭이 삭제됩니다.");
+		location.href="deleteMatch.ma?mId="+mId;
+	}
+</script>
+
+
+<script type="text/javascript">
 	$(function(){
 		if($("#teamList").children().hasClass("selectTeam")){
 			$("#tlInfo").html("팀을 선택해주세요.");
@@ -551,7 +640,7 @@ h6{
 </script>
 <script type="text/javascript">
 	function closeBtn(){
-		$$("#applyDetail").bPopup().close();;
+		$$("#applyDetail").bPopup().close();
 	}
 
 </script>

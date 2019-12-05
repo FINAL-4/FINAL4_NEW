@@ -6,6 +6,7 @@ public class AppMatch {
 	private int amId;
 	private int teamNo;
 	private int userNo;
+	private String userName;
 	private int mId;
 	private Date appDate;
 	private String amStatus;
@@ -14,12 +15,13 @@ public class AppMatch {
 	
 	public AppMatch() {}
 
-	public AppMatch(int amId, int teamNo, int userNo, int mId, Date appDate, String amStatus, String teamName,
-			String teamImg) {
+	public AppMatch(int amId, int teamNo, int userNo, String userName, int mId, Date appDate, String amStatus,
+			String teamName, String teamImg) {
 		super();
 		this.amId = amId;
 		this.teamNo = teamNo;
 		this.userNo = userNo;
+		this.userName = userName;
 		this.mId = mId;
 		this.appDate = appDate;
 		this.amStatus = amStatus;
@@ -49,6 +51,14 @@ public class AppMatch {
 
 	public void setUserNo(int userNo) {
 		this.userNo = userNo;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public int getmId() {
@@ -93,9 +103,12 @@ public class AppMatch {
 
 	@Override
 	public String toString() {
-		return "AppMatch [amId=" + amId + ", teamNo=" + teamNo + ", userNo=" + userNo + ", mId=" + mId + ", appDate="
-				+ appDate + ", amStatus=" + amStatus + ", teamName=" + teamName + ", teamImg=" + teamImg + "]";
+		return "AppMatch [amId=" + amId + ", teamNo=" + teamNo + ", userNo=" + userNo + ", userName=" + userName
+				+ ", mId=" + mId + ", appDate=" + appDate + ", amStatus=" + amStatus + ", teamName=" + teamName
+				+ ", teamImg=" + teamImg + "]";
 	}
+
+	
 
 	
 
