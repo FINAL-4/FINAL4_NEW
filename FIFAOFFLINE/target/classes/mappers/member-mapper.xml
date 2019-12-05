@@ -40,4 +40,6 @@
 		where USER_ID=#{id}
 	</select>
   
+ 
+  
 </mapper>

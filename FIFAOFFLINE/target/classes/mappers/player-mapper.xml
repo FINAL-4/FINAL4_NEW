@@ -89,13 +89,16 @@
 		    R_M_DATE=SYSDATE
 		WHERE R_NUM=#{rNum}
 	</update>
-	
+
 	<!-- 개인 용병 리스트 쿼리문 -->
 	<select id="personPlayList" resultMap="enrollResultSet">
+	<![CDATA[
 		SELECT *
-		FROM P_ENROLL P 
-		JOIN MEMBER M ON(P.USER_NO = M.USER_NO)
-		ORDER BY A_COUNT, E_DAY, E_S_HOUR
+		FROM (SELECT * FROM P_ENROLL P
+			  JOIN MEMBER M ON (P.USER_NO = M.USER_NO)
+			  ORDER BY A_COUNT DESC)
+		WHERE ROWNUM <= 5
+	]]>
 	</select>
 	
 	<!-- 용병 등록 쿼리문 -->
@@ -127,6 +130,12 @@
 			E_DAY=#{eDay}, E_S_HOUR=#{esHour}, E_F_HOUR=#{efHour}, E_CONTENT=#{eContent}
 		WHERE E_NUM=#{eNum}
 	</update>
-	
+
+	<!-- 개인 용병 신청 참가 횟수 증가 쿼리문 -->
+	<update id="personApply" parameterType="_int">
+  		UPDATE MEMBER
+  		SET A_COUNT=A_COUNT+1
+		WHERE USER_NO=#{userNo}
+  	</update>
 	
 </mapper>

@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.player.model.vo.P_ENROLL;
 import com.kh.FIFAOFFLINE.player.model.vo.P_RECRUIT;
 
@@ -40,7 +41,7 @@ public class PlayerDao {
 
 	// 팀 용병 모집글 수정하기
 	public int playTeamModify(P_RECRUIT pr) {
-		System.out.println("다오 수정 테스트 : " + pr);
+	//	System.out.println("다오 수정 테스트 : " + pr);
 		return sqlSession.update("playerMapper.playTeamModify", pr);
 	}
 	
@@ -57,21 +58,32 @@ public class PlayerDao {
 
 	// 용병 등록 리스트 상세보기
 	public P_ENROLL playPersonDetail(int eNum) {
-		System.out.println("Dao test eNum : " + eNum);
+	//	System.out.println("Dao test eNum : " + eNum);
 		return sqlSession.selectOne("playerMapper.playPersonDetail", eNum);
 	}
 
 	// 용병 등록 삭제
 	public int personPlayListDelete(int eNum) {
-		System.out.println("Dao test 삭제 : " + eNum);
+	//	System.out.println("Dao test 삭제 : " + eNum);
 		return sqlSession.delete("playerMapper.playPersonDelete", eNum);
 	}
 
 	// 용병 등록 수정
 	public int playPersonModify(P_ENROLL pe) {
-		System.out.println("Dao test 수정 : " + pe);
+	//	System.out.println("Dao test 수정 : " + pe);
 		return sqlSession.update("playerMapper.playPersonModify", pe);
 	}
+
+	// 개인 용병 신청 참가횟수 증가
+	public int personApply(int userNo) {
+		System.out.println("DAO 신청 : " + userNo);
+		return sqlSession.update("playerMapper.personApply", userNo);
+	}
+
+	
+
+
+	
 
 	
 }

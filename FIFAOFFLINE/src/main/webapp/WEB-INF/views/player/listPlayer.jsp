@@ -268,7 +268,6 @@ div[id^="player"]{
 <div id = "outer" style = "margin-top:180px; background-image: url('resources/images/ba2.jpg'); background-size:100% 100%;">
 	<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; height:800px; margin:auto; padding-bottom:50px;">
 		<div id = "title"> 오늘의 추천 용병 </div> <br><br><br><br>
-			<%--  <% for(int i = 1; i < 6; i++) { %> --%>
 		<div class="card-carousel">
 		<c:forEach var="pp" items="${person }" varStatus="status">
 			<c:url var="ppDetail" value="playPersonDetail.pl">
@@ -277,7 +276,7 @@ div[id^="player"]{
 			<div class="my-card">
 			  	<div id = "player${status.count }" class = "change">
 			  		<div class="front" onclick="toggleTrsf(${status.count})">
-			  			<img src="resources/images/tot.jpg" style="width:100%; height:85%;">
+			  			<img src="resources/proFiles/${pp.proFile }" style="width:100%; height:85%;">
 			  			<div style="font-size:5em; font-weight: bold;">${pp.userName }</div>
 			  		</div>
 			  		<div class="back"  onclick="toggleTrsf(${status.count})">
@@ -455,6 +454,7 @@ function toggleTrsf(id) {
 		card.addClass("change");
 	}   
 }  // 여기까지 카드 뒤집기
+
 
 
 </script>
