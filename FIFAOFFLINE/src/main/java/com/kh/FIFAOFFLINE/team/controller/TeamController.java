@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -316,17 +318,22 @@ public class TeamController {
 		System.out.println("tm :" + tm);
 		System.out.println(t);
 		int result = tService.insertTeam(t);
-		select 
+		
+		
 		
 		if(result > 0) {
-			/*
-			int result2 = tService.insertTeamMember(ta);
-			if(result2 > 0) {
-				return "home";
-			}else {
-				throw new MemberException("회원 가입 실패!!");
-			}
-			*/
+			String createdTeamName = t.getTeamName();
+			Team createdTeam = tService.selectCreatedTeam(createdTeamName);
+			int createdTeamNo = createdTeam.getTeamNo();
+			
+			tm.setTeamNo(createdTeamNo);
+			
+			int result2 = tService.insertCreatedTeamMember(tm);
+			session.removeAttribute("myTeam");
+			
+			ArrayList<Team> myTeam = tService.selectMyTeam(userNo);
+			session.setAttribute("myTeam", myTeam);
+			
 			return "home";
 		}else {
 			throw new MemberException("회원 가입 실패!!");
@@ -364,6 +371,16 @@ public class TeamController {
 		}
 		
 		return teamImage;
+	}
+	
+	@RequestMapping("Du.tm")
+	public ModelAndView idDuplicateCheck(String teamName, ModelAndView mv) {
+		Map map =new HashMap();
+		boolean Usable =tService.checkTeamNameDup(teamName)==0?true:false;
+		map.put("Usable", Usable);
+		mv.addAllObjects(map);
+		mv.setViewName("team/createTeamView");
+		return mv;
 	}
 	
 	

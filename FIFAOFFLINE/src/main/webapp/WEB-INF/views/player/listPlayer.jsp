@@ -225,7 +225,6 @@ div[id^="player"]{
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	text-align: center;
 	backface-visibility: hidden;
 	transform: rotateX(180deg);
 	padding: 5px;
@@ -246,6 +245,20 @@ div[id^="player"]{
 	background: #2AF08E;
 	border-radius: 13px;
 }
+#cardDetailBtn{
+	background:black;
+	border : 1px solid black;
+	color : white;
+	margin-left : 42px;
+	width : 250px;
+	height : 50px;
+	font-size: 30px;
+}
+#cardDetailBtn:hover{
+	cursor: pointer;
+	background:white;
+	color:black;
+}
 </style>
 </head>
 <jsp:include page = "../common/header.jsp"/>
@@ -255,23 +268,30 @@ div[id^="player"]{
 <div id = "outer" style = "margin-top:180px; background-image: url('resources/images/ba2.jpg'); background-size:100% 100%;">
 	<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; height:800px; margin:auto; padding-bottom:50px;">
 		<div id = "title"> 오늘의 추천 용병 </div> <br><br><br><br>
-		<c:forEach var="pp" items="${person }">
-			
 		<div class="card-carousel">
+		<c:forEach var="pp" items="${person }" varStatus="status">
+			<c:url var="ppDetail" value="playPersonDetail.pl">
+				<c:param name="eNum" value="${pp.eNum }"/>
+			</c:url>
 			<div class="my-card">
-			  	<div id = "player1" class = "change">
-			  		<div class="front" onclick="toggleTrsf(1)">
-			  			<img src="resources/images/tot.jpg" style="width:100%; height:100%;">
+			  	<div id = "player${status.count }" class = "change">
+			  		<div class="front" onclick="toggleTrsf(${status.count})">
+			  			<img src="resources/proFiles/${pp.proFile }" style="width:100%; height:85%;">
+			  			<div style="font-size:5em; font-weight: bold;">${pp.userName }</div>
 			  		</div>
-			  		<div class="back"  onclick="toggleTrsf(1)">
-			  			${pp.eTitle }
-			  			${pp.eManner }
-			  			${pp.eSkill }
-			  			
+			  		<div class="back"  onclick="toggleTrsf(${status.count})">
+			  			<div style="font-size:4em; font-weight:bold; text-align: center; border-bottom: 3px solid gray;">${pp.eTitle }</div> <br>
+			  			<div style="font-size:3em; font-weight:bold;">매너 : ${pp.eManner }</div> <br>
+			  			<div style="font-size:3em; font-weight:bold;">실력 : ${pp.eSkill }</div> <br>
+			  			<div style="font-size:2.5em; font-weight:bold;">가능 장소 : ${pp.ePlace }</div> <br>
+			  			<div style="font-size:2.5em; font-weight:bold;">가능 날짜 : ${pp.eDay }</div> <br>
+			  			<div style="font-size:2.5em; font-weight:bold;">가능 시간 : ${pp.esHour } 시  ~ ${pp.efHour } 시</div> <br><br><br>
+			  			<input type = button value = "상세보기" id = cardDetailBtn onclick="location.href='${ppDetail }'">
 			  		</div>
 				</div>
 			</div>
-			<div class="my-card">
+			<%-- <% } %> --%>
+			<!-- <div class="my-card">
 				<div id = "player2" class = "change">
 			  		<div class="front" onclick="toggleTrsf(2)">
 			  			<img src="resources/images/man.jpg" style="width:100%; height:100%;">
@@ -311,9 +331,9 @@ div[id^="player"]{
 			  			<img src="resources/images/youri.jpg" style="width:100%; height:100%;">
 			  		</div>
 			  	</div>
-			  </div> 
-			</div>
-			</c:forEach> <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			  </div> --> 
+			</c:forEach> 
+			</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 			<div id = btn> 
 				<input type = button id = playerEnroll value = "개인 용병 등록" onclick="playerEnroll()">
 				<input type = button id = playerRecruit value = "팀 용병 모집" onclick="playerRecruit()"> 
@@ -434,9 +454,9 @@ function toggleTrsf(id) {
 		card.addClass("change");
 	}   
 }  // 여기까지 카드 뒤집기
-function test(){
-	alert("aerat");
-}
+
+
+
 </script>
 
 <jsp:include page = "../common/footer.jsp"/>
