@@ -18,7 +18,7 @@
 		<script src="js/modernizr.custom.js"></script>
 		
 		<style>	
-		input[type=text], input[type=password] {
+		#loginModal input[type=text], #loginModal input[type=password] {
 		  width: 100%;
 		  padding: 12px 20px;
 		  margin: 8px 0;
@@ -28,7 +28,7 @@
 		  border-radius: 20px;
 		}
 		
-		button {
+		#id01 button {
 		  background-color: #4CAF50;
 		  color: white;
 		  padding: 14px 20px;
@@ -38,7 +38,7 @@
 		  width: 100%;
 		}  
 		 
-		button:hover {
+		#id01 button:hover {
 		  opacity: 0.8;
 		}
 		 
@@ -195,7 +195,7 @@
       
     	</div>
 		
-		    <div class="container" >
+		    <div id = "loginModal" class="container" >
 		      <label for="id"><b>ID</b></label>
 		      <input type="text" placeholder="아이디를 입력해주세요." name="userId" required>
 		
