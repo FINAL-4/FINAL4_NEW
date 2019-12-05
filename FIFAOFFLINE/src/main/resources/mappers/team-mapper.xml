@@ -189,5 +189,36 @@
   	INSERT INTO T_MEMBER
   	VALUES(#{userNo},#{teamNo},1)
   </insert>
+  
+  <select id="selectDupAd" parameterType="_int" resultType="_int">
+  	SELECT COUNT(*)
+  	FROM TEAM_AD
+  	WHERE TEAM_NO = #{teamNo}
+  	
+  </select>
+  
+  <select id="selectDupApply" parameterType="TeamJoinedMember" resultType="_int">
+	SELECT COUNT(*)
+	FROM T_JOINED_MEMBER
+	WHERE TEAM_NO=#{teamNo} AND USER_NO=#{userNo}  
+  </select>
+  
+  <update id="updateCount" parameterType="_int">
+  	UPDATE TEAM_AD
+  	SET RECRUITCOUNT = RECRUITCOUNT -1
+  	WHERE TEAM_NO = #{teamNo}
+  </update>
+  
+  <delete id="deleteAD">
+  	DELETE FROM 
+  	TEAM_AD
+  	WHERE RECRUITCOUNT=0
+  </delete>
+  
+  <delete id="deleteTJM">
+  	DELETE FROM
+  	T_JOINED_MEMBER
+  	WHERE TEAM_NO = #{teamNo}
+  </delete>
 
 </mapper>

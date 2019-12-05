@@ -117,4 +117,29 @@ public class TeamDao {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("teamMapper.insertCreatedTeamMember",tm);
 	}
+
+	public int selectDupAd(int teamNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("teamMapper.selectDupAd",teamNo);
+	}
+
+	public int selectDupApply(TeamJoinedMember tjm) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("teamMapper.selectDupApply",tjm);
+	}
+
+	public int updateCount(int teamNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("teamMapper.updateCount",teamNo);
+	}
+
+	public int deleteAD() {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("teamMapper.deleteAD");
+	}
+
+	public int deleteTJM(int teamNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("teamMapper.deleteTJM",teamNo);
+	}
 }

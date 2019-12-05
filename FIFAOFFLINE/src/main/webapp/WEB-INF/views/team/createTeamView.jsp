@@ -693,7 +693,7 @@ label{
 	
 	$("#teamName").keyup(function() {
 		var teamName = document.getElementById("teamName").value;
-		var idRe = /^[a-z,A-Z,0-9,가-힣]{4,12}$/;
+		var idRe = /^[a-z,A-Z,0-9,가-힣]{2,12}$/;
 
 		$.ajax({
 			url : "Du.tm",
@@ -704,20 +704,20 @@ label{
 				if (teamName == "") {
 					$("#checkId").css("color", "#f53f29");
 					$("#teamName").css("border", "2px solid #f53f29");
-					$("#checkId").text("아이디를 입력하세요.");
+					$("#checkId").text("팀 이름을 입력하세요.");
 					teamNameCheck = false;
 				} else if (!idRe.test(teamName)) {
 					$("#checkId").css("color", "#f53f29");
 					$("#teamName").css("border", "2px solid #f53f29");
-					$("#checkId").text("4-12의 영문자,숫자,한글만 입력가능합니다.");
+					$("#checkId").text("2-12의 영문자,숫자,한글만 입력가능합니다.");
 					teamNameCheck = false;
 				} else if (data.Usable ==false) {
 					$("#checkId").css("color", "#f53f29");
 					$("#teamName").css("border", "2px solid #f53f29");
-					$("#checkId").text("중복된 아이디입니다.");
+					$("#checkId").text("중복된 팀 이름입니다.");
 					teamNameCheck = false;
 				} else {
-					$("#checkId").text("사용가능한 아이디입니다.");
+					$("#checkId").text("사용가능한 팀 이름입니다.");
 					$("#checkId").css("color", "green");
 					$("#teamName").css("border", "2px solid blue");
 					teamNameCheck = true;
