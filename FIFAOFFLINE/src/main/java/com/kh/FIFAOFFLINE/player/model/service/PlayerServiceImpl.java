@@ -53,5 +53,22 @@ public class PlayerServiceImpl implements PlayerService{
 		return pDao.personPlayList();
 	}
 
+	@Override
+	public P_ENROLL playPersonDetail(int eNum) {
+		System.out.println("써비스 디테일 뷰 테스트 : " + eNum);
+		return pDao.playPersonDetail(eNum);
+	}
+
+	@Override
+	public int personPlayListDelete(int eNum) {
+		System.out.println("써비스 삭제 뷰 테스트 : " + eNum);
+		return pDao.personPlayListDelete(eNum);
+	}
+
+	@Override
+	public int playPersonModify(P_ENROLL pe) {
+		return pDao.playPersonModify(pe);
+	}
+
 	
 }

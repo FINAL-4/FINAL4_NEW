@@ -21,6 +21,12 @@ public interface PlayerService {
 
 	public ArrayList<P_ENROLL> personPlayList();
 
+	public P_ENROLL playPersonDetail(int eNum);
+
+	public int personPlayListDelete(int eNum);
+
+	public int playPersonModify(P_ENROLL pe);
+
 	
 
 }
