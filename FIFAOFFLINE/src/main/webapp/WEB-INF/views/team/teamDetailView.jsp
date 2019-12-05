@@ -547,11 +547,6 @@ img.avatarM {
 			myTeamNo[<%=i%>] = <%=myTeam.get(i).getTeamNo()%>;
 		<%}%>
 		
-		var myTeamGrade = [];
-		<%for(int i=0; i<myTeam.size(); i++){%>
-			myTeamGrade[<%=i%>] = <%=myTeam.get(i).getT_Grade()%>;
-		<%}%>
-		
 		for(var i=0; i<myTeamNo.length; i++){
 			if(${t.teamNo} == myTeamNo[i]){
 				teamFlag = true;
