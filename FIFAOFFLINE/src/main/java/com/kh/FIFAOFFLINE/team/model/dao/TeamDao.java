@@ -102,4 +102,19 @@ public class TeamDao {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("teamMapper.insertTeam",t);
 	}
+
+	public int checkTeamNameDup(String teamName) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("teamMapper.checkTeamNameDup",teamName);
+	}
+
+	public Team selectCreatedTeam(String createdTeamName) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("teamMapper.selectedCreatedTeam",createdTeamName);
+	}
+
+	public int insertCreatedTeamMember(TeamMember tm) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("teamMapper.insertCreatedTeamMember",tm);
+	}
 }
