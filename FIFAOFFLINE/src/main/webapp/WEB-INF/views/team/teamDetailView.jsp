@@ -192,6 +192,7 @@ img.avatarM {
   from {transform: scale(0)} 
   to {transform: scale(1)}
 }
+
 </style>
 </head>
 <jsp:include page = "../common/header.jsp"/>
@@ -228,7 +229,7 @@ img.avatarM {
 				<td align> 모집내용 </td>
 			</tr>
 			<tr>
-				<td colspan=2> &nbsp;&nbsp;&nbsp;${t.teamAdver }</td>
+				<td colspan=2>${t.teamAdver }</td>
 			</tr>
 			
 			<tr>
@@ -255,7 +256,7 @@ img.avatarM {
 				<td> 모집내용 </td>
 			</tr>
 			<tr>
-				<td colspan=2> &nbsp;&nbsp;&nbsp;${t.teamAdver }</td>
+				<td colspan=2>${t.teamAdver }</td>
 			</tr>
 			
 			<tr>
@@ -281,7 +282,7 @@ img.avatarM {
 				</div>
 				<div id = btnPosition2>
 				<input type = button id = deleteBtn value = "글 삭제하기" onclick="deleteTeamAD()">
-				<input type = button id = modifyBtn value = "글 수정하기"> <br> <br>
+				<input type = button id = modifyBtn value = "글 수정하기" onclick="UpdateView()"> <br> <br>
 				<input type = button id = applyingBtn value = "신  청  현  황">
 				</div>
 			</div>
@@ -486,16 +487,71 @@ img.avatarM {
 	}		
 	
 	function deleteTeamAD(){
+		
+		var teamFlag = false;
 		var myTeamNo = [];
 		<%for(int i=0; i<myTeam.size(); i++){%>
 			myTeamNo[<%=i%>] = <%=myTeam.get(i).getTeamNo()%>;
 		<%}%>
 		
-		console.log(myTeamNo);
+		var myTeamGrade = [];
+		<%for(int i=0; i<myTeam.size(); i++){%>
+			myTeamGrade[<%=i%>] = <%=myTeam.get(i).getT_Grade()%>;
+		<%}%>
 		
+		for(var i=0; i<myTeamNo.length; i++){
+			if(${t.teamNo} == myTeamNo[i]){
+				teamFlag = true;
+			}
+		}
+		
+		if(teamFlag){
+			if(${t.userNo} == ${loginUser.userNo}){
+				var teamNo = ${t.teamNo};
+				var confirmFlag = confirm("삭제하시겠습니까");
+				if(confirmFlag){
+					location.href="deleteTeamAD.tm?teamNo="+teamNo;
+				}
+				
+			}else{
+				alert("팀장만 삭제할 수 있습니다.");
+			}
+		}else{
+			alert("팀장만 삭제할 수 있습니다.");
+		}
+	}
+	
+	function UpdateView(){
+		var teamFlag = false;
+		
+		var myTeamNo = [];
+		<%for(int i=0; i<myTeam.size(); i++){%>
+			myTeamNo[<%=i%>] = <%=myTeam.get(i).getTeamNo()%>;
+		<%}%>
+		
+		for(var i=0; i<myTeamNo.length; i++){
+			if(${t.teamNo} == myTeamNo[i]){
+				teamFlag = true;
+			}
+		}
+		
+		if(teamFlag){
+			if(${t.userNo} == ${loginUser.userNo}){
+				var teamNo = ${t.teamNo};
+				var confirmFlag = confirm("수정하시겠습니까");
+				if(confirmFlag){
+					location.href="updateTeamView.tm?teamNo="+teamNo;
+				}
+				
+			}else{
+				alert("팀장만 수정할 수 있습니다.");
+			}
+		}else{
+			alert("팀장만 수정할 수 있습니다.");
+		}
 		
 	}
-
+	
 	
 
 	

@@ -3,6 +3,7 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
+
 <html>
 <head>
 <meta charset="UTF-8">
@@ -16,13 +17,10 @@
 		<div><h2>DB username : FINAL4</h2></div>
 		<div><h2>DB password : FINAL4</h2></div>
 		<div><h2>경로 : C:\FINAL\FINAL4</h2></div>
-
-
-<<<<<<< HEAD
-		19일 테스트
- 나도 간다이잇잇 서재우 테스트 테스트 
-정인짱짱
->>>>>>> refs/remotes/origin/master
+		<br><br>
+		<div><h1>=====세션=====</h1></div>
+		<div><h2>로그인 유저 : loginUser</h2></div>
+		<div><h2>로그인 유저의 팀정보(ArrayList) : myTeam</h2></div>
 
 		
 

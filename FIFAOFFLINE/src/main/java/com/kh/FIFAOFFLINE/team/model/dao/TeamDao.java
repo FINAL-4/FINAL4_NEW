@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.team.model.vo.PageInfo;
 import com.kh.FIFAOFFLINE.team.model.vo.Team;
+import com.kh.FIFAOFFLINE.team.model.vo.TeamAD;
 import com.kh.FIFAOFFLINE.team.model.vo.TeamJoinedMember;
 import com.kh.FIFAOFFLINE.team.model.vo.TeamMember;
 
@@ -75,5 +76,30 @@ public class TeamDao {
 	public int applyTeam(TeamJoinedMember tjm) {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("teamMapper.applyTeam",tjm);
+	}
+
+	public int deleteTeamAD(Integer teamNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("teamMapper.deleteTeamAD",teamNo);
+	}
+
+	public int updateTeamAD(Team t) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("teamMapper.updateTeamAD", t);
+	}
+
+	public ArrayList<Team> selectTeamLeader(int userNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("teamMapper.selectTeamLeader", userNo);
+	}
+
+	public int ADinsert(TeamAD ta) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("teamMapper.ADinsert",ta);
+	}
+
+	public int insertTeam(Team t) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("teamMapper.insertTeam",t);
 	}
 }

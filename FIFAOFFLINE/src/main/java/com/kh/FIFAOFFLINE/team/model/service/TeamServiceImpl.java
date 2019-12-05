@@ -9,6 +9,7 @@ import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.team.model.dao.TeamDao;
 import com.kh.FIFAOFFLINE.team.model.vo.PageInfo;
 import com.kh.FIFAOFFLINE.team.model.vo.Team;
+import com.kh.FIFAOFFLINE.team.model.vo.TeamAD;
 import com.kh.FIFAOFFLINE.team.model.vo.TeamJoinedMember;
 import com.kh.FIFAOFFLINE.team.model.vo.TeamMember;
 
@@ -82,5 +83,35 @@ public class TeamServiceImpl implements TeamService{
 	public int applyTeam(TeamJoinedMember tjm) {
 		// TODO Auto-generated method stub
 		return tDao.applyTeam(tjm);
+	}
+
+	@Override
+	public int deleteTeamAD(Integer teamNo) {
+		// TODO Auto-generated method stub
+		return tDao.deleteTeamAD(teamNo);
+	}
+
+	@Override
+	public int updateTeamAD(Team t) {
+		// TODO Auto-generated method stub
+		return tDao.updateTeamAD(t);
+	}
+
+	@Override
+	public ArrayList<Team> selectTeamLeader(int userNo) {
+		// TODO Auto-generated method stub
+		return tDao.selectTeamLeader(userNo);
+	}
+
+	@Override
+	public int ADinsert(TeamAD ta) {
+		// TODO Auto-generated method stub
+		return tDao.ADinsert(ta);
+	}
+
+	@Override
+	public int insertTeam(Team t) {
+		// TODO Auto-generated method stub
+		return tDao.insertTeam(t);
 	}
 }

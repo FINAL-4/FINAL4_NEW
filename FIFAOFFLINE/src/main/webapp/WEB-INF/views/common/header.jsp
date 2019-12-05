@@ -25,6 +25,7 @@
 		  display: inline-block;
 		  border: 1px solid #ccc;
 		  box-sizing: border-box;
+		  border-radius: 20px;
 		}
 		
 		button {
@@ -54,9 +55,15 @@
 		}
 
 		.container {
-		  padding: 16px;
+		  padding: 40px;
+		 
 		}
 		
+		#login-logo:hover,#logout-logo:hover{
+		 opacity: 0.1;
+		 cursor: pointer;
+		 
+		}
 		span.find {
 		  float: right;
 		  /* padding-top: 16px; */
@@ -98,23 +105,25 @@
 		.modal {
 		  display: none; /* Hidden by default */
 		  position: fixed; /* Stay in place */
-		  z-index: 51; /* Sit on top */
+		  z-index: 50; /* Sit on top */
 		  left: 0;
 		  top: 0;
 		  width: 100%; /* Full width */
 		  height: 100%; /* Full height */
 		  overflow: auto; /* Enable scroll if needed */
 		  background-color: rgb(0,0,0); /* Fallback color */
-		  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-		  padding-top: 60px;
+		  background-color: rgba(0,0,0,0.2); /* Black w/ opacity */
+		  padding-top: 150px;
+		 
 		}
 		
 		/* Modal Content/Box */
 		.modal-content {
 		  background-color: #fefefe;
 		  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
-		  border: 1px solid #888;
-		  width: 100%; /* Could be more or less, depending on screen size */
+		  border: 1px solid darkgary;
+		  width: 45%; /* Could be more or less, depending on screen size */
+		  border-radius: 40px;
 		}
 		
 		/* The Close Button (x) */
@@ -154,7 +163,11 @@
 						<a class="menu__item" href="mypage.me" style = "border: none;"> <span class="menu__item-name">마이페이지     </span></a></c:if>
 						<span>
 						<c:if test="${empty sessionScope.loginUser }">
-						<img id = "login-logo" src="resources/images/login-e.png" width="30px;" height="30px;" onclick="document.getElementById('id01').style.display='block'">
+						<img id = "login-logo" src="resources/images/login.png" width="30px;" height="30px;" onclick="document.getElementById('id01').style.display='block'">
+						</c:if>
+						<c:if test="${!empty sessionScope.loginUser }">
+						<c:url var = "logout" value="logout.me"/>
+						<img id = "logout-logo" src="resources/images/logout.png" width="30px;" height="30px;" onclick="location.href='${logout}'">
 						</c:if>
 						</span> 
 
@@ -168,28 +181,28 @@
 
 		
 
-		<div id="id01" class="modal">
-		  
+		<div id="id01" class="modal" >
+		 
 		  <form class="modal-content animate" action="login.me" method="post">
 		<div class="imgcontainer">
+					로그인
      		 <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
       
     	</div>
 		
-		    <div class="container">
-		      <label for="id"><b>Username</b></label>
-		      <input type="text" placeholder="Enter Username" name="userId" required>
+		    <div class="container" >
+		      <label for="id"><b>ID</b></label>
+		      <input type="text" placeholder="아이디를 입력해주세요." name="userId" required>
 		
 		      <label for="psw"><b>Password</b></label>
-		      <input type="password" placeholder="Enter Password" name="userPwd" required>
+		      <input type="password" placeholder="비밀번호를 입력해주세요." name="userPwd" required>
 		        
-		      <button id = "loginBtn">Login</button>
-		      <label>
-		        <input type="checkbox" checked="checked" name="remember"> Remember me
-		      </label>
-		      <div>
+		      <button id = "loginBtn">로그인</button>
+		     
+		      <div style="display: inline-block;">
 		      <span class="join">회원이아니신가요? <a href="goJoin.me">회원가입하러가기</a></span>
-		      
+		     
+		     
 		      <span class="find">비밀번호를 잊으셨나요? <a href="find.me">비밀번호 찾으러가기</a></span>
 		    </div>
 		    </div>

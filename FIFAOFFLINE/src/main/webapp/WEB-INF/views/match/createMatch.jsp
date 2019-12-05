@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -350,6 +351,7 @@ input, select{
 </head>
 <jsp:include page = "../common/header.jsp"/>
 <body>
+
 	<div id = "title" style = "font-size: 40px; margin-top: 80px; margin-left: 5%;">매치 생성</div>
 	<div id="outer" style="margin-top: 15px; border-bottom: 5px solid grey; border-top: 5px solid grey; margin-left: 5%; margin-right:5%; width: 90%; ">
 		<div class="ha-waypoint" data-animate-down="ha-header-show"
@@ -361,6 +363,7 @@ input, select{
 					<div class="container">
 						<div class="row">
 							<form id = "createForm" action="createMatch.ma">
+								<input type = "hidden" name = "userNo" value = "${loginUser.userNo}">
 								<div class="col-xs-10 col-xs-offset-1" id="container">
 									<div class="res-steps-container">
 										<div class="res-steps res-step-one active"
@@ -410,9 +413,11 @@ input, select{
 														<td>
 															<select id = "teamSelect" name = "teamNo" style = "width: 100%;">
 																<option value = "">==선택==</option>
-																<option value = "1">팀1</option>
-																<option value = "2">팀2</option>
-																<option value = "3">팀3</option>
+																<c:forEach var="team" items="${myTeam }">
+																<c:if test="${team.t_Grade == 1 }">
+																<option value = "${team.teamNo }">${team.teamName }</option>
+																</c:if>
+																</c:forEach>
 															</select>
 														</td>
 													</tr>
@@ -609,6 +614,39 @@ input, select{
 
 
 <script type="text/javascript">
+$(function(){
+	$("#teamSelect").change(function(){
+		
+		var tId = $("#teamSelect  option:selected").val();
+		
+		
+		$.ajax({
+			url:"checkSelectTeam.ma",
+			data:{tId:tId
+			},
+			success:function(data){
+				if(data != "0" ){
+					alert("이미 진행 중이거나 점수를 등록하지 않은 매치가 있습니다.\n이전 매칭을 삭제하거나 점수를 등록해주세요.");
+					$("#teamSelect").val("").prop("selected", true);
+				}
+
+			},
+			error:function(request, status, errorData){
+				alert("error code: " + request.status + "\n"
+						+"message: " + request.responseText
+						+"error: " + errorData);
+			}
+		})
+		
+	});
+});
+
+
+
+</script>
+
+
+<script type="text/javascript">
 
 	function submitCreate(){
 		
@@ -641,6 +679,11 @@ input, select{
 			return false;
 		}
 		
+		if(!confirm("매치를 생성하시겠습니까?")){
+			return false;
+		}
+		
+		alert("매치를 생성합니다.");
 		
 		$$("#createForm").submit();
 	}

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +12,7 @@
   var $$ = jQuery.noConflict();
 </script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.min.js'></script>
-<script src="resources/js/jquery.hovercard.min.js"></script>
+
 <title>Insert title here</title>
 <style>
 /* ---------선택된 메뉴 색상 변경-------- */
@@ -158,6 +160,129 @@ h6{
 
 }
 
+#teamView{
+	background: black;
+	color: white;
+	border: 1px solid black;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+#teamView:hover{
+	background: white;
+	color: black;
+
+}
+
+
+/* ---------------------------------------- 툴팁  종료-------------------------------------*/
+				
+		.selectTeam{
+			padding-top: 15px;
+			background: black;
+			color: white;
+			border-bottom: 0.5px solid lightgrey;
+		}
+		
+		.selectTeam:hover{
+			background: white;
+			color: black;
+			cursor: pointer;
+		}
+		.con-tooltip {
+		
+		  position: relative;
+		  margin: 10px;
+		  
+		  display: inline-block;
+		  
+		  transition: all 0.3s ease-in-out;
+		  cursor: default;
+		
+		}
+		
+		/*tooltip */
+		.tooltip {
+		  visibility: hidden;
+		  z-index: 10;
+		  opacity: .40;
+		  
+		  width: 140%;
+		
+		  background: black;
+		  color: white;
+		  
+		  position: absolute;
+		  top:-140%;
+		  left: -25%;
+		  
+		
+		  font: 25px;
+		
+		  transform: translateY(9px);
+		  transition: all 0.3s ease-in-out;
+		  
+		  box-shadow: 0 0 3px rgba(56, 54, 54, 0.86);
+		}
+		
+		.tooltip:hover {
+
+		
+		  background: black;
+		  color: white;
+
+		
+		  font: 25px;
+
+		}
+		
+		
+		/* tooltip  after*/
+		.tooltip::after {
+		  content: "";
+		  width: 0;
+		  height: 0;
+		  
+		  border-style: solid;
+		  border-width: 0 0 0 0;
+		  border-color: black transparent transparent transparent;
+		
+		  position: absolute;
+		  left: 40%;
+		
+		}
+		
+		.con-tooltip:hover .tooltip{
+		  visibility: visible;
+		  transform: translateY(-10px);
+		  opacity: 1;
+		  transition: .3s linear;
+		  animation: odsoky 1s ease-in-out infinite  alternate;
+		
+		}
+		@keyframes odsoky {
+		  0%{
+		    transform: translateY(1px);	
+		  }
+		
+		  100%{
+		    transform: translateY(1px);	
+		  }
+		
+		}
+	
+		.bottom:hover {transform: translateY(6px);}
+	
+		.bottom .tooltip { top:115%; left:-20%; }
+		
+		.bottom .tooltip::after{
+		  top:-17%;
+		  left:40%;
+		  transform: rotate(180deg);
+		}
+		
+		/* ---------------------------------------- 툴팁  종료-------------------------------------*/
+
 </style>
 </head>
 <jsp:include page = "../common/header.jsp"/>
@@ -166,8 +291,30 @@ h6{
 	<div id = "title" >
 		<h4 style="font-size:45px; margin-bottom: 10px; margin-top: 0px; width: 85%; display: inline-block;">${match.mTitle }</h4>
 		<div style = "width: 14%; display: inline-block;">
-			<input type = button id = deleteBtn value = "글 삭제하기" onclick="location.href='${tplDelter}'" style = "width: 45%; height: 40px; padding: 0px; margin-right: 5%; font-size: 15px;">
-			<input type = button id = modifyBtn value = "글 수정하기" onclick = "location.href='playTeamModify.pl'" style = "width: 45%; height: 40px; padding: 0px; font-size: 15px;" class="addressB">
+			<c:choose>
+			<c:when test="${loginUser.userNo == match.userNo}">
+			<input type = button id = deleteBtn value = "글 삭제하기" onclick="deleteMatch(${match.mId })" style = "width: 45%; height: 40px; padding: 0px; margin-right: 5%; font-size: 15px;">
+				<c:url var="goUpdateMatch" value="goUpdateMatch.ma">
+				<c:param name="mId" value="${match.mId }"/>
+				<c:param name="teamNo" value="${match.teamNo }"/>
+				<c:param name="mContent" value="${match.mContent }"/>
+				<c:param name="mTitle" value="${match.mTitle }"/>
+				<c:param name="mSystem" value="${match.mSystem }"/>
+				<c:param name="dues" value="${match.dues }"/>
+				<c:param name="mLocationName" value="${match.mLocationName }"/>
+				<c:param name="mLocationX" value="${match.mLocationX }"/>
+				<c:param name="mLocationY" value="${match.mLocationY }"/>
+				<c:param name="mDay" value="${match.mDay }"/>
+				<c:param name="sHour" value="${match.sHour }"/>
+				<c:param name="sMinute" value="${match.sMinute }"/>
+				<c:param name="eHour" value="${match.eHour }"/>
+				<c:param name="eMinute" value="${match.eMinute }"/>
+				</c:url>
+			<input type = button id = modifyBtn value = "글 수정하기" onclick = "location.href='${goUpdateMatch}'" style = "width: 45%; height: 40px; padding: 0px; font-size: 15px;" class="addressB">
+			</c:when>
+			<c:otherwise>
+			</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 
@@ -179,12 +326,13 @@ h6{
 				<table align = "center" >
 					<tr>
 						<img id = "logo" src="resources/images/logo.png" width="50%;" height="300px;" style = "margin-left: 25%; margin-right: 25%;">
+						${match.teamImg } 
 					</tr>
 					<tr>
-						<td colspan="2" style = "width: 100%; text-align: center;">팀 이름 어떻게 받지</td>
+						<td colspan="2" style = "width: 100%; text-align: center;">${match.teamName }</td>
 					</tr>
 					<tr>
-						<td style = "width: 50%; margin-left: 25%; margin-right: 25%;"><button>팀정보 보기</button></td>
+						<td style = "width: 50%; margin-left: 25%; margin-right: 25%;"><button id = "teamView">팀정보 보기</button></td>
 					</tr>
 				</table>
 			</div>
@@ -227,43 +375,75 @@ h6{
 				<div id = "map" style = "width: 420px; height: 400px; float: left; border: 2px solid grey;"></div>
 			</div>
 			
-			
+
 			<div id = btn style = "margin-left: 30%;">
 					<input type = button id = applyingBtn value = "신  청  현  황" style = "margin-right: 26%;" onclick = "showAppMatch();">
 					<input type = button id = recruitBtn value = "돌아가기" onclick = "location.href='goMatch.ma'" style = "margin-right: 1%;">
-					<input type = button id = applyBtn value = "신청하기" onclick = "appMatch()">
+					<div class="con-tooltip bottom">
+						<input type = button id = applyBtn value = "신청하기" onclick = "alert('팀을 선택하세요')">
+						<div class="tooltip">
+							<div id = "teamList">
+							<c:forEach var="team" items="${myTeam }">
+								<c:if test="${team.t_Grade == 1 }">
+									<div class = "selectTeam" onclick = "appMatch(${team.teamNo },'${team.teamName}')" style = "width: 100%; height: 50px; font-size: 15px; text-align: center; font-weight: bold;">${team.teamName }</div>
+								</c:if>
+							</c:forEach>
+							</div>
+							<h6 id = "tlInfo" style = "margin: none; font-size: 13px; text-align: center; ">주장으로 소속된 팀이 없습니다.</h6>
+				        </div>
+					</div>
 			</div>	
-			
-			
-			
-			
+							
 				
 		<div id = "applyDetail" style="display:none; background: white; width: 50%; margin: auto;"> 
 			<table id = "applyDetailTable" style = "width: 50%; margin-left: 25%; margin-right: 25%;">
 				<tr>
-					<td colspan="3" style="border-bottom:3px solid gray; font-size: 2.3em;">
+					<td colspan="4" style="border-bottom:3px solid gray; font-size: 2.3em;">
 						신청현황
 					</td>
 				</tr>
+				<c:choose>
+				<c:when test = "${fn:length(amList) != 0 }">
 				<c:forEach var="appMatch" items="${amList }" varStatus="status">
-				<tr>
+				<tr id = "${appMatch.teamNo }">
+					<td>
+						<input type = "hidden" value ="${appMatch.teamNo }" style = 'disply:none;'/>
+					</td>
 					<td style = "font-size:1.7em; width: 50%;">
-						${appMatch.teamNo }
+						${appMatch.teamName }
+					</td>
+					
+					<td style = "width: 25%;">
+						<c:choose>
+						<c:when test="${loginUser.userNo == match.userNo}">
+						<input type = button id = "matchingBtn" name = "O" value="매칭하기" style="background: black; color:white; font-size: 15px;"
+								 onclick = "confirmAm(${appMatch.teamNo}, ${match.mId},'${appMatch.teamName }', '${appMatch.userName}', ${match.teamNo },
+								  '${match.teamName }', '${match.userName }', '${match.mSystem }', '${match.mLocationName }', '${match.mDay }','${match.sHour }',
+								  '${match.sMinute }','${match.eHour }','${match.eMinute }','${match.dues }')">
+						</c:when>
+						<c:when test="${loginUser.userNo == appMatch.userNo}">
+						<input type = button id = "cancleBtn" name = "O" value="신청취소" style="background: black; color:white; font-size: 15px;" onclick = "cancleAm(${appMatch.teamNo}, ${match.mId})">
+						</c:when>
+						<c:otherwise>
+						</c:otherwise>
+						</c:choose>
 					</td>
 					<td style = "width: 25%;"> 
 						<input type = button id = "detailTeamBtn" name = "O" value="팀상세보기" style="background: black; color:white; font-size: 15px;">
 					</td>
-					<td style = "width: 25%;"> 
-						<input type = button id = "matchingBtn" name = "O" value="매칭하기" style="background: black; color:white; font-size: 15px;" onclick = "">
-					</td>
 				</tr>
 				</c:forEach>
+				</c:when>
+				<c:otherwise>
 				<tr>
-					<td colspan=3 align = right style = "border-bottom: none;">
-						<input type = button id = closeBtn value="닫기" style="font-weight: bold; font-size:2em;">
+					<td id = "noInfo" colspan="4">
+						<h1>신청한 팀이 없습니다.</h1>
 					</td>
 				</tr>
+				</c:otherwise>
+				</c:choose>
 			</table>
+			<input type = button id = closeBtn value="닫기" style="font-weight: bold; font-size:2.5em; padding-left: 90%; margin-bottom: 3%;" onclick = "closeBtn();">
 		</div>
 
 	</div>
@@ -355,6 +535,101 @@ h6{
 </script>
 
 
+<script type="text/javascript">
+
+	function confirmAm(amTeamNo, mId, amTeamName, amUserName, mTeamNo, mTeamName, mUserName, mSystem, mLocationName, mDay, sHour, sMinute, eHour, eMinute, dues){
+		$.ajax({
+			url:"confirmMatching.ma",
+			data:{amTeamNo:amTeamNo,
+				mId:mId, 
+				amTeamName:amTeamName,
+				amUserName:amUserName,
+				mTeamNo:mTeamNo,
+				mTeamName:mTeamName, 
+				mUserName:mUserName,
+				mSystem:mSystem, 
+				mLocationName:mLocationName,
+				mDay:mDay,
+				sHour:sHour,
+				sMinute:sMinute,
+				eHour:eHour,
+				eMinute:eMinute,
+				dues:dues
+			},
+			success:function(data){
+				alert(data+"명에게 문자 돌렷음");
+			},
+			error:function(request, status, errorData){
+				alert("error code: " + request.status + "\n"
+						+"message: " + request.responseText
+						+"error: " + errorData);
+			}
+		})
+		
+	}
+
+	
+	
+
+</script>
+
+
+
+
+
+
+<script type="text/javascript">
+
+	function deleteMatch(mId){
+		if(!confirm("매칭을 삭제하시겠습니까?")){
+			return false;
+		}
+		
+		alert("매칭이 삭제됩니다.");
+		location.href="deleteMatch.ma?mId="+mId;
+	}
+</script>
+
+
+<script type="text/javascript">
+	$(function(){
+		if($("#teamList").children().hasClass("selectTeam")){
+			$("#tlInfo").html("팀을 선택해주세요.");
+		}
+	});
+
+</script>
+
+<script type="text/javascript">
+
+	function cancleAm(tId, mId){
+		if(!confirm("신청을 취소하시겠습니까?")){
+			return false;
+		}
+		
+		$.ajax({
+			url:"cancleAm.ma",
+			data:{mId:mId,
+				tId:tId
+			},
+			success:function(data){
+				
+			},
+			error:function(request, status, errorData){
+				alert("error code: " + request.status + "\n"
+						+"message: " + request.responseText
+						+"error: " + errorData);
+			}
+		})
+
+		$("#"+tId).css("display","none");
+		alert("신청이 취소되었습니다.");
+	}
+
+</script>
+
+
+
 <script	src="https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.js"></script>
 <script type="text/javascript">
 	function showAppMatch(){
@@ -363,31 +638,92 @@ h6{
 
 
 </script>
+<script type="text/javascript">
+	function closeBtn(){
+		$$("#applyDetail").bPopup().close();
+	}
 
+</script>
 
 <script type="text/javascript">
-	function appMatch(){
-		location.href="appMatch.ma?mId="+${match.mId}+"&tId=4";
+	function appMatch(tId, tName){
+	
+		$.ajax({
+			url:"checkAppMatch.ma",
+			data:{mId:${match.mId},
+				tId:tId
+			},
+			success:function(data){
+				if(data>0){
+					alert("이미 신청한 매치입니다.");
+					return false;
+				}
+				
+				if(${match.userNo} == ${loginUser.userNo}){
+					alert("자신의 매치글에 신청할 수 없습니다.");
+					return false;
+				}
+				
+				
+				if(!confirm('팀"'+tName+'"으로 매치를 신청하시겠습니까?')){
+					return false;
+				}
+				
+				
+				$.ajax({
+					url:"appMatch.ma",
+					data:{mId:${match.mId},
+						tId:tId,
+						userNo:${loginUser.userNo}
+					},
+					success:function(data){
+						if(data == "1"){
+							$("#applyDetailTable").append("<tr id = '"+tId+"'>"+
+								"<td>"+
+									"<input type = 'hidden' value ='"+tId+"' style = 'disply:none;'/>"+
+								"</td>"+
+								"<td style = 'font-size:1.7em; width: 50%;'>"+
+									tName+
+								"</td>"+
+								"<td style = 'width: 25%;'> "+
+									"<input type = button id = 'matchingBtn' name = 'O' value='신청취소' style= 'background: black; color:white; font-size: 15px;' onclick = 'cancleAm("+tId+", "+${match.mId}+")'>"+
+								"</td>"+
+								"<td style = 'width: 25%;'> "+
+									"<input type = button id = 'detailTeamBtn' name = 'O' value='팀상세보기' style= 'background: black; color:white; font-size: 15px;'>"+
+								"</td>"+
+							"</tr>")
+						}
+						
+						$("#noInfo").css("display","none");
+						alert("신청이 완료되었습니다.");
+							
+					},
+					error:function(request, status, errorData){
+						alert("error code: " + request.status + "\n"
+								+"message: " + request.responseText
+								+"error: " + errorData);
+					}
+				})
+				
+				
+				
+					
+			},
+			error:function(request, status, errorData){
+				alert("error code: " + request.status + "\n"
+						+"message: " + request.responseText
+						+"error: " + errorData);
+			}
+		})
 		
+		
+
 	}
 
 </script>
 
 
-           
-
-<script type="text/javascript">
-	$$(document).ready(function () {
-                            var hoverHTMLDemoOpenLeft = "zzzzzzzzzzzzzz";
-                        
-    $$("#applyBtn").hovercard({
-        detailsHTML: hoverHTMLDemoOpenLeft,
-        width: 350,
-        openOnRight: true
-    });
-});
-</script>
-
+       
 
 
 

@@ -1,7 +1,29 @@
+<%@page import="com.kh.FIFAOFFLINE.member.model.vo.Member"%>
+<%@page import="com.kh.FIFAOFFLINE.team.model.vo.MyTeam"%>
+<%@page import="java.util.ArrayList"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%
+	ArrayList<MyTeam> mt = (ArrayList)session.getAttribute("myTeam");
+	Member m = (Member)session.getAttribute("loginUser");
+
+	int[] tIdArr = null;
+	
+	boolean flag = false;
+	
+	if(mt != null){
+		tIdArr = new int[mt.size()];
+	
+		for(int i = 0 ; i < mt.size() ; i++){
+			tIdArr[i] = mt.get(i).getTeamNo();
+		}
+	}
+
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -135,6 +157,31 @@ hr.new4 {
 	background-color:white;
 	border:2px solid black;
 }
+
+.addressA:hover{
+   color:white;
+   background: black;
+
+}
+.addressA{
+	color: black;
+	background-color:white;
+	border:2px solid black;
+}
+
+.createBtn{
+	color: black;
+	background-color:white;
+	border:2px solid black;
+}
+
+.createBtn:hover{
+   color:white;
+   background: black;
+
+}
+
+
 .clicked{
    color:white;
    background: black;
@@ -295,14 +342,19 @@ hr.new4 {
 
 <div id = "outer" style = "margin-top:180px;">
 	
-	
-<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; height:780px; margin:auto; padding-bottom:0px;">
-		<div id = "searchContent" style="height:100%; width:100%; border-bottom:3px solid grey;">
+
+<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; height:800px; margin:auto; padding-bottom:0px;">
+		<div id = "searchContent" style="height:100%; width:100%; border-bottom:3px solid grey; margin-top: 100px;">
+
 			<div style = "height: 10%; border-bottom: 2px solid grey;">
-				<h1 style="font-size:45px; margin-bottom: 10px; margin-top: 0px; width: 80%; display: inline-block;">팀원 모집</h1>
+				<h1 style="font-size:45px; margin-bottom: 10px; margin-top: 00px; width: 80%; display: inline-block;">매칭</h1>
 				<div id = "btns" style = "width: 19%;">
-					<button type = "button" style = "width: 45%; height: 100%; padding: 15px; margin-right: 5%; font-size: 15px;" class="addressB">나의 매치</button>
-					<button type = "button" style = "width: 45%; height: 100%; padding: 15px; font-size: 15px;" class="addressB" onclick = "goCreateMatch();">매치 생성</button>
+					<%if(m != null){ %>
+					<button type = "button" id = "myBtn" class = "addressA" style = "width: 45%; height: 100%; padding: 15px; margin-right: 5%; font-size: 15px;" onclick = "showMyMatch()">나의 매치</button>
+					<button type = "button" class = "addressA" style = "align:right; width: 45%; height: 100%; padding: 15px; font-size: 15px;" onclick = "goCreateMatch('${loginUser}')">매치 생성</button>
+					<%}else{ %>
+					<button type = "button" style = "margin-left:35%; align:right; width: 45%; height: 100%; padding: 15px; font-size: 15px;" class="addressA" onclick = "goCreateMatch('${loginUser}')">매치 생성</button>
+					<%} %>
 				</div>			
 			</div>
 
@@ -326,6 +378,7 @@ hr.new4 {
 								<button type = "button" id = "fri" class = "addressB">금</button>
 								<button type = "button" id = "sat" class = "addressB">토</button>
 								<button type = "button" id = "sun" class = "addressB">일</button>
+								
 							</div>
 						</td>
 					</tr>
@@ -334,7 +387,7 @@ hr.new4 {
 							<div id = "matchingSystem" class = "search">
 								<h3>시합 유형</h3>
 								<select id = "mSystem" name = "mSystem">
-									<option value = "">==선택==</option>
+									<option id = "resetSystem" value = "">==선택==</option>
 									<option value = "5 VS 5">5 VS 5</option>
 									<option value = "6 VS 6">6 VS 6</option>
 									<option value = "7 VS 7">7 VS 7</option>
@@ -362,15 +415,19 @@ hr.new4 {
 		</div>
 	</div>
 	
-
+	
 	<div class="ha-waypoint" data-animate-down="ha-header-shrink" data-animate-up="ha-header-show" style = "width: 90%; margin: auto;">
+
+		<c:choose>
+		<c:when test = "${fn:length(mList) != 0 }">
 		<div id = "matchingList">
 			<c:forEach var="match" items="${mList }" varStatus="status">
 				<table id = "matchingTable"  style  = "height: 150px;" onclick = "goMatchDetail(${match.mId});">
 					<tr style = "height: 33%;">
 						<td rowspan="2" style = "width: 20%; height: 80%; text-align: center;">
 							<div id = "teamLogo" style = "width: 60%; margin-left:20%; margin-right: 20%; border: 1px solid red;">
-								<img alt="" src="">
+								<!-- <img alt="" src=""> -->
+								${match.teamImg }
 							</div>
 						</td>
 						<td colspan="3" style = "width: 80%;"><h4>${match.mTitle }</h4></td>
@@ -392,8 +449,8 @@ hr.new4 {
 					<tr style = "height: 33%;">
 						<td style = "width: 20%; text-align: center;">
 							<div id = "teamInfo">
-								<h5>팀이름</h5>
-								<h6>팀장이름</h6>
+								<h5>${match.teamName }</h5>
+								<h6>${match.userName} </h6>
 							</div>
 						</td>
 						<td>
@@ -415,6 +472,15 @@ hr.new4 {
 				</table>
 			</c:forEach>
 		</div>
+		</c:when>
+		<c:otherwise>
+			<div id = "matchingList">
+				<h1 style = "text-align: center; font-size: 30px;">등록된 매치가 존재하지 않습니다.</h1>
+			</div>
+		</c:otherwise>
+		</c:choose>
+
+		
 	</div>
 </div>
 
@@ -429,8 +495,134 @@ hr.new4 {
 
 
 <script type="text/javascript">
-	function goCreateMatch(){
-		location.href="goCreateMatch.ma";
+
+	function showMyMatch(){
+		if($("#myBtn").hasClass('clicked')){
+			showNewList();
+			$("#myBtn").toggleClass('clicked');
+			
+			return false;
+			
+		}
+		
+		$("#myBtn").toggleClass('clicked');
+		
+		var tidArr = new Array();
+		
+		<%if(tIdArr != null && tIdArr.length != 0){%>
+			<%for(int i = 0; i < tIdArr.length ; i++){%>
+				tidArr[<%=i%>] = <%=tIdArr[i]%>;
+			<%}%>
+			
+			$.ajax({
+				url:"showMyList.ma",
+				data:{tidArr:String(tidArr)
+				},
+				success:function(data){
+					
+					$("#matchingList").html("");
+					
+					if(data.length != 0){
+					for(var i in data){
+						$("#matchingList").append("<table id = 'matchingTable'  style  = 'height: 150px;' onclick = 'goMatchDetail("+data[i].mId+");'>"+
+								"<tr style = 'height: 33%;'>"+
+									"<td rowspan='2' style = 'width: 20%; height: 80%; text-align: center;'>"+
+										"<div id = 'teamLogo' style = 'width: 60%; margin-left:20%; margin-right: 20%; border: 1px solid red;'>"+
+											/* "<img alt='' src=''>"+ */
+											data[i].teamImg+
+										"</div>"+
+									"</td>"+
+									"<td colspan='3' style = 'width: 80%;'><h4>"+data[i].mTitle+"</h4></td>"+
+								"</tr>"+
+								"<tr style = 'height: 33%;'>"+
+									"<td style = 'width: 30%;'>"+
+										"<h6>장소</h6>"+
+										"<h5>"+data[i].mLocationName+"</h5>"+
+									"</td>"+
+									"<td style = 'width: 30%;'>"+
+										"<h6>일시</h6>"+
+										"<h5>"+data[i].mDay+"</h5>"+
+									"</td>"+
+									"<td style = 'width: 20%;'>"+
+										"<h6>회비</h6>"+
+										"<h5>"+data[i].dues+"원</h5>"+
+									"</td>"+
+								"</tr>"+
+								"<tr style = 'height: 33%;'>"+
+									"<td style = 'width: 20%; text-align: center;'>"+
+										"<div id = 'teamInfo'>"+
+											"<h5>"+data[i].teamName+"</h5>"+
+											"<h6>"+data[i].userName+"</h6>"+
+										"</div>"+
+									"</td>"+
+									"<td>"+
+										"<h6>유형</h6>"+
+										"<h5>"+data[i].mSystem+"</h5>"+
+									"</td>"+
+									"<td>"+
+										"<h6>시간</h6>"+
+										"<h5>"+data[i].sHour+":"+data[i].sMinute+" ~ "+data[i].eHour+":"+data[i].eMinute+"</h5>"+
+									"</td>"+
+									"<td>"+
+										"<h6>등록일</h6>"+
+										"<h5>"+data[i].createDate+"</h5>"+
+									"</td>"+
+									"<td>"+
+										"<input type='hidden' name = 'mId' value = ''>"+
+									"</td>"+
+								"</tr>"+
+							"</table>");	
+						
+					}
+					}else{
+						$("#matchingList").html("<h1 style = 'text-align: center; font-size: 30px;'>검색 결과가 없습니다.</h1>");
+						
+					}
+					$("#mSystem").val("").prop("selected", true);
+					$("#sDate").val("");
+					$("#eDate").val("");
+					$(".addressB").removeClass("clicked");
+
+				},
+				error:function(request, status, errorData){
+					alert("error code: " + request.status + "\n"
+							+"message: " + request.responseText
+							+"error: " + errorData);
+				}
+			})
+		<%}else{%>
+			alert("소속된 팀이 없습니다.");
+			$("#myBtn").toggleClass('clicked');
+		<%}%>
+		
+	}
+
+</script>
+
+
+
+<script type="text/javascript">
+	function goCreateMatch(loginUser){
+		
+		if(loginUser == ""){
+			alert("로그인이 필요합니다.");
+			return false;
+		}else{
+			<%if(mt == null){%>
+			alert("소속된 팀이 없어 매칭생성이 불가합니다.");
+			<%}else{%>
+				<%for(int i = 0 ; i < mt.size() ; i++){
+					if(mt.get(i).getT_Grade()==1){
+						flag = true;
+					}
+				}%>
+			<%}%>
+		}
+		<%if(flag){%>
+			location.href="goCreateMatch.ma";
+		<%}else{%>
+			alert("주장만이 매칭을 생성할 수 있습니다.");
+		<%}%>
 	}
 
 
@@ -473,6 +665,7 @@ hr.new4 {
 
 	/* 날짜가 선택되었을 시 */
 	$(function(){
+		
 		$("#eDate").change(function(){
 			if($("#sDate").val() == ""){
 				alert("시작날짜를 입력하세요.");
@@ -513,25 +706,7 @@ hr.new4 {
 		if($("#time4").hasClass("clicked")){	time4="Y"	}else{	time4="";	}
 		if($("#time5").hasClass("clicked")){	time5="Y"	}else{	time5="";	}
 		if($("#time6").hasClass("clicked")){	time6="Y"	}else{	time6="";	}
-		
-	/* 	console.log("sDate : "+sDate);
-		console.log("eDate : "+eDate);
-		console.log("mon : "+mon);
-		console.log("tue : "+tue);
-		console.log("wed : "+wed);
-		console.log("thu : "+thu);
-		console.log("fri : "+fri);
-		console.log("sat : "+sat);
-		console.log("sun : "+sun);
-		console.log("mSystem : "+mSystem);
-		console.log("time1 : "+time1);
-		console.log("time2 : "+time2);
-		console.log("time3 : "+time3);
-		console.log("time4 : "+time4);
-		console.log("time5 : "+time5);
-		console.log("time6 : "+time6);
-		console.log("============================="); */
-		
+
 		$.ajax({
 			url:"showNewList.ma",
 			data:{startDate:sDate, endDate:eDate, mon:mon, tue:tue, wed:wed, thu:thu,
@@ -539,14 +714,17 @@ hr.new4 {
 				time2:time2, time3:time3, time4:time4, time5:time5, time6:time6 
 			},
 			success:function(data){
-					alert("실행은 됐음!");
-					$("#matchingList").html("");
+				
+				$("#matchingList").html("");
+				
+				if(data.length != 0){
 				for(var i in data){
-					$("#matchingList").html("<table id = 'matchingTable'  style  = 'height: 150px;' onclick = 'goMatchDetail("+data[i].mId+");'>"+
+					$("#matchingList").append("<table id = 'matchingTable'  style  = 'height: 150px;' onclick = 'goMatchDetail("+data[i].mId+");'>"+
 							"<tr style = 'height: 33%;'>"+
 								"<td rowspan='2' style = 'width: 20%; height: 80%; text-align: center;'>"+
 									"<div id = 'teamLogo' style = 'width: 60%; margin-left:20%; margin-right: 20%; border: 1px solid red;'>"+
-										"<img alt='' src=''>"+
+										/* "<img alt='' src=''>"+ */
+										data[i].teamImg+
 									"</div>"+
 								"</td>"+
 								"<td colspan='3' style = 'width: 80%;'><h4>"+data[i].mTitle+"</h4></td>"+
@@ -568,8 +746,8 @@ hr.new4 {
 							"<tr style = 'height: 33%;'>"+
 								"<td style = 'width: 20%; text-align: center;'>"+
 									"<div id = 'teamInfo'>"+
-										"<h5>팀이름</h5>"+
-										"<h6>팀장이름</h6>"+
+										"<h5>"+data[i].teamName+"</h5>"+
+										"<h6>"+data[i].userName+"</h6>"+
 									"</div>"+
 								"</td>"+
 								"<td>"+
@@ -588,10 +766,12 @@ hr.new4 {
 									"<input type='hidden' name = 'mId' value = ''>"+
 								"</td>"+
 							"</tr>"+
-						"</table>");
-					
+						"</table>");	
 				}
-					
+				}else{
+					$("#matchingList").html("<h1 style = 'text-align: center; font-size: 30px;'>검색 결과가 없습니다.</h1>");
+				}
+				$("#myBtn").removeClass('clicked');
 			},
 			error:function(request, status, errorData){
 				alert("error code: " + request.status + "\n"
@@ -602,6 +782,7 @@ hr.new4 {
 		
 	}
 </script>
+
 
 
 

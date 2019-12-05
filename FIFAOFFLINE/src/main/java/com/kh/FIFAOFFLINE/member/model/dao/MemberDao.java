@@ -21,4 +21,9 @@ public class MemberDao {
 	
 		return sqlSession.insert("memberMapper.insertMember", m);
 	}
+
+	public int checkIdDup(String id) {
+
+		return sqlSession.selectOne("memberMapper.idCheck",id);
+	}
 }

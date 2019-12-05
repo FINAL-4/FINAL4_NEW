@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script
@@ -120,13 +121,12 @@ select{
 	
 }
 #postcodify_search_button {
-	background-color: #f1f1f1;
+	background-color: banana;
 	color: black;
-	border-radius: 16px;
-	width: 150px;
+	border-radius: 15px;
+	margin-top : 20px;
 	height: 40px;
-	text-align: center;
-	border: 1px solid blue;
+	text-align: left;
 	border: none;
 	padding: 10px 16px;
 	font-size: 15px;
@@ -191,7 +191,7 @@ th{
 	
 }
 #joinTdbirth{
-	margin-right : 77px;
+	margin-right : 80px;
 }
 
 .scrollheader {
@@ -303,7 +303,7 @@ canvas
 					</h2>
 					
 					
-					<div style = "border: 2px solid red; width: 55%;  display: inline-block;">
+					<div style = "width: 55%;  display: inline-block;">
 					<table align="center"   >
 						<tr>
 							<th width="200px;">아이디</th>
@@ -334,8 +334,8 @@ canvas
 							<th>생년월일</th>
 							<td>
 								<div id="joinTdbirth">
-									<input type="text" id="birthDay" maxlength="6" name="birthDay" placeholder="191129"
-										style="width: 159px;margin-right:5px;" requi#f53f29>
+									<input type="text" id="birthDay" maxlength="6" name="birthDay" placeholder="ex)191129"
+										style="width: 130px;margin-right:35px;" requi#f53f29>
 										
 									<input id="genderM" type="radio" name="gender" value="M"
 										style="width: 18px; height: 18px;" requi#f53f29 checked>
@@ -367,7 +367,7 @@ canvas
 							<th>이메일</th>
 							<td id="emailPt">
 							<input type="text" name="emailId"
-								style="width: 141px; margin-right: 5px;"
+								style="width: 141px;"
 								requi#f53f29="requi#f53f29">
 							<em>@</em>
 							<input
@@ -376,7 +376,7 @@ canvas
 								placeholder="naver.com">
 							</td>
 							<td><select id="selctEmail" name="selctEmail" class="info"
-								style="width: 150px; margin-left: 0px; height: 40px;"
+								style="width: 150px; margin-left: 0px;"
 								onchange="SetEmailTail(selctEmail.options[this.selectedIndex].value)">
 									<!-- <option value = "notSelected">====선택====</option> -->
 									<option value="naver.com">naver.com</option>
@@ -390,13 +390,16 @@ canvas
 							</select></td>
 						</tr>
 						<tr>
-							<th>주요활동지</th>
-							<td><input type="text" name="address"
+							<th>주소</th>
+							<td><input type="text" name="address1"
 								class="postcodify_address" value="" readonly></td>
-							<td>
-								<button type="button" id="postcodify_search_button"
-									style="size:">검색</button>
+							<td style="text-align:left;">
+								<button type="button" id="postcodify_search_button"><i class="fa fa-search"></i>검색</button>
 							</td>
+						</tr>
+						<tr>
+							<th>상세 주소</th>
+							<td><input type="text" name="address2" class="postcodify_extra_info" value=""></td>
 						</tr>
 
 						<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
@@ -457,7 +460,7 @@ canvas
 							</td>
 							<td>
 								<input type="checkbox" id="DF" name="position" value="DF" style = "width: 20px;">
-								<label for="DF">수격수</label>
+								<label for="DF">수비수</label>
 							</td>
 							<td>
 								<input type="checkbox" id="MF" name="position" value="MF" style = "width: 20px;">
@@ -469,7 +472,7 @@ canvas
 							</td>
 						</tr>
 						
-						<script>
+						<!-- <script>
 function checkboxArr() {
     var checkArr = [];     // 배열 초기화
     $("input[name='position']:checked").each(function(i)){
@@ -487,7 +490,7 @@ function checkboxArr() {
 }
 
 </script>
-						
+ -->						
 					</table>
 					</div>
 					
@@ -508,12 +511,11 @@ function checkboxArr() {
 						<!-- <div class = "btns" id = "joinBtn" onclick = "insertMember();">가입하기</div> 함수방식은 requi#f53f29 적용이안됨 -->
 						<input type="button" class="btns" id="joinBtn"
 							onclick="insertMember()" value="가입하기">
-						<!-- submit 방법 2 -->
-						<!-- submit버튼으로 만들어서 실행해야 input태그들의 requi#f53f29이 발동함 -->
+						
 
-						<!-- InsertMemberServlet 만들러 감 -->
+						
 						<!-- <div class = "btns" id = "goMain" onclick = "goMain();">메인으로</div> -->
-						<input type="button" class="btns" id="goMain" onclick="goMain()"
+						<input type="button" class="btns" id="goMain" onclick="location.href='home.do'"
 							value="메인으로">
 					</div>
 				</form>
@@ -568,12 +570,12 @@ function checkboxArr() {
 		
 		$("#userId").keyup(function() {
 			var userId = $("#userId").val();
-			var idRe = /^[a-z,A-z,0-9]{4,12}$/;
+			var idRe = /^[a-z,A-Z,0-9]{4,12}$/;
 
 			$.ajax({
-				url : "",
+				url : "Du.me",
 				data : {
-					userId : userId
+					id : userId
 				},
 				success : function(data) {
 					if (userId == "") {
@@ -586,7 +588,7 @@ function checkboxArr() {
 						$("#userId").css("border", "2px solid #f53f29");
 						$("#checkId").text("4-12의 영문자,숫자만 입력가능합니다.");
 						idCheck = false;
-					} else if (data > 0) {
+					} else if (data.Usable ==false) {
 						$("#checkId").css("color", "#f53f29");
 						$("#userId").css("border", "2px solid #f53f29");
 						$("#checkId").text("중복된 아이디입니다.");
@@ -598,6 +600,7 @@ function checkboxArr() {
 						idCheck = true;
 					}
 				}
+				
 			});
 		});
 
@@ -716,7 +719,7 @@ function checkboxArr() {
 			} else if (!RRNre.test(rrn)) {
 				$("#checkRRN").css("color", "#f53f29");
 				$("#birthDay").css("border", "2px solid #f53f29");
-				$("#checkRRN").text("정확한 생년월일 8자리");
+				$("#checkRRN").text("정확한 생년월일 6자리");
 				rrnCheck  = false;
 			} else {
 				$("#checkRRN").css("color", "blue");
@@ -770,29 +773,10 @@ function checkboxArr() {
 		
 		
 		
-		// 메인으로 이동 함수
-		function goMain() {
-			location.href = "home.do";
-		}
 		
 		
 		
-		$(".btns").hover(function() {
-			  $(this).css({"cursor": "pointer"});
-			}, function(){
-			 //$(this).css({"background":"black"})
-			});
-
 		
-		$(function() {
-			var BPOPUP = '';
-			$('#idCheck').on('click', function(e) {
-				e.preventDefault();
-				BPOPUP = $('#idCheckPop').bPopup({
-
-				});
-			});
-		});
 	</script>
 
 
