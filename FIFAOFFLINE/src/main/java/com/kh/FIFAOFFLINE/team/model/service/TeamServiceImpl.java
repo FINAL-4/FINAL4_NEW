@@ -132,4 +132,34 @@ public class TeamServiceImpl implements TeamService{
 		// TODO Auto-generated method stub
 		return tDao.insertCreatedTeamMember(tm);
 	}
+
+	@Override
+	public int selectDupAD(int teamNo) {
+		// TODO Auto-generated method stub
+		return tDao.selectDupAd(teamNo);
+	}
+
+	@Override
+	public int selectDupApply(TeamJoinedMember tjm) {
+		// TODO Auto-generated method stub
+		return tDao.selectDupApply(tjm);
+	}
+
+	@Override
+	public int updateCount(int teamNo) {
+		// TODO Auto-generated method stub
+		return tDao.updateCount(teamNo);
+	}
+
+	@Override
+	public int deleteAD() {
+		// TODO Auto-generated method stub
+		return tDao.deleteAD();
+	}
+
+	@Override
+	public int deleteTJM(int teamNo) {
+		// TODO Auto-generated method stub
+		return tDao.deleteTJM(teamNo);
+	}
 }

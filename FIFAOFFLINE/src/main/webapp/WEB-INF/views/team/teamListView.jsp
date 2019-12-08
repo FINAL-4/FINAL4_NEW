@@ -316,7 +316,7 @@ textarea{
   			
 			<h1 style="font-size:48px;">&nbsp;&nbsp;팀원 모집</h1>
 		</div>
-		<button class="createAD" onclick="document.getElementById('createAD').style.display='block'">모집글 작성</button>
+		<button class="createAD" onclick="beforeTeamADCreate()">모집글 작성</button>
 		<button class="createTeam" onclick="location.href='createTeamView.tm'">팀 생성</button>
 	</div>
 	<div class="ha-waypoint" data-animate-down="ha-header-shrink" data-animate-up="ha-header-show" style = "width: 90%; margin: auto;">
@@ -379,7 +379,8 @@ textarea{
       </select>
       <hr>
       <label for="recruitCount"><b>모집할 팀원 수</b></label>
-      <input type="text" placeholder="모집하실 팀원수를 입력하세요." name="recruitCount" required>
+      <input type="text" placeholder="모집하실 팀원수를 입력하세요." name="recruitCount" id="recruitCount" required>
+      <div id="checkCount" class="checkInfo" style="font-size: 0.7em"></div>
 
       <label for="team_Adver"><b>본인의 팀을 홍보하세요.</b></label><br><br>
       <textarea placeholder="팀 구인 광고를 작성하세요" name="teamAdver" cols="175" rows="10" wrap="hard" required></textarea>
@@ -390,7 +391,7 @@ textarea{
 
       <div class="clearfixM">
         <button type="button" onclick="document.getElementById('createAD').style.display='none'" class="cancelbtnM">취소</button>
-        <button type="submit" class="signupbtnM">등록</button>
+        <button type="button" class="signupbtnM" onclick="beforeSubmit()">등록</button>
       </div>
     </div>
   </form>
@@ -449,7 +450,7 @@ $(document).on("click",".teamselector",function(){
 							appendStr += "<td class='teamtest'>"+data.list[i].userName+"</td>";
 							appendStr += "<td class='teamtest'>"+data.list[i].teamArea+"</td>";
 							appendStr += "<td class='teamtest'>"+data.list[i].teamIntro+"</td>";
-							appendStr += "<td class='teamtest'>"+i+"</td>";
+							appendStr += "<td class='teamtest'>"+data.list[i].recruitCount+"</td>";
 							appendStr += "</tr>";
 							appendStr += "<tr class='spacetr'>";
 							appendStr += "</tr>";
@@ -470,7 +471,7 @@ $(document).on("click",".teamselector",function(){
 							appendStr += "<td class='teamtest'>"+data.list[i].userName+"</td>";
 							appendStr += "<td class='teamtest'>"+data.list[i].teamArea+"</td>";
 							appendStr += "<td class='teamtest'>"+data.list[i].teamIntro+"</td>";
-							appendStr += "<td class='teamtest'>"+i+"</td>";
+							appendStr += "<td class='teamtest'>"+data.list[i].recruitCount+"</td>";
 							appendStr += "</tr>";
 							appendStr += "<tr class='spacetr'>";
 							appendStr += "</tr>";
@@ -505,6 +506,74 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+</script>
+<script>
+	var countCheck = false;
+	
+	function beforeTeamADCreate(){
+		if(${myTeam.size()}==3){
+			alert("3개 이상의 팀을 가입하거나 생성할 수 없습니다.");
+		}else{
+			document.getElementById('createAD').style.display='block';
+		}
+	}
+	
+	function beforeSubmit(){
+		var teamNo = $("#myTeam").val();
+		
+		if(teamNo == "0"){
+			alert("팀을 선택하세요");
+		}else{
+		
+		$.ajax({
+			url:"DupAD.tm",
+			data:{teamNo:teamNo},
+			success:function(data){
+				if(data == 1){
+					alert("이미 모집글을 등록하셨습니다.");
+				}else{
+					if(countCheck){
+						$(".modal-contentM").submit();
+					}else{
+						alert("모집 인원수를 확인하세요.");
+					}
+					
+				}
+			}
+		});
+	}
+	}
+	
+	$("#recruitCount").keyup(function() {
+		var recruitCount = $("#recruitCount").val();
+
+		if (recruitCount == "") {
+			$("#checkCount").css("color", "#f53f29");
+			$("#recruitCount").css("border", "2px solid #f53f29");
+			$("#checkCount").text("모집인원을 입력하세요.");
+			countCheck = false;
+		} else if (!($.isNumeric(recruitCount))) {
+			$("#checkCount").css("color", "#f53f29");
+			$("#recruitCount").css("border", "2px solid #f53f29");
+			$("#checkCount").text("숫자만 입력 가능합니다.");
+			countCheck = false;
+		} else if (parseInt(recruitCount) > 11 || parseInt(recruitCount) < 1) {
+			$("#checkCount").css("color", "#f53f29");
+			$("#recruitCount").css("border", "2px solid #f53f29");
+			$("#checkCount").text("1부터 10까지 숫자만 가능합니다.");
+			countCheck = false;
+		}else if (recruitCount.search("0") == 0) {
+			$("#checkCount").css("color", "#f53f29");
+			$("#recruitCount").css("border", "2px solid #f53f29");
+			$("#checkCount").text("앞에 0을 쓰지마세요.");
+			countCheck = false;
+		}else {
+			$("#checkCount").css("color", "blue");
+			$("#recruitCount").css("border", "2px solid blue");
+			countCheck = true;
+		}
+	});
+	
 </script>
 
 

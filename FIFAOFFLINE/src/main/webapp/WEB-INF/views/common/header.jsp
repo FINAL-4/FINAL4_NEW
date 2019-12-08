@@ -18,7 +18,7 @@
 		<script src="js/modernizr.custom.js"></script>
 		
 		<style>	
-		input[type=text], input[type=password] {
+		#loginModal input[type=text], #loginModal input[type=password] {
 		  width: 100%;
 		  padding: 12px 20px;
 		  margin: 8px 0;
@@ -28,7 +28,7 @@
 		  border-radius: 20px;
 		}
 		
-		button {
+		#id01 button {
 		  background-color: #4CAF50;
 		  color: white;
 		  padding: 14px 20px;
@@ -38,7 +38,7 @@
 		  width: 100%;
 		}  
 		 
-		button:hover {
+		#id01 button:hover {
 		  opacity: 0.8;
 		}
 		 
@@ -156,7 +156,12 @@
 					<nav class="menu menu--ama" style = "margin-bottom: 100px;">
 						<!-- <a class="menu__item" href="nlist.do" style = "border: none;"> <span class="menu__item-name">공지    </span></a> -->
 						<a class="menu__item" href="nlist.do" style = "border: none;"> <span class="menu__item-name">공지    </span></a>  
+						<c:if test="${!empty sessionScope.loginUser }">
 						<a class="menu__item" href="tlist.tm" id="teamMenu"> <span class="menu__item-name">팀       </span> </a>
+						</c:if>
+						<c:if test="${empty sessionScope.loginUser }">
+						<a class="menu__item" onclick="document.getElementById('id01').style.display='block'" id= "teamMenu"> <span class="menu__item-name">팀       </span> </a>
+						</c:if>
 						<a class="menu__item" href="playMain.pl" id = "playerMenu" style = "border:none;"> <span class="menu__item-name">용병     </span> </a> 
 						<a class="menu__item" href="goMatch.ma" style = "border: none;"> <span class="menu__item-name">매칭     </span></a>
 						<c:if test="${!empty sessionScope.loginUser }">
@@ -190,7 +195,7 @@
       
     	</div>
 		
-		    <div class="container" >
+		    <div id = "loginModal" class="container" >
 		      <label for="id"><b>ID</b></label>
 		      <input type="text" placeholder="아이디를 입력해주세요." name="userId" required>
 		
