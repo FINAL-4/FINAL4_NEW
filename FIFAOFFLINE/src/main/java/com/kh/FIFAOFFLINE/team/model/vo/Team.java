@@ -17,6 +17,8 @@ public class Team {
 	private int recruitCount;
 	private String resisterDay;
 	private String ad_status;
+	private int memberCount;
+	private String teamRecord;
 	
 	//	1 : N 관계에서만 콜렉션을 써본다.
 	/* 	실 패.
@@ -31,7 +33,7 @@ public class Team {
 
 	public Team(int teamNo, int userNo, String userName, String userId, String profile, String teamName,
 			String teamImage, String teamArea, String teamIntro, String teamAdver, int recruitCount, String resisterDay,
-			String ad_status) {
+			String ad_status, int memberCount, String teamRecord) {
 		super();
 		this.teamNo = teamNo;
 		this.userNo = userNo;
@@ -46,6 +48,8 @@ public class Team {
 		this.recruitCount = recruitCount;
 		this.resisterDay = resisterDay;
 		this.ad_status = ad_status;
+		this.memberCount = memberCount;
+		this.teamRecord = teamRecord;
 	}
 
 	public int getTeamNo() {
@@ -152,13 +156,33 @@ public class Team {
 		this.ad_status = ad_status;
 	}
 
+	public int getMemberCount() {
+		return memberCount;
+	}
+
+	public void setMemberCount(int memberCount) {
+		this.memberCount = memberCount;
+	}
+
+	public String getTeamRecord() {
+		return teamRecord;
+	}
+
+	public void setTeamRecord(String teamRecord) {
+		this.teamRecord = teamRecord;
+	}
+
 	@Override
 	public String toString() {
 		return "Team [teamNo=" + teamNo + ", userNo=" + userNo + ", userName=" + userName + ", userId=" + userId
 				+ ", profile=" + profile + ", teamName=" + teamName + ", teamImage=" + teamImage + ", teamArea="
 				+ teamArea + ", teamIntro=" + teamIntro + ", teamAdver=" + teamAdver + ", recruitCount=" + recruitCount
-				+ ", resisterDay=" + resisterDay + ", ad_status=" + ad_status + "]";
+				+ ", resisterDay=" + resisterDay + ", ad_status=" + ad_status + ", memberCount=" + memberCount
+				+ ", teamRecord=" + teamRecord + "]";
 	}
+
+	
+
 	
 	
 	

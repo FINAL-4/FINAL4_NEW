@@ -221,4 +221,25 @@
   	WHERE TEAM_NO = #{teamNo}
   </delete>
 
+<!-- ===================매칭===================== -->
+	<select id="selectTeam" resultMap="teamResultSet">
+		SELECT *
+		FROM TEAM 
+		WHERE TEAM_NO = #{tId}
+	</select>
+	
+	<select id="selectMemberCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM T_MEMBER
+		WHERE TEAM_NO = #{tId}
+	</select>
+	
+	<select id="selectTeamMember" resultMap="memberResultSet">
+		SELECT *
+		FROM MEMBER M
+		JOIN T_MEMBER TM ON(M.USER_NO=TM.USER_NO)
+		WHERE TM.TEAM_NO = #{tId}	
+	</select>
+<!-- =========================================== -->
+
 </mapper>
