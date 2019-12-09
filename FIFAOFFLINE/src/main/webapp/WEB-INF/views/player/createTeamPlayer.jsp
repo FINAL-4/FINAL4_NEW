@@ -25,6 +25,59 @@
 			},
 			selectable: true,
 			header : {
+				left : 'prev, next',
+				center : 'title',
+				right : 'today,addScheduleBtn' 
+			},
+			select: function(startDate ,endDate){
+			
+				var dateNow = new Date();
+				var year = String(dateNow.getFullYear());
+				var month = String(dateNow.getMonth() + 1);
+				if(dateNow.getDate()<10){
+					var date = "0"+String(dateNow.getDate());
+				}else{
+					var date = String(dateNow.getDate());
+				}
+					
+				dateNow = year+month+date;
+				
+				
+				
+				var dateSelect = startDate.format().split("-");
+				
+				var dateCompare = dateSelect[0]+dateSelect[1]+dateSelect[2];
+				
+			
+				
+				 if(Number(dateNow)>Number(dateCompare)){
+					alert("지난 날짜를 선택할 수 없습니다.");
+					return false;
+				}  
+				
+				if(confirm("날짜를 선택하시겠습니까?") == false){
+					return false;
+				}
+				
+				console.log(startDate.format(), endDate.format());
+				sDate = startDate.format();
+				eDate = endDate.format();
+				$$("#dayInfo").html(sDate);
+				$$("#mDayInfo").val(sDate);
+				$$("#calendar").fullCalendar("refetchEvents");
+				
+ 			}
+		});
+	});
+</script>
+<script type="text/javascript">
+	$$(function(){
+		$$("#calendar").fullCalendar({
+			navLinkDayClick: function(){
+				return false;
+			},
+			selectable: true,
+			header : {
 				left : 'prev,next',
 				center : 'title',
 				right : 'today,addScheduleBtn' 
@@ -142,7 +195,8 @@ body{
 	width : 100%;
 	height: 470px;
 }
-button, button::after {
+button,
+button::after {
 	-webkit-transition: all 0.3s;
 	-moz-transition: all 0.3s;
 	-o-transition: all 0.3s;
@@ -157,19 +211,21 @@ button {
 	font-size: 1.6em;
 	font-weight: bold;
 	margin: 1em auto;
-	padding: 2em 6em;
+	padding: 0px 18px;
 	position: relative;
 	text-transform: uppercase;
 }
-button::before, button::after {
-  background: #fff;
-  content: '';
-  position: absolute;
-  z-index: -1;
+button::before,
+button::after {
+	background: #fff;
+	content: '';
+	position: absolute;
+	z-index: -1;
 }
+
 button:hover {
-  color: black;
-  background: black;
+	color: white;
+	background: black;
 }
 .btns{
 	width: 100%;
@@ -188,19 +244,19 @@ button:hover {
   	color: black;
 }
 .btn::after {
-  /*background-color: #f00;*/
-  height: 100%;
-  left: -35%;
-  top: 0;
-  transform: skew(50deg);
-  transition-duration: 0.6s;
-  transform-origin: top left;
-  width: 0;
+	height: 100%;
+	left: -35%;
+	top: 0;
+	transform: skew(50deg);
+	transition-duration: 0.6s;
+	transform-origin: top left;
+	width: 0;
 }
 .btn:hover:after {
-  height: 100%;
-  width: 135%;
+	height: 100%;
+	width: 135%;
 }
+
 #timeInfoTable{
 	width: 500px;
 	height: 100%;
@@ -330,6 +386,15 @@ input, select{
 						</td>
 					</tr>
 					<tr>
+						<td style = "width:40%; font-size:20ps; text-align:center">용병 모집 팀 </td>
+						<td> <select id="myTeam" style="width:100%;" name="teamNo">
+							<option selected value="0">==팀 선택==</option>
+							<c:forEach var="tArr" items="${tArr}" varStatus="status">
+							<option value="${tArr.teamNo}">${tArr.teamName }</option>
+							</c:forEach>
+						</select> </td>
+					</tr>
+					<tr>
 						<td style = "width: 40%; font-size: 20px; text-align: center">용병 인원 설정</td>
 						<td>
 							<select id = "playerSelect" name = "deadline" style = "width: 100%;">
@@ -351,7 +416,7 @@ input, select{
 					<tr>
 						<td style = "width: 40%; font-size: 20px; text-align: center">참가비</td>
 						<td>
-							<input id ="playerMoney" name = "rMoney" onkeyup="checkNumber(this);" type = "text" maxlength="7">
+							<input id ="playerMoney" name = "rMoney" onkeyup="checkNumber(this);" type = "text" maxlength="7" style = "width : 100%;">
 						</td>
 					</tr>
 					</table>
@@ -528,23 +593,28 @@ input, select{
 			alert("용병 모집 제목을 입력하세요.");
 			$$("#basicLabel").click();
 			return false;
-		}else if($$("#playerMoney").val() == ""){
+		}
+		if($$("#playerMoney").val() == ""){
 			alert("참가비를 입력하세요.");
 			$$("#basicLabel").click();
 			return false;
-		}else if($$("#cplace").html() == "장소를 선택하세요."){
+		}
+		if($$("#cplace").html() == "장소를 선택하세요."){
 			alert("장소를 선택하세요.");
 			$$("#locationLabel").click();
 			return false;
-		}else if($$("#dayInfo").html() == "날짜를 선택하세요."){
+		}
+		if($$("#dayInfo").html() == "날짜를 선택하세요."){
 			alert("날짜를 선택하세요.");
 			$$("#timeLabel").click();
 			return false;
-		}else if($$("#mContent").val() == ""){
+		}
+		if($$("#mContent").val() == ""){
 			alert("남기실 말을 입력하세요.");
 			return false;
-		}
+		} 
 		$$("#createForm").submit();
+		
 	}
 </script>
 	<!-- 카카오 맵 -->
@@ -886,8 +956,9 @@ $(document).ready(function(){
 				$head.attr('class', 'ha-header ' + animClassUp);
 			}
 		}, { offset: '100%' } );
-	} );
+	});
 </script>
+
 <jsp:include page = "../common/footer.jsp"/>
 </body>
 </html>

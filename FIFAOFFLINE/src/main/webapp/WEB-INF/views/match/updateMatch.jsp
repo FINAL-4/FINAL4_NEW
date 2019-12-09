@@ -33,13 +33,36 @@
 			},
 			selectable: true,
 			header : {
-				left : 'prev,next',
+				left : 'prev, next',
 				center : 'title',
 				right : 'today,addScheduleBtn' 
 			},
 			select: function(startDate ,endDate){
+				
+				var dateNow = new Date();
+				var year = String(dateNow.getFullYear());
+				var month = String(dateNow.getMonth() + 1);
+				if(dateNow.getDate()<10){
+					var date = "0"+String(dateNow.getDate());
+				}else{
+					var date = String(dateNow.getDate());
+				}
+					
+				dateNow = year+month+date;
+				
+				
+				
+				var dateSelect = startDate.format().split("-");
+				
+				var dateCompare = dateSelect[0]+dateSelect[1]+dateSelect[2];
+				
 			
-				alert($$(this).parent().parent().hasClass("fc-day-top"));
+				
+				 if(Number(dateNow)>Number(dateCompare)){
+					alert("지난 날짜를 선택할 수 없습니다.");
+					return false;
+				}  
+				
 				
 				if(confirm("날짜를 선택하시겠습니까?") == false){
 					return false;
@@ -214,7 +237,7 @@ button {
   font-size: 1.6em;
   font-weight: bold;
   margin: 1em auto;
-  padding: 2em 6em;
+  padding: 0px 18px;
   position: relative;
   text-transform: uppercase;
 }
@@ -228,7 +251,7 @@ button::after {
 }
 
 button:hover {
-  color: black;
+  color: white;
   background: black;
 }
 
@@ -343,6 +366,15 @@ li{
 input, select{
 	height: 35px;
 	text-align-last:center;
+}
+
+#infoTable input, #infoTable select{
+	width: 400px;
+}
+
+
+table {
+	border-collapse: collapse;
 }
 
 
@@ -609,6 +641,10 @@ input, select{
 		location.href='goMatch.ma';
 	}
 </script>
+
+
+
+
 
 
 <script type="text/javascript">

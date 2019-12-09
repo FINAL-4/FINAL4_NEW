@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.player.model.vo.P_ENROLL;
+import com.kh.FIFAOFFLINE.player.model.vo.P_LIST;
 import com.kh.FIFAOFFLINE.player.model.vo.P_RECRUIT;
 
 @Repository("pDao")
@@ -78,6 +79,12 @@ public class PlayerDao {
 	public int personApply(int userNo) {
 		// System.out.println("DAO 신청 : " + userNo);
 		return sqlSession.update("playerMapper.personApply", userNo);
+	}
+
+	// 신청 하는 거 
+	public int teamPlayApply(P_LIST pl) {
+		//System.out.println("다오 신청 테스트 : " + pl);
+		return sqlSession.insert("playerMapper.teamPlayApply", pl);
 	}
 
 	

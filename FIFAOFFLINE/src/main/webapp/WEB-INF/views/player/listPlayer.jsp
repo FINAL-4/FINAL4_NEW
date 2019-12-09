@@ -387,7 +387,7 @@ div[id^="player"]{
 			    <td class="playList">
 			    	<div style="height:100%; width:80" class="Timgtag">
 			    		<%-- <input type="hidden" value="<%=i%>" class="hiddenTno<%=i%>"> --%>
-			    		<img src="<%=request.getContextPath()%>/resources/images/logo.png" style="width:100%; height:100%; padding-left:25px;">
+			    		<img src="<%=request.getContextPath()%>/resources/images/team/${tp.teamImage}" style="width:100%; height:100%; padding-left:25px;">
 			    	</div>
 			    </td>
 			    <td class="playList">${tp.teamName } </td>

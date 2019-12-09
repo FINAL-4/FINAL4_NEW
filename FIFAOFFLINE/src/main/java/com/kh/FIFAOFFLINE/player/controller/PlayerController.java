@@ -11,18 +11,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.FIFAOFFLINE.member.model.service.MemberService;
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.player.model.exception.PlayerException;
 import com.kh.FIFAOFFLINE.player.model.service.PlayerService;
 import com.kh.FIFAOFFLINE.player.model.vo.P_ENROLL;
+import com.kh.FIFAOFFLINE.player.model.vo.P_LIST;
 import com.kh.FIFAOFFLINE.player.model.vo.P_RECRUIT;
+import com.kh.FIFAOFFLINE.team.model.service.TeamService;
+import com.kh.FIFAOFFLINE.team.model.vo.Team;
 
 @Controller
 public class PlayerController {
 
 	@Autowired
 	private PlayerService pService;
+	@Autowired
+	private TeamService tService;
 	
 	// 용병 메인페이지 (개인용병리스트 + 팀용병리스트)
 	@RequestMapping("playMain.pl")
@@ -74,8 +78,19 @@ public class PlayerController {
 	
 	// 용병 모집 글 작성 페이지(팀)
 	@RequestMapping("playTeamCreate.pl")
-	public String playTeamCreate() {
-		return "player/createTeamPlayer";
+	public ModelAndView playTeamCreate(ModelAndView mv, HttpSession session) { 
+		/* 로그인한 번호를 team 테이블에서 찾아오면 됨 */
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int userNo = loginUser.getUserNo();
+		// System.out.println("컨트롤러 용병 로그인 유저 : " + userNo);
+		
+		ArrayList<Team> tArr = tService.selectTeamLeader(userNo);
+		// System.out.println("컨트롤러 팀 테스트 : " + tArr);
+		mv.addObject("tArr", tArr);
+		mv.setViewName("player/createTeamPlayer");
+		
+		return mv;
+		
 	}
 	
 	// 용병 등록 글 작성 페이지(개인)  
@@ -107,7 +122,6 @@ public class PlayerController {
 	public String playTeamCreate(HttpServletRequest request, P_RECRUIT pr, HttpSession session) {				
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int userNo = loginUser.getUserNo();
-	//	pr.setTeamNo(teamNo);
 		
 		int result = pService.playTeamCreate(pr);
 		// System.out.println("Controller test : " + result);
@@ -203,4 +217,17 @@ public class PlayerController {
 		return mv;
 	}
 	
+	// 신청하기 
+	@RequestMapping("teamPlayApply.pl")
+	public ModelAndView teamPlayApply(ModelAndView mv, HttpServletRequest request, P_LIST pl, HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int userNo = loginUser.getUserNo();
+		
+		int result = pService.teamPlayApply(pl);
+		
+		mv.addObject("userNo", userNo);
+		mv.setViewName("redirect:playMain.pl");
+	
+		return mv;
+	}
 }

@@ -66,7 +66,7 @@
 	margin-top: 2%;
 }
 #recruitBtn, #applyBtn {
-	margin-left : 60px;
+	margin-left : 30px;
 	width:250px;
 	height: 40px;
 	font-size: 1.5em;
@@ -74,6 +74,9 @@
 	background: black;
 	border: 1px solid black;
 	color:white;
+}
+#recruitBtn{
+	margin-left:64%;
 }
 #deleteBtn{
 	background:black;
@@ -102,6 +105,7 @@
 	background: black;
 	color:white;
 	border: 1px solid black;
+	margin-left:31.5%;
 }
 #recruitBtn:hover, #applyBtn:hover, #applyingBtn:hover, #deleteBtn:hover, #modifyBtn:hover{
 	color:black;
@@ -140,6 +144,69 @@ h6{
 	font-size:20px;
 }	
 
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 50%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0,0,0); /* Fallback color */
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	padding-top: 60px;
+}
+/* Modal Content/Box */
+.modal-content {
+	background-color: #fefefe;
+	margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+	border: 1px solid #888;
+	width: 80%; /* Could be more or less, depending on screen size */
+}
+/* The Close Button (x) */
+.close {
+	position: absolute;
+	right: 25px;
+	top: 0;
+	color: #000;
+	font-size: 35px;
+	font-weight: bold;
+}
+.close:hover,
+.close:focus {
+	color: red;
+	cursor: pointer;
+}
+/* Add Zoom Animation */
+.animate {
+	-webkit-animation: animatezoom 0.6s;
+	animation: animatezoom 0.6s
+}
+@-webkit-keyframes animatezoom {
+	from {-webkit-transform: scale(0)} 
+	to {-webkit-transform: scale(1)}
+} 
+@keyframes animatezoom {
+  	from {transform: scale(0)} 
+ 	to {transform: scale(1)}
+}
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+	span.psw {
+		display: block;
+     	float: none;
+  	}
+  	.cancelbtn {
+    	 width: 100%;
+  	}
+}
+/* Extra styles for the cancel button */
+.cancelbtn {
+	width: auto;
+	padding: 10px 18px;
+	background-color: #f44336;
+}
 </style>
 </head>
 <jsp:include page = "../common/header.jsp"/>
@@ -155,12 +222,12 @@ h6{
 			<c:param name="rNum" value="${pRecruit.rNum }"/>
 		</c:url>	
 		<c:if test="${loginUser.userNo == pRecruit.userNo }">				 
-			<input type = button id = deleteBtn value = "글 삭제하기" onclick="location.href='${tplDelte}'">
-			<input type = button id = modifyBtn value = "글 수정하기" onclick = "location.href='${tplModify}'" class="addressB">
+			<input type = button id = deleteBtn value = "글 삭제하기" onclick="deleteBtn()">
+			<input type = button id = modifyBtn value = "글 수정하기" onclick="modifyBtn()" class="addressB">
 		</c:if>
 	</div>
 </div>
-	<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style="height: 800px; width: 90%; border: black; margin: auto;">
+	<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style="height: 850px; width: 90%; border: black; margin: auto;">
 																													<!-- 730 --> 
 		<div id = playContent style = "float:left">																					
 		<table align = center>
@@ -215,47 +282,38 @@ h6{
 			<h6 style = "margin-bottom: 5px;">상세위치 </h6>
 			<div id = "map" style = "width: 420px; height: 400px; float: left; border: 2px solid grey;"></div>
 		</div>
-		<!-- 기능시 구현!
-		글 작성자가 로그인 시 신청하기 버튼 대신  글삭제하기 + 신청현황 보여주기
-		글 작성자 제외 로그인 시 글 삭제하기 + 신청현황 버튼 안보이기  
-		신청하기는 글 작성자 제외 모두 가능 (용병은 같은 팀원에서는 신청하기 못하게 신청하면 원래 같은 팀이라는 문구 나오게) 
-		-->
-			<div id = btn>
-				<input type = button id = applyingBtn value = "신  청  현  황" style="margin-right:26%">
-				<input type = button id = recruitBtn value = "모집 리스트 보기" onclick = "location.href='playMain.pl'">
-				<input type = button id = applyBtn value = "신청하기">
-			</div>
-			
-		
-		<div id = "applyDetail" style="display:none; background: white; width: 50%; margin: auto;"> 
-			<table id = "applyDetailTable" style = "width: 50%; margin-left: 25%; margin-right: 25%;">
-				<tr>
-					<td colspan="3" style="border-bottom:3px solid gray; font-size: 2.3em;">
-						신청현황
-					</td>
-				</tr>
-				<%-- <c:forEach var="appMatch" items="${amList }" varStatus="status"> --%>
-				<tr>
-					<td style = "font-size:1.7em; width: 50%;">
-						<%-- ${appMatch.teamNo } --%>
-						ABCDEFG
-					</td>
-					<td style = "width: 25%;"> 
-						<input type = button id = "detailTeamBtn" name = "O" value="팀상세보기" style="background: black; color:white; font-size: 15px;">
-					</td>
-					<td style = "width: 25%;"> 
-						<input type = button id = "matchingBtn" name = "O" value="매칭하기" style="background: black; color:white; font-size: 15px;" onclick = "">
-					</td>
-				</tr>
-				<%-- </c:forEach> --%>
-				<tr>
-					<td colspan=3 align = right style = "border-bottom: none;">
-						<input type = button id = closeBtn value="닫기" style="font-weight: bold; font-size:2em;">
-					</td>
-				</tr>
-			</table>
+	
+		<div id = btn>
+		<c:url var="tplApply" value="teamPlayApply.pl">
+			<c:param name="rNum" value="${pRecruit.rNum }"/>
+		</c:url>
+			<input type = button id = recruitBtn value = "모집 리스트 보기" onclick = "location.href='playMain.pl'">
+			<input type = button id = applyBtn value = "신청하기" onclick = "applyBtn()"> <br><br><br><br><br>
+		<c:if test="${loginUser.userNo == pRecruit.userNo }">
+			<input type = button id = applyingBtn value = "신  청  현  황" onclick = "document.getElementById('id02').style.display='block'">
+		</c:if>
 		</div>
 	</div>	
+</div>
+
+<div id = id02 class = "modal">
+	<form class="modal-content animate" action="/action_page.php" method="post">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+    </div>
+
+    <div class="container">
+    	<label style="font-size:3em; font-weight: bold; border-bottom: 5px solid grey;"> 신 청 현 황</label> <br><br><br><br>
+    	<div>
+    		user1 
+    		user2
+    		user3
+    		user4
+    	</div>
+    </div>
+
+   
+  </form>
 </div>
 	
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e5f9f6250199748b3a23d7b3d7d88dde&libraries=services"></script>
@@ -337,31 +395,47 @@ h6{
 	});
 </script>
 
-<script	src="https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.js"></script>
-<script type="text/javascript">
-	function showAppMatch(){
-			$$("#applyDetail").bPopup();
-	}
+<!-- 신청 -->
+<script>
+// Get the modal
+var modal = document.getElementById('id01');
 
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
 </script>
-<script type="text/javascript">
-	function appMatch(){
-		location.href="appMatch.ma?mId="+${match.mId}+"&tId=4";
-		
-	}
 
-</script>
 <script type="text/javascript">
-	$$(document).ready(function () {
-                            var hoverHTMLDemoOpenLeft = "zzzzzzzzzzzzzz";
-                        
-    $$("#applyBtn").hovercard({
-        detailsHTML: hoverHTMLDemoOpenLeft,
-        width: 350,
-        openOnRight: true
-    });
-});
+function applyBtn(){
+	var applyBtn = confirm("정말로 신청하시겠습니까 ?");
+	if(applyBtn){
+		location.href='${tplApply}';
+	} else {
+		return false;
+	}
+}
+
+function deleteBtn(){
+	var deleteBtn = confirm("정말로 삭제하시겠습니까 ?");
+	if(deleteBtn){
+		location.href='${tplDelete}';
+	}else{
+		return false;
+	}
+}
+function modifyBtn(){
+var modifyBtn = confirm("정말로 수정하시겠습니까 ?");
+	if(modifyBtn){
+		location.href='${tplModify}';
+	} else {
+		return false;
+	}
+}
 </script>
+
 
 <jsp:include page = "../common/footer.jsp"/>
 </body>

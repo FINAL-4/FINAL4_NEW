@@ -89,7 +89,7 @@ public class TeamDao {
 	}
 
 	public ArrayList<Team> selectTeamLeader(int userNo) {
-		// TODO Auto-generated method stub
+		System.out.println("다오 테스트 : " + userNo);
 		return (ArrayList)sqlSession.selectList("teamMapper.selectTeamLeader", userNo);
 	}
 

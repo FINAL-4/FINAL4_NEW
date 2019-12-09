@@ -23,6 +23,7 @@
 		<result property="teamName" column="TEAM_NAME"/>
 		<result property="teamImage" column="TEAM_IMAGE"/>
 		<result property="userName" column="USER_NAME"/>
+		<result property="userNo" column="USER_NO"/>
 	</resultMap>
 
 	<resultMap type="P_ENROLL" id="enrollResultSet">
@@ -46,6 +47,12 @@
 		<result property="proFile" column="PROFILE"/>
 		<result property="gender" column="GENDER"/>
 		<result property="aCount" column="A_COUNT"/>
+	</resultMap>
+
+	<resultMap type="P_LIST" id="listResultSet">
+		<id property="rNum" column="R_NUM"/>
+		<result property="userNo" column="USER_NO"/>
+		<result property="accept" column="ACCEPT"/>
 	</resultMap>
 	
 	<!-- 팀용병 리스트 보여주기 쿼리문 -->
@@ -137,5 +144,11 @@
   		SET A_COUNT=A_COUNT+1
 		WHERE USER_NO=#{userNo}
   	</update>
+  	
+  	<!-- 신청하기 쿼리문 -->
+  	<insert id="teamPlayApply" parameterType="P_LIST">
+  		INSERT INTO P_LIST
+  		VALUES(#{rNum}, #{userNo}, DEFAULT)
+  	</insert>
 	
 </mapper>
