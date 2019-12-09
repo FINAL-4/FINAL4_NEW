@@ -104,27 +104,12 @@ public class PlayerController {
 	
 	// 용병 모집  
 	@RequestMapping(value = "playCreate.pl", method = RequestMethod.POST)
-	public String playTeamCreate(HttpServletRequest request, P_RECRUIT pr, HttpSession session) {
-		/* 
-		System.out.println("마감 인원 : "+request.getParameter("deadline"));
-		System.out.println("참가비 : "+request.getParameter("rMoney"));
-		System.out.println("========================================");
-		System.out.println("장소 : "+request.getParameter("rPlace"));
-		System.out.println("X좌표 : "+request.getParameter("rPlaceX"));
-		System.out.println("Y좌표 : "+request.getParameter("rPlaceY"));
-		System.out.println("========================================");
-		System.out.println("날짜 : "+request.getParameter("rDay"));
-		System.out.println("시작시간 : "+request.getParameter("rsHour"));
-		System.out.println("시작분 : "+request.getParameter("rsMin"));
-		System.out.println("종료시각 : "+request.getParameter("rfHour"));
-		System.out.println("종료분 : "+request.getParameter("rfMin"));
-		System.out.println("========================================");
-		System.out.println("남기는말 : "+request.getParameter("rContent"));
-		*/
+	public String playTeamCreate(HttpServletRequest request, P_RECRUIT pr, HttpSession session) {				
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int userNo = loginUser.getUserNo();
+	//	pr.setTeamNo(teamNo);
 		
-		
-		int result = pService.playTeamCreate(pr); 
-		
+		int result = pService.playTeamCreate(pr);
 		// System.out.println("Controller test : " + result);
 		if(result > 0) {
 			return "redirect:playMain.pl";			

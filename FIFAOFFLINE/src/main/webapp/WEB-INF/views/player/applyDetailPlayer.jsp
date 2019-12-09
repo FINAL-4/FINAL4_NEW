@@ -153,9 +153,11 @@ h6{
 		</c:url>
 		<c:url var="tplModify" value="teamPlayListModifyView.pl">
 			<c:param name="rNum" value="${pRecruit.rNum }"/>
-		</c:url>					 
+		</c:url>	
+		<c:if test="${loginUser.userNo == pRecruit.userNo }">				 
 			<input type = button id = deleteBtn value = "글 삭제하기" onclick="location.href='${tplDelte}'">
 			<input type = button id = modifyBtn value = "글 수정하기" onclick = "location.href='${tplModify}'" class="addressB">
+		</c:if>
 	</div>
 </div>
 	<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style="height: 800px; width: 90%; border: black; margin: auto;">
