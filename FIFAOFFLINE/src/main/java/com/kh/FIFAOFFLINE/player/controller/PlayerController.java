@@ -206,11 +206,11 @@ public class PlayerController {
 	// 개인 용병 신청 승인
 	@RequestMapping("personApply.pl")
 	public ModelAndView personApply(ModelAndView mv, int userNo, HttpServletRequest request) {
-		System.out.println("컨트롤러 신청 " + userNo);
+		//System.out.println("컨트롤러 신청 " + userNo);
 		int result = pService.personApply(userNo);
 		
 		if(result > 0 ) {
-			System.out.println("컨트롤러 신청 : " + result);
+			//System.out.println("컨트롤러 신청 : " + result);
 			mv.setViewName("redirect:playMain.pl");
 		} else {
 			throw new PlayerException("개인 용병 신청 실패");

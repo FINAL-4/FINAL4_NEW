@@ -76,7 +76,7 @@ public class PlayerDao {
 
 	// 개인 용병 신청 참가횟수 증가
 	public int personApply(int userNo) {
-		System.out.println("DAO 신청 : " + userNo);
+		// System.out.println("DAO 신청 : " + userNo);
 		return sqlSession.update("playerMapper.personApply", userNo);
 	}
 
