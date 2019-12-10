@@ -171,7 +171,7 @@
 								<option value = "goole.com">google.com</option>
 								<option value = "hanmail.net">hanmail.net</option>
 								<option value = "yahoo.com">yahoo.com</option>
-								<option value = "nate">nate.com</option>
+								<option value = "nate.com">nate.com</option>
 								<option value = "hotmail.com">hotmail.com</option>
 								<option value = "daum.net">daum.net</option>
 								<option value = "etc">직접입력</option>
@@ -245,84 +245,126 @@ function SetEmailTailP(emailValue) {
 <script type="text/javascript">
 id = null; 
 pwd = null;
-flag = false;
+
 function sendEmail(idOrPwd){
 
+	
 	if(idOrPwd == "id"){
 		$.ajax({
 			url:"findId.me",
 			data:{
 				userName : $("#nameI").val(),
-				emailId : $("#emailPtI").val(),
-				emailTail : $("#email2I").val()
+				userEmail : $("#emailPtI").val()+"@"+$("#email2I").val()
 			},
 			success : function(data) {
 				if(data == null){
 					$("#infoI").html("일치하는 정보가 없습니다.");
 					$("#infoI").css("color", "red");
-					flag = false;
 				}else{
 					$("#infoI").html("아이디를 이메일로 전송하였습니다.");
 					$("#infoI").css("color", "blue");
 					id = data;
-					flag = true;
+					(function() {
+						if (idOrPwd == "id") {
+							var emailC = {
+								contents : "찾으시는 아이디는 '" + id + "'입니다.",
+								userEmail : $("#emailPtI").val() + "@"
+										+ $("#email2I").val()
+							}
+						} else if (idOrPwd == "pwd") {
+							var emailC = {
+								contents : "임시비밀번호는 '" + pwd + "'입니다.",
+								userEmail : $("#emailPtP").val() + "@"
+										+ $("#email2P").val()
+							}
+						}
+						emailjs.init("user_HlxjcXkwprYA6BotVhghI");
+						emailjs.send("khoffline@gmail.com", "template_dlyBf4qf", emailC)/* pwd:academy!2 */
+								.then(
+										function(response) {
+											console.log("SUCCESS. status=%d, text=%s",
+													response.status, response.text);
+					
+											$.ajax({
+												url : "newPwd.me",
+												data : {
+													userId : $("#idP").val(),
+													userEmail : $("#emailPtP").val()+"@"+$("#email2P").val(),
+													phone : $("#tel0").val()+"-"+$("#tel1").val()+"-"+$("#tel2").val(),
+													newPwd : pwd
+												},
+												success : function(data) {
+													alert("성공");
+												}
+											});
+										}, function(err) {
+											console.log("FAILED. error=", err);
+										});
+					})();
 				}
 			}
 		});
 	}
+	
+	
 	if(idOrPwd == "pwd"){
 		$.ajax({
-			url : "/KH_Groupware/findPwd.me",
+			url : "findPwd.me",
 			data : {
 				userId : $("#idP").val(),
-				emailId : $("#emailPtP").val(),
-				emailTail : $("#email2P").val(),
-				tel0 : $("#tel0").val(),
-				tel1 : $("#tel1").val(),
-				tel2 : $("#tel2").val()
+				userEmail : $("#emailPtP").val()+"@"+$("#email2P").val(),
+				phone : $("#tel0").val()+"-"+$("#tel1").val()+"-"+$("#tel2").val()
 			},
 			success : function(data) {
-				if(data == 0){
+				if(data == "0"){
 					$("#infoP").html("일치하는 정보가 없습니다.");
 					$("#infoP").css("color", "red");
-					flag = false;
 				}else{
 					$("#infoP").html("임시비밀번호를 이메일로 전송하였습니다.");
 					$("#infoP").css("color", "blue");
 					pwd = data;
-					flag = true;
+					(function() {
+						if (idOrPwd == "id") {
+							var emailC = {
+								contents : "찾으시는 아이디는 '" + id + "'입니다.",
+								userEmail : $("#emailPtI").val() + "@"
+										+ $("#email2I").val()
+							}
+						} else if (idOrPwd == "pwd") {
+							var emailC = {
+								contents : "임시비밀번호는 '" + pwd + "'입니다.",
+								userEmail : $("#emailPtP").val() + "@"
+										+ $("#email2P").val()
+							}
+						}
+						emailjs.init("user_HlxjcXkwprYA6BotVhghI");
+						emailjs.send("khoffline@gmail.com", "template_dlyBf4qf", emailC)/* pwd:academy!2 */
+								.then(
+										function(response) {
+											console.log("SUCCESS. status=%d, text=%s",
+													response.status, response.text);
+					
+											$.ajax({
+												url : "newPwd.me",
+												data : {
+													userId : $("#idP").val(),
+													userEmail : $("#emailPtP").val()+"@"+$("#email2P").val(),
+													phone : $("#tel0").val()+"-"+$("#tel1").val()+"-"+$("#tel2").val(),
+													newPwd : pwd
+												},
+												success : function(data) {
+													alert("성공");
+												}
+											});
+										}, function(err) {
+											console.log("FAILED. error=", err);
+										});
+					})();
 				}
 			}
 		});
 	}
 
-
-	if (flag == true) {
-			(function() {
-				if (idOrPwd == "id") {
-					var emailC = {
-						contents : "찾으시는 아이디는 '" + id + "'입니다.",
-						userEmail : $("#emailPtI").val() + "@"
-								+ $("#email2I").val()
-					}
-				} else if (idOrPwd == "pwd") {
-					var emailC = {
-						contents : "임시비밀번호는 '" + pwd + "'입니다.",
-						userEmail : $("#emailPtP").val() + "@"
-								+ $("#email2P").val()
-					}
-				}
-				emailjs.init("user_HlxjcXkwprYA6BotVhghI");
-				emailjs.send("asdhyoo@gmail.com", "template_k2P6Sw73", emailC)
-						.then(
-								function(response) {
-									console.log("SUCCESS. status=%d, text=%s",
-											response.status, response.text);
-								}, function(err) {
-									console.log("FAILED. error=", err);
-								});
-			})();
-		}
 	}
 </script>
 </body>

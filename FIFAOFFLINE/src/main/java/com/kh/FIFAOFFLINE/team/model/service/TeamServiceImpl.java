@@ -99,7 +99,7 @@ public class TeamServiceImpl implements TeamService{
 
 	@Override
 	public ArrayList<Team> selectTeamLeader(int userNo) {
-		// TODO Auto-generated method stub
+		System.out.println("서비스 테스트 : " + userNo);
 		return tDao.selectTeamLeader(userNo);
 	}
 
