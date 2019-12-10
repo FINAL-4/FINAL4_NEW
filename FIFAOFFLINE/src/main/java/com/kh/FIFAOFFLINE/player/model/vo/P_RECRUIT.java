@@ -24,12 +24,13 @@ public class P_RECRUIT {
 	private String teamName;
 	private String teamImage;
 	private String userName;
+	private int userNo;
 	
 	public P_RECRUIT() {}
 
 	public P_RECRUIT(int rNum, int teamNo, String rTitle, String rPlace, String rPlaceX, String rPlaceY, String rDay,
 			String rsHour, String rsMin, String rfHour, String rfMin, String deadline, String rMoney, String rContent,
-			Date rcDate, Date rmDate, String rStatus, String teamName, String teamImage, String userName) {
+			Date rcDate, Date rmDate, String rStatus, String teamName, String teamImage, String userName, int userNo) {
 		super();
 		this.rNum = rNum;
 		this.teamNo = teamNo;
@@ -51,6 +52,7 @@ public class P_RECRUIT {
 		this.teamName = teamName;
 		this.teamImage = teamImage;
 		this.userName = userName;
+		this.userNo = userNo;
 	}
 
 	public int getrNum() {
@@ -213,14 +215,25 @@ public class P_RECRUIT {
 		this.userName = userName;
 	}
 
+	public int getUserNo() {
+		return userNo;
+	}
+
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
+	}
+
 	@Override
 	public String toString() {
 		return "P_RECRUIT [rNum=" + rNum + ", teamNo=" + teamNo + ", rTitle=" + rTitle + ", rPlace=" + rPlace
 				+ ", rPlaceX=" + rPlaceX + ", rPlaceY=" + rPlaceY + ", rDay=" + rDay + ", rsHour=" + rsHour + ", rsMin="
 				+ rsMin + ", rfHour=" + rfHour + ", rfMin=" + rfMin + ", deadline=" + deadline + ", rMoney=" + rMoney
 				+ ", rContent=" + rContent + ", rcDate=" + rcDate + ", rmDate=" + rmDate + ", rStatus=" + rStatus
-				+ ", teamName=" + teamName + ", teamImage=" + teamImage + ", userName=" + userName + "]";
+				+ ", teamName=" + teamName + ", teamImage=" + teamImage + ", userName=" + userName + ", userNo="
+				+ userNo + "]";
 	}
+
+	
 
 	
 	

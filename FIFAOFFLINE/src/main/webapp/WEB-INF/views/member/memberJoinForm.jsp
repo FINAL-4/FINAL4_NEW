@@ -304,7 +304,7 @@ canvas
 					
 					
 					<div style = "width: 55%;  display: inline-block;">
-					<table align="center"   >
+					<table align="center">
 						<tr>
 							<th width="200px;">아이디</th>
 							<td><input id="userId" type="text" maxlength="13"
@@ -401,7 +401,7 @@ canvas
 						</tr>
 						<tr>
 							<th>상세 주소</th>
-							<td><input type="text" name="address2" class="postcodify_extra_info" value=" "></td>
+							<td><input type="text" name="address2" class="postcodify_extra_info" value=""></td>
 						</tr>
 
 						<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
@@ -590,19 +590,18 @@ function checkboxArr() {
 						$("#userId").css("border", "2px solid #f53f29");
 						$("#checkId").text("4-12의 영문자,숫자만 입력가능합니다.");
 						idCheck = false;
-					} else if (data.Usable ==false) {
+					} else if (data.Usable == false) {
 						$("#checkId").css("color", "#f53f29");
 						$("#userId").css("border", "2px solid #f53f29");
 						$("#checkId").text("중복된 아이디입니다.");
 						idCheck = false;
 					} else {
 						$("#checkId").text("사용가능한 아이디입니다.");
-						$("#checkId").css("color", "green");
-						$("#userId").css("border", "2px solid blue");
+						$("#checkId").css("color", "blue");
+						$("#userId").css("border", "2px solid green");
 						idCheck = true;
 					}
 				}
-				
 			});
 		});
 

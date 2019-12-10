@@ -1,5 +1,7 @@
 package com.kh.FIFAOFFLINE.member.model.service;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,33 @@ public class MemberServiceImpl implements MemberService{
 		
 		return  mDao.checkIdDup(id);
 	}
+	@Override
+	public int updateMember(Member m) {
+		
+		return mDao.updateMember(m);
+	}
+	
+	@Override
+	public int loginCheck(Member m) {
+		
+		return mDao.loginCheck(m);
+	}
+	@Override
+	public String findId(Member m) {
+		
+		return mDao.findId(m);
+	}
+	@Override
+	public int findPwd(Member m) {
+		
+		return mDao.findPwd(m);
+	}
+	@Override
+	public int newPwd(HashMap hm) {
+		
+		return mDao.newPwd(hm);
+	}
+
 	
 	
 	

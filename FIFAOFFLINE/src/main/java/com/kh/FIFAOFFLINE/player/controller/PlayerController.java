@@ -1,8 +1,10 @@
 package com.kh.FIFAOFFLINE.player.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,18 +13,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.FIFAOFFLINE.member.model.service.MemberService;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.player.model.exception.PlayerException;
 import com.kh.FIFAOFFLINE.player.model.service.PlayerService;
 import com.kh.FIFAOFFLINE.player.model.vo.P_ENROLL;
+import com.kh.FIFAOFFLINE.player.model.vo.P_LIST;
 import com.kh.FIFAOFFLINE.player.model.vo.P_RECRUIT;
+import com.kh.FIFAOFFLINE.team.model.service.TeamService;
+import com.kh.FIFAOFFLINE.team.model.vo.Team;
 
 @Controller
 public class PlayerController {
 
 	@Autowired
 	private PlayerService pService;
+	@Autowired
+	private TeamService tService;
 	
 	// 용병 메인페이지 (개인용병리스트 + 팀용병리스트)
 	@RequestMapping("playMain.pl")
@@ -61,10 +70,13 @@ public class PlayerController {
 	@RequestMapping("playTeamDetail.pl")
 	public ModelAndView playTeamDetail(ModelAndView mv, int rNum) {
 		P_RECRUIT pRecruit = pService.playTeamDetail(rNum);
+		ArrayList<P_LIST> pList = pService.applyList(rNum);
 		
 		// System.out.println("controller test rNum : " + rNum);
 		if(pRecruit != null) {
+			// System.out.println("컨트롤러 신청 리스트 : " + pList);
 			mv.addObject("pRecruit", pRecruit);
+			mv.addObject("pList",pList);
 			mv.setViewName("player/applyDetailPlayer");
 		} else {
 			throw new PlayerException("용병 모집 글 디테일 보기 실패");
@@ -74,8 +86,19 @@ public class PlayerController {
 	
 	// 용병 모집 글 작성 페이지(팀)
 	@RequestMapping("playTeamCreate.pl")
-	public String playTeamCreate() {
-		return "player/createTeamPlayer";
+	public ModelAndView playTeamCreate(ModelAndView mv, HttpSession session) { 
+		/* 로그인한 번호를 team 테이블에서 찾아오면 됨 */
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int userNo = loginUser.getUserNo();
+		// System.out.println("컨트롤러 용병 로그인 유저 : " + userNo);
+		
+		ArrayList<Team> tArr = tService.selectTeamLeader(userNo);
+		// System.out.println("컨트롤러 팀 테스트 : " + tArr);
+		mv.addObject("tArr", tArr);
+		mv.setViewName("player/createTeamPlayer");
+		
+		return mv;
+		
 	}
 	
 	// 용병 등록 글 작성 페이지(개인)  
@@ -104,27 +127,11 @@ public class PlayerController {
 	
 	// 용병 모집  
 	@RequestMapping(value = "playCreate.pl", method = RequestMethod.POST)
-	public String playTeamCreate(HttpServletRequest request, P_RECRUIT pr, HttpSession session) {
-		/* 
-		System.out.println("마감 인원 : "+request.getParameter("deadline"));
-		System.out.println("참가비 : "+request.getParameter("rMoney"));
-		System.out.println("========================================");
-		System.out.println("장소 : "+request.getParameter("rPlace"));
-		System.out.println("X좌표 : "+request.getParameter("rPlaceX"));
-		System.out.println("Y좌표 : "+request.getParameter("rPlaceY"));
-		System.out.println("========================================");
-		System.out.println("날짜 : "+request.getParameter("rDay"));
-		System.out.println("시작시간 : "+request.getParameter("rsHour"));
-		System.out.println("시작분 : "+request.getParameter("rsMin"));
-		System.out.println("종료시각 : "+request.getParameter("rfHour"));
-		System.out.println("종료분 : "+request.getParameter("rfMin"));
-		System.out.println("========================================");
-		System.out.println("남기는말 : "+request.getParameter("rContent"));
-		*/
+	public String playTeamCreate(HttpServletRequest request, P_RECRUIT pr, HttpSession session) {				
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int userNo = loginUser.getUserNo();
 		
-		
-		int result = pService.playTeamCreate(pr); 
-		
+		int result = pService.playTeamCreate(pr);
 		// System.out.println("Controller test : " + result);
 		if(result > 0) {
 			return "redirect:playMain.pl";			
@@ -218,4 +225,45 @@ public class PlayerController {
 		return mv;
 	}
 	
+	
+	// 팀 모집글에 신청하기
+	@RequestMapping("teamPlayApply.pl") 
+	public ModelAndView teamPlayApply(ModelAndView mv, HttpServletRequest request, P_LIST pl, HttpSession session) { 
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int userNo = loginUser.getUserNo();
+		int result = pService.teamPlayApply(pl);
+	 
+		mv.addObject("pl", pl); 
+		mv.setViewName("redirect:playMain.pl");
+		return mv;
+	}
+	
+	// 팀 모집글에 신청하기 
+	@RequestMapping("ajaxApplyPlayer.pl")
+	public void ajaxApplyPlayer(P_LIST pl, HttpServletResponse response) throws JsonIOException, IOException {
+		int aap = pService.ajaxApplyPlayer(pl);
+		
+	//	System.out.println("컨트롤러 신청 테스트 : " + pl);
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(aap,response.getWriter());
+	}
+	
+	// 개인 용병 글에 신청하기
+	@RequestMapping("ajaxApplyPerson.pl")
+	public void ajaxApplyPerson(P_ENROLL pe, HttpServletResponse response) throws JsonIOException, IOException {
+		int aap = pService.ajaxApplyPerson(pe);
+	
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(aap,response.getWriter());
+	}
+	
+	// 팀 용병 등록 글 중복 확인
+	@RequestMapping("checkTeamSelect.pl")
+	public void checkTeamSelect(HttpServletResponse response, int mt) throws JsonIOException, IOException {
+		response.setContentType("application/json; charset=utf-8");
+		
+		int result = pService.checkTeamSelect(mt);
+		
+		new Gson().toJson(result, response.getWriter());
+	}
 }
