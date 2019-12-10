@@ -321,7 +321,7 @@ h6{
 						if(confirmFlag){
 							location.href="personApply.pl?userNo="+userNo+"&eNum="+eNum;
 						} else {
-							alert("취소");
+							alert("");
 						}
 					}
 				}
