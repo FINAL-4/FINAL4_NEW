@@ -25,6 +25,59 @@
 			},
 			selectable: true,
 			header : {
+				left : 'prev, next',
+				center : 'title',
+				right : 'today,addScheduleBtn' 
+			},
+			select: function(startDate ,endDate){
+			
+				var dateNow = new Date();
+				var year = String(dateNow.getFullYear());
+				var month = String(dateNow.getMonth() + 1);
+				if(dateNow.getDate()<10){
+					var date = "0"+String(dateNow.getDate());
+				}else{
+					var date = String(dateNow.getDate());
+				}
+					
+				dateNow = year+month+date;
+				
+				
+				
+				var dateSelect = startDate.format().split("-");
+				
+				var dateCompare = dateSelect[0]+dateSelect[1]+dateSelect[2];
+				
+			
+				
+				 if(Number(dateNow)>Number(dateCompare)){
+					alert("지난 날짜를 선택할 수 없습니다.");
+					return false;
+				}  
+				
+				if(confirm("날짜를 선택하시겠습니까?") == false){
+					return false;
+				}
+				
+				console.log(startDate.format(), endDate.format());
+				sDate = startDate.format();
+				eDate = endDate.format();
+				$$("#dayInfo").html(sDate);
+				$$("#mDayInfo").val(sDate);
+				$$("#calendar").fullCalendar("refetchEvents");
+				
+ 			}
+		});
+	});
+</script>
+<script type="text/javascript">
+	$$(function(){
+		$$("#calendar").fullCalendar({
+			navLinkDayClick: function(){
+				return false;
+			},
+			selectable: true,
+			header : {
 				left : 'prev,next',
 				center : 'title',
 				right : 'today,addScheduleBtn' 
@@ -142,7 +195,8 @@ body{
 	width : 100%;
 	height: 470px;
 }
-button, button::after {
+button,
+button::after {
 	-webkit-transition: all 0.3s;
 	-moz-transition: all 0.3s;
 	-o-transition: all 0.3s;
@@ -157,19 +211,21 @@ button {
 	font-size: 1.6em;
 	font-weight: bold;
 	margin: 1em auto;
-	padding: 2em 6em;
+	padding: 0px 18px;
 	position: relative;
 	text-transform: uppercase;
 }
-button::before, button::after {
-  background: #fff;
-  content: '';
-  position: absolute;
-  z-index: -1;
+button::before,
+button::after {
+	background: #fff;
+	content: '';
+	position: absolute;
+	z-index: -1;
 }
+
 button:hover {
-  color: black;
-  background: black;
+	color: white;
+	background: black;
 }
 .btns{
 	width: 100%;
@@ -188,18 +244,17 @@ button:hover {
   	color: black;
 }
 .btn::after {
-  /*background-color: #f00;*/
-  height: 100%;
-  left: -35%;
-  top: 0;
-  transform: skew(50deg);
-  transition-duration: 0.6s;
-  transform-origin: top left;
-  width: 0;
+	height: 100%;
+	left: -35%;
+	top: 0;
+	transform: skew(50deg);
+	transition-duration: 0.6s;
+	transform-origin: top left;
+	width: 0;
 }
 .btn:hover:after {
-  height: 100%;
-  width: 135%;
+	height: 100%;
+	width: 135%;
 }
 #timeInfoTable{
 	width: 500px;
@@ -334,7 +389,7 @@ input, select{
 						<td style = "width:40%; font-size : 20px; text-align:center"> 매너 </td>
 						<td> 
 							<select id = manner name = "eManner" style = "width: 400px; text-align: center;">
-								<option value="0">${pe.eManner }</option>
+								<option value="${pe.eManner }">${pe.eManner }</option>
 								<option value="상">상</option>
 								<option value="중">중</option>
 								<option value="하">하</option>
@@ -345,7 +400,7 @@ input, select{
 						<td style = "width:40%; font-size : 20px; text-align:center"> 실력 </td>
 						<td>
 							<select id = skill name = "eSkill" style = "width: 400px; text-align: center;">
-								<option value="0">${pe.eSkill }</option>
+								<option value="${pe.eSkill }">${pe.eSkill }</option>
 								<option value="상">상</option>
 								<option value="중">중</option>
 								<option value="하">하</option>
@@ -385,7 +440,7 @@ input, select{
 							<td style = "width: 500%">
 								<h6 style = "margin: 0px;">선택된 장소</h6>
 								<h3 id = "cplace" style = "margin-top: 2px;">${pe.ePlace }</h3>
-								<input id = "cplaceName" name = "ePlace" style = "display: none;"></input>
+								<input id = "cplaceName" name = "ePlace" style = "display: none;" value="${pe.ePlace }"></input>
 								<input id = "cplaceX" name = "ePlaceX" value="${pe.ePlaceX }" style = "display: none;"></input>
 								<input id = "cplaceY" name = "ePlaceY" value="${pe.ePlaceY }" style = "display: none;"></input>
 							</td>
@@ -432,7 +487,7 @@ input, select{
 							<td style = "width: 40%"><h6 style = "margin: 0px;">선택된 날짜</h6>
 							<h4 id = "dayInfo" style = "font-size: 22px; margin-top: 0px; margin-bottom: 0px;">${pe.eDay }</h4></td>
 							<td style = "width: 40%">
-							<input type = "text" id = "mDayInfo" name = "eDay" style = "display: none;"></input>
+							<input type = "text" id = "mDayInfo" name = "eDay" style = "display: none;" value="${pe.eDay }"></input>
 							</td>
 						</tr>
 						<tr>
@@ -485,14 +540,14 @@ input, select{
 					<textarea id = "mContent" name = "eContent" rows="10" cols="80" style = "resize: none;">${pe.eContent }</textarea>
 				</div>
 				<div class = "btns" align="center">
+		</form>
 					<button type="button"
 						class="btn btn-default btn res-btn-orange"
 						data-class=".res-form-four">Back</button>
-					<button class="btn" onclick = "submitModify();" data-class=".res-form-four">Submit</button>
+					<button type=button class="btn" onclick = "submitModify();" data-class=".res-form-four">Submit</button>
 				</div>
 		</div>
 		</div>
-		</form>
 	</div>
 	</div>
 </div>

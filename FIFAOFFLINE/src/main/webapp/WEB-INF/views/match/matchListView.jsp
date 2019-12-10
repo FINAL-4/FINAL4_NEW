@@ -222,8 +222,6 @@ hr.new4 {
 
 .search{
 	padding: 0%;
-	
-	
 	margin-left: 5%; 
 	margin-right: 5%;
 }
@@ -243,7 +241,6 @@ hr.new4 {
 }
 
 #matchingDate input{
-	margin-top:2%;
 	border: none;
 	background: white;
 	width: 30%;
@@ -252,7 +249,6 @@ hr.new4 {
 }
 
 #matchingSystem select{
-	margin-top:2%;
 	border: none;
 	background: white;
 	width: 60%;
@@ -261,23 +257,27 @@ hr.new4 {
 }
 
 #matchingDay button{
-	font-size: 15px;
+	font-size: 20px;
 	width: 10%;
 	margin-left:1%;
 	margin-right:1%;
 	height: 8%;
 	text-align: center;
 	border: none;
+	padding-bottom: 5px;
+	padding-top: 5px;
 }
 
 #matchingTime button{
-	font-size: 15px;
+	font-size: 20px;
 	width: 13%;
 	margin-left:1%;
 	margin-right:1%;
 	height: 8%;
 	text-align: center;
 	border: none;
+	padding-bottom: 5px;
+	padding-top: 5px;
 }
 
 #matchingSystem{
@@ -333,6 +333,17 @@ hr.new4 {
 	cursor: pointer;
 }
 
+.ingStatus{
+	padding-top:80px;
+/* 	margin-top:20px;    */ 
+	-webkit-transform: rotate(10deg);
+    -moz-transform: rotate(10deg);
+}
+
+.ingDiv:hover{
+	cursor: pointer;
+	background: white;
+}
 
 </style>
 </head>
@@ -378,7 +389,6 @@ hr.new4 {
 								<button type = "button" id = "fri" class = "addressB">금</button>
 								<button type = "button" id = "sat" class = "addressB">토</button>
 								<button type = "button" id = "sun" class = "addressB">일</button>
-								
 							</div>
 						</td>
 					</tr>
@@ -422,12 +432,12 @@ hr.new4 {
 		<c:when test = "${fn:length(mList) != 0 }">
 		<div id = "matchingList">
 			<c:forEach var="match" items="${mList }" varStatus="status">
+				<div style = "position: relative; z-index: 1;">
 				<table id = "matchingTable"  style  = "height: 150px;" onclick = "goMatchDetail(${match.mId});">
 					<tr style = "height: 33%;">
 						<td rowspan="2" style = "width: 20%; height: 80%; text-align: center;">
-							<div id = "teamLogo" style = "width: 60%; margin-left:20%; margin-right: 20%; border: 1px solid red;">
-								<!-- <img alt="" src=""> -->
-								${match.teamImg }
+							<div id = "teamLogo" style = "width: 60%; margin-left:20%; margin-right: 20%;">
+								<img id = "logo" src="resources/images/team/${match.teamImg }" style = "border: 1px solid lightgrey; width: 80%; height: 100px;">
 							</div>
 						</td>
 						<td colspan="3" style = "width: 80%;"><h4>${match.mTitle }</h4></td>
@@ -470,6 +480,14 @@ hr.new4 {
 						</td>
 					</tr>
 				</table>
+				</div>
+				<c:if test="${match.mStatus == 'ING' }">
+					<div class = "ingDiv" style = "position: relative; z-index: 2; background: black; height: 150px; top: -185px; margin-bottom: -150px; opacity: 0.3;" onclick="goMatchDetail(${match.mId});">
+						<div style = "margin-left: 45%;">
+							<h1 class = "ingStatus"style  = "color: white; font-size: 80px; margin-top: 0px; margin-bottom: 0px;">진행 중</h1>
+						</div>
+					</div>
+				</c:if>
 			</c:forEach>
 		</div>
 		</c:when>
@@ -527,9 +545,8 @@ hr.new4 {
 						$("#matchingList").append("<table id = 'matchingTable'  style  = 'height: 150px;' onclick = 'goMatchDetail("+data[i].mId+");'>"+
 								"<tr style = 'height: 33%;'>"+
 									"<td rowspan='2' style = 'width: 20%; height: 80%; text-align: center;'>"+
-										"<div id = 'teamLogo' style = 'width: 60%; margin-left:20%; margin-right: 20%; border: 1px solid red;'>"+
-											/* "<img alt='' src=''>"+ */
-											data[i].teamImg+
+										"<div id = 'teamLogo' style = 'width: 60%; margin-left:20%; margin-right: 20%; '>"+
+										"<img id = 'logo' src='resources/images/team/"+data[i].teamImg+"' style = 'border: 1px solid lightgrey; width: 80%; height: 100px;'>"+
 										"</div>"+
 									"</td>"+
 									"<td colspan='3' style = 'width: 80%;'><h4>"+data[i].mTitle+"</h4></td>"+
@@ -572,7 +589,13 @@ hr.new4 {
 									"</td>"+
 								"</tr>"+
 							"</table>");	
-						
+							if(data[i].mStatus == 'ING'){
+								$("#matchingList").append("<div class = 'ingDiv' style = 'position: relative; z-index: 2; background: black; height: 150px; top: -185px; margin-bottom: -150px; opacity: 0.3;' onclick='goMatchDetail("+data[i].mId+");'>"+
+								"<div style = 'margin-left: 45%;'>"+
+									"<h1 class = 'ingStatus' style  = 'color: white; font-size: 80px; margin-top: 0px; margin-bottom: 0px;'>진행 중</h1>"+
+								"</div>"+
+							"</div>");
+							}
 					}
 					}else{
 						$("#matchingList").html("<h1 style = 'text-align: center; font-size: 30px;'>검색 결과가 없습니다.</h1>");
@@ -722,9 +745,8 @@ hr.new4 {
 					$("#matchingList").append("<table id = 'matchingTable'  style  = 'height: 150px;' onclick = 'goMatchDetail("+data[i].mId+");'>"+
 							"<tr style = 'height: 33%;'>"+
 								"<td rowspan='2' style = 'width: 20%; height: 80%; text-align: center;'>"+
-									"<div id = 'teamLogo' style = 'width: 60%; margin-left:20%; margin-right: 20%; border: 1px solid red;'>"+
-										/* "<img alt='' src=''>"+ */
-										data[i].teamImg+
+									"<div id = 'teamLogo' style = 'width: 60%; margin-left:20%; margin-right: 20%;'>"+
+										"<img id = 'logo' src='resources/images/team/"+data[i].teamImg+"' style = 'border: 1px solid lightgrey; width: 80%; height: 100px;'>"+
 									"</div>"+
 								"</td>"+
 								"<td colspan='3' style = 'width: 80%;'><h4>"+data[i].mTitle+"</h4></td>"+
@@ -767,6 +789,14 @@ hr.new4 {
 								"</td>"+
 							"</tr>"+
 						"</table>");	
+						if(data[i].mStatus == 'ING'){
+							$("#matchingList").append("<div class = 'ingDiv' style = 'position: relative; z-index: 2; background: black; height: 150px; top: -185px; margin-bottom: -150px; opacity: 0.3;' onclick='goMatchDetail("+data[i].mId+");'>"+
+							"<div style = 'margin-left: 45%;'>"+
+								"<h1 class = 'ingStatus' style  = 'color: white; font-size: 80px; margin-top: 0px; margin-bottom: 0px;'>진행 중</h1>"+
+							"</div>"+
+						"</div>");
+						}
+					
 				}
 				}else{
 					$("#matchingList").html("<h1 style = 'text-align: center; font-size: 30px;'>검색 결과가 없습니다.</h1>");

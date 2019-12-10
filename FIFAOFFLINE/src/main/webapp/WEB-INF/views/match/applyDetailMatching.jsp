@@ -281,8 +281,159 @@ h6{
 		  transform: rotate(180deg);
 		}
 		
-		/* ---------------------------------------- 툴팁  종료-------------------------------------*/
+		.right:hover {transform: translateX(6px); }
+		
+		.right .tooltip { top:-500%; left:115%; }
 
+		.right .tooltip::after{
+		  top:40%;
+		  left:-12%;
+		  transform: rotate(90deg);
+		}
+		
+		/* ---------------------------------------- 툴팁  종료-------------------------------------*/
+	/* ===============팀정보 보기====================== */
+	#showTeamInfo{
+		border: 1px solid lightgrey;
+		width: 45%;
+		height: 300px;
+		background: white;
+		display: none;
+		padding: 20px;
+	}
+	
+	#teamImgDiv{
+		width: 30%;
+		margin-left:3%;
+		height: 260px;
+		display: inline-block;
+		float: left;
+	}
+	
+	#teamInfoDiv{
+		margin-left:5%;
+		width: 55%;
+		height: 260px;
+		display: inline-block;
+		float: left;
+	}
+	
+	#teamInfoTb{
+		width: 100%;
+		height: 100%;
+		border-collapse: collapse;
+		
+	}
+	
+	#teamInfoTb td{
+		padding-top: 3px;
+		border-bottom: 2px solid lightgrey;
+		vertical-align: top;
+	}
+	
+	#teamInfoTb textarea{
+		width: 100%;
+		height: 100%;
+		resize: none;
+		font-size: 15px;
+		background: white;
+		border: 1px solid white;
+	}
+	#teamInfoTb button{
+		width: 100%;
+		height: 100%;
+		font-size: 15px;
+		background: black;
+		color:white;
+		border: 1px solid black;
+		font-weight: bold;
+	}
+	
+	#teamInfoTb button:hover{
+		width: 100%;
+		height: 100%;
+		font-size: 15px;
+		background: white;
+		color:black;
+		border: 1px solid black;
+	}
+	
+	
+	#showTeamInfo h2{
+		margin-bottom: 0px;
+		margin-top: 0px;
+		font-size: 28px;
+		font-weight: bold;
+	}
+	
+	#showTeamInfo h3{
+		margin-bottom: 0px;
+		margin-top: 0px;
+		font-size: 18px;
+		font-weight: bold;
+	}
+	
+	#showTeamInfo h4{
+		margin-bottom: 0px;
+		margin-top: 0px;
+		font-size: 18px;
+	}
+	
+	#xDiv{
+		display: inline-block;
+	}
+	
+	#memberInfoTb{
+		color : black;
+		text-align: center;	
+		border-collapse: collapse;
+	}
+	
+	/* ============================================ */
+	
+	#inputResultTb{
+		border-collapse: collapse;
+		border-bottom: 2px solid lightgrey;
+	}
+	
+
+	#inputResultTb h1{
+		border-bottom: 2px solid lightgrey;
+		font-size : 30px;
+		margin-top: 0px;
+		margin-bottom: 0px;
+	}
+	
+	#inputResultTb h2{
+		font-size: 25px;
+		margin-top: 0px;
+		margin-bottom: 0px;
+	}
+	
+	#inputResultTb input{
+		font-size: 25px;
+		height: 25px;
+		width: 60px;
+		text-align-last:center;
+	}
+	
+	#inputResultTb button{
+		width: 60px;
+		height: 25px;
+		font-size: 15px;
+		margin-left: 5px;
+		margin-right: 5px;
+		background: black;
+		color: white;
+		border: 1px solid black; 
+	}
+	
+	#inputResultTb button:hover{
+		background: white;
+		color: black;
+		cursor: pointer;
+	}
+	
 </style>
 </head>
 <jsp:include page = "../common/header.jsp"/>
@@ -292,7 +443,7 @@ h6{
 		<h4 style="font-size:45px; margin-bottom: 10px; margin-top: 0px; width: 85%; display: inline-block;">${match.mTitle }</h4>
 		<div style = "width: 14%; display: inline-block;">
 			<c:choose>
-			<c:when test="${loginUser.userNo == match.userNo}">
+			<c:when test="${loginUser.userNo == match.userNo and match.mStatus == 'Y'}">
 			<input type = button id = deleteBtn value = "글 삭제하기" onclick="deleteMatch(${match.mId })" style = "width: 45%; height: 40px; padding: 0px; margin-right: 5%; font-size: 15px;">
 				<c:url var="goUpdateMatch" value="goUpdateMatch.ma">
 				<c:param name="mId" value="${match.mId }"/>
@@ -318,21 +469,27 @@ h6{
 		</div>
 	</div>
 
+
+
+
 	<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style="height: 780px; width: 100%; border: black; margin: auto;">																									<!-- 730 -->
+			<c:forEach var = "appMatch" items="${amList }" varStatus="status">
+				<c:if test="${appMatch.teamNo == match.mtId }">
+					<c:set var="am" value="${appMatch }" scope="page"/>
+				</c:if>
+			</c:forEach>
 		
-	
 			<div id = teamContent style = "float:left;"> 
 				<h6>팀정보</h6>
 				<table align = "center" >
 					<tr>
-						<img id = "logo" src="resources/images/logo.png" width="50%;" height="300px;" style = "margin-left: 25%; margin-right: 25%;">
-						${match.teamImg } 
+						<img id = "logo" src="resources/images/team/${match.teamImg }" width="90%;" height="300px;" style = "margin-left: 7%; margin-right: 25%; border: 1px solid lightgrey;">
 					</tr>
 					<tr>
 						<td colspan="2" style = "width: 100%; text-align: center;">${match.teamName }</td>
 					</tr>
 					<tr>
-						<td style = "width: 50%; margin-left: 25%; margin-right: 25%;"><button id = "teamView">팀정보 보기</button></td>
+						<td style = "width: 50%; margin-left: 25%; margin-right: 25%;"><button id = "teamView" onclick = "showTeamInfo(${match.teamNo})">팀정보 보기</button></td>
 					</tr>
 				</table>
 			</div>
@@ -370,13 +527,40 @@ h6{
 				</table>
 			</div>
 			
-			<div id = "locationDiv">
+			
+				<c:if test="${match.mStatus == 'Y' }">
+				<div id = "locationDiv">
 				<h6 style = "margin-bottom: 5px;">상세위치 </h6>
 				<div id = "map" style = "width: 420px; height: 400px; float: left; border: 2px solid grey;"></div>
-			</div>
+				</div>
+				</c:if>
+				
+				<c:if test="${match.mStatus == 'ING' }">
+				<div id = "locationDiv" style = "display: none; width: 500px; height: 500px;">
+				<h6 style = "margin-bottom: 5px;">상세위치 </h6>
+				<div id = "map" style = "width: 500px; height: 500px; border: 2px solid grey;"></div>
+				</div>
+				</c:if>
+				
+				<c:if test="${match.mStatus == 'ING' }">
+				<div id = teamContent style = "float:right; width: 345px; height: 400px; margin-right: 6%;"> 
+				<h6>상대팀 정보</h6>
+				<table align = "center" >
+					<tr>
+						<img id = "logo" src="resources/images/team/${am.teamImg }" width="90%;" height="300px;" style = "margin-left: 7%; margin-right: 25%; border: 1px solid lightgrey;">
+					</tr>
+					<tr>
+						<td colspan="2" style = "width: 100%; text-align: center;">${am.teamName }</td>
+					</tr>
+					<tr>
+						<td style = "width: 50%; margin-left: 25%; margin-right: 25%;"><button id = "teamView" onclick = "showTeamInfo(${am.teamNo})">팀정보 보기</button></td>
+					</tr>
+				</table>
+				</div>
+				</c:if>
 			
-
-			<div id = btn style = "margin-left: 30%;">
+			<c:if test="${match.mStatus == 'Y' }">
+			<div id = btn style = "margin-left: 30%; margin-top: 5%;">
 					<input type = button id = applyingBtn value = "신  청  현  황" style = "margin-right: 26%;" onclick = "showAppMatch();">
 					<input type = button id = recruitBtn value = "돌아가기" onclick = "location.href='goMatch.ma'" style = "margin-right: 1%;">
 					<div class="con-tooltip bottom">
@@ -393,7 +577,16 @@ h6{
 				        </div>
 					</div>
 			</div>	
-							
+			</c:if>
+			
+			<c:if test="${match.mStatus == 'ING' }">
+			<div id = btn style = "margin-left: 30%; margin-top: 5%;">
+					<input type = button id = applyingBtn value = "매칭 결과 입력" style = "margin-right: 22.5%;" onclick = "showInputResult();">
+					<input type = button id = applyBtn value = "상세위치보기" onclick = "showMap()">
+					<input type = button id = recruitBtn value = "돌아가기" onclick = "location.href='goMatch.ma'" style = "margin-left: 1%;">
+			</div>	
+			</c:if>
+						
 				
 		<div id = "applyDetail" style="display:none; background: white; width: 50%; margin: auto;"> 
 			<table id = "applyDetailTable" style = "width: 50%; margin-left: 25%; margin-right: 25%;">
@@ -429,7 +622,7 @@ h6{
 						</c:choose>
 					</td>
 					<td style = "width: 25%;"> 
-						<input type = button id = "detailTeamBtn" name = "O" value="팀상세보기" style="background: black; color:white; font-size: 15px;">
+						<input type = button id = "detailTeamBtn" name = "O" value="팀상세보기" style="background: black; color:white; font-size: 15px;" onclick = "showTeamInfo(${appMatch.teamNo });">
 					</td>
 				</tr>
 				</c:forEach>
@@ -445,12 +638,161 @@ h6{
 			</table>
 			<input type = button id = closeBtn value="닫기" style="font-weight: bold; font-size:2.5em; padding-left: 90%; margin-bottom: 3%;" onclick = "closeBtn();">
 		</div>
+	</div>
+</div>
 
+
+<div id = "showTeamInfo">
+	<div id = "teamImgDiv">
+		<img id = "teamImage" src="" style = "width: 100%; height: 100%; border: 1px solid lightgrey;">
+	</div>
+	<div id = "teamInfoDiv">
+		<table id = "teamInfoTb">
+			<tr>
+				<td colspan="3" style = "height: 20px; padding: 0px;"><h2 id = "teamName">테스트</h2></td>
+			</tr>
+			<tr>
+				<td style = "height: 20px;"><h3>활동지역</h3></td>
+				<td colspan="2"><h4 id = "teamArea"></h4></td>
+			</tr>
+			<tr>
+				<td style = "height: 20px;"><h3>전적</h3></td>
+				<td colspan="2"><h4 id = "teamRecord"></h4></td>
+			</tr>
+			<tr>
+				<td style = "height: 15px; width: 20%"><h3>팀원</h3></td>
+				<td style =	" width: 60%"><h4 id = "memberCount"></h4></td>
+				<td style = " width: 20%">
+					<div class="con-tooltip right" style = "width: 100%; height: 100%; font-size: 15px; margin: 0px;">
+						<button>팀원확인</button>
+						<div class="tooltip" style = "width: 400px; height: 700px; background: white; border: 2px solid lightgrey;">
+							<div style = "padding: 10px;">
+								<table id = "memberInfoTb" style = "width: 100%; height: 100%;">
+									
+								</table>
+							</div>
+				        </div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td style = "height: 120px;"><h3>팀소개</h3></td>
+				<td colspan="2"><textarea id = "teamIntro" readonly></textarea></td>
+			</tr>
+		</table>
+	</div>
+	<div id = "xDiv" style = "margin-left: 2.5%;">
+		<button id = "xBtn" style = "font-size: 25px; background: white; border: 1px solid white;" onclick="closePop()">X</button>
 	</div>
 </div>
 
 
 
+
+<div id = "inputResultDiv" style = "width: 500px; height: 200px; background: white; padding: 30px;">
+	<form id = "scoreForm" action="insertResult.ma">
+		<input type = "hidden" name = "mId" value = "${match.mId }">
+		<table id = "inputResultTb" style = "width: 100%; height: 100%; text-align: center;">
+			<tr>
+				<td style = "height: 40px; text-align: left;" colspan="5"><h1>매칭 결과 입력</h1></td>
+			</tr>
+			<tr>
+				<td style = "height: 60px; width: 88px;">
+					<h2>${match.teamName }</h2>
+					<input type = "hidden" name = "tId" value = "${match.teamNo }">
+				</td>
+				<td style = "height: 60px; width: 88px;">
+					<input id = "myScore" name = "myScore">
+				</td>
+				<td style = "height: 60px; width: 88px;">
+					<h2>VS</h2>
+				</td>
+				<td style = "height: 60px; width: 88px;">
+					<input id = "yourScore" name = "yourScore">
+				</td>
+				<td style = "height: 60px; width: 88px;">
+					<h2>${am.teamName }</h2>
+					<input type = "hidden" name = "otId" value = "${am.teamNo }">
+				</td>
+			</tr>
+			<tr>
+				<td style = "height: 40px;"></td>
+				<td colspan="3">
+					<button id = "confirmBtn" type = "button" onclick = "insertResult(${loginUser.userNo}, ${match.userNo })">확인</button>
+					<button id = "cancelBtn"  type = "button" onclick = "closeInputResult();">취소</button>
+					
+				</td>
+				<td></td>
+			</tr>
+		</table>
+	</form>
+</div>
+
+
+
+<!-- 팀보기 -->
+<script type="text/javascript">
+	function showTeamInfo(tId){
+		$$("#showTeamInfo").bPopup();
+		
+		$.ajax({
+			url:"showTeamInfo.ma",
+			data:{tId:tId
+			},
+			success:function(data){
+				
+				$("#teamImage").attr("src", "resources/images/team/"+data.teamImage);
+				$("#teamName").html(data.teamName);
+				$("#teamRecord").html(data.teamRecord);
+				$("#teamArea").html(data.teamArea);
+				$("#memberCount").html(data.memberCount+"명");
+				$("#teamIntro").html(data.teamIntro);
+				showMemberInfo(tId);
+				
+			},
+			error:function(request, status, errorData){
+				alert("error code: " + request.status + "\n"
+						+"message: " + request.responseText
+						+"error: " + errorData);
+			}
+		})
+	}
+	
+	function showMemberInfo(tId){
+		$.ajax({
+			url:"showMemberInfo.ma",
+			data:{tId:tId
+			},
+			success:function(data){
+				$("#memberInfoTb").html("<tr>"+
+						"<td colspan='4'><h2>팀원 확인</h2></td>"+
+						"</tr>"+
+						"<tr>"+
+							"<td><h4>이름</h4></td>"+
+							"<td><h4>성별</h4></td>"+
+							"<td><h4>생년월일</h4></td>"+
+							"<td><h4>포지션</h4></td>"+
+						"</tr>");
+				
+				for(var i in data){
+					$("#memberInfoTb").append("<tr>"+
+							"<td><h4>"+data[i].userName+"</h4></td>"+
+							"<td><h4>"+data[i].gender+"</h4></td>"+
+							"<td><h4>"+data[i].birthDay+"</h4></td>"+
+							"<td><h4>"+data[i].position+"</h4></td>"+
+						"</tr>")
+				}
+			},
+			error:function(request, status, errorData){
+				alert("error code: " + request.status + "\n"
+						+"message: " + request.responseText
+						+"error: " + errorData);
+			}
+		})
+	}
+</script>
+
+<!-- 지도 -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e5f9f6250199748b3a23d7b3d7d88dde&libraries=services"></script>
 <script type="text/javascript">
 	var X = Number("${match.mLocationX }");
@@ -513,7 +855,7 @@ h6{
 	
 </script>
 
-
+<!-- 헤더 -->
 <script>
 	var $head = $( '#ha-header' );
 	$( '.ha-waypoint' ).each( function(i) {
@@ -534,10 +876,14 @@ h6{
 
 </script>
 
-
+<!-- 매칭 -->
 <script type="text/javascript">
 
 	function confirmAm(amTeamNo, mId, amTeamName, amUserName, mTeamNo, mTeamName, mUserName, mSystem, mLocationName, mDay, sHour, sMinute, eHour, eMinute, dues){
+		if(!confirm(amTeamName+"와 매칭을 확정하시겠습니까.\n매칭 확정 시에 문자로 매칭정보가 전송됩니다.")){
+			return false;
+		}
+		
 		$.ajax({
 			url:"confirmMatching.ma",
 			data:{amTeamNo:amTeamNo,
@@ -557,7 +903,9 @@ h6{
 				dues:dues
 			},
 			success:function(data){
-				alert(data+"명에게 문자 돌렷음");
+				alert("매치가 확정되었습니다.\n경기 종료 후에 매칭결과를 입력하셔야 다음 매치생성이 가능합니다.");
+				alert("리스트로 돌아갑니다.");
+				location.href="goMatch.ma";
 			},
 			error:function(request, status, errorData){
 				alert("error code: " + request.status + "\n"
@@ -574,10 +922,7 @@ h6{
 </script>
 
 
-
-
-
-
+<!-- 매칭 삭제 -->
 <script type="text/javascript">
 
 	function deleteMatch(mId){
@@ -591,6 +936,7 @@ h6{
 </script>
 
 
+<!-- 예외처리 -->
 <script type="text/javascript">
 	$(function(){
 		if($("#teamList").children().hasClass("selectTeam")){
@@ -600,6 +946,7 @@ h6{
 
 </script>
 
+<!-- 신청삭제 -->
 <script type="text/javascript">
 
 	function cancleAm(tId, mId){
@@ -629,25 +976,42 @@ h6{
 </script>
 
 
-
+<!-- 팝업 -->
 <script	src="https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.js"></script>
 <script type="text/javascript">
+
 	function showAppMatch(){
 			$$("#applyDetail").bPopup();
 	}
 
-
-</script>
-<script type="text/javascript">
 	function closeBtn(){
 		$$("#applyDetail").bPopup().close();
 	}
+	
+	function closePop(){
+		$$("#showTeamInfo").bPopup().close();
+	}
 
+	function showMap(){
+		$$("#map").bPopup();
+	}
+	
+	function showInputResult(){
+		$$("#inputResultDiv").bPopup();	
+	}
+	
+	function closeInputResult(){
+		$$("#inputResultDiv").bPopup().close();	
+	}
+	
+	
 </script>
 
+<!-- 신청 -->
 <script type="text/javascript">
 	function appMatch(tId, tName){
 	
+		alert(tId +tName);
 		$.ajax({
 			url:"checkAppMatch.ma",
 			data:{mId:${match.mId},
@@ -689,9 +1053,9 @@ h6{
 									"<input type = button id = 'matchingBtn' name = 'O' value='신청취소' style= 'background: black; color:white; font-size: 15px;' onclick = 'cancleAm("+tId+", "+${match.mId}+")'>"+
 								"</td>"+
 								"<td style = 'width: 25%;'> "+
-									"<input type = button id = 'detailTeamBtn' name = 'O' value='팀상세보기' style= 'background: black; color:white; font-size: 15px;'>"+
+									"<input type = 'button' id = 'detailTeamBtn' name = 'O' value='팀상세보기' style= 'background: black; color:white; font-size: 15px;' onclick = 'showTeamInfo("+tId+")'>"+
 								"</td>"+
-							"</tr>")
+							"</tr>");
 						}
 						
 						$("#noInfo").css("display","none");
@@ -722,6 +1086,46 @@ h6{
 
 </script>
 
+<script type="text/javascript">
+	$("#myScore").keyup(function(){
+		if($(this).val() >= 0 && $(this).val() <= 99){
+			return false;
+		}else{
+			$(this).val("");
+		}
+	});
+
+	$("#yourScore").keyup(function(){
+		if($(this).val() >= 0 && $(this).val() <= 99){
+			return false;
+		}else{
+			$(this).val("");
+		}
+	});
+	
+	function insertResult(loginUser, matchUser){
+		if(loginUser != "" && loginUser != matchUser){
+			alert("팀의 팀장만 점수를 입력할 수 있습니다.");
+			return false;
+		}
+		
+		if($("#yourScore").val() == "" || $("#myScore").val() == ""){
+			alert("점수를 입력하세요");
+			return false;
+		}else{
+			if(!confirm("결과를 등록하시겠습니까?")){
+				return false;
+			}else{
+				alert("리스트 페이지로 돌아갑니다.");
+				$("#scoreForm").submit();
+			}
+		}
+		
+	}
+	
+	
+
+</script>
 
        
 

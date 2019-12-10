@@ -22,7 +22,11 @@ import com.kh.FIFAOFFLINE.match.model.service.MatchService;
 import com.kh.FIFAOFFLINE.match.model.vo.AppMatch;
 import com.kh.FIFAOFFLINE.match.model.vo.Match;
 import com.kh.FIFAOFFLINE.match.model.vo.MatchFilter;
+import com.kh.FIFAOFFLINE.match.model.vo.ScoreInfo;
 import com.kh.FIFAOFFLINE.match.model.vo.SmsInfo;
+import com.kh.FIFAOFFLINE.member.model.exception.MemberException;
+import com.kh.FIFAOFFLINE.member.model.vo.Member;
+import com.kh.FIFAOFFLINE.team.model.vo.Team;
 
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
@@ -270,7 +274,7 @@ public class MatchController {
 						+ "시간 : "+m.getsHour()+":"+m.getsMinute()+"~"+m.geteHour()+":"+m.geteMinute()+"\n"
 						+ "참가비 : "+m.getDues()+"\n"
 						+ "항상 이용해주셔서 감사합니다. ";
-				count = sendMSG(mSi.get(i).getUserName(), mSi.get(i).getPhone(), text, count);
+				// count = sendMSG(mSi.get(i).getUserName(), mSi.get(i).getPhone(), text, count);
 				
 			}
 		
@@ -315,7 +319,87 @@ public class MatchController {
 		// ===========================================
 	}
 	
+	@RequestMapping("showTeamInfo.ma")
+	public void showTeamInfo(HttpServletResponse response, int tId) throws JsonIOException, IOException {
+		response.setContentType("application/json; charset=utf-8");
+		
+		Team m = maService.selectTeam(tId);
+		
+		int mc = maService.selectMemberCount(tId);
+		m.setMemberCount(mc);
+		
+		ArrayList<ScoreInfo> sList = maService.selectTeamScore(tId);
+		
+		int sCount = 0, dCount = 0, lCount = 0;
+		for(int i = 0; i<sList.size() ; i++) {
+			if(sList.get(i).getResult().equals("승")) {
+				sCount++;
+			}else if(sList.get(i).getResult().equals("패")) {
+				lCount++;
+			}else {
+				dCount++;
+			}
+		}
+		
+		m.setTeamRecord(sList.size()+"전   "+sCount+"승 "+dCount+"무 "+lCount+"패 ");
+		
+		if(m != null) {
+			new Gson().toJson(m, response.getWriter());
+		}else {
+			throw new MemberException("팀 조회 실패");
+		}
+	}
 	
-	
+	@RequestMapping("showMemberInfo.ma")
+	public void showMemberInfo(HttpServletResponse response, int tId) throws JsonIOException, IOException {
+		response.setContentType("application/json; charset=utf-8");
+		
+		ArrayList<Member> mList = maService.selectTeamMember(tId);
+		
+		System.out.println(mList);
+		
+		if(mList != null) {
+			new Gson().toJson(mList, response.getWriter());
+		}else {
+			throw new MemberException("멤버 조회 실패");
+		}
+	}
 
+	@RequestMapping("insertResult.ma")
+	public String insertResult(int myScore, int yourScore, int tId, int otId, int mId) {
+		
+		ScoreInfo mySi = new ScoreInfo();
+		ScoreInfo oppSi = new ScoreInfo();
+				
+		mySi.setScore(myScore+" : "+yourScore);
+		mySi.settId(tId);
+		mySi.setOtId(otId);
+		oppSi.setScore(yourScore+" : "+myScore);
+		oppSi.settId(otId);
+		oppSi.setOtId(tId);
+		
+		if(myScore > yourScore) {
+			mySi.setResult("승");
+			oppSi.setResult("패");
+		}else if(myScore == yourScore) {
+			mySi.setResult("무");
+			oppSi.setResult("무");
+		}else {
+			mySi.setResult("패");
+			oppSi.setResult("승");
+		}
+		
+		int cResult = maService.endMatch(mId);
+		
+		int myResult = maService.insertScore(mySi);
+		int oppResult = maService.insertScore(oppSi);
+		
+		if(cResult == 1 && myResult == 1 && oppResult ==1) {
+			return "redirect:goMatch.ma";
+		}else {
+			throw new MatchException("점수 등록 실패");
+		}
+	}
+	
+	
 }

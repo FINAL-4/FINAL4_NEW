@@ -43,13 +43,21 @@ public interface TeamService {
 
 	int insertTeam(Team t);
 
-	int insertTeamMember(TeamAD ta);
-
 	int checkTeamNameDup(String teamName);
 
 	Team selectCreatedTeam(String createdTeamName);
 
 	int insertCreatedTeamMember(TeamMember tm);
+
+	int selectDupAD(int teamNo);
+
+	int selectDupApply(TeamJoinedMember tjm);
+
+	int updateCount(int teamNo);
+
+	int deleteAD();
+
+	int deleteTJM(int teamNo);
 	
 	
 

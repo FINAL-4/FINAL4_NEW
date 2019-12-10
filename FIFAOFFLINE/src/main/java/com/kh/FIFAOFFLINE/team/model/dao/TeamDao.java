@@ -89,7 +89,7 @@ public class TeamDao {
 	}
 
 	public ArrayList<Team> selectTeamLeader(int userNo) {
-		// TODO Auto-generated method stub
+		System.out.println("다오 테스트 : " + userNo);
 		return (ArrayList)sqlSession.selectList("teamMapper.selectTeamLeader", userNo);
 	}
 
@@ -116,5 +116,30 @@ public class TeamDao {
 	public int insertCreatedTeamMember(TeamMember tm) {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("teamMapper.insertCreatedTeamMember",tm);
+	}
+
+	public int selectDupAd(int teamNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("teamMapper.selectDupAd",teamNo);
+	}
+
+	public int selectDupApply(TeamJoinedMember tjm) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("teamMapper.selectDupApply",tjm);
+	}
+
+	public int updateCount(int teamNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("teamMapper.updateCount",teamNo);
+	}
+
+	public int deleteAD() {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("teamMapper.deleteAD");
+	}
+
+	public int deleteTJM(int teamNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("teamMapper.deleteTJM",teamNo);
 	}
 }

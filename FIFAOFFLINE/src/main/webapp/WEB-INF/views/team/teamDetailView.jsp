@@ -223,7 +223,7 @@ img.avatarM {
 			</tr>
 			<tr>
 				<td>모집인원</td>
-				<td>${t.recruitCount }</td>
+				<td class="tRecruitCount">${t.recruitCount }</td>
 			</tr>
 			<tr>
 				<td align> 모집내용 </td>
@@ -250,7 +250,7 @@ img.avatarM {
 			</tr>
 			<tr>
 				<td> 모집인원</td>
-				<td> ${t.recruitCount} </td>
+				<td class="tRecruitCount"> ${t.recruitCount} </td>
 			</tr>
 			<tr>
 				<td> 모집내용 </td>
@@ -305,8 +305,8 @@ img.avatarM {
 								<c:param name="userNo" value="${join.userNo }"/>
 								<c:param name="teamNo" value="${t.teamNo}"/>
 							</c:url> --%>
-  							<input type = button id = "agreeBtn${join.userNo}" class = agreeBtn name = "O" value="O" style="background: green; color:white; margin-left:50px;" onclick="agree(${join.userNo})">
-  							<input type = button id = 'cancelBtn${join.userNo}' class=cancelBtn name = "X" value="X" style="background: red; color:white; margin-left:17px;" onclick="cancel(${join.userNo})">
+  							<input type = button id = "agreeBtn${join.userNo}" class = agreeBtn name = "O" value="O" style="background: green; color:white; margin-left:30px;" onclick="agree(${join.userNo})">
+  							<input type = button id = 'cancelBtn${join.userNo}' class=cancelBtn name = "X" value="X" style="background: red; color:white; margin-left:10px;" onclick="cancel(${join.userNo})">
   						</div>
 					</td>
 				</tr>
@@ -373,9 +373,30 @@ img.avatarM {
 	
 	
 	$("#applyingBtn").click(function(){
-        $("#applyDetail").show();
-        $("#detailContentDiv1").hide();
-        $("#detailContentDiv2").show();
+		var teamFlag = false;
+		
+		var myTeamNo = [];
+		<%for(int i=0; i<myTeam.size(); i++){%>
+			myTeamNo[<%=i%>] = <%=myTeam.get(i).getTeamNo()%>;
+		<%}%>
+		
+		for(var i=0; i<myTeamNo.length; i++){
+			if(${t.teamNo} == myTeamNo[i]){
+				teamFlag = true;
+			}
+		}
+		
+		if(teamFlag){
+			if(${t.userNo} == ${loginUser.userNo}){
+				 $("#applyDetail").show();
+			     $("#detailContentDiv1").hide();
+			     $("#detailContentDiv2").show();
+			}else{
+				alert("팀장만 수정할 수 있습니다.");
+			}
+		}else{
+			alert("같은 팀이 아닙니다.");
+		}
         
     });
 	$("#closeBtn").click(function(){
@@ -396,6 +417,7 @@ img.avatarM {
 			dataType:"json",
 			success:function(data){
 				if(data != 0){
+					alert("거절하셨습니다.");
 					$("#joinUser"+id).remove();
 				}
 				else{
@@ -417,7 +439,9 @@ img.avatarM {
 			dataType:"json",
 			success:function(data){
 				if(data != 0){
+					alert("승인하셨습니다.");
 					$("#joinUser"+id).remove();
+					$('.tRecruitCount').text(parseInt($('.tRecruitCount').text()) -1);
 				}else{
 					alert("승인 실패");
 				}
@@ -474,16 +498,45 @@ img.avatarM {
 
 	function applyTeam(){
 		
+		var teamFlag = false;
+		var myTeamNo = [];
 		var userNo=${loginUser.userNo};
 		var teamNo=${t.teamNo};
 		
-		var confirmFlag = confirm("신청하시겠습니까?");
-		if(confirmFlag){
-			location.href="applyTeam.tm?userNo="+userNo+"&teamNo="+teamNo;
-			alert("신청완료");
-		}	
-		else
-			alert("취소");
+		<%for(int i=0; i<myTeam.size(); i++){%>
+			myTeamNo[<%=i%>] = <%=myTeam.get(i).getTeamNo()%>;
+		<%}%>
+		
+		
+		for(var i=0; i<myTeamNo.length; i++){
+			if(teamNo == myTeamNo[i]){
+				teamFlag = true;
+			}
+		}
+		
+		
+		if(!teamFlag){
+		$.ajax({
+			url:"dupApply.tm",
+			data:{userNo:userNo,
+				  teamNo:teamNo},
+			success:function(data){
+				if(data == 1){
+					alert("이미 신청한 팀입니다.");
+				}else{
+					var confirmFlag = confirm("신청하시겠습니까?");
+					if(confirmFlag){
+						location.href="applyTeam.tm?userNo="+userNo+"&teamNo="+teamNo;
+						alert("신청완료");
+					}	
+					else
+						alert("취소");
+				}
+			}	  
+		});
+		}else{
+			alert("이미 가입되어있는 팀 입니다.");
+		}
 	}		
 	
 	function deleteTeamAD(){
@@ -492,11 +545,6 @@ img.avatarM {
 		var myTeamNo = [];
 		<%for(int i=0; i<myTeam.size(); i++){%>
 			myTeamNo[<%=i%>] = <%=myTeam.get(i).getTeamNo()%>;
-		<%}%>
-		
-		var myTeamGrade = [];
-		<%for(int i=0; i<myTeam.size(); i++){%>
-			myTeamGrade[<%=i%>] = <%=myTeam.get(i).getT_Grade()%>;
 		<%}%>
 		
 		for(var i=0; i<myTeamNo.length; i++){

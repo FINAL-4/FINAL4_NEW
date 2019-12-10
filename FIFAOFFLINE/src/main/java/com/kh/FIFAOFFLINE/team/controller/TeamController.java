@@ -71,6 +71,7 @@ public class TeamController {
 		mv.addObject("pi", pi);
 		mv.addObject("teamLeader",teamLeader);
 		mv.setViewName("team/teamListView");
+		
 			
 		
 	
@@ -124,6 +125,7 @@ public class TeamController {
 			jObj.put("teamAdver",t.getTeamAdver());
 			jObj.put("resisterDay",t.getResisterDay());
 			jObj.put("ad_status",t.getAd_status());
+			jObj.put("recruitCount", t.getRecruitCount());
 			
 			jArr.add(jObj);
 		}
@@ -201,12 +203,20 @@ public class TeamController {
 	public void joinedAgree(HttpServletResponse response, TeamJoinedMember tjm) throws JsonIOException, IOException {
 		
 		System.out.println(tjm);
+		int teamNo = tjm.getTeamNo();
 		
+		int updateCount = 0;
 		int result = 0;
+		int deleteAD = 0;
+		int deleteTJM = 0;
 		
 		int deleteResult = tService.joinedAgree(tjm);
 		if(deleteResult>0) {
 			result = tService.teamJoin(tjm);
+			updateCount = tService.updateCount(teamNo);
+			deleteAD = tService.deleteAD();
+			deleteTJM = tService.deleteTJM(teamNo);
+			
 		}
 		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
@@ -381,6 +391,27 @@ public class TeamController {
 		mv.addAllObjects(map);
 		mv.setViewName("team/createTeamView");
 		return mv;
+	}
+	
+	@RequestMapping("DupAD.tm")
+	public void isDuplicateAD(int teamNo, HttpServletResponse response) throws JsonIOException, IOException {
+		int dup = tService.selectDupAD(teamNo);
+		System.out.println(dup);
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(dup,response.getWriter());
+	}
+	
+	@RequestMapping("dupApply.tm")
+	public void isDuplicateApply(TeamJoinedMember tjm, HttpServletResponse response) throws JsonIOException, IOException {
+		
+		int dup = tService.selectDupApply(tjm);
+		
+		System.out.println("신청했냐? : " + dup);
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(dup,response.getWriter());
+		
 	}
 	
 	

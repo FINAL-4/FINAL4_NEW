@@ -10,7 +10,10 @@ import com.kh.FIFAOFFLINE.match.model.dao.MatchDao;
 import com.kh.FIFAOFFLINE.match.model.vo.AppMatch;
 import com.kh.FIFAOFFLINE.match.model.vo.Match;
 import com.kh.FIFAOFFLINE.match.model.vo.MatchFilter;
+import com.kh.FIFAOFFLINE.match.model.vo.ScoreInfo;
 import com.kh.FIFAOFFLINE.match.model.vo.SmsInfo;
+import com.kh.FIFAOFFLINE.member.model.vo.Member;
+import com.kh.FIFAOFFLINE.team.model.vo.Team;
 
 @Service("maService")
 public class MatchServiceImpl implements MatchService{
@@ -101,6 +104,42 @@ public class MatchServiceImpl implements MatchService{
 	public ArrayList<SmsInfo> getSmsInfo(int teamNo) {
 		
 		return maDao.getSmsInfo(teamNo);
+	}
+
+	@Override
+	public Team selectTeam(int tId) {
+		
+		return maDao.selectTeam(tId);
+	}
+
+	@Override
+	public int selectMemberCount(int tId) {
+		
+		return maDao.selectMemberCount(tId);
+	}
+
+	@Override
+	public ArrayList<Member> selectTeamMember(int tId) {
+		
+		return maDao.selectTeamMember(tId);
+	}
+
+	@Override
+	public int endMatch(int mId) {
+		
+		return maDao.endMatch(mId);
+	}
+
+	@Override
+	public int insertScore(ScoreInfo si) {
+		
+		return maDao.insertScore(si);
+	}
+
+	@Override
+	public ArrayList<ScoreInfo> selectTeamScore(int tId) {
+		
+		return maDao.selectTeamScore(tId);
 	}
 
 
