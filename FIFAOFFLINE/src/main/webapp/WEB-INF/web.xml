@@ -34,6 +34,7 @@
 		<url-pattern>*.ma</url-pattern>
 		<url-pattern>*.pl</url-pattern>
 		<url-pattern>*.tm</url-pattern>
+		<url-pattern>*.to</url-pattern>
 	</servlet-mapping>
 	
 	<!-- 예외처리할 때 작성할 부분 -->
