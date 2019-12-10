@@ -33,6 +33,23 @@ public interface PlayerService {
 
 	public int teamPlayApply(P_LIST pl);
 
+	public int ajaxApplyPlayer(P_LIST pl);
+
+	public ArrayList<P_LIST> applyList(int rNum);
+
+	public int checkTeamSelect(int mt);
+
+	public int ajaxApplyPerson(P_ENROLL pe);
+
+	
+
+	
+
+	
+
+
+	
+
 
 
 

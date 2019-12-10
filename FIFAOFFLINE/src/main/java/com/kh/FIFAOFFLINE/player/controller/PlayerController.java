@@ -1,8 +1,10 @@
 package com.kh.FIFAOFFLINE.player.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.player.model.exception.PlayerException;
 import com.kh.FIFAOFFLINE.player.model.service.PlayerService;
@@ -65,10 +70,13 @@ public class PlayerController {
 	@RequestMapping("playTeamDetail.pl")
 	public ModelAndView playTeamDetail(ModelAndView mv, int rNum) {
 		P_RECRUIT pRecruit = pService.playTeamDetail(rNum);
+		ArrayList<P_LIST> pList = pService.applyList(rNum);
 		
 		// System.out.println("controller test rNum : " + rNum);
 		if(pRecruit != null) {
+			// System.out.println("컨트롤러 신청 리스트 : " + pList);
 			mv.addObject("pRecruit", pRecruit);
+			mv.addObject("pList",pList);
 			mv.setViewName("player/applyDetailPlayer");
 		} else {
 			throw new PlayerException("용병 모집 글 디테일 보기 실패");
@@ -217,17 +225,45 @@ public class PlayerController {
 		return mv;
 	}
 	
-	// 신청하기 
-	@RequestMapping("teamPlayApply.pl")
-	public ModelAndView teamPlayApply(ModelAndView mv, HttpServletRequest request, P_LIST pl, HttpSession session) {
+	
+	// 팀 모집글에 신청하기
+	@RequestMapping("teamPlayApply.pl") 
+	public ModelAndView teamPlayApply(ModelAndView mv, HttpServletRequest request, P_LIST pl, HttpSession session) { 
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int userNo = loginUser.getUserNo();
-		
 		int result = pService.teamPlayApply(pl);
-		
-		mv.addObject("userNo", userNo);
+	 
+		mv.addObject("pl", pl); 
 		mv.setViewName("redirect:playMain.pl");
-	
 		return mv;
+	}
+	
+	// 팀 모집글에 신청하기 
+	@RequestMapping("ajaxApplyPlayer.pl")
+	public void ajaxApplyPlayer(P_LIST pl, HttpServletResponse response) throws JsonIOException, IOException {
+		int aap = pService.ajaxApplyPlayer(pl);
+		
+	//	System.out.println("컨트롤러 신청 테스트 : " + pl);
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(aap,response.getWriter());
+	}
+	
+	// 개인 용병 글에 신청하기
+	@RequestMapping("ajaxApplyPerson.pl")
+	public void ajaxApplyPerson(P_ENROLL pe, HttpServletResponse response) throws JsonIOException, IOException {
+		int aap = pService.ajaxApplyPerson(pe);
+	
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(aap,response.getWriter());
+	}
+	
+	// 팀 용병 등록 글 중복 확인
+	@RequestMapping("checkTeamSelect.pl")
+	public void checkTeamSelect(HttpServletResponse response, int mt) throws JsonIOException, IOException {
+		response.setContentType("application/json; charset=utf-8");
+		
+		int result = pService.checkTeamSelect(mt);
+		
+		new Gson().toJson(result, response.getWriter());
 	}
 }

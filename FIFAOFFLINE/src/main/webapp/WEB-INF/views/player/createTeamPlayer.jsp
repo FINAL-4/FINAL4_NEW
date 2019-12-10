@@ -388,7 +388,7 @@ input, select{
 					<tr>
 						<td style = "width:40%; font-size:20ps; text-align:center">용병 모집 팀 </td>
 						<td> <select id="myTeam" style="width:100%;" name="teamNo">
-							<option selected value="0">==팀 선택==</option>
+							<option selected value="">==팀 선택==</option>
 							<c:forEach var="tArr" items="${tArr}" varStatus="status">
 							<option value="${tArr.teamNo}">${tArr.teamName }</option>
 							</c:forEach>
@@ -575,7 +575,7 @@ input, select{
 					<button type="button"
 						class="btn btn-default btn res-btn-orange"
 						data-class=".res-form-four">Back</button>
-					<button class="btn" onclick = "submitCreate();" data-class=".res-form-four">Submit</button>
+					<button type=button class="btn" onclick = "submitCreate();" data-class=".res-form-four">Submit</button>
 				</div>
 		</div>
 		</div>
@@ -616,6 +616,28 @@ input, select{
 		$$("#createForm").submit();
 		
 	}
+	
+$(function(){
+	$("#myTeam").change(function(){
+		var mt = $("#myTeam option:selected").val();
+		
+		$.ajax({
+			url:"checkTeamSelect.pl",
+			data:{mt:mt},
+			success:function(data){
+				if(data == "0"){
+					alert("이미 등록 된 글이 있습니다. \n등록 글을 삭제하고 새로운 글을 등록해주세요.");
+					$("#myTeam").val("").prop("selected", true);
+				}
+			},
+			error:function(request, status, errorData){
+				alert("error code: " + request.status + "\n"
+						+"message: " + request.responseText
+						+"error: " + errorData);
+			}
+		});
+	});
+});
 </script>
 	<!-- 카카오 맵 -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e5f9f6250199748b3a23d7b3d7d88dde&libraries=services"></script>

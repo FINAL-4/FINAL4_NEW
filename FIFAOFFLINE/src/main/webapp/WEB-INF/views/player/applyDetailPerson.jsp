@@ -305,13 +305,32 @@ h6{
 
 <script type="text/javascript">
 	function applyBtn(){
-		var applyBtn = confirm("정말로 신청하시겠습니까?");
-		if(applyBtn){
-			location.href="${psa}";
+		var playerFlag = false;
+		var userNo = ${loginUser.userNo};
+		var eNum = ${pEnroll.eNum};
+		
+		if(!playerFlag){
+			$.ajax({
+				url:"ajaxApplyPerson.pl",
+				data:{userNo:userNo, eNum:eNum},
+				success:function(data){
+					if(data == 1){
+						alert("이미 신청했습니다.");
+					} else {
+						var confirmFlag = confirm("정말로 신청하시겠습니까 ?");
+						if(confirmFlag){
+							location.href="personApply.pl?userNo="+userNo+"&eNum="+eNum;
+						} else {
+							alert("취소");
+						}
+					}
+				}
+			});
 		} else {
-			return false;
+			alert("신청이 불가능합니다.");
 		}
 	}
+	
 	
 	function deleteBtn(){
 		var deleteBtn = confirm("정말로 삭제하시겠습니까 ?");

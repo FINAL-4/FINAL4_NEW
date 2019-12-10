@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="com.kh.FIFAOFFLINE.team.model.vo.MyTeam, java.util.ArrayList"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+	ArrayList<MyTeam> myTeam = (ArrayList<MyTeam>)session.getAttribute("myTeam");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -75,7 +78,7 @@
 	border: 1px solid black;
 	color:white;
 }
-#recruitBtn{
+#applyBtn{
 	margin-left:64%;
 }
 #deleteBtn{
@@ -120,14 +123,22 @@
 	border-collapse: separate;
 	border-spacing: 10px 25px;
 } 
-.agreeBtn, .cancelBtn{
+#agreeBtn, #cancelBtn{
 	width:35px;
-	height:30px;
+	height:32px;
 	font-weight: bold; 
-	font-size:1.5em;
+	color:black;
+	padding-bottom: 30px;
+	padding-left:7px;
 }
 #agreeBtn:hover, #cancelBtn:hover, #closeBtn:hover{
 	cursor: pointer;
+}
+#agreeBtn{
+	background: green;
+}
+#cancelBtn{
+	background: red;
 }
 #closeBtn{
 	background: white;
@@ -207,6 +218,18 @@ h6{
 	padding: 10px 18px;
 	background-color: #f44336;
 }
+
+#listTable{
+	font-size : 2.5em;
+	border-bottom: 2px solid grey;
+	text-align: center;
+	border-spacing: 13px;
+}
+#listTr{
+	border-bottom:2px solid grey;
+}
+
+
 </style>
 </head>
 <jsp:include page = "../common/header.jsp"/>
@@ -286,11 +309,14 @@ h6{
 		<div id = btn>
 		<c:url var="tplApply" value="teamPlayApply.pl">
 			<c:param name="rNum" value="${pRecruit.rNum }"/>
+			<c:param name="userNo" value="${loginUser.userNo }"/>
 		</c:url>
-			<input type = button id = recruitBtn value = "모집 리스트 보기" onclick = "location.href='playMain.pl'">
-			<input type = button id = applyBtn value = "신청하기" onclick = "applyBtn()"> <br><br><br><br><br>
-		<c:if test="${loginUser.userNo == pRecruit.userNo }">
-			<input type = button id = applyingBtn value = "신  청  현  황" onclick = "document.getElementById('id02').style.display='block'">
+		<c:if test="${loginUser.userNo != pRecruit.userNo }">
+			<input type = button id = applyBtn value = "신청하기" onclick = "applyBtn()"> 
+		</c:if>
+			<input type = button id = recruitBtn value = "모집 리스트 보기" onclick = "location.href='playMain.pl'"><br><br><br><br><br>
+		<c:if test="${loginUser.userNo == pRecruit.userNo }">                 <!-- "document.getElementById('id02').style.display='block'" -->
+			<input type = button id = applyingBtn value = "신  청  현  황" onclick = "document.getElementById('id02').style.display='block';">
 		</c:if>
 		</div>
 	</div>	
@@ -304,12 +330,37 @@ h6{
 
     <div class="container">
     	<label style="font-size:3em; font-weight: bold; border-bottom: 5px solid grey;"> 신 청 현 황</label> <br><br><br><br>
-    	<div>
-    		user1 
-    		user2
-    		user3
-    		user4
-    	</div>
+    	
+    	<table id = listTable>
+    	<thead>
+    		<tr id = listTr>
+    			<th> 프로필사진 </th>
+    			<th> 이름 </th>
+    			<th> 매너 </th>
+    			<th> 실력 </th>
+    			<th> 포지션 </th>
+    			<th> 번호 </th>
+    			<th></th>
+    			<th></th>
+    		</tr>
+    	</thead>
+    	
+    	<c:forEach var="pList" items="${pList }">   
+    		<tr id = listTr>
+    			<td><img id = "picture" src="resources/proFiles/${pList.proFile }" style="width:120px; height: 80px; margin-left:5px;"></td>
+    			<td>${pList.userName }</td>
+    			<td>${pList.manner }</td>
+    			<td>${pList.skill }</td>
+    			<td>${pList.position }</td>
+    			<td>${pList.phone }</td>
+    			<td> <input type = button id="agreeBtn" value="O" name="agree" onclick="agree(${pRecruit.userNo})">
+    			</td>
+    			<td> <input type = button id="cancelBtn" value="X" name="cancel">
+    			</td>
+    		</tr>
+    	</c:forEach>
+    	</table> 	
+    	
     </div>
 
    
@@ -398,7 +449,7 @@ h6{
 <!-- 신청 -->
 <script>
 // Get the modal
-var modal = document.getElementById('id01');
+var modal = document.getElementById('id02');
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
@@ -406,15 +457,45 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
+
+
+function agree(id){
+	alert("asdfadsf");
+}
+
+$("#cancelBtn").click(function(){
+	alert("ratstsdat");
+});
+
+
 </script>
 
 <script type="text/javascript">
 function applyBtn(){
-	var applyBtn = confirm("정말로 신청하시겠습니까 ?");
-	if(applyBtn){
-		location.href='${tplApply}';
+	var playerFlag = false;
+	var userNo = ${loginUser.userNo};
+	var myTeamNo = [];
+	var rNum = ${pRecruit.rNum};
+	
+	if(!playerFlag){
+		$.ajax({
+			url:"ajaxApplyPlayer.pl",
+			data:{userNo:userNo, rNum:rNum},
+			success:function(data){
+				if(data == 1){
+					alert("이미 신청했습니다.");
+				} else {
+					var confirmFlag = confirm("정말로 신청하시겠습니까 ?");
+					if(confirmFlag){
+						location.href="teamPlayApply.pl?userNo="+userNo+"&rNum="+rNum;
+					} else {
+						alert("취소");
+					}
+				}
+			}
+		});
 	} else {
-		return false;
+		alert("이미 가입되어있는 팀 입니다.");
 	}
 }
 
@@ -426,6 +507,7 @@ function deleteBtn(){
 		return false;
 	}
 }
+
 function modifyBtn(){
 var modifyBtn = confirm("정말로 수정하시겠습니까 ?");
 	if(modifyBtn){

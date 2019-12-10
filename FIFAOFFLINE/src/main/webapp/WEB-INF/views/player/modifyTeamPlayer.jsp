@@ -397,7 +397,7 @@ input, select{
 						<td style = "width: 40%; font-size: 20px; text-align: center">용병 인원 설정</td>
 						<td>
 							<select id = "playerSelect" name = "deadline" style = "width: 100%;">
-								<option value = "0">${pr.deadline }명</option>
+								<option value = "${pr.deadline }">${pr.deadline }명</option>
 								<option value = "1">1명</option>
 								<option value = "2">2명</option>
 								<option value = "3">3명</option>
@@ -449,7 +449,7 @@ input, select{
 							<td style = "width: 500%">
 								<h6 style = "margin: 0px;">선택된 장소</h6>
 								<h3 id = "cplace" style = "margin-top: 2px;">${pr.rPlace }</h3>
-								<input id = "cplaceName" name = "rPlace" style = "display: none;"></input>
+								<input id = "cplaceName" name = "rPlace" style = "display: none;" value="${pr.rPlace }"></input>
 								<input id = "cplaceX" name = "rPlaceX" value="${pr.rPlaceX }" style = "display: none;"></input>
 								<input id = "cplaceY" name = "rPlaceY" value="${pr.rPlaceY }" style = "display: none;"></input>
 							</td>
@@ -496,7 +496,7 @@ input, select{
 							<td style = "width: 40%"><h6 style = "margin: 0px;">선택된 날짜</h6>
 							<h4 id = "dayInfo" style = "font-size: 22px; margin-top: 0px; margin-bottom: 0px;">${pr.rDay }</h4></td>
 							<td style = "width: 40%">
-							<input type = "text" id = "mDayInfo" name = "rDay" style = "display: none;"></input>
+							<input type = "text" id = "mDayInfo" name = "rDay" style = "display: none;" value="${pr.rDay }"></input>
 							</td>
 						</tr>
 						<tr>

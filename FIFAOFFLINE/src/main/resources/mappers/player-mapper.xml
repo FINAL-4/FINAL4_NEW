@@ -53,6 +53,12 @@
 		<id property="rNum" column="R_NUM"/>
 		<result property="userNo" column="USER_NO"/>
 		<result property="accept" column="ACCEPT"/>
+		<result property="userName" column="USER_NAME"/>
+		<result property="manner" column="E_MANNER"/>
+		<result property="skill" column="E_SKILL"/>
+		<result property="position" column="POSITION"/>
+		<result property="phone" column="PHONE"/>
+		<result property="proFile" column="PROFILE"/>
 	</resultMap>
 	
 	<!-- 팀용병 리스트 보여주기 쿼리문 -->
@@ -103,8 +109,8 @@
 		SELECT *
 		FROM (SELECT * FROM P_ENROLL P
 			  JOIN MEMBER M ON (P.USER_NO = M.USER_NO)
-			  ORDER BY A_COUNT DESC)
-		WHERE ROWNUM <= 5
+			  ORDER BY A_COUNT DESC, E_DAY ASC)
+		WHERE E_DAY >= SYSDATE -1 AND ROWNUM <= 5 AND E_STATUS = 'N'
 	]]>
 	</select>
 	
@@ -145,10 +151,38 @@
 		WHERE USER_NO=#{userNo}
   	</update>
   	
-  	<!-- 신청하기 쿼리문 -->
+  	<!-- 팀 용병 신청하기 쿼리문 -->
   	<insert id="teamPlayApply" parameterType="P_LIST">
   		INSERT INTO P_LIST
   		VALUES(#{rNum}, #{userNo}, DEFAULT)
   	</insert>
-	
+  	
+  	<!-- 팀 용병 신청 AJAX 쿼리문 -->
+	<select id="ajaxApplyPlayer" parameterType="P_LIST" resultType="_int">
+  		SELECT COUNT(*)
+  		FROM P_LIST
+  		WHERE R_NUM=#{rNum} AND USER_NO=#{userNo}
+  	</select>
+  	
+  	<!-- 팀 용병 신청 리스트 쿼리문 -->
+  	<select id="applyList" resultMap="listResultSet">
+  		SELECT * FROM P_LIST P
+		JOIN MEMBER M ON (P.USER_NO = M.USER_NO)
+		JOIN P_ENROLL E ON(E.USER_NO = M.USER_NO)
+		WHERE ACCEPT='H' AND R_NUM=#{rNum}
+  	</select>
+  	
+  	<!-- 개인 용병 신청 AJAX 쿼리문 -->
+  	<select id="ajaxApplyPerson" parameterType="P_ENROLL" resultType="_int">
+  		SELECT COUNT(*)
+  		FROM P_ENROLL
+  		WHERE E_NUM=#{eNum} AND USER_NO=#{userNo}
+  	</select>
+  	
+  	<!-- 팀 용병 모집 글 중복검사 -->
+  	<select id="checkTeamSelect" parameterType="_int" resultType="_int">
+  		SELECT COUNT(*)
+  		FROM P_RECRUIT
+  		WHERE R_NUM=#{rNum} AND R_STATUS='N'
+  	</select>
 </mapper>

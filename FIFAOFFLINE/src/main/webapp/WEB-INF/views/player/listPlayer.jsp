@@ -382,6 +382,8 @@ div[id^="player"]{
 			<c:forEach var="tp" items="${team }">
 				<c:url var="ptDetail" value="playTeamDetail.pl">
 					<c:param name="rNum" value="${tp.rNum }"/>
+					<c:param name="userNo" value="${tp.userNo }"/>
+					
 				</c:url>
   				<tr class="teamselector" onclick="location.href='${ptDetail}'">
 			    <td class="playList">

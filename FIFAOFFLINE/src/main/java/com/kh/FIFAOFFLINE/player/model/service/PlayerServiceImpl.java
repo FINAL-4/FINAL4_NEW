@@ -82,6 +82,31 @@ public class PlayerServiceImpl implements PlayerService{
 		return pDao.teamPlayApply(pl);
 	}
 
+	@Override
+	public int ajaxApplyPlayer(P_LIST pl) {
+		return pDao.ajaxApplyPlayer(pl);
+	}
+	
+	@Override
+	public ArrayList<P_LIST> applyList(int rNum) {
+		return pDao.applyList(rNum);
+	}
+
+	@Override
+	public int ajaxApplyPerson(P_ENROLL pe) {
+		return pDao.ajaxApplyPerson(pe);
+	}
+
+	@Override
+	public int checkTeamSelect(int mt) {
+		return pDao.checkTeamSelect(mt);
+	}
+
+
+
+	
+
+
 
 	
 

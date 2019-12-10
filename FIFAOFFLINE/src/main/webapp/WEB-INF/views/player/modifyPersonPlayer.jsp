@@ -389,7 +389,7 @@ input, select{
 						<td style = "width:40%; font-size : 20px; text-align:center"> 매너 </td>
 						<td> 
 							<select id = manner name = "eManner" style = "width: 400px; text-align: center;">
-								<option value="0">${pe.eManner }</option>
+								<option value="${pe.eManner }">${pe.eManner }</option>
 								<option value="상">상</option>
 								<option value="중">중</option>
 								<option value="하">하</option>
@@ -400,7 +400,7 @@ input, select{
 						<td style = "width:40%; font-size : 20px; text-align:center"> 실력 </td>
 						<td>
 							<select id = skill name = "eSkill" style = "width: 400px; text-align: center;">
-								<option value="0">${pe.eSkill }</option>
+								<option value="${pe.eSkill }">${pe.eSkill }</option>
 								<option value="상">상</option>
 								<option value="중">중</option>
 								<option value="하">하</option>
@@ -440,7 +440,7 @@ input, select{
 							<td style = "width: 500%">
 								<h6 style = "margin: 0px;">선택된 장소</h6>
 								<h3 id = "cplace" style = "margin-top: 2px;">${pe.ePlace }</h3>
-								<input id = "cplaceName" name = "ePlace" style = "display: none;"></input>
+								<input id = "cplaceName" name = "ePlace" style = "display: none;" value="${pe.ePlace }"></input>
 								<input id = "cplaceX" name = "ePlaceX" value="${pe.ePlaceX }" style = "display: none;"></input>
 								<input id = "cplaceY" name = "ePlaceY" value="${pe.ePlaceY }" style = "display: none;"></input>
 							</td>
@@ -487,7 +487,7 @@ input, select{
 							<td style = "width: 40%"><h6 style = "margin: 0px;">선택된 날짜</h6>
 							<h4 id = "dayInfo" style = "font-size: 22px; margin-top: 0px; margin-bottom: 0px;">${pe.eDay }</h4></td>
 							<td style = "width: 40%">
-							<input type = "text" id = "mDayInfo" name = "eDay" style = "display: none;"></input>
+							<input type = "text" id = "mDayInfo" name = "eDay" style = "display: none;" value="${pe.eDay }"></input>
 							</td>
 						</tr>
 						<tr>
@@ -540,14 +540,14 @@ input, select{
 					<textarea id = "mContent" name = "eContent" rows="10" cols="80" style = "resize: none;">${pe.eContent }</textarea>
 				</div>
 				<div class = "btns" align="center">
+		</form>
 					<button type="button"
 						class="btn btn-default btn res-btn-orange"
 						data-class=".res-form-four">Back</button>
-					<button class="btn" onclick = "submitModify();" data-class=".res-form-four">Submit</button>
+					<button type=button class="btn" onclick = "submitModify();" data-class=".res-form-four">Submit</button>
 				</div>
 		</div>
 		</div>
-		</form>
 	</div>
 	</div>
 </div>
