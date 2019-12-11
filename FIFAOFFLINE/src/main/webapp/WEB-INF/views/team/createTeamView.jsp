@@ -200,73 +200,64 @@ body{
 
 button,
 button::after {
-  -webkit-transition: all 0.3s;
-	-moz-transition: all 0.3s;
-  -o-transition: all 0.3s;
-	transition: all 0.3s;
+   -webkit-transition: all 0.3s;
+   -moz-transition: all 0.3s;
+   -o-transition: all 0.3s;
+   transition: all 0.3s;
 }
-
 button {
-  background: none;
-  border: 3px solid #fff;
-  border-radius: 5px;
-  color: lightgrey;
-  display: block;
-  font-size: 1.6em;
-  font-weight: bold;
-  margin: 1em auto;
-  padding: 2em 6em;
-  position: relative;
-  text-transform: uppercase;
+   background: none;
+   border: 3px solid #fff;
+   border-radius: 5px;
+   color: lightgrey;
+   display: block;
+   font-size: 1.6em;
+   font-weight: bold;
+   margin: 1em auto;
+   padding: 0px 18px;
+   position: relative;
+   text-transform: uppercase;
 }
-
 button::before,
 button::after {
-  background: #fff;
-  content: '';
-  position: absolute;
-  z-index: -1;
+   background: #fff;
+   content: '';
+   position: absolute;
+   z-index: -1;
 }
 
 button:hover {
-  color: black;
-  background: black;
+   color: white;
+   background: black;
 }
-
-
 .btns{
-	width: 100%;
-	height: 100px;
-	position: absolute;
+   width: 100%;
+   height: 100px;
+   position: absolute;
 }
-
 .btn{
-	border:1px solid black;
-	background:white;
-	width: 100px;
-	height: 50px;
-  	overflow: hidden;
-  	display: inline-block;
-  	margin-left: 5px;
-  	margin-right: 5px;
-  	color: black;
+   border:1px solid black;
+   background:white;
+   width: 100px;
+   height: 50px;
+     overflow: hidden;
+     display: inline-block;
+     margin-left: 5px;
+     margin-right: 5px;
+     color: black;
 }
-
-
 .btn::after {
-  /*background-color: #f00;*/
-  height: 100%;
-  left: -35%;
-  top: 0;
-  transform: skew(50deg);
-  transition-duration: 0.6s;
-  transform-origin: top left;
-  width: 0;
+   height: 100%;
+   left: -35%;
+   top: 0;
+   transform: skew(50deg);
+   transition-duration: 0.6s;
+   transform-origin: top left;
+   width: 0;
 }
-
 .btn:hover:after {
-  height: 100%;
-  width: 135%;
+   height: 100%;
+   width: 135%;
 }
 
 
@@ -546,10 +537,10 @@ label{
 										<div class = "btns" align="center">
 											<button type="button"
 												class="btn" onclick = "goMatch();"
-												data-class="">돌아가기</button>
+												data-class="">이전</button>
 											<button type="button"
 												class="btn btn-default btn res-btn-gray"
-												data-class=".res-form-one">이전으로</button>
+												data-class=".res-form-one">다음</button>
 										</div>
 									</div>
 	
@@ -567,10 +558,10 @@ label{
 										<div class = "btns" align="center">
 											<button type="button" style = "float : none;"
 												class="btn btn-default col-xs-offset-1 btn res-btn-orange"
-												data-class=".res-form-two">이전으로</button>
+												data-class=".res-form-two">이전</button>
 											<button type="button"
 												class="btn btn-default btn res-btn-gray"
-												data-class=".res-form-two">다음으로</button>
+												data-class=".res-form-two">다음</button>
 										</div>
 									</div>
 									
@@ -582,10 +573,10 @@ label{
 											<div class = "btns" align="center">
 												<button type="button"
 													class="btn btn-default btn res-btn-orange"
-													data-class=".res-form-three">이전으로</button>
+													data-class=".res-form-three">이전</button>
 												<button type="button"
 														class="btn btn-default btn res-btn-gray"
-														data-class=".res-form-three">다음으로</button>
+														data-class=".res-form-three">다음</button>
 											</div>
 									</div>
 	
@@ -619,7 +610,7 @@ label{
 											<div class = "btns" align="center">
 												<button type="button"
 													class="btn btn-default btn res-btn-orange"
-													data-class=".res-form-four">이전으로</button>
+													data-class=".res-form-four">이전</button>
 												<button type="button" onclick="submitCreate();"
 													class="btn"
 													data-class=".res-form-four">제출</button>

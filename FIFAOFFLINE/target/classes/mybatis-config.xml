@@ -13,7 +13,8 @@
 		<typeAlias type="com.kh.FIFAOFFLINE.match.model.vo.AppMatch" alias="AppMatch"/>
 		<typeAlias type="com.kh.FIFAOFFLINE.match.model.vo.SmsInfo" alias="SmsInfo"/>
 		<typeAlias type="com.kh.FIFAOFFLINE.match.model.vo.ScoreInfo" alias="ScoreInfo"/>
-		
+		<typeAlias type="com.kh.FIFAOFFLINE.tournament.model.vo.Tournament" alias="Tournament"/>
+		<typeAlias type="com.kh.FIFAOFFLINE.tournament.model.vo.TournamentInfo" alias="TournamentInfo"/>
 		
 		<!-- ======================= 배성용 ========================= -->
 		<typeAlias type="com.kh.FIFAOFFLINE.board.model.vo.Board" alias="Board"/>
@@ -27,7 +28,7 @@
 		<typeAlias type="com.kh.FIFAOFFLINE.player.model.vo.P_RECRUIT" alias="P_RECRUIT"/>
 		<typeAlias type="com.kh.FIFAOFFLINE.player.model.vo.P_LIST" alias="P_LIST"/>
 		<typeAlias type="com.kh.FIFAOFFLINE.player.model.vo.P_ENROLL" alias="P_ENROLL"/>
-		<typeAlias type="com.kh.FIFAOFFLINE.tournament.model.vo.Tournament" alias="Tournament"/>
+		
 		
 		
 		
@@ -38,6 +39,7 @@
 		<typeAlias type="com.kh.FIFAOFFLINE.team.model.vo.TeamJoinedMember" alias="TeamJoinedMember"/>
 		<typeAlias type="com.kh.FIFAOFFLINE.team.model.vo.TeamMember" alias="TeamMember"/>
 		<typeAlias type="com.kh.FIFAOFFLINE.team.model.vo.MyTeam" alias="MyTeam"/>
+		<typeAlias type="com.kh.FIFAOFFLINE.team.model.vo.TeamFilter" alias="TeamFilter"/>
 		
 		
 		
@@ -64,7 +66,7 @@
 		
 		<!-- ======================= 강현모 ========================= -->
 		<mapper resource="mappers/match-mapper.xml"/>
-		
+		<mapper resource="mappers/tournament-mapper.xml"/>
 		
 		
 		

@@ -18,7 +18,7 @@ public class Pagination {
 	      int startPage;      // 현재 페이지에서 보여질 페이징 버튼의 시작 페이지
 	      int endPage;      // 현재 페이지에서 보여질 페이징 버튼의 끝 페이지
 	      
-	      int boardLimit = 2; // 한 페이지에 보여질 게시글 갯수
+	      int boardLimit = 1; // 한 페이지에 보여질 게시글 갯수
 	      
 	      /* maxPage = (int)((double)listCount/boardLimit + 0.8); */
 	      maxPage = (int)((double)listCount/boardLimit + 0.9);

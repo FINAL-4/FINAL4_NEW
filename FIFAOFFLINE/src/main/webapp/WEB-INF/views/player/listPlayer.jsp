@@ -358,7 +358,7 @@ div[id^="player"]{
 			</c:forEach> 
 			</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 			<div id = btn> 
-				<input type = button id = playerEnroll value = "개인 용병 등록" onclick="playerEnroll()">
+				<input type = button id = playerEnroll value = "개인 용병 등록" onclick="playerEnroll()"> 
 				<input type = button id = playerRecruit value = "팀 용병 모집" onclick="playerRecruit()"> 
 			</div>
 		</div>
@@ -445,6 +445,29 @@ function playerRecruit(loginUser){
 	<% } %>
 }
 
+/*
+function playerEnroll(){
+	var eNum = ${pp.eNum};
+	var userNo = ${loginUser.userNo};
+	
+	$.ajax({
+		url:"checkPerson.pl",
+		data:{eNum:eNum, userNo:userNo},
+		success:function(data){
+			if(data != "0"){
+				alert("이미 등록 된 글이 있습니다. \n등록 글을 삭제하고 새로운 글을 등록해주세요.");
+			} else {
+				location.href="playPersonCreate.pl";
+			}
+		},
+		error:function(request, status, errorData){
+			alert("error code: " + request.status + "\n"
+					+"message: " + request.responseText
+					+"error: " + errorData);
+		}
+	});	
+	
+} */
 function playerEnroll(){
 	location.href="playPersonCreate.pl";
 }

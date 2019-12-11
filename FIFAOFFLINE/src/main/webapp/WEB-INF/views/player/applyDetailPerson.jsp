@@ -317,13 +317,19 @@ h6{
 					if(data == 1){
 						alert("이미 신청했습니다.");
 					} else {
-						var confirmFlag = confirm("정말로 신청하시겠습니까 ?");
+						var confirmFlag = confirm("정말로 신청하시겠습니까 ? \n해당 번호로 문자메세지가 전송됩니다.");
 						if(confirmFlag){
 							location.href="personApply.pl?userNo="+userNo+"&eNum="+eNum;
+							alert("신청이 완료 되었습니다.");
 						} else {
-							alert("");
+							alert("신청을 취소 하였습니다.");
 						}
 					}
+				},
+				error:function(request, status, errorData){
+					alert("error code: " + request.status + "\n"
+							+"message: " + request.responseText
+							+"error: " + errorData);
 				}
 			});
 		} else {
