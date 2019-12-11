@@ -180,9 +180,14 @@
 						<a class="menu__item" onclick="document.getElementById('id01').style.display='block'" id = "playerMenu" style = "border:none;"> <span class="menu__item-name">용병     </span> </a>
 						</c:if>
 						<a class="menu__item" href="goMatch.ma" style = "border: none;"> <span class="menu__item-name">매칭     </span></a>
+<<<<<<< HEAD
 						<c:if test="${!empty sessionScope.loginUser }">
 						<a class="menu__item" href="mypage.me" style = "border: none;"> <span class="menu__item-name">마이페이지     </span></a>
 						</c:if>
+=======
+						<c:if test="${!empty sessionScope.loginUser }">
+						<a class="menu__item" href="mypage.me" style = "border: none;"> <span class="menu__item-name">마이페이지     </span></a></c:if>
+>>>>>>> refs/remotes/origin/master
 						<span>
 						<c:if test="${empty sessionScope.loginUser }">
 						<img id = "login-logo" src="resources/images/login.png" width="30px;" height="30px;" onclick="document.getElementById('id01').style.display='block'">

@@ -39,7 +39,15 @@
 		select count(*)
 		from member
 		where USER_ID=#{id}
-	</select>
+  </select>
+  
+  <!-- 안효찬꺼 -->
+  <select id="selectAllMember" resultMap="memberResultSet">
+  	SELECT * FROM
+  	MEMBER
+  	WHERE STATUS = 'Y'
+  </select>
+
 	<update id="updateMember" parameterType="Member">
 	UPDATE MEMBER SET 
 	USER_PWD=#{userPwd},USER_NAME=#{userName},USER_EMAIL=#{userEmail},BIRTHDAY=#{birthDay},PHONE=#{phone},PROFILE=#{profile},POSITION=#{position},ADDRESS=#{address}
@@ -74,4 +82,10 @@
  	
  	</update>
   
+  <!-- 안효찬꺼 -->
+  <select id="drawMember" resultMap="memberResultSet">
+  	SELECT * FROM
+  	MEMBER
+  	WHERE STATUS='Y' AND USER_NO=#{userNo}
+  </select>
 </mapper>
