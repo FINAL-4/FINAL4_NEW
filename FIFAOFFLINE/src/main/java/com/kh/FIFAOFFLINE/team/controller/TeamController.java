@@ -76,6 +76,7 @@ public class TeamController {
 		mv.addObject("pi", pi);
 		mv.addObject("teamLeader",teamLeader);
 		mv.setViewName("team/teamListView");
+		
 			
 		
 	

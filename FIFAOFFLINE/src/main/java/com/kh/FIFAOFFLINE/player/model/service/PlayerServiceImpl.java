@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.player.model.dao.PlayerDao;
 import com.kh.FIFAOFFLINE.player.model.vo.P_ENROLL;
+import com.kh.FIFAOFFLINE.player.model.vo.P_LIST;
 import com.kh.FIFAOFFLINE.player.model.vo.P_RECRUIT;
 
 @Service("pService")
@@ -75,6 +76,36 @@ public class PlayerServiceImpl implements PlayerService{
 	public int personApply(int userNo) {
 		return pDao.personApply(userNo);
 	}
+
+	@Override
+	public int teamPlayApply(P_LIST pl) {
+		return pDao.teamPlayApply(pl);
+	}
+
+	@Override
+	public int ajaxApplyPlayer(P_LIST pl) {
+		return pDao.ajaxApplyPlayer(pl);
+	}
+	
+	@Override
+	public ArrayList<P_LIST> applyList(int rNum) {
+		return pDao.applyList(rNum);
+	}
+
+	@Override
+	public int ajaxApplyPerson(P_ENROLL pe) {
+		return pDao.ajaxApplyPerson(pe);
+	}
+
+	@Override
+	public int checkTeamSelect(int mt) {
+		return pDao.checkTeamSelect(mt);
+	}
+
+
+
+	
+
 
 
 	

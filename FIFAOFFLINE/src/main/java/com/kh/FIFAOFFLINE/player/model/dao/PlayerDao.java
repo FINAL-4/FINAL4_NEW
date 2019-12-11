@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.player.model.vo.P_ENROLL;
+import com.kh.FIFAOFFLINE.player.model.vo.P_LIST;
 import com.kh.FIFAOFFLINE.player.model.vo.P_RECRUIT;
 
 @Repository("pDao")
@@ -76,10 +77,45 @@ public class PlayerDao {
 
 	// 개인 용병 신청 참가횟수 증가
 	public int personApply(int userNo) {
-		System.out.println("DAO 신청 : " + userNo);
+		// System.out.println("DAO 신청 : " + userNo);
 		return sqlSession.update("playerMapper.personApply", userNo);
 	}
 
+	// 신청 하는 거
+	public int teamPlayApply(P_LIST pl) {
+		//System.out.println("다오 신청 테스트 : " + pl);
+		return sqlSession.insert("playerMapper.teamPlayApply", pl);
+	}
+
+	// 용병 신청
+	public int ajaxApplyPlayer(P_LIST pl) {
+	//	System.out.println("다오 용병 신청 테스트 : " + pl);
+		return sqlSession.selectOne("playerMapper.ajaxApplyPlayer", pl);
+	}
+
+	// 용병 신청 리스트
+	public ArrayList<P_LIST> applyList(int rNum) {
+		//System.out.println("다오 용병 신청 리스트 :" + rNum);
+		return (ArrayList)sqlSession.selectList("playerMapper.applyList", rNum);
+	}
+
+	// 개인용병 신청
+	public int ajaxApplyPerson(P_ENROLL pe) {
+		return sqlSession.selectOne("playerMapper.ajaxApplyPerson", pe);
+	}
+
+	// 용병 모집 글 등록 중복 검사
+	public int checkTeamSelect(int mt) {
+		return sqlSession.selectOne("playerMapper.checkTeamSelect", mt);
+	}
+
+	
+	
+
+
+
+	
+	
 	
 
 

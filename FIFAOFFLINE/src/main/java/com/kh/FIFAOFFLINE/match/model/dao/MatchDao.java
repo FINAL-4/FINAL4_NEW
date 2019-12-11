@@ -10,7 +10,10 @@ import org.springframework.stereotype.Repository;
 import com.kh.FIFAOFFLINE.match.model.vo.AppMatch;
 import com.kh.FIFAOFFLINE.match.model.vo.Match;
 import com.kh.FIFAOFFLINE.match.model.vo.MatchFilter;
+import com.kh.FIFAOFFLINE.match.model.vo.ScoreInfo;
 import com.kh.FIFAOFFLINE.match.model.vo.SmsInfo;
+import com.kh.FIFAOFFLINE.member.model.vo.Member;
+import com.kh.FIFAOFFLINE.team.model.vo.Team;
 
 @Repository("maDao")
 public class MatchDao {
@@ -86,6 +89,36 @@ public class MatchDao {
 	public ArrayList<SmsInfo> getSmsInfo(int teamNo) {
 		
 		return (ArrayList)sqlSession.selectList("matchMapper.selectSmsInfo", teamNo);
+	}
+
+	public Team selectTeam(int tId) {
+		
+		return (Team)sqlSession.selectOne("teamMapper.selectTeam", tId);
+	}
+
+	public int selectMemberCount(int tId) {
+		
+		return sqlSession.selectOne("teamMapper.selectMemberCount", tId);
+	}
+
+	public ArrayList<Member> selectTeamMember(int tId) {
+		
+		return (ArrayList)sqlSession.selectList("teamMapper.selectTeamMember", tId);
+	}
+
+	public int endMatch(int mId) {
+		
+		return sqlSession.update("matchMapper.endMatch", mId);
+	}
+
+	public int insertScore(ScoreInfo si) {
+		
+		return sqlSession.insert("matchMapper.insertScore", si);
+	}
+
+	public ArrayList<ScoreInfo> selectTeamScore(int tId) {
+		
+		return (ArrayList)sqlSession.selectList("matchMapper.selectTeamScore", tId);
 	}
 
 

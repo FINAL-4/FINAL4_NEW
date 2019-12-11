@@ -44,6 +44,16 @@
 	<result property="userName" column="USER_NAME"/>
   </resultMap>
   
+  
+  <resultMap type="ScoreInfo" id="scoreInfoResultSet">
+	<id property="msId" column="MSID"/>
+	<result property="tId" column="TEAM_NO"/>
+	<result property="score" column="SCORE"/>
+	<result property="otId" column="OPP_TEAM_NO"/>
+	<result property="result" column="RESULT"/>
+  </resultMap>
+  
+  
   <!-- 매치생성 -->
   <insert id="insertMatching" parameterType="Match">
   	INSERT INTO MATCHING
@@ -60,7 +70,7 @@
  	FROM MATCHING MA
     JOIN TEAM T ON(T.TEAM_NO = MA.TEAM_NO)
     JOIN MEMBER M ON(M.USER_NO = MA.USER_NO)
- 	WHERE M_STATUS='Y'
+ 	WHERE M_STATUS='Y' OR M_STATUS = 'ING'
   	ORDER BY CREATE_DATE DESC
   </select>
  
@@ -72,7 +82,7 @@
  	FROM MATCHING MA
     JOIN TEAM T ON(T.TEAM_NO = MA.TEAM_NO)
     JOIN MEMBER M ON(M.USER_NO = MA.USER_NO)
- 	WHERE M_STATUS='Y' AND MID=#{mId}
+ 	WHERE (M_STATUS='Y' OR M_STATUS = 'ING') AND MID=#{mId}
  </select>
  
  
@@ -103,7 +113,7 @@
  	FROM MATCHING MA
     JOIN TEAM T ON(T.TEAM_NO = MA.TEAM_NO)
     JOIN MEMBER M ON(M.USER_NO = MA.USER_NO)
- 	WHERE M_STATUS = 'Y'
+ 	WHERE (M_STATUS = 'Y' OR M_STATUS = 'ING')
  	<if test="eDate != null and sDate != null">
  	AND (M_DAY &lt;= #{eDate} AND M_DAY &gt;= #{sDate})
  	</if>
@@ -159,6 +169,7 @@
 	 	</if>
  		)
  	</if>
+ 	ORDER BY CREATE_DATE DESC
  </select>
  
  <select id="selectAppMatching" parameterType="hashmap" resultType="_int">
@@ -192,7 +203,8 @@
  	FROM MATCHING MA
     JOIN TEAM T ON(T.TEAM_NO = MA.TEAM_NO)
     JOIN MEMBER M ON(M.USER_NO = MA.USER_NO)
- 	WHERE M_STATUS='Y' AND T.TEAM_NO = #{tId}
+ 	WHERE (M_STATUS='Y' OR M_STATUS = 'ING') AND T.TEAM_NO = #{tId}
+ 	ORDER BY CREATE_DATE DESC
   </select>
  
  <select id="selectCheckTeam" parameterType="_int" resultType="_int">
@@ -214,4 +226,21 @@
 		WHERE TEAM_NO=#{teamNo}
 	</select>
 
+ 	<insert id="insertScore">
+		INSERT INTO MATCHING_SCORE
+		VALUES(SEQ_MSID.NEXTVAL,#{tId},#{score},#{otId},#{result},SYSDATE)
+	</insert>
+	
+	<update id = "endMatch">
+		UPDATE MATCHING
+	 	SET M_STATUS='E'
+	 	WHERE MID=#{mId}
+	</update>
+	
+	<select id="selectTeamScore" resultMap="scoreInfoResultSet">
+		SELECT *
+		FROM MATCHING_SCORE
+		WHERE TEAM_NO = #{tId}
+	</select>
+	
 </mapper>

@@ -1,8 +1,22 @@
 <%@page import="com.sun.glass.ui.Size"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="com.kh.FIFAOFFLINE.team.model.vo.MyTeam, com.kh.FIFAOFFLINE.member.model.vo.Member, java.util.ArrayList" %>
+<%
+	ArrayList<MyTeam> myTeam = (ArrayList)session.getAttribute("myTeam");
+	Member m = (Member)session.getAttribute("loginUser");
+	
+	int[] myTeamArr = null;
+	boolean flag = false;
+	
+	if(myTeam != null){
+		myTeamArr = new int[myTeam.size()];
+		
+		for(int i = 0; i < myTeam.size(); i++){
+			myTeamArr[i] = myTeam.get(i).getTeamNo();
+		}
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -229,6 +243,12 @@ div[id^="player"]{
 	transform: rotateX(180deg);
 	padding: 5px;
 }
+/* .imgcover{
+	width:100%;
+	height:100%;
+	background-repeat: no-repeat;
+	opacity: 0.3;
+} */
 #btn{
 	margin-left:1150px;
 }
@@ -253,6 +273,7 @@ div[id^="player"]{
 	width : 250px;
 	height : 50px;
 	font-size: 30px;
+	position: absolute;
 }
 #cardDetailBtn:hover{
 	cursor: pointer;
@@ -280,13 +301,15 @@ div[id^="player"]{
 			  			<div style="font-size:5em; font-weight: bold;">${pp.userName }</div>
 			  		</div>
 			  		<div class="back"  onclick="toggleTrsf(${status.count})">
-			  			<div style="font-size:4em; font-weight:bold; text-align: center; border-bottom: 3px solid gray;">${pp.eTitle }</div> <br>
-			  			<div style="font-size:3em; font-weight:bold;">매너 : ${pp.eManner }</div> <br>
-			  			<div style="font-size:3em; font-weight:bold;">실력 : ${pp.eSkill }</div> <br>
-			  			<div style="font-size:2.5em; font-weight:bold;">가능 장소 : ${pp.ePlace }</div> <br>
-			  			<div style="font-size:2.5em; font-weight:bold;">가능 날짜 : ${pp.eDay }</div> <br>
-			  			<div style="font-size:2.5em; font-weight:bold;">가능 시간 : ${pp.esHour } 시  ~ ${pp.efHour } 시</div> <br><br><br>
-			  			<input type = button value = "상세보기" id = cardDetailBtn onclick="location.href='${ppDetail }'">
+			  			<%-- <div class=imgcover style = "background-image: url('resources/proFiles/${pp.proFile }'); "> --%>
+				  			<div style="font-size:4em; font-weight:bold; text-align: center; border-bottom: 3px solid gray;">${pp.eTitle }</div> <br>
+				  			<div style="font-size:3em; font-weight:bold;">매너 : ${pp.eManner }</div> <br>
+				  			<div style="font-size:3em; font-weight:bold;">실력 : ${pp.eSkill }</div> <br>
+				  			<div style="font-size:2.5em; font-weight:bold;">가능 장소 : ${pp.ePlace }</div> <br>
+				  			<div style="font-size:2.5em; font-weight:bold;">가능 날짜 : ${pp.eDay }</div> <br>
+				  			<div style="font-size:2.5em; font-weight:bold;">가능 시간 : ${pp.esHour } 시  ~ ${pp.efHour } 시</div> <br><br><br>
+				  			<input type = button value = "상세보기" id = cardDetailBtn onclick="location.href='${ppDetail }'">
+			  			<!-- </div> -->
 			  		</div>
 				</div>
 			</div>
@@ -359,12 +382,14 @@ div[id^="player"]{
 			<c:forEach var="tp" items="${team }">
 				<c:url var="ptDetail" value="playTeamDetail.pl">
 					<c:param name="rNum" value="${tp.rNum }"/>
+					<c:param name="userNo" value="${tp.userNo }"/>
+					
 				</c:url>
   				<tr class="teamselector" onclick="location.href='${ptDetail}'">
 			    <td class="playList">
 			    	<div style="height:100%; width:80" class="Timgtag">
 			    		<%-- <input type="hidden" value="<%=i%>" class="hiddenTno<%=i%>"> --%>
-			    		<img src="<%=request.getContextPath()%>/resources/images/logo.png" style="width:100%; height:100%; padding-left:25px;">
+			    		<img src="<%=request.getContextPath()%>/resources/images/team/${tp.teamImage}" style="width:100%; height:100%; padding-left:25px;">
 			    	</div>
 			    </td>
 			    <td class="playList">${tp.teamName } </td>
@@ -398,9 +423,28 @@ div[id^="player"]{
 		}, { offset: '100%' } );
 	});
 
-function playerRecruit(){  
-	location.href="playTeamCreate.pl";
+function playerRecruit(loginUser){
+	if(loginUser == ""){
+		alert("로그인이 필요합니다.");
+		return false;
+	} else {
+		<% if(myTeam == null) { %>
+		alert("소속된 팀이 없어 용병 모집이 불가합니다.");
+		<% } else { %>
+			<% for(int i = 0; i < myTeam.size(); i++) {
+				if(myTeam.get(i).getT_Grade() == 1){
+					flag = true;
+				}
+			} %>
+		<% } %>
+	}
+	<% if(flag) { %>
+		location.href="playTeamCreate.pl";
+	<% } else { %>
+		alert("팀장이 되어야 용병 모집이 가능합니다.");
+	<% } %>
 }
+
 function playerEnroll(){
 	location.href="playPersonCreate.pl";
 }

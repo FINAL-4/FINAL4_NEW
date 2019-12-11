@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="com.kh.FIFAOFFLINE.team.model.vo.MyTeam, java.util.ArrayList"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+	ArrayList<MyTeam> myTeam = (ArrayList<MyTeam>)session.getAttribute("myTeam");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -66,7 +69,7 @@
 	margin-top: 2%;
 }
 #recruitBtn, #applyBtn {
-	margin-left : 60px;
+	margin-left : 30px;
 	width:250px;
 	height: 40px;
 	font-size: 1.5em;
@@ -74,6 +77,9 @@
 	background: black;
 	border: 1px solid black;
 	color:white;
+}
+#applyBtn{
+	margin-left:64%;
 }
 #deleteBtn{
 	background:black;
@@ -102,6 +108,7 @@
 	background: black;
 	color:white;
 	border: 1px solid black;
+	margin-left:31.5%;
 }
 #recruitBtn:hover, #applyBtn:hover, #applyingBtn:hover, #deleteBtn:hover, #modifyBtn:hover{
 	color:black;
@@ -116,14 +123,22 @@
 	border-collapse: separate;
 	border-spacing: 10px 25px;
 } 
-.agreeBtn, .cancelBtn{
+#agreeBtn, #cancelBtn{
 	width:35px;
-	height:30px;
+	height:32px;
 	font-weight: bold; 
-	font-size:1.5em;
+	color:black;
+	padding-bottom: 30px;
+	padding-left:7px;
 }
 #agreeBtn:hover, #cancelBtn:hover, #closeBtn:hover{
 	cursor: pointer;
+}
+#agreeBtn{
+	background: green;
+}
+#cancelBtn{
+	background: red;
 }
 #closeBtn{
 	background: white;
@@ -140,6 +155,81 @@ h6{
 	font-size:20px;
 }	
 
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 50%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0,0,0); /* Fallback color */
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	padding-top: 60px;
+}
+/* Modal Content/Box */
+.modal-content {
+	background-color: #fefefe;
+	margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+	border: 1px solid #888;
+	width: 80%; /* Could be more or less, depending on screen size */
+}
+/* The Close Button (x) */
+.close {
+	position: absolute;
+	right: 25px;
+	top: 0;
+	color: #000;
+	font-size: 35px;
+	font-weight: bold;
+}
+.close:hover,
+.close:focus {
+	color: red;
+	cursor: pointer;
+}
+/* Add Zoom Animation */
+.animate {
+	-webkit-animation: animatezoom 0.6s;
+	animation: animatezoom 0.6s
+}
+@-webkit-keyframes animatezoom {
+	from {-webkit-transform: scale(0)} 
+	to {-webkit-transform: scale(1)}
+} 
+@keyframes animatezoom {
+  	from {transform: scale(0)} 
+ 	to {transform: scale(1)}
+}
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+	span.psw {
+		display: block;
+     	float: none;
+  	}
+  	.cancelbtn {
+    	 width: 100%;
+  	}
+}
+/* Extra styles for the cancel button */
+.cancelbtn {
+	width: auto;
+	padding: 10px 18px;
+	background-color: #f44336;
+}
+
+#listTable{
+	font-size : 2.5em;
+	border-bottom: 2px solid grey;
+	text-align: center;
+	border-spacing: 13px;
+}
+#listTr{
+	border-bottom:2px solid grey;
+}
+
+
 </style>
 </head>
 <jsp:include page = "../common/header.jsp"/>
@@ -153,12 +243,14 @@ h6{
 		</c:url>
 		<c:url var="tplModify" value="teamPlayListModifyView.pl">
 			<c:param name="rNum" value="${pRecruit.rNum }"/>
-		</c:url>					 
-			<input type = button id = deleteBtn value = "글 삭제하기" onclick="location.href='${tplDelte}'">
-			<input type = button id = modifyBtn value = "글 수정하기" onclick = "location.href='${tplModify}'" class="addressB">
+		</c:url>	
+		<c:if test="${loginUser.userNo == pRecruit.userNo }">				 
+			<input type = button id = deleteBtn value = "글 삭제하기" onclick="deleteBtn()">
+			<input type = button id = modifyBtn value = "글 수정하기" onclick="modifyBtn()" class="addressB">
+		</c:if>
 	</div>
 </div>
-	<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style="height: 800px; width: 90%; border: black; margin: auto;">
+	<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style="height: 850px; width: 90%; border: black; margin: auto;">
 																													<!-- 730 --> 
 		<div id = playContent style = "float:left">																					
 		<table align = center>
@@ -213,47 +305,66 @@ h6{
 			<h6 style = "margin-bottom: 5px;">상세위치 </h6>
 			<div id = "map" style = "width: 420px; height: 400px; float: left; border: 2px solid grey;"></div>
 		</div>
-		<!-- 기능시 구현!
-		글 작성자가 로그인 시 신청하기 버튼 대신  글삭제하기 + 신청현황 보여주기
-		글 작성자 제외 로그인 시 글 삭제하기 + 신청현황 버튼 안보이기  
-		신청하기는 글 작성자 제외 모두 가능 (용병은 같은 팀원에서는 신청하기 못하게 신청하면 원래 같은 팀이라는 문구 나오게) 
-		-->
-			<div id = btn>
-				<input type = button id = applyingBtn value = "신  청  현  황" style="margin-right:26%">
-				<input type = button id = recruitBtn value = "모집 리스트 보기" onclick = "location.href='playMain.pl'">
-				<input type = button id = applyBtn value = "신청하기">
-			</div>
-			
-		
-		<div id = "applyDetail" style="display:none; background: white; width: 50%; margin: auto;"> 
-			<table id = "applyDetailTable" style = "width: 50%; margin-left: 25%; margin-right: 25%;">
-				<tr>
-					<td colspan="3" style="border-bottom:3px solid gray; font-size: 2.3em;">
-						신청현황
-					</td>
-				</tr>
-				<%-- <c:forEach var="appMatch" items="${amList }" varStatus="status"> --%>
-				<tr>
-					<td style = "font-size:1.7em; width: 50%;">
-						<%-- ${appMatch.teamNo } --%>
-						ABCDEFG
-					</td>
-					<td style = "width: 25%;"> 
-						<input type = button id = "detailTeamBtn" name = "O" value="팀상세보기" style="background: black; color:white; font-size: 15px;">
-					</td>
-					<td style = "width: 25%;"> 
-						<input type = button id = "matchingBtn" name = "O" value="매칭하기" style="background: black; color:white; font-size: 15px;" onclick = "">
-					</td>
-				</tr>
-				<%-- </c:forEach> --%>
-				<tr>
-					<td colspan=3 align = right style = "border-bottom: none;">
-						<input type = button id = closeBtn value="닫기" style="font-weight: bold; font-size:2em;">
-					</td>
-				</tr>
-			</table>
+	
+		<div id = btn>
+		<c:url var="tplApply" value="teamPlayApply.pl">
+			<c:param name="rNum" value="${pRecruit.rNum }"/>
+			<c:param name="userNo" value="${loginUser.userNo }"/>
+		</c:url>
+		<c:if test="${loginUser.userNo != pRecruit.userNo }">
+			<input type = button id = applyBtn value = "신청하기" onclick = "applyBtn()"> 
+		</c:if>
+			<input type = button id = recruitBtn value = "모집 리스트 보기" onclick = "location.href='playMain.pl'"><br><br><br><br><br>
+		<c:if test="${loginUser.userNo == pRecruit.userNo }">                 <!-- "document.getElementById('id02').style.display='block'" -->
+			<input type = button id = applyingBtn value = "신  청  현  황" onclick = "document.getElementById('id02').style.display='block';">
+		</c:if>
 		</div>
 	</div>	
+</div>
+
+<div id = id02 class = "modal">
+	<form class="modal-content animate" action="/action_page.php" method="post">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+    </div>
+
+    <div class="container">
+    	<label style="font-size:3em; font-weight: bold; border-bottom: 5px solid grey;"> 신 청 현 황</label> <br><br><br><br>
+    	
+    	<table id = listTable>
+    	<thead>
+    		<tr id = listTr>
+    			<th> 프로필사진 </th>
+    			<th> 이름 </th>
+    			<th> 매너 </th>
+    			<th> 실력 </th>
+    			<th> 포지션 </th>
+    			<th> 번호 </th>
+    			<th></th>
+    			<th></th>
+    		</tr>
+    	</thead>
+    	
+    	<c:forEach var="pList" items="${pList }">   
+    		<tr id = listTr>
+    			<td><img id = "picture" src="resources/proFiles/${pList.proFile }" style="width:120px; height: 80px; margin-left:5px;"></td>
+    			<td>${pList.userName }</td>
+    			<td>${pList.manner }</td>
+    			<td>${pList.skill }</td>
+    			<td>${pList.position }</td>
+    			<td>${pList.phone }</td>
+    			<td> <input type = button id="agreeBtn" value="O" name="agree" onclick="agree(${pRecruit.userNo})">
+    			</td>
+    			<td> <input type = button id="cancelBtn" value="X" name="cancel">
+    			</td>
+    		</tr>
+    	</c:forEach>
+    	</table> 	
+    	
+    </div>
+
+   
+  </form>
 </div>
 	
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e5f9f6250199748b3a23d7b3d7d88dde&libraries=services"></script>
@@ -335,31 +446,78 @@ h6{
 	});
 </script>
 
-<script	src="https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.js"></script>
-<script type="text/javascript">
-	function showAppMatch(){
-			$$("#applyDetail").bPopup();
-	}
+<!-- 신청 -->
+<script>
+// Get the modal
+var modal = document.getElementById('id02');
 
-</script>
-<script type="text/javascript">
-	function appMatch(){
-		location.href="appMatch.ma?mId="+${match.mId}+"&tId=4";
-		
-	}
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
 
-</script>
-<script type="text/javascript">
-	$$(document).ready(function () {
-                            var hoverHTMLDemoOpenLeft = "zzzzzzzzzzzzzz";
-                        
-    $$("#applyBtn").hovercard({
-        detailsHTML: hoverHTMLDemoOpenLeft,
-        width: 350,
-        openOnRight: true
-    });
+
+function agree(id){
+	alert("asdfadsf");
+}
+
+$("#cancelBtn").click(function(){
+	alert("ratstsdat");
 });
+
+
 </script>
+
+<script type="text/javascript">
+function applyBtn(){
+	var playerFlag = false;
+	var userNo = ${loginUser.userNo};
+	var myTeamNo = [];
+	var rNum = ${pRecruit.rNum};
+	
+	if(!playerFlag){
+		$.ajax({
+			url:"ajaxApplyPlayer.pl",
+			data:{userNo:userNo, rNum:rNum},
+			success:function(data){
+				if(data == 1){
+					alert("이미 신청했습니다.");
+				} else {
+					var confirmFlag = confirm("정말로 신청하시겠습니까 ?");
+					if(confirmFlag){
+						location.href="teamPlayApply.pl?userNo="+userNo+"&rNum="+rNum;
+					} else {
+						alert("취소");
+					}
+				}
+			}
+		});
+	} else {
+		alert("이미 가입되어있는 팀 입니다.");
+	}
+}
+
+function deleteBtn(){
+	var deleteBtn = confirm("정말로 삭제하시겠습니까 ?");
+	if(deleteBtn){
+		location.href='${tplDelete}';
+	}else{
+		return false;
+	}
+}
+
+function modifyBtn(){
+var modifyBtn = confirm("정말로 수정하시겠습니까 ?");
+	if(modifyBtn){
+		location.href='${tplModify}';
+	} else {
+		return false;
+	}
+}
+</script>
+
 
 <jsp:include page = "../common/footer.jsp"/>
 </body>
