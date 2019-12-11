@@ -7,36 +7,7 @@
 	ArrayList<Tournament> to = new ArrayList();
 
 
-to.add(new Tournament(1,3,"테스트!!",3,0,0,"ba1.jpg"));
-to.add(new Tournament(1,5,"df!!",4,0,0,"ba2.jpg"));
-to.add(new Tournament(1,8,"테스asdf트!!",5,2,0,"ba3.jpg"));
-to.add(new Tournament(1,15,"테스sadf트!!",6,3,0,"ba4.jpg"));
-to.add(new Tournament(1,153,"sf!!",7,4,0,"degea.jpg"));
-to.add(new Tournament(1,12,"sad!!",8,5,0,"dybala.jpg"));
-to.add(new Tournament(1,155,"asdf!!",9,6,0,"juventus.jpg"));
-to.add(new Tournament(1,115,"gssa!!",10,7,0,"login.png"));
-to.add(new Tournament(1,23,"asdg!!",11,8,0,"man.jpg"));
-to.add(new Tournament(1,251,"테스트sss!!",12,9,0,"marker.png"));
-to.add(new Tournament(1,152,"dfd!!",13,10,0,"search.jpg"));
-to.add(new Tournament(1,123,"sd!!",14,11,0,"son.png"));
-to.add(new Tournament(1,415,"bsa!!",15,12,0,"tot.jpg"));
-to.add(new Tournament(1,53,"sdf!!",16,13,0,"youri.jpg"));
-to.add(new Tournament(1,67,"vsd!!",17,14,0,"leicester.jpg"));
-to.add(new Tournament(1,12,"asd!!",18,15,0,"fifalogo1.png"));
-to.add(new Tournament(1,4,"sa!!",19,16,0,""));
-to.add(new Tournament(1,345,"sdf!!",20,17,0,""));
-to.add(new Tournament(1,65,"sdf!!",21,18,0,""));
-to.add(new Tournament(1,14,"bsd!!",22,19,0,""));
-to.add(new Tournament(1,25,"sd!!",23,20,0,""));
-to.add(new Tournament(1,65,"테스트asd!!",24,21,0,""));
-to.add(new Tournament(1,45,"테스dd트!!",25,22,0,""));
-to.add(new Tournament(1,124,"v!!",26,23,0,""));
-to.add(new Tournament(1,135,"a!!",27,24,0,""));
-to.add(new Tournament(1,13,"s!!",28,25,0,""));
-to.add(new Tournament(1,537,"dfd!!",29,26,0,""));
-to.add(new Tournament(1,1246,"d!!",30,27,0,""));
-to.add(new Tournament(1,5135,"aad!!",31,28,0,""));
-to.add(new Tournament(1,2145,"vd!!",32,29,0,""));
+
 
 
 %>    
