@@ -7,16 +7,16 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="resources/css/style.css" />
+<!-- <link rel="stylesheet" type="text/css" href="resources/css/style.css" /> -->
 <style>
 * {
   box-sizing: border-box;
 }
 
 /* Style the search field */
-
-.teamsearchB:hover {
-  background: #0b7dda;
+.teamsearchB{
+	background:black;
+	color:white;
 }
 
 /* Clear floats */
@@ -30,10 +30,7 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
   width: 100%;
-
-
 }
-
 td {
   padding: 16px;
   height:170px;
@@ -99,71 +96,63 @@ tbody tr:nth-child(4n-1) {
 .spacetr{
 	height:80px;
 }
-hr.new4 {
-  border: 1px solid red;
-}
 .searchInfo{
 	text-align:right;
 	margin-bottom:0px;
 	padding-right:150px;
 	font-size:16px;
 	margin-right:60px;
+	margin-top:120px;
 }
 
 .searchBInfo{
-	/* text-align:left; */
 	margin-bottom:0px;
-	font-size:20px;
-	padding-left:375px;
-	padding-top:300px;
+	font-size:40px;
+	padding-left:500px;
 	padding-bottom:10px;
-}
-.addressB:hover{
-   color:white;
-   background: #2AF08E;
-
-}
-.addressB{
-	background-color:white;
-	border:1px solid black;
-	border-radius:13px;
+	padding-top:150px;
+	font-weight:bold;
 }
 .clicked{
-   color:white;
-   background: #2AF08E;
+   color:white !important;
+   background:red !important;
+   border:1px solid red !important;
 }
+.address:hover{
+   	background:red;
+	color:white;
+	border:1px solid red;
+
+}
+.address{
+	background:black;
+	color:white;
+	border:1px solid black;
+	height:80px;
+	margin-top:10px;
+	margin-bottom:20px;
+	margin-left:20px;
+	margin-right:20px;
+	font-size:2.7em;
+	width:270px !important;
+	border-radius:13px;
+	transition: all 0.5s;
+}
+
+
+
+
 /* The Modal (background) */
 /* Full-width input fields */
 input[type=text], input[type=password] {
   width: 100%;
   padding: 15px;
-  margin: 5px 0 22px 0;
+  margin: 8px 0 22px 0;
   display: inline-block;
-  border: none;
+  border: 1px solid black;
   background: #f1f1f1;
 }
 
-/* Add a background color when the inputs get focus */
-input[type=text]:focus, input[type=password]:focus {
-  background-color: #ddd;
-  outline: none;
-}
-
-/* Set a style for all buttons */
-/* button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  opacity: 0.9;
-} */
-
-/* button:hover {
-  opacity:1;
-} */
 
 /* Extra styles for the cancel button */
 .cancelbtnM {
@@ -209,7 +198,7 @@ input[type=text]:focus, input[type=password]:focus {
 }
 
 /* Style the horizontal ruler */
-hr {
+.seperate {
   border: 1px solid #f1f1f1;
   margin-bottom: 25px;
 }
@@ -244,40 +233,44 @@ hr {
 
 .createAD{
 	float:right;
-	background:white;
-	color:black;
+	background:black;
+	color:white;
 	width:15%;
 	font-size:1.7em;
 	border:1px solid black;
 	transition: all 0.5s;
+	margin-top:5px;
+	margin-bottom:5px;
+	height:40px;
 }
 .createAD:hover{
-	background:black;
+	background:red;
 	color:white;
 	cursor:pointer;
+	border:1px solid red;
 }
 
-textarea{
+.teamAdver{
   padding: 15px;
   margin: 5px 0 22px 0;
   display: inline-block;
   border: none;
   background: #f1f1f1;
 }
-.createTeam{
-	float:right;
+
+.moreList{
+	width:100%;
+	height:60px;
 	background:white;
 	color:black;
-	width:15%;
-	font-size:1.7em;
+	font-size:2em;
 	border:1px solid black;
-	transition: all 0.5s;
-	margin-right:20px;
 }
-.createTeam:hover{
+
+.moreList:hover{
+	cursor:pointer;
 	background:black;
 	color:white;
-	cursor:pointer;
 }
 
 
@@ -292,32 +285,43 @@ textarea{
 
 <div id = "outer" style = "margin-top:180px;">
 	<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; height:800px; margin:auto; padding-bottom:50px;">
-		<div style="height:100%; width:100%; border-bottom:3px solid red;">
+		<div style="height:100%; width:100%; background:#eaeaea;">
 			<div class="example">
-			<br><br><br>
-				<p class="searchBInfo">지역으로 검색하세요.</p>
+				<p class="searchBInfo"></p>
+				
+				<form action="teamFilter.tm" method="post" class="searchFilter">
 				<div class="searchButtons">
-					<button style="width:200px; margin-left:50px;" class="addressB">역삼/개포/청담</button>
-					<button style="width:200px;" class="addressB">삼성/대치/신사</button>
-					<button style="width:200px;" class="addressB">논현/압구정/세곡</button>
-					<button style="width:200px;" class="addressB">자곡/율현/일원</button>
+					<button type="button" style="width:200px; margin-left:50px;" id="address1" class="address" value="0">역삼/개포/청담</button>
+					<input type="hidden" value="0" class="address1" name="tArea1">
+					<button type="button" style="width:200px;" id="address2" class="address" value="0">삼성/대치/신사</button>
+					<input type="hidden" value="0" class="address2" name="tArea2">
+					<button type="button" style="width:200px;" id="address3" class="address" value="0">논현/압구정/세곡</button>
+					<input type="hidden" value="0" class="address3" name="tArea3">
+					<button type="button" style="width:200px;" id="address4" class="address" value="0">자곡/율현/일원</button>
+					<input type="hidden" value="0" class="address4" name="tArea4">
 					<br>
-					<button style="width:200px; margin-left:50px;" class="addressB">수서/도곡/대치1</button>
-					<button style="width:200px;" class="addressB">대치2/대치4/역삼1</button>
-					<button style="width:200px;" class="addressB">역삼1/역삼2/도곡1</button>
-					<button style="width:200px;" class="addressB">도곡2/개포/일원본</button>
+					<button type="button" style="width:200px; margin-left:50px;" id="address5" class="address" value="0">수서/도곡/대치1</button>
+					<input type="hidden" value="0" class="address5" name="tArea5">
+					<button type="button" style="width:200px;" id="address6" class="address" value="0">대치2/대치4/역삼1</button>
+					<input type="hidden" value="0" class="address6" name="tArea6">
+					<button type="button" style="width:200px;" id="address7" class="address" value="0">역삼1/역삼2/도곡1</button>
+					<input type="hidden" value="0" class="address7" name="tArea7">
+					<button type="button" style="width:200px;" id="address8" class="address" value="0">도곡2/개포1/일원본</button>
+					<input type="hidden" value="0" class="address8" name="tArea8">
 				</div>	
+				</form>
 			
-				<p class="searchInfo">팀명으로 검색하세요</p>
+				<p class="searchInfo"></p>
 				<br>
-  				<button class="teamsearchB" style="width:75px; float:right; margin-top:8px; margin-bottom:8px; margin-right:50px; height:60px;"><i class="fa fa-search"></i></button>
-  				<input type="text" placeholder="팀 이름으로 검색하세요." class="searchTeamName" style="width:400px; float:right;">
+  				<button class="teamsearchB" style="width:75px; float:right; margin-top:6px; margin-bottom:10px; margin-right:50px; height:64px; border-left:0px;"><i class="fa fa-search"></i></button>
+  				<input type="text" placeholder="팀 이름으로 검색하세요." class="searchTeamName" style="width:400px; float:right; margin-top:8px; height:60px; font-size:2em;">
   			</div>
-  			
-			<h1 style="font-size:48px;">&nbsp;&nbsp;팀원 모집</h1>
+			
 		</div>
-		<button class="createAD" onclick="beforeTeamADCreate()">모집글 작성</button>
-		<button class="createTeam" onclick="location.href='createTeamView.tm'">팀 생성</button>
+		<h1 style="font-size:48px;">&nbsp;&nbsp;팀원 모집</h1>
+		<hr style="border:1px solid black; margin-bottom:5px;" class="seperate">
+		<button class="createAD" onclick="document.getElementById('createAD').style.display='block'">모집글 작성</button>
+		<button class="managedTeam" onclick="location.href='managedTeam.tm'">가자</button>
 	</div>
 	<div class="ha-waypoint" data-animate-down="ha-header-shrink" data-animate-up="ha-header-show" style = "width: 90%; margin: auto;">
 		<table>
@@ -340,7 +344,7 @@ textarea{
 			    <td class="teamtest">
 			    	<div style="height:200px; width:200px" class="Timgtag">
 			    		<input type="hidden" value="${team.teamNo }" class="hiddenTno${status.count}">
-			    		<img id="mImg${status.count }" src="resources/images/testimage/${team.teamImage }" style="width:100%; height:100%; padding-left:25px;">
+			    		<img id="mImg${status.count }" src="resources/images/team/${team.teamImage }" style="width:100%; height:100%; padding-left:25px;">
 			    	</div>
 			    </td>
 			    <td>${team.teamName }</td>
@@ -383,7 +387,7 @@ textarea{
       <div id="checkCount" class="checkInfo" style="font-size: 0.7em"></div>
 
       <label for="team_Adver"><b>본인의 팀을 홍보하세요.</b></label><br><br>
-      <textarea placeholder="팀 구인 광고를 작성하세요" name="teamAdver" cols="175" rows="10" wrap="hard" required></textarea>
+      <textarea placeholder="팀 구인 광고를 작성하세요" name="teamAdver" class="teamAdver" cols="175" rows="10" wrap="hard" required></textarea>
      
       
 
@@ -396,6 +400,7 @@ textarea{
     </div>
   </form>
 </div>
+
 
 <script>
 $(document).on("click",".teamselector",function(){
@@ -426,12 +431,30 @@ $(document).on("click",".teamselector",function(){
 <script>
 
 	var page = 2;
+	
 
 	function moreList(){
 		
+		var address1 = $('#address1').val();
+		var address2 = $('#address2').val();
+		var address3 = $('#address3').val();
+		var address4 = $('#address4').val();
+		var address5 = $('#address5').val();
+		var address6 = $('#address6').val();
+		var address7 = $('#address7').val();
+		var address8 = $('#address8').val();
+		
 		$.ajax({
 			url:"moreList.tm",
-			data:{page:page},
+			data:{page:page,
+				tArea1:address1,
+				tArea2:address2,
+				tArea3:address3,
+				tArea4:address4,
+				tArea5:address5,
+				tArea6:address6,
+				tArea7:address7,
+				tArea8:address8},
 			dataType:"json",
 			success:function(data){
 				if((${pi.maxPage}+1)!=page){
@@ -443,7 +466,7 @@ $(document).on("click",".teamselector",function(){
 							appendStr += "<td class='teamtest'>";
 							appendStr += "<div style='height:200px; width:200px' class='Timgtag'>";
 							appendStr += "<input type='hidden' value='"+data.list[i].teamNo+"'class='hiddenTno"+i+"'>";
-							appendStr += "<img id='mImg"+i+"'src='resources/images/testimage/"+data.list[i].teamImage+"'style='width:100%; height:100%; padding-left:25px;'>";
+							appendStr += "<img id='mImg"+i+"'src='resources/images/team/"+data.list[i].teamImage+"'style='width:100%; height:100%; padding-left:25px;'>";
 							appendStr += "</div>";
 							appendStr += "</td>";
 							appendStr += "<td class='teamtest'>"+data.list[i].teamName+"</td>";
@@ -464,7 +487,7 @@ $(document).on("click",".teamselector",function(){
 							appendStr += "<td class='teamtest'>";
 							appendStr += "<div style='height:200px; width:200px' class='Timgtag'>";
 							appendStr += "<input type='hidden' value='"+data.list[i].teamNo+"'class='hiddenTno"+i+"'>";
-							appendStr += "<img id='mImg"+i+"'src='resources/images/testimage/"+data.list[i].teamImage+"'style='width:100%; height:100%; padding-left:25px;'>";
+							appendStr += "<img id='mImg"+i+"'src='resources/images/team/"+data.list[i].teamImage+"'style='width:100%; height:100%; padding-left:25px;'>";
 							appendStr += "</div>";
 							appendStr += "</td>";
 							appendStr += "<td class='teamtest'>"+data.list[i].teamName+"</td>";
@@ -475,11 +498,9 @@ $(document).on("click",".teamselector",function(){
 							appendStr += "</tr>";
 							appendStr += "<tr class='spacetr'>";
 							appendStr += "</tr>";
+
 							
-							$(".moreList").remove();
 						}
-					}else if(data.pi.currentPage == (data.pi.maxPage)+1){
-						$(".moreList").remove();
 					}
 					page++;
 				}
@@ -488,11 +509,169 @@ $(document).on("click",".teamselector",function(){
 			}
 		});
 	}
-</script>
-<script>
-	$(document).ready( function() {
-		$(".addressB").click(function(){
-			$(this).toggleClass('clicked');
+	
+$(function(){
+		
+		var address1 = $('#address1').val();
+		var address2 = $('#address2').val();
+		var address3 = $('#address3').val();
+		var address4 = $('#address4').val();
+		var address5 = $('#address5').val();
+		var address6 = $('#address6').val();
+		var address7 = $('#address7').val();
+		var address8 = $('#address8').val();
+		
+		$(".address").click(function(){
+			if($(this).hasClass('clicked')){
+				$(this).toggleClass("clicked");
+				
+				$(this).val("0");
+				
+				address1 = $('#address1').val();
+				address2 = $('#address2').val();
+				address3 = $('#address3').val();
+				address4 = $('#address4').val();
+				address5 = $('#address5').val();
+				address6 = $('#address6').val();
+				address7 = $('#address7').val();
+				address8 = $('#address8').val();
+
+				
+				$.ajax({
+					url:"teamFilter.tm",
+					data:{
+						tArea1:address1,
+						tArea2:address2,
+						tArea3:address3,
+						tArea4:address4,
+						tArea5:address5,
+						tArea6:address6,
+						tArea7:address7,
+						tArea8:address8
+					},
+					success:function(data){
+						page = 2;
+						
+						$tbody = $("tbody");
+						$("tbody").text("");
+						var appendStr="";
+						if(data.list != null){
+						for(var i in data.list){
+							appendStr += "<tr class='teamselector'>";
+							appendStr += "<td class='teamtest'>";
+							appendStr += "<div style='height:200px; width:200px' class='Timgtag'>";
+							appendStr += "<input type='hidden' value='"+data.list[i].teamNo+"'class='hiddenTno"+i+"'>";
+							appendStr += "<img id='mImg"+i+"'src='resources/images/team/"+data.list[i].teamImage+"'style='width:100%; height:100%; padding-left:25px;'>";
+							appendStr += "</div>";
+							appendStr += "</td>";
+							appendStr += "<td class='teamtest'>"+data.list[i].teamName+"</td>";
+							appendStr += "<td class='teamtest'>"+data.list[i].userName+"</td>";
+							appendStr += "<td class='teamtest'>"+data.list[i].teamArea+"</td>";
+							appendStr += "<td class='teamtest'>"+data.list[i].teamIntro+"</td>";
+							appendStr += "<td class='teamtest'>"+data.list[i].recruitCount+"</td>";
+							appendStr += "</tr>";
+							appendStr += "<tr class='spacetr'>";
+							appendStr += "</tr>";
+					
+						}
+					}else{
+						appendStr += "<tr>";
+						appendStr += "<td colspan ='6'>";
+						appendStr += "<p>모집글이 없습니다.</p>";
+						appendStr += "</td>";
+						appendStr += "</tr>";
+					}
+						$tbody.append(appendStr);
+						$(".moreList").css("display", "block");
+					} 
+						
+				});
+				
+			}else{
+				page = 2;
+				
+				$('.clicked').removeClass("clicked");
+				$(this).toggleClass("clicked");
+				
+				
+				$('#address1').val("0");
+				$('#address2').val("0");
+				$('#address3').val("0");
+				$('#address4').val("0");
+				$('#address5').val("0");
+				$('#address6').val("0");
+				$('#address7').val("0");
+				$('#address8').val("0");
+				
+				
+				$(this).val("1");
+				
+				
+				address1 = $('#address1').val();
+				address2 = $('#address2').val();
+				address3 = $('#address3').val();
+				address4 = $('#address4').val();
+				address5 = $('#address5').val();
+				address6 = $('#address6').val();
+				address7 = $('#address7').val();
+				address8 = $('#address8').val();
+				
+				$.ajax({
+					url:"teamFilter.tm",
+					data:{
+						tArea1:address1,
+						tArea2:address2,
+						tArea3:address3,
+						tArea4:address4,
+						tArea5:address5,
+						tArea6:address6,
+						tArea7:address7,
+						tArea8:address8
+					},
+					success:function(data){
+						$tbody = $("tbody");
+						$("tbody").text("");
+						var appendStr="";
+						if(data.list != null){
+						for(var i in data.list){
+							appendStr += "<tr class='teamselector'>";
+							appendStr += "<td class='teamtest'>";
+							appendStr += "<div style='height:200px; width:200px' class='Timgtag'>";
+							appendStr += "<input type='hidden' value='"+data.list[i].teamNo+"'class='hiddenTno"+i+"'>";
+							appendStr += "<img id='mImg"+i+"'src='resources/images/team/"+data.list[i].teamImage+"'style='width:100%; height:100%; padding-left:25px;'>";
+							appendStr += "</div>";
+							appendStr += "</td>";
+							appendStr += "<td class='teamtest'>"+data.list[i].teamName+"</td>";
+							appendStr += "<td class='teamtest'>"+data.list[i].userName+"</td>";
+							appendStr += "<td class='teamtest'>"+data.list[i].teamArea+"</td>";
+							appendStr += "<td class='teamtest'>"+data.list[i].teamIntro+"</td>";
+							appendStr += "<td class='teamtest'>"+data.list[i].recruitCount+"</td>";
+							appendStr += "</tr>";
+							appendStr += "<tr class='spacetr'>";
+							appendStr += "</tr>";
+						}
+					}else{
+						appendStr += "<tr>";
+						appendStr += "<td colspan ='6'>";
+						appendStr += "<p>모집글이 없습니다.</p>";
+						appendStr += "</td>";
+						appendStr += "</tr>";
+						
+					}
+						$tbody.append(appendStr);
+						$(".moreList").css("display", "block");
+					}
+				});
+
+				/* console.log("address1 : " + address1);
+				console.log("address2 : " + address2);
+				console.log("address3 : " + address3);
+				console.log("address4 : " + address4);
+				console.log("address5 : " + address5);
+				console.log("address6 : " + address6);
+				console.log("address7 : " + address7);
+				console.log("address8 : " + address8); */
+			}
 		});
 	});
 </script>
@@ -510,13 +689,13 @@ window.onclick = function(event) {
 <script>
 	var countCheck = false;
 	
-	function beforeTeamADCreate(){
+	/* function beforeTeamADCreate(){
 		if(${myTeam.size()}==3){
 			alert("3개 이상의 팀을 가입하거나 생성할 수 없습니다.");
 		}else{
 			document.getElementById('createAD').style.display='block';
 		}
-	}
+	} */
 	
 	function beforeSubmit(){
 		var teamNo = $("#myTeam").val();
@@ -574,6 +753,58 @@ window.onclick = function(event) {
 		}
 	});
 	
+</script>
+<script>
+	
+	$(".teamsearchB").click(function(){
+		
+		var teamName = $(".searchTeamName").val();
+		
+		if(teamName == ''){
+			alert("팀 이름을 입력하세요 ㅎ");
+		}else{
+			$.ajax({
+				url:'searchTeamName.tm',
+				data:{teamName:teamName},
+				success:function(data){
+					
+					$tbody = $("tbody");
+					$("tbody").text("");
+					var appendStr="";
+					if(data != null){
+						
+						appendStr += "<tr class='teamselector'>";
+						appendStr += "<td class='teamtest'>";
+						appendStr += "<div style='height:200px; width:200px' class='Timgtag'>";
+						appendStr += "<input type='hidden' value='"+data.teamNo+"'class='hiddenTno'>";
+						appendStr += "<img id='mImg' src='resources/images/team/"+data.teamImage+"'style='width:100%; height:100%; padding-left:25px;'>";
+						appendStr += "</div>";
+						appendStr += "</td>";
+						appendStr += "<td class='teamtest'>"+data.teamName+"</td>";
+						appendStr += "<td class='teamtest'>"+data.userName+"</td>";
+						appendStr += "<td class='teamtest'>"+data.teamArea+"</td>";
+						appendStr += "<td class='teamtest'>"+data.teamIntro+"</td>";
+						appendStr += "<td class='teamtest'>"+data.recruitCount+"</td>";
+						appendStr += "</tr>";
+						appendStr += "<tr class='spacetr'>";
+						appendStr += "</tr>";
+						
+					}else{
+						appendStr += "<tr>";
+						appendStr += "<td colspan ='6'>";
+						appendStr += "<p>모집글이 없습니다.</p>";
+						appendStr += "</td>";
+						appendStr += "</tr>";
+						
+					}
+					$tbody.append(appendStr);
+					
+					$(".moreList").css("display", "none");
+				}
+			});
+		}
+
+	});
 </script>
 
 

@@ -1,5 +1,7 @@
 package com.kh.FIFAOFFLINE.member.model.dao;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -25,6 +27,18 @@ public class MemberDao {
 	public int checkIdDup(String id) {
 
 		return sqlSession.selectOne("memberMapper.idCheck",id);
+	}
+	
+	
+	//	안효찬꺼
+	public ArrayList<Member> selectAllMember() {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("memberMapper.selectAllMember");
+	}
+	//	안효찬꺼
+	public Member drawMember(int userNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.drawMember",userNo);
 	}
 
 	

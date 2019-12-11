@@ -25,12 +25,14 @@
   	<result property="userName" column="USER_NAME"/>
   	<result property="profile" column="PROFILE"/>
   	<result property="t_Grade" column="T_GRADE"/>
+  	<result property="position" column="POSITION"/>
   </resultMap>
   
   <!-- 세션에 올릴 내가 속한 팀 -->
   <resultMap type="MyTeam" id="MyTeamResultSet">
   	<id property="teamNo" column="TEAM_NO"/>
   	<result property="userNo" column="USER_NO"/>
+  	<result property="userName" column="USER_NAME"/>
   	<result property="t_Grade" column="T_GRADE"/>
   	<result property="teamName" column="TEAM_NAME"/>
   	<result property="teamImage" column="TEAM_IMAGE"/>
@@ -80,17 +82,20 @@
   
   <select id="getListCount" resultType="_int">
   	SELECT COUNT(*)
-  	FROM TEAM_AD
-  	WHERE AD_STATUS='Y'
+  	FROM TEAM_AD TA
+  	JOIN TEAM T ON (T.TEAM_NO = TA.TEAM_NO)
+  	WHERE TA.AD_STATUS='Y'
   </select>
   
   <select id="selectList" resultMap="teamResultSet">
   	SELECT T.TEAM_NO,T.USER_NO,M.USER_NAME,M.USER_ID,M.PROFILE,T.TEAM_NAME,T.TEAM_IMAGE,TA.TEAM_ADVER,
   		   TA.RESISTERDAY,TA.AD_STATUS,T.TEAM_AREA,T.TEAM_INTRO,TA.RECRUITCOUNT
-  	FROM TEAM T
+  	FROM (SELECT * 
+          FROM TEAM_AD
+          ORDER BY RESISTERDAY DESC) TA
+    JOIN TEAM T ON (TA.TEAM_NO = T.TEAM_NO)
     JOIN MEMBER M ON (T.USER_NO = M.USER_NO)
-    JOIN TEAM_AD TA ON(T.TEAM_NO = TA.TEAM_NO)
-  	ORDER BY RESISTERDAY DESC
+    WHERE TA.AD_STATUS = 'Y'
   </select>
   
   <select id="teamDetail" resultMap="teamResultSet" parameterType="_int">
@@ -116,10 +121,12 @@
   	WHERE TEAM_NO=#{tNo}
   </select>
   
+  <!-- 12/11일 MYTEAM 세션 변경 -->
   <select id="selectMyTeam" resultMap="MyTeamResultSet">
-  	SELECT TM.USER_NO, TM.TEAM_NO, TM.T_GRADE, T.TEAM_NAME,T.TEAM_IMAGE,T.TEAM_AREA,T.TEAM_INTRO
+  	SELECT TM.USER_NO, TM.TEAM_NO, TM.T_GRADE, T.TEAM_NAME,T.TEAM_IMAGE,T.TEAM_AREA,T.TEAM_INTRO,M.USER_NAME
 	FROM T_MEMBER TM
 	JOIN TEAM T ON(T.TEAM_NO = TM.TEAM_NO)
+	JOIN MEMBER M ON (T.USER_NO = M.USER_NO)
 	WHERE TM.USER_NO=#{userNo}
   </select>
   
@@ -142,7 +149,7 @@
 
   <insert id="applyTeam" parameterType="TeamJoinedMember">
   	INSERT INTO T_JOINED_MEMBER VALUES
-  	(#{userNo},#{teamNo},'T',SYSDATE,'N')
+  	(#{userNo},#{teamNo},SYSDATE,'N','T')
   </insert>
   
   <delete id="deleteTeamAD" parameterType="_int">
@@ -165,7 +172,7 @@
   
   <insert id="ADinsert" parameterType="TeamAD">
   	INSERT INTO TEAM_AD
-  	VALUES(#{userNo},#{teamNo},#{teamAdver},SYSDATE,#{recruitCount},'Y')
+  	VALUES(#{userNo},#{teamNo},#{teamAdver},SYSDATE,'Y',#{recruitCount})
   </insert>
   
   <insert id="insertTeam" parameterType="Team">
@@ -220,5 +227,97 @@
   	T_JOINED_MEMBER
   	WHERE TEAM_NO = #{teamNo}
   </delete>
+  
+  <select id="getSearchListCount" parameterType="TeamFilter" resultType="_int">
+  	SELECT COUNT(*)
+  	FROM TEAM_AD TA
+  	JOIN TEAM T ON (T.TEAM_NO = TA.TEAM_NO)
+  	WHERE TA.AD_STATUS='Y'
+  	<if test='tArea1.equals("1")'>
+	 	AND T.TEAM_AREA = '역삼/개포/청담'
+	</if>
+	<if test='tArea2.equals("1")'>
+	 	AND T.TEAM_AREA = '삼성/대치/신사'
+	</if>
+	<if test='tArea3.equals("1")'>
+	 	AND T.TEAM_AREA = '논현/압구정/세곡'
+	</if>
+	<if test='tArea4.equals("1")'>
+	 	AND T.TEAM_AREA = '자곡/율현/일원'
+	</if>
+	<if test='tArea5.equals("1")'>
+	 	AND T.TEAM_AREA = '수서/도곡/대치1' 
+	</if>
+	<if test='tArea6.equals("1")'>
+	 	AND T.TEAM_AREA = '대치2/대치4/역삼1'
+	</if>
+	<if test='tArea7.equals("1")'>
+	 	AND T.TEAM_AREA = '역삼1/역삼2/도곡1'
+	</if>
+	<if test='tArea8.equals("1")'>
+	 	AND T.TEAM_AREA = '도곡2/개포1/일원본'
+	</if>
+  </select>
+  
+  <select id="selectSearchList" parameterType="TeamFilter" resultMap="teamResultSet">
+  	SELECT T.TEAM_NO,T.USER_NO,M.USER_NAME,M.USER_ID,M.PROFILE,T.TEAM_NAME,T.TEAM_IMAGE,TA.TEAM_ADVER,
+  		   TA.RESISTERDAY,TA.AD_STATUS,T.TEAM_AREA,T.TEAM_INTRO,TA.RECRUITCOUNT
+  	FROM (SELECT * 
+          FROM TEAM_AD
+          ORDER BY RESISTERDAY DESC) TA
+    JOIN TEAM T ON (TA.TEAM_NO = T.TEAM_NO)
+    JOIN MEMBER M ON (T.USER_NO = M.USER_NO)
+    WHERE TA.AD_STATUS = 'Y'
+  	
+  	<if test='tArea1.equals("1")'>
+	 	AND T.TEAM_AREA = '역삼/개포/청담'
+	</if>
+	<if test='tArea2.equals("1")'>
+	 	AND T.TEAM_AREA = '삼성/대치/신사'
+	</if>
+	<if test='tArea3.equals("1")'>
+	 	AND T.TEAM_AREA = '논현/압구정/세곡'
+	</if>
+	<if test='tArea4.equals("1")'>
+	 	AND T.TEAM_AREA = '자곡/율현/일원'
+	</if>
+	<if test='tArea5.equals("1")'>
+	 	AND T.TEAM_AREA = '수서/도곡/대치1' 
+	</if>
+	<if test='tArea6.equals("1")'>
+	 	AND T.TEAM_AREA = '대치2/대치4/역삼1'
+	</if>
+	<if test='tArea7.equals("1")'>
+	 	AND T.TEAM_AREA = '역삼1/역삼2/도곡1'
+	</if>
+	<if test='tArea8.equals("1")'>
+	 	AND T.TEAM_AREA = '도곡2/개포1/일원본'
+	</if>
+  
+  </select>
+  
+  <select id="searchTeamName" parameterType="string" resultMap="teamResultSet">
+  	SELECT T.TEAM_NO,T.USER_NO,M.USER_NAME,M.USER_ID,M.PROFILE,T.TEAM_NAME,T.TEAM_IMAGE,TA.TEAM_ADVER,
+  		   TA.RESISTERDAY,TA.AD_STATUS,T.TEAM_AREA,T.TEAM_INTRO,TA.RECRUITCOUNT
+  	FROM TEAM T
+  	JOIN TEAM_AD TA ON (T.TEAM_NO = TA.TEAM_NO)
+  	JOIN MEMBER M ON (T.USER_NO = M.USER_NO)
+  	WHERE TEAM_NAME = #{teamName}	   
+  
+  </select>
+  
+  <select id="selectAllTeam" resultMap="teamResultSet">
+  	SELECT T.TEAM_NO,T.USER_NO,M.USER_NAME,M.USER_ID,M.PROFILE,T.TEAM_NAME,T.TEAM_IMAGE,
+  		   T.TEAM_AREA,T.TEAM_INTRO
+  	FROM TEAM T
+  	JOIN MEMBER M ON (T.USER_NO = M.USER_NO)
+  </select>
+  
+  <select id="moreListMember" resultMap="TeamMemberResultSet">
+  	SELECT * 
+  	FROM T_MEMBER TM
+  	JOIN MEMBER M ON (TM.USER_NO = M.USER_NO)  
+  	WHERE TM.TEAM_NO = #{teamNo}	
+  </select>
 
 </mapper>

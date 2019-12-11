@@ -38,8 +38,19 @@
 		select count(*)
 		from member
 		where USER_ID=#{id}
-	</select>
+  </select>
   
- 
+  <!-- 안효찬꺼 -->
+  <select id="selectAllMember" resultMap="memberResultSet">
+  	SELECT * FROM
+  	MEMBER
+  	WHERE STATUS = 'Y'
+  </select>
   
+  <!-- 안효찬꺼 -->
+  <select id="drawMember" resultMap="memberResultSet">
+  	SELECT * FROM
+  	MEMBER
+  	WHERE STATUS='Y' AND USER_NO=#{userNo}
+  </select>
 </mapper>

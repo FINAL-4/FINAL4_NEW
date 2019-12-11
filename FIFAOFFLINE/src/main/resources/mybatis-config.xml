@@ -38,6 +38,7 @@
 		<typeAlias type="com.kh.FIFAOFFLINE.team.model.vo.TeamJoinedMember" alias="TeamJoinedMember"/>
 		<typeAlias type="com.kh.FIFAOFFLINE.team.model.vo.TeamMember" alias="TeamMember"/>
 		<typeAlias type="com.kh.FIFAOFFLINE.team.model.vo.MyTeam" alias="MyTeam"/>
+		<typeAlias type="com.kh.FIFAOFFLINE.team.model.vo.TeamFilter" alias="TeamFilter"/>
 		
 		
 		
