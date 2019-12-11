@@ -6,6 +6,7 @@
 <%
 	ArrayList<Tournament> to = new ArrayList();
 
+
 to.add(new Tournament(1,3,"테스트!!",3,0,0,"ba1.jpg"));
 to.add(new Tournament(1,5,"df!!",4,0,0,"ba2.jpg"));
 to.add(new Tournament(1,8,"테스asdf트!!",5,2,0,"ba3.jpg"));
