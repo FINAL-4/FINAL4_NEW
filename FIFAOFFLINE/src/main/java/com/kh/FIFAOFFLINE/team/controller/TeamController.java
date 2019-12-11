@@ -210,13 +210,16 @@ public class TeamController {
 		int deleteAD = 0;
 		int deleteTJM = 0;
 		
-		int deleteResult = tService.joinedAgree(tjm);
+		int deleteResult = tService.joinedAgree(tjm);    // <- 팀원 신청 리스트에서 해당 사람 없어지는거 
 		if(deleteResult>0) {
-			result = tService.teamJoin(tjm);
-			updateCount = tService.updateCount(teamNo);
-			deleteAD = tService.deleteAD();
-			deleteTJM = tService.deleteTJM(teamNo);
+			result = tService.teamJoin(tjm);  // <- 팀원에 넣은거 
+			updateCount = tService.updateCount(teamNo); // <- 팀원 모집수를 -1 한거
+			deleteAD = tService.deleteAD();  // <- 팀원 모집수가 0 이면 글이 없어지는거 
+			deleteTJM = tService.deleteTJM(teamNo); // <- 신청리스트에서 그 사람 없어지는거 (왜 있는거지??)
 			
+			// 1. 팀원 모집수가 1이 남았다.
+			//  - 신청한 인원은 총 4명이다.  
+			//  - 그 중 한명만 수락했을 때 -> 
 		}
 		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();

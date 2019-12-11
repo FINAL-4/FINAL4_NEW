@@ -29,8 +29,6 @@ public interface PlayerService {
 
 	public int playPersonModify(P_ENROLL pe);
 
-	public int personApply(int userNo);
-
 	public int teamPlayApply(P_LIST pl);
 
 	public int ajaxApplyPlayer(P_LIST pl);
@@ -40,6 +38,19 @@ public interface PlayerService {
 	public int checkTeamSelect(int mt);
 
 	public int ajaxApplyPerson(P_ENROLL pe);
+
+	public int personApply(P_ENROLL pe);
+
+	public int ald(P_LIST pl);
+
+	public int agreeResult(Member m);
+
+	public int deadlineUpdate(int rNum);
+
+	
+
+	
+
 
 	
 
