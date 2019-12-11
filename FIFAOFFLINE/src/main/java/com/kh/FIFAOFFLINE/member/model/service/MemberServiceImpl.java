@@ -1,6 +1,10 @@
 package com.kh.FIFAOFFLINE.member.model.service;
 
+
+import java.util.ArrayList;
+
 import java.util.HashMap;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,6 +58,19 @@ public class MemberServiceImpl implements MemberService{
 		return mDao.newPwd(hm);
 	}
 
+	
+	//	안효찬꺼
+	@Override
+	public ArrayList<Member> selectAllMember() {
+		// TODO Auto-generated method stub
+		return mDao.selectAllMember();
+	}
+	//	안효찬꺼
+	@Override
+	public Member drawMember(int userNo) {
+		// TODO Auto-generated method stub
+		return mDao.drawMember(userNo);
+	}
 	
 	
 	

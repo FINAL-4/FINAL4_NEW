@@ -10,6 +10,7 @@ import com.kh.FIFAOFFLINE.team.model.dao.TeamDao;
 import com.kh.FIFAOFFLINE.team.model.vo.PageInfo;
 import com.kh.FIFAOFFLINE.team.model.vo.Team;
 import com.kh.FIFAOFFLINE.team.model.vo.TeamAD;
+import com.kh.FIFAOFFLINE.team.model.vo.TeamFilter;
 import com.kh.FIFAOFFLINE.team.model.vo.TeamJoinedMember;
 import com.kh.FIFAOFFLINE.team.model.vo.TeamMember;
 
@@ -162,4 +163,36 @@ public class TeamServiceImpl implements TeamService{
 		// TODO Auto-generated method stub
 		return tDao.deleteTJM(teamNo);
 	}
+
+	@Override
+	public int getSearchListCount(TeamFilter tf) {
+		// TODO Auto-generated method stub
+		return tDao.getSearchListCount(tf);
+	}
+
+	@Override
+	public ArrayList<Team> selectSearchList(PageInfo pi, TeamFilter tf) {
+		// TODO Auto-generated method stub
+		return tDao.selectSearchList(pi,tf);
+	}
+
+	@Override
+	public Team searchTeamName(String teamName) {
+		// TODO Auto-generated method stub
+		return tDao.searchTeamName(teamName);
+	}
+
+	@Override
+	public ArrayList<Team> selectAllTeam() {
+		// TODO Auto-generated method stub
+		return tDao.selectAllTeam();
+	}
+
+	@Override
+	public ArrayList<TeamMember> moreTeamMember(int teamNo) {
+		// TODO Auto-generated method stub
+		return tDao.moreTeamMember(teamNo);
+	}
+
+
 }

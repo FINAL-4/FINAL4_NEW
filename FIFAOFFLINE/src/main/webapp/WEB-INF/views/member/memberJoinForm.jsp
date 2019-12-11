@@ -38,9 +38,9 @@
 	margin-top: 40px;
 		
 }
-	
+
 input{
-	font-size: 20px;
+	font-size: 18px;
 	margin-top : 20px;
 	width: 400px;
 	height: 40px;
@@ -48,6 +48,9 @@ input{
 
 }
 	
+label{
+font-size: 18px;
+}
 #idCheck, #joinBtn, #searchAdd{
 		margin-top: 2px;
 		background : black;
@@ -65,7 +68,7 @@ input{
 #idCheck:hover, #joinBtn:hover, #searchAdd:hover{
 		background-color: #f53f29; 
  	  	color: white;
-     	border-radius: 16px;
+     	
 		
 }
 #idCheck:active{
@@ -83,14 +86,6 @@ input{
    		border-radius: 16px;
 }
 
-/* #searchAdd:actvie{
-		color : white;
-  		background-color: #f53f29; 
-  		box-shadow: 0 3px #666;
-  		transform: translateY(4px);
-   		border-radius: 16px;
-}
- */
 
 
 #searchAdd{
@@ -100,7 +95,7 @@ input{
 td{
 	margin-top: 20px;
 	font-size: 22px;
-	text-align : right;
+	text-align : left;
 	height: 50px;
 	
 }
@@ -109,7 +104,7 @@ td{
 
 }
 select{
-	font-size: 20px;
+	font-size: 22px;
 	height: 40px;
 	width: 400px;
 	/* margin-left: 10px; */
@@ -121,7 +116,7 @@ select{
 	
 }
 #postcodify_search_button {
-	background-color: banana;
+	background-color: white;
 	color: black;
 	border-radius: 15px;
 	margin-top : 20px;
@@ -152,7 +147,7 @@ select{
 #goMain:hover{
 	background-color: #666;
 	color: white;
-	border-radius: 16px;
+	border-radius: 4px;
 } 
 
 #goMain:active {
@@ -160,7 +155,7 @@ select{
   	background-color: #f53f29; 
   	box-shadow: 0 3px #666;
   	transform: translateY(4px);
-   	border-radius: 16px;
+   	border-radius: 4px;
 }
 
 
@@ -188,7 +183,7 @@ th{
 	text-align: right;
 	padding-left: 10px;
 	vertical-align:middle;
-	
+	font-size: 20px;
 }
 #joinTdbirth{
 	margin-right : 80px;
@@ -223,6 +218,7 @@ th{
   	padding: 100px 0;
   	margin: 50px auto 0 auto;
   	width: 80%;
+  	height: 700px;
 }
 /* 개인정보 탭  */
 .collapsible {
@@ -264,10 +260,12 @@ th{
 }
 canvas
 {
- width: 200px;
-  height: 200px;
-  border: 0.5px solid gray;
-  margin-left:20px; 
+ width: 300px;
+ height: 300px;
+
+
+ board:1px soild gary;
+ 
 }
 </style>
 </head>
@@ -276,34 +274,30 @@ canvas
 
 
 <body>
-
+	
+	
 	<div id="container" style="">
 		<!-- container -->
 		<div id="mainContent" style="">
 			<!-- mainContent -->
 			<div style="align: center">
-				<img src="resources/images/fifalogo1.png" text-align="center">
+				
 			</div>
 
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
 			<div></div>
-			<div class="memberjoinForm" style = "border: 1px solid black;">
-				<br>
-
-				<form id="joinForm" enctype="multipart/form-data"
-					action="join.me" method="post">
+			
+			
+			<div class="memberjoinForm" style = "padding-bottom:150px; ">
 					<h2 align="center">
 						<em>FIFAOFFLINE에 오신 것을 환영합니다.</em>
 					</h2>
 					
+				<br>
+
+				<form id="joinForm" enctype="multipart/form-data"
+					action="join.me" method="post">
 					
-					<div style = "width: 55%;  display: inline-block;">
+					<div style = "width: 55%;  display: inline-block; float: left;">
 					<table align="center">
 						<tr>
 							<th width="200px;">아이디</th>
@@ -334,8 +328,8 @@ canvas
 							<th>생년월일</th>
 							<td>
 								<div id="joinTdbirth">
-									<input type="text" id="birthDay" maxlength="6" name="birthDay" placeholder="ex)191129"
-										style="width: 130px;margin-right:35px;" requi#f53f29>
+									<input type="text" id="birthDay" maxlength="6" name="birthDay" placeholder="ex)000930"
+										style="width: 35%;" requi#f53f29>
 										
 									<input id="genderM" type="radio" name="gender" value="M"
 										style="width: 18px; height: 18px;" requi#f53f29>
@@ -367,17 +361,15 @@ canvas
 							<th>이메일</th>
 							<td id="emailPt">
 							<input type="text" name="emailId"
-								style="width: 141px;"
-								requi#f53f29="requi#f53f29">
+								style="width: 20%;"
+								requi#f53f29>
 							<em>@</em>
 							<input
 								type="text" name="email2" value="naver.com"
-								style="width: 220px; margin-left: 0px;" ReadOnly="true"
-								placeholder="naver.com">
-							</td>
-							<td>
+								style="width: 25%; margin-left: 0px;" ReadOnly>
+							
 							<select id="selctEmail" name="selctEmail" class="info"
-								style="width: 150px; margin-left: 0px;"
+								style="width: 25%; margin-left: 0px;"
 								onchange="SetEmailTail(selctEmail.options[this.selectedIndex].value)">
 									<!-- <option value = "notSelected">====선택====</option> -->
 									<option value="naver.com">naver.com</option>
@@ -394,8 +386,8 @@ canvas
 						<tr>
 							<th>주소</th>
 							<td><input type="text" name="address1"
-								class="postcodify_address" value="" readonly></td>
-							<td style="text-align:left;">
+								class="postcodify_address" value="" readonly>
+							
 								<button type="button" id="postcodify_search_button"><i class="fa fa-search"></i>검색</button>
 							</td>
 						</tr>
@@ -405,7 +397,8 @@ canvas
 						</tr>
 
 						<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
-						<script>
+				<script>
+					
 					$(function(){
 						$("#postcodify_search_button").postcodifyPopUp();
 					});
@@ -415,12 +408,10 @@ canvas
 					</table>
 					</div>
 					
-					
-					
 					<div style = "border: 2px solid red;  display: inline-block; width: 40%;">
-					<table align="center"  border = "1"  style  = "width: 100%;"> 
+					<table  style  = "width: 90%;"> 
 						<tr>
-							<td colspan="4" style="text-align : center;">프로필사진</td>
+							<th colspan="4" style="text-align: left;" >프로필사진</th>
 						</tr>
 						<tr>
 							<td class="profile" colspan="2">
@@ -431,6 +422,7 @@ canvas
 							  id = "canvas">
 						</canvas>
 							</td>
+						</tr><tr>
 							<td colspan="2">
 							<input
 							       id = "uploadFile"
@@ -439,8 +431,7 @@ canvas
 							       multiple = "false"
 							       accept = "image/*"
 							       onchange = "upload()" style = "width: 280px;">
-							</td>
-						</tr>
+							</td></tr>
 						<script>
 						function upload()
 						{
@@ -451,79 +442,45 @@ canvas
 						}
 						</script>
 						<tr>
-							<td colspan="4" style="text-align : center;">
+							<th colspan="4" style="text-align: left;">
 								포지션
-							</td>
+							</th>
 						</tr>
-						<tr>
-							<td>
-								<input type="checkbox" id="GK" name="position" value="GK" style = "width: 20px;">
+						<tr style="align-content: center; ">
+							<td style="width: 20%">
+								<input type="checkbox" id="GK" name="position" value="GK" style="width: 18px; height: 18px; ">
 								<label for="GK">골키퍼</label>
 							</td>
-							<td>
-								<input type="checkbox" id="DF" name="position" value="DF" style = "width: 20px;">
+							<td style="width: 20%">
+								<input type="checkbox" id="DF" name="position" value="DF" style="width: 18px; height: 18px; ">
 								<label for="DF">수비수</label>
 							</td>
-							<td>
-								<input type="checkbox" id="MF" name="position" value="MF" style = "width: 20px;">
+							<td style="width: 25%">
+								<input type="checkbox" id="MF" name="position" value="MF" style="width: 18px; height: 18px; ">
 								<label for="MF">미드필더</label>
 							</td>
-							<td>
-								<input type="checkbox" id="FW" name="position" value="FW" style = "width: 20px;">
+							<td style="width: 20%">
+								<input type="checkbox" id="FW" name="position" value="FW" style="width: 18px; height: 18px; ">
 								<label for="FW">공격수</label>
 							</td>
 						</tr>
-						
-						<!-- <script>
-function checkboxArr() {
-    var checkArr = [];     // 배열 초기화
-    $("input[name='position']:checked").each(function(i)){
-        checkArr.push($(this).val());     // 체크된 것만 값을 뽑아서 배열에 push
-    }
-
-    $.ajax({
-        url: 'join.me'
-        , type: 'post'
-        , dataType: 'text'
-        , data: {
-            valueArrTest: checkArr
-        }
-    });
-}
-
-</script>
- -->						
+					
 					</table>
 					</div>
 					
-					<table id="personinfo" align="center">
-						<tr>
-							<td>
-								<p>
-									<span style="font-size: 18px;"> KHFIFAOFFLINE에 가입하시는 것에
-										대해 동의합니다.</span><input type="checkbox" id="userinfo1">
-								</p>
-
-							</td>
-						</tr>
-					</table>
 					
-					<div align="center">
-						<!-- submit 방법 1 (함수활용해서 submit하기 )(requi#f53f29동작 안함) -->
-						<!-- <div class = "btns" id = "joinBtn" onclick = "insertMember();">가입하기</div> 함수방식은 requi#f53f29 적용이안됨 -->
-						<input type="button" class="btns" id="joinBtn"
-							onclick="insertMember()" value="가입하기">
-						
-
-						
-						<!-- <div class = "btns" id = "goMain" onclick = "goMain();">메인으로</div> -->
-						<input type="button" class="btns" id="goMain" onclick="location.href='home.do'"
-							value="메인으로">
-					</div>
 				</form>
 			</div>
+				
 
+					<div align="center">
+					<input type="button" class="btns" id="joinBtn"
+							onclick="insertMember()" value="가입하기">
 
+					<input type="button" class="btns" id="goMain" onclick="location.href='home.do'"
+							value="메인으로">
+					</div>
+	
 
 			<!-- 중복체크 팝업창 -->
 			<div id="idCheckPop">
@@ -532,6 +489,7 @@ function checkboxArr() {
 			<!-- container -->
 		</div>
 		<!-- mainContent -->
+
 	</div>
 
 
@@ -779,7 +737,6 @@ function checkboxArr() {
 		
 		
 	</script>
-
 
 </body>
 </html>

@@ -211,7 +211,7 @@ public class PlayerController {
  	} 
 	
 	// 개인 용병 신청 승인
-	@RequestMapping("personApply.pl")
+	/*@RequestMapping("personApply.pl")
 	public ModelAndView personApply(ModelAndView mv, int userNo, HttpServletRequest request) {
 		//System.out.println("컨트롤러 신청 " + userNo);
 		int result = pService.personApply(userNo);
@@ -222,6 +222,16 @@ public class PlayerController {
 		} else {
 			throw new PlayerException("개인 용병 신청 실패");
 		}
+		return mv;
+	}*/
+	@RequestMapping("personApply.pl")
+	public ModelAndView personApply(ModelAndView mv, HttpServletRequest request, P_ENROLL pe, HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int userNo = loginUser.getUserNo();
+		int result = pService.personApply(pe);
+		
+		mv.addObject("pe", pe);
+		mv.setViewName("redirect:playMain.pl");
 		return mv;
 	}
 	
@@ -265,5 +275,23 @@ public class PlayerController {
 		int result = pService.checkTeamSelect(mt);
 		
 		new Gson().toJson(result, response.getWriter());
+	}
+	
+	// 팀 용병 신청 수락
+	@RequestMapping("agreePlay.pl")
+	public void agreePlay(HttpServletResponse response, P_LIST pl, P_RECRUIT pr, Member m) throws JsonIOException, IOException {
+		System.out.println("컨트롤러 수락 테스트 : " + pl);
+		
+		int userNo = pl.getUserNo();
+		int rNum = pr.getrNum();
+		System.out.println("컨트롤러 수락 테스트 유저 넘버 : " + userNo);
+		System.out.println("컨트롤러 수락 테스트 글 넘버 : " + rNum);
+		int applyListdelete = pService.ald(pl);  // <- 신청 리스트에 신청 한 사람 없어지는 거
+		if(applyListdelete > 0) {
+			int agreeResult = pService.agreeResult(m);  // <- 신청 수락 되면 member 에 count 올려 주는 거
+			int deadelineUpdate = pService.deadlineUpdate(rNum);  // <- 모집인원 -1 
+		}
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(applyListdelete,response.getWriter());
 	}
 }

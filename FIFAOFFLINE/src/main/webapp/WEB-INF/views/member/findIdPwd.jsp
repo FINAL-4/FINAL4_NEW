@@ -86,19 +86,7 @@
 	
 }
 
-#mainTitle{
-	margin: auto;
-	font-size: 45px;
-	width: 50%;
-	margin-left: 25%;
-	margin-right: 25%;
-	border-bottom: 1px solid grey;
-	height: 50px;
-	text-align: center;
-	margin-top: 50px;
-	padding-bottom: 30px;
-	}
-	
+
 	
 	
 #saveId {
@@ -116,9 +104,10 @@
 			<div id = "banner">	
 			
 				<a href="home.do"><img src="resources/images/fifalogo1.png" alt="image" border="0"></a>
-				<div  id = "mainTitle"><b style="margin-bottom: 3000px;">아이디/비밀번호 찾기</b></div>
+				
 			</div>
 			<div id = "outer">
+			<div  id = "mainTitle" style="text-align: center; font-size:90px; "><b >아이디/비밀번호 찾기</b></div>
 				<div id = "findId">
 					<h2 style = "margin-left: 15px;">아이디 찾기</h2>
 					<table id = "idTable" align = "center">

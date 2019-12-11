@@ -75,12 +75,6 @@ public class PlayerDao {
 		return sqlSession.update("playerMapper.playPersonModify", pe);
 	}
 
-	// 개인 용병 신청 참가횟수 증가
-	public int personApply(int userNo) {
-		// System.out.println("DAO 신청 : " + userNo);
-		return sqlSession.update("playerMapper.personApply", userNo);
-	}
-
 	// 신청 하는 거
 	public int teamPlayApply(P_LIST pl) {
 		//System.out.println("다오 신청 테스트 : " + pl);
@@ -108,6 +102,36 @@ public class PlayerDao {
 	public int checkTeamSelect(int mt) {
 		return sqlSession.selectOne("playerMapper.checkTeamSelect", mt);
 	}
+
+	// 개인 용병 신청 참가횟수 증가
+		/* public int personApply(int userNo) {
+			// System.out.println("DAO 신청 : " + userNo);
+			return sqlSession.update("playerMapper.personApply", userNo);
+	} */
+	
+	// 개인 용병 신청 참가횟수 증가
+	public int personApply(P_ENROLL pe) {
+		return sqlSession.update("playerMapper.personApply", pe);
+	}
+
+	// 신청 리스트에 신청 한 사람 없어지는 거
+	public int ald(P_LIST pl) {
+		return sqlSession.delete("playerMapper.ald", pl);
+	}
+
+	// 수락 한 사람 member 에 count 올려주는거 
+	public int agreeResult(Member m) {
+		return sqlSession.update("playerMapper.agreeResult", m);
+	}
+
+	// 수락 하면 모집 글에 모집인원 -1 
+	public int deadlineUpdate(int rNum) {
+		return sqlSession.update("playerMapper.deadlineUpdate", rNum);
+	}
+
+	
+
+
 
 	
 	

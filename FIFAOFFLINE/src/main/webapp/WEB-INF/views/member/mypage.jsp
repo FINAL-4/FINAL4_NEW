@@ -5,20 +5,7 @@
 
 	Member m =(Member)session.getAttribute("loginUser");
 
-  /* 
-  	String[] checkedIn =new String[4];
-	if(m.getPosition() != null){
-		String[] position = m.getPosition().split(",");
-	for(int i=0; i< position.length; i++){
-		switch(position[i]){
-		case "GK" :checkedIn[0] ="checked"; break;
-		case "DF" :checkedIn[1] ="checked"; break;
-		case "MF" :checkedIn[2] ="checked"; break;
-		case"FW" :checkedIn[3] ="checked"; break;
-		}
-	}
-	}
-	*/
+
 %> 
 
 <!DOCTYPE html>
@@ -36,7 +23,7 @@
 <title>KH sports</title>
 <style>
 .outer {
-	/* border: 2px solid black; */
+	
 	width: 90%;
 	height: 500px;
 	background: white;
@@ -81,7 +68,7 @@ input {
 #idCheck:hover, #joinBtn:hover, #searchAdd:hover {
 	background-color: #f1f1f1;
 	color: #002aff;
-	border-radius: 16px;
+	
 }
 
 #idCheck:active {
@@ -89,7 +76,7 @@ input {
 	background-color: #f53f29;
 	box-shadow: 0 3px #666;
 	transform: translateY(4px);
-	border-radius: 16px;
+	border-radius: 4px;
 }
 
 #joinBtn:active {
@@ -100,14 +87,7 @@ input {
 	border-radius: 16px;
 }
 
-/* #searchAdd:actvie{
-		color : white;
-  		background-color: #f53f29; 
-  		box-shadow: 0 3px #666;
-  		transform: translateY(4px);
-   		border-radius: 16px;
-}
- */
+
 #searchAdd {
 	align-content: left;
 }
@@ -115,7 +95,7 @@ input {
 td {
 	margin-top: 20px;
 	font-size: 22px;
-	text-align: right;
+	text-align: left;
 	height: 50px;
 }
 
@@ -127,7 +107,6 @@ select {
 	font-size: 20px;
 	height: 40px;
 	width: 400px;
-	/* margin-left: 10px; */
 	margin-top: 20px;
 }
 
@@ -136,7 +115,7 @@ select {
 }
 
 #postcodify_search_button {
-	background-color: banana;
+	background-color: white;
 	color: black;
 	border-radius: 15px;
 	margin-top: 20px;
@@ -152,7 +131,7 @@ select {
 #goMain {
 	background-color: #f1f1f1;
 	color: black;
-	border-radius: 16px;
+	border-radius: 4px;
 	width: 150px;
 	height: 40px;
 	text-align: center;
@@ -167,7 +146,7 @@ select {
 #goMain:hover {
 	background-color: #666;
 	color: white;
-	border-radius: 16px;
+	
 }
 
 #goMain:active {
@@ -175,7 +154,7 @@ select {
 	background-color: #f53f29;
 	box-shadow: 0 3px #666;
 	transform: translateY(4px);
-	border-radius: 16px;
+	
 }
 
 #joinBtn, #goMain {
@@ -215,6 +194,7 @@ th {
 	width: 100%;
 	background-color: #f1f1f1;
 	font-size: 35px;
+	
 }
 
 .scrollheader h2 {
@@ -303,10 +283,10 @@ canvas {
 
 			
 			<div></div>
-			<div class="memberjoinForm" style="padding-top: 10px;">
-					<h2 align="center">
-						<em>회원정보수정</em>
-					</h2>
+			<div class="memberjoinForm" style="padding-bottom: 150px;">
+					<h1 align="center"style="font-size: 50px;">
+						회원정보수정
+					</h1>
 				<br>
 
 				<form id="joinForm" enctype="multipart/form-data" action="mupdate.me"
@@ -350,7 +330,7 @@ canvas {
 									<div id="joinTdbirth">
 										<input type="text" id="birthDay" maxlength="6" name="birthDay"
 											value="${loginUser.birthDay }" placeholder="ex)191129"
-											style="width: 130px; margin-right: 35px;" requi#f53f29>
+											style="width: 40%;" requi#f53f29>
 
 										<c:if test="${loginUser.gender eq 'M'}">
 											<input id="genderM" type="radio" name="gender" value="M" checked
@@ -380,7 +360,7 @@ canvas {
 								<c:if test="${status.index eq 0}">
 								<td>
 								<select id="tel0" class="phone" name="phone1" value="${tal}"
-									style="width: 90px; margin-left: 18px; height: 48px;">
+									style="width: 20%; margin-left: 18px; height: 48px;">
 										<option value="010">010</option>
 										<option value="011">011</option>
 										<option value="016">016</option>
@@ -389,36 +369,37 @@ canvas {
 								</c:if>
 								<c:if test="${status.index eq 1}">
 								<input id="tel1" class="phone" type="tel" maxlength="4" value="${tal}"
-									name="phone2" style="width: 130px; margin-left: 15px;">
+									name="phone2" style="width: 25%; margin-left: 15px;">
 								</c:if>
 								<c:if test="${status.index eq 2}">
 								<input id="tel2" class="phone" type="tel" maxlength="4"	value="${tal}"
-									name="phone3" style="width: 130px; margin-left: 15px;">
+									name="phone3" style="width: 25%; margin-left: 15px;">
 								</c:if>
 								
 								</c:forTokens>
 							</tr>
 								<tr>
 									<th>이메일</th>
+									<td id="emailPt" width="60%">
 							<c:forTokens var="mail" items="${loginUser.userEmail}" delims="@"
 								varStatus="status">
 									<c:if test="${status.index eq 0}">
-										<td id="emailPt"><input type="text" name="emailId" value="${mail }"
-											style="width: 141px;" requi#f53f29>
+										<input type="text" name="emailId" value="${mail }"
+											style="width: 25%;" requi#f53f29>
 											<em>@</em>
 										</c:if>
 										<c:if test="${status.index eq 1}">	
 										
 										<input type="text" name="email2" value="${mail }"
-											style="width: 220px; margin-left: 0px;" ReadOnly
+											style="width: 25%; margin-left: 0px;" ReadOnly
 											placeholder="naver.com">
 										
 									</c:if>
 								</c:forTokens>
 										
-										<td>
+										
 										<select id="selctEmail" name="selctEmail"
-											class="info" style="width: 150px; margin-left: 0px;"
+											class="info" style="width: 25%; margin-left: 0px;"
 											onchange="SetEmailTail(selctEmail.options[this.selectedIndex].value)">
 												<!-- <option value = "notSelected">====선택====</option> -->
 												<option value="naver.com">naver.com</option>
@@ -430,8 +411,7 @@ canvas {
 												<option value="daum.net">daum.net</option>
 												<option value="etc">직접입력</option>
 										</select>
-										</td>
-										
+										</td>										
 								</tr>
 							
 							<c:forTokens var="addr" items="${loginUser.address}" delims=","	varStatus="status">
@@ -439,14 +419,13 @@ canvas {
 								<tr>
 										<th>주소</th>
 										<td><input type="text" name="address1"
-											class="postcodify_address" value="${addr}" readonly></td>
-									<td style="text-align: left;">
-										<button type="button" id="postcodify_search_button">
-											<i class="fa fa-search"></i>검색
-										</button>
+											class="postcodify_address" value="${addr}" readonly>
+										<button type="button" id="postcodify_search_button"><i class="fa fa-search"></i>검색</button>
+										
 									</td>
 								</tr>
 									</c:if>
+								
 									<c:if test="${status.index eq 1}">
 								<tr>
 										<th>상세 주소</th>
@@ -456,14 +435,12 @@ canvas {
 								</c:if>
 							</c:forTokens>
 
-							<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
-							<script>
-								$(function() {
-									$("#postcodify_search_button")
-											.postcodifyPopUp();
-								});
-							</script>
-
+						<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
+				<script>
+					$(function(){
+						$("#postcodify_search_button").postcodifyPopUp();
+					});
+				</script>
 
 						</table>
 					</div>
@@ -471,7 +448,7 @@ canvas {
 
 
 					<div style= " display: inline-block; width: 40%;">
-						<table align="center" style="width: 100%;">
+						<table align="center" style="width: 90%;">
 							<tr>
 								<th colspan="4" style="text-align: left;">프로필사진</th>
 							</tr>
@@ -535,22 +512,22 @@ canvas {
 								
 								<td>
 								 <input type="checkbox" id="GK" name="position"  
-									value="GK" ${GK} style="width: 20px;"> <label for="GK">골키퍼</label>
+									value="GK" ${GK} style="width: 18px; height: 18px; "> <label for="GK">골키퍼</label>
 								</td>
 								
 								<td>
 								<input type="checkbox" id="DF" name="position" 
-									value="DF" ${DF} style="width: 20px;"> <label for="DF">수비수</label>
+									value="DF" ${DF} style="width: 18px; height: 18px; "> <label for="DF">수비수</label>
 								</td>
 								
 								<td>
 								<input type="checkbox" id="MF" name="position"
-									value="MF" ${MF} style="width: 20px;"> <label for="MF">미드필더</label>
+									value="MF" ${MF} style="width: 18px; height: 18px; "> <label for="MF">미드필더</label>
 								</td>
 								
 								<td>
 								<input type="checkbox" id="FW" name="position" 
-									value="FW" ${FW} style="width: 20px;"> <label for="FW">공격수</label>
+									value="FW" ${FW} style="width: 18px; height: 18px; "> <label for="FW">공격수</label>
 								</td>
 							</tr>
 						</table>
@@ -578,7 +555,6 @@ canvas {
 		</div>
 		<!-- mainContent -->
 	</div>
-
 
 
 

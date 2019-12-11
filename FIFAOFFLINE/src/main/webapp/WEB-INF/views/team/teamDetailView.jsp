@@ -193,6 +193,10 @@ img.avatarM {
   to {transform: scale(1)}
 }
 
+.card:hover{
+	cursor:pointer;
+}
+
 </style>
 </head>
 <jsp:include page = "../common/header.jsp"/>
@@ -204,7 +208,7 @@ img.avatarM {
 		<div style = "float:left;"> 
 		<table align = center id = pictureContent>
 			<tr>
-				<img id = "picture" src="resources/images/testimage/${t.teamImage }"> 
+				<img id = "picture" src="resources/images/team/${t.teamImage }"> 
 				<td> ${t.teamName }</td>
 			</tr>
 		</table>
@@ -299,7 +303,7 @@ img.avatarM {
 				<tr>
 					<td id="joinUser${join.userNo }">
 						<div class="chip">
-  							<img onclick="modalUp(${join.userNo})" src="resources/images/testimage/${join.profile }" alt="Person" width="96" height="96">
+  							<img onclick="modalUp(${join.userNo})" src="resources/proFiles/${join.profile }" alt="Person" width="96" height="96">
   							${join.name }
   							<%-- <c:url var="cancel" value="cancel.tm">
 								<c:param name="userNo" value="${join.userNo }"/>
@@ -392,7 +396,7 @@ img.avatarM {
 			     $("#detailContentDiv1").hide();
 			     $("#detailContentDiv2").show();
 			}else{
-				alert("팀장만 수정할 수 있습니다.");
+				alert("팀장만 확인 할 수 있습니다.");
 			}
 		}else{
 			alert("같은 팀이 아닙니다.");
