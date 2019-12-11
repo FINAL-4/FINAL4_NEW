@@ -12,6 +12,11 @@
 		<link rel="stylesheet" href="resources/css/base.css">
   		<link rel="stylesheet" href="resources/css/main.css">  
 		<link rel="stylesheet" type="text/css" href="resources/css/component.css" />
+		<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script>
+		  var $$ = jQuery.noConflict();
+		</script>
+		
 		
 		<script>document.documentElement.className="js";var supportsCssVars=function(){var e,t=document.createElement("style");return t.innerHTML="root: { --tmp-var: bold; }",document.head.appendChild(t),e=!!(window.CSS&&window.CSS.supports&&window.CSS.supports("font-weight","var(--tmp-var)")),t.parentNode.removeChild(t),e};supportsCssVars()||alert("Please view this demo in a modern browser that supports CSS Variables.");</script>		
 		<script src="js/modernizr.custom.js"></script>
@@ -19,27 +24,31 @@
 		
 		<style>	
 		#loginModal input[type=text], #loginModal input[type=password] {
+		 outline:none;
 		  width: 100%;
 		  padding: 12px 20px;
 		  margin: 8px 0;
 		  display: inline-block;
 		  border: 1px solid #ccc;
 		  box-sizing: border-box;
-		  border-radius: 20px;
 		}
 		
 		#id01 button {
-		  background-color: #4CAF50;
+		
+		  background-color: black;
 		  color: white;
 		  padding: 14px 20px;
 		  margin: 8px 0;
-		  border: none;
+		  border: 1px solid black;
 		  cursor: pointer;
 		  width: 100%;
+		  margin-bottom: 10px;
 		}  
 		 
 		#id01 button:hover {
-		  opacity: 0.8;
+		  background-color: white;
+		  color: black;
+		  
 		}
 		 
 		/* Extra styles for the cancel button */
@@ -122,8 +131,7 @@
 		  background-color: #fefefe;
 		  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
 		  border: 1px solid darkgary;
-		  width: 45%; /* Could be more or less, depending on screen size */
-		  border-radius: 40px;
+		  width: 20%; /* Could be more or less, depending on screen size */
 		}
 		
 		/* The Close Button (x) */
@@ -141,6 +149,9 @@
 		  color: red;
 		  cursor: pointer;
 		}
+		
+
+		
 		</style>	
 	</head>
 	<body>
@@ -169,8 +180,11 @@
 						<a class="menu__item" onclick="document.getElementById('id01').style.display='block'" id = "playerMenu" style = "border:none;"> <span class="menu__item-name">용병     </span> </a>
 						</c:if>
 						<a class="menu__item" href="goMatch.ma" style = "border: none;"> <span class="menu__item-name">매칭     </span></a>
+
 						<c:if test="${!empty sessionScope.loginUser }">
-						<a class="menu__item" href="mypage.me" style = "border: none;"> <span class="menu__item-name">마이페이지     </span></a></c:if>
+						<a class="menu__item" href="mypage.me" style = "border: none;"> <span class="menu__item-name">마이페이지     </span></a>
+						</c:if>
+
 						<span>
 						<c:if test="${empty sessionScope.loginUser }">
 						<img id = "login-logo" src="resources/images/login.png" width="30px;" height="30px;" onclick="document.getElementById('id01').style.display='block'">
@@ -193,21 +207,20 @@
 
 		<div id="id01" class="modal" >
 		 
-		  <form class="modal-content animate" action="login.me" method="post">
+		  <form id = "loginForm"  action="login.me"   class="modal-content animate">
 		<div class="imgcontainer">
-					로그인
      		 <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-      
     	</div>
 		
-		    <div id = "loginModal" class="container" >
+		    <div id = "loginModal"  class="container" >
+		    <h2 style = "font-size: 35px; margin-top: 0px; text-align: center;">LOG-IN</h2>
 		      <label for="id"><b>ID</b></label>
-		      <input type="text" placeholder="아이디를 입력해주세요." name="userId" required>
+		      <input type="text" class="id" placeholder="아이디를 입력해주세요." name="userId" required>
 		
 		      <label for="psw"><b>Password</b></label>
-		      <input type="password" placeholder="비밀번호를 입력해주세요." name="userPwd" required>
-		        
-		      <button id = "loginBtn">로그인</button>
+		      <input type="password" class="pwd" placeholder="비밀번호를 입력해주세요." name="userPwd" required>
+		      <div id = "loginInfo"></div>
+		      <button id = "loginBtn" type="button">로그인</button>
 		     
 		      <div style="display: inline-block;">
 		      <span class="join">회원이아니신가요? <a href="goJoin.me">회원가입하러가기</a></span>
@@ -223,7 +236,37 @@
 		</div>
 		
 		<script>
-	
+		/* $$('#keywordBox').keydown(function(e){
+			if(e.keyCode == 13){
+				$$('#loginBtn').trigger('click');
+			}
+		}); */
+		
+	$$("#loginBtn").click(function(e) {
+		
+		var userId=$$(".id").val();
+		var userPwd=$$(".pwd").val();
+		 if(userId =="" || userPwd == ""){
+			alert("아이디와 비밀번호를 입력하세요");
+			return false;
+		} 
+		$$.ajax({
+			url:"loginCheck.me",
+			data:{
+				userId:userId,
+				userPwd:userPwd
+			},
+			success:function(data){
+				if(data == "0"){
+					$$("#loginInfo").css("color","red");
+					$$("#loginInfo").html("일치하는 정보가 없습니다.");
+				}else{
+					alert("로그인성공");
+					$$("#loginForm").submit();
+				}
+			}
+		});
+	});
 		
 		var modal = document.getElementById('id01');
 		

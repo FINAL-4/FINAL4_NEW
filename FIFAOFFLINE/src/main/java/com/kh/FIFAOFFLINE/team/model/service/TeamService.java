@@ -6,6 +6,7 @@ import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.team.model.vo.PageInfo;
 import com.kh.FIFAOFFLINE.team.model.vo.Team;
 import com.kh.FIFAOFFLINE.team.model.vo.TeamAD;
+import com.kh.FIFAOFFLINE.team.model.vo.TeamFilter;
 import com.kh.FIFAOFFLINE.team.model.vo.TeamJoinedMember;
 import com.kh.FIFAOFFLINE.team.model.vo.TeamMember;
 
@@ -58,6 +59,16 @@ public interface TeamService {
 	int deleteAD();
 
 	int deleteTJM(int teamNo);
+
+	int getSearchListCount(TeamFilter tf);
+
+	ArrayList<Team> selectSearchList(PageInfo pi, TeamFilter tf);
+
+	Team searchTeamName(String teamName);
+
+	ArrayList<Team> selectAllTeam();
+
+	ArrayList<TeamMember> moreTeamMember(int teamNo);
 	
 	
 

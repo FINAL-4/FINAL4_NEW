@@ -2,22 +2,11 @@
 	pageEncoding="UTF-8" import="com.kh.FIFAOFFLINE.member.model.vo.Member"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
-/* 	Member m = (Member)request.getAttribute("member"); */
+
 	Member m =(Member)session.getAttribute("loginUser");
 
-   	String[] checkedIn =new String[4];
-	if(m.getPosition() != null){
-		String[] position = m.getPosition().split(",");
-	for(int i=0; i< position.length; i++){
-		switch(position[i]){
-		case "GK" :checkedIn[0] ="checked"; break;
-		case "DF" :checkedIn[1] ="checked"; break;
-		case "MF" :checkedIn[2] ="checked"; break;
-		case"FW" :checkedIn[3] ="checked"; break;
-		}
-	}
-	}   
-%>
+
+%> 
 
 <!DOCTYPE html>
 <html>
@@ -34,7 +23,7 @@
 <title>KH sports</title>
 <style>
 .outer {
-	/* border: 2px solid black; */
+	
 	width: 90%;
 	height: 500px;
 	background: white;
@@ -63,9 +52,9 @@ input {
 
 #idCheck, #joinBtn, #searchAdd {
 	margin-top: 2px;
-	background: black;
+	background: #002aff;
 	color: white;
-	border-radius: 10px;
+	border-radius: 4px;
 	width: 150px;
 	height: 40px;
 	text-align: center;
@@ -77,9 +66,9 @@ input {
 }
 
 #idCheck:hover, #joinBtn:hover, #searchAdd:hover {
-	background-color: #f53f29;
-	color: white;
-	border-radius: 16px;
+	background-color: #f1f1f1;
+	color: #002aff;
+	
 }
 
 #idCheck:active {
@@ -87,7 +76,7 @@ input {
 	background-color: #f53f29;
 	box-shadow: 0 3px #666;
 	transform: translateY(4px);
-	border-radius: 16px;
+	border-radius: 4px;
 }
 
 #joinBtn:active {
@@ -98,14 +87,7 @@ input {
 	border-radius: 16px;
 }
 
-/* #searchAdd:actvie{
-		color : white;
-  		background-color: #f53f29; 
-  		box-shadow: 0 3px #666;
-  		transform: translateY(4px);
-   		border-radius: 16px;
-}
- */
+
 #searchAdd {
 	align-content: left;
 }
@@ -113,7 +95,7 @@ input {
 td {
 	margin-top: 20px;
 	font-size: 22px;
-	text-align: right;
+	text-align: left;
 	height: 50px;
 }
 
@@ -125,7 +107,6 @@ select {
 	font-size: 20px;
 	height: 40px;
 	width: 400px;
-	/* margin-left: 10px; */
 	margin-top: 20px;
 }
 
@@ -134,7 +115,7 @@ select {
 }
 
 #postcodify_search_button {
-	background-color: banana;
+	background-color: white;
 	color: black;
 	border-radius: 15px;
 	margin-top: 20px;
@@ -150,7 +131,7 @@ select {
 #goMain {
 	background-color: #f1f1f1;
 	color: black;
-	border-radius: 16px;
+	border-radius: 4px;
 	width: 150px;
 	height: 40px;
 	text-align: center;
@@ -165,7 +146,7 @@ select {
 #goMain:hover {
 	background-color: #666;
 	color: white;
-	border-radius: 16px;
+	
 }
 
 #goMain:active {
@@ -173,7 +154,7 @@ select {
 	background-color: #f53f29;
 	box-shadow: 0 3px #666;
 	transform: translateY(4px);
-	border-radius: 16px;
+	
 }
 
 #joinBtn, #goMain {
@@ -213,6 +194,7 @@ th {
 	width: 100%;
 	background-color: #f1f1f1;
 	font-size: 35px;
+	
 }
 
 .scrollheader h2 {
@@ -231,11 +213,12 @@ th {
 	width: 0%;
 }
 
-ㄴ
+
 .memberjoinForm {
-	padding: 100px 0;
+	padding: 70px 0;
 	margin: 50px auto 0 auto;
-	width: 80%;
+	width: 100%;
+	height: 700px;
 }
 /* 개인정보 탭  */
 .collapsible {
@@ -276,10 +259,10 @@ th {
 }
 
 canvas {
-	width: 200px;
-	height: 200px;
-	border: 0.5px solid gray;
-	margin-left: 20px;
+	width: 300px;
+	height: 300px;
+
+	
 }
 </style>
 </head>
@@ -289,8 +272,7 @@ canvas {
 
 <body>
 <%=m %>
-<c:set var="mem" value="<%=m%>"/>
-<h1>${mem }</h1>
+
 	<div id="container" style="">
 		<!-- container -->
 		<div id="mainContent" style="">
@@ -299,24 +281,27 @@ canvas {
 				<img src="resources/images/fifalogo1.png" text-align="center">
 			</div>
 
-			<br> <br> <br> <br> <br> <br> <br>
+			
 			<div></div>
-			<div class="memberjoinForm" style="border: 1px solid black;">
+			<div class="memberjoinForm" style="padding-bottom: 150px;">
+					<h1 align="center"style="font-size: 50px;">
+						회원정보수정
+					</h1>
 				<br>
 
-				<form id="joinForm" enctype="multipart/form-data" action="join.me"
+				<form id="joinForm" enctype="multipart/form-data" action="mupdate.me"
 					method="post">
-					<h2 align="center">
-						<em>FIFAOFFLINE에 오신 것을 환영합니다.</em>
-					</h2>
+						<input type="hidden" name = "userNo" value="${loginUser.userNo }">
+					 	<input type="hidden" name = "status" value="${loginUser.status }">
+					 	<input type="hidden" name = "aCount" value="${loginUser.aCount }">
+						<input type="hidden" name = "joinDate" value="${loginUser.joinDate }"> 
 
-
-					<div style="width: 55%; display: inline-block;">
+					<div style="width: 55%; display: inline-block; float: left;">
 						<table align="center">
 							<tr>
 								<th width="200px;">아이디</th>
-								<td><input id="userId" type="text" maxlength="13"
-									value="${loginUser.userId }" name="userId" requi#f53f29>
+								<td><input id="userId" type="text" maxlength="13" 
+									value="${loginUser.userId }" readonly name="userId" requi#f53f29>
 									<div id="checkId" class="checkInfo" style="font-size: 0.7em"></div></td>
 								<!--requi#f53f29 미입력시 값을 입력하세요 문구뜸  -->
 								<!-- <td width ="200px"><div id="idCheck" class = "btns"">중복확인</div></td> -->
@@ -345,22 +330,22 @@ canvas {
 									<div id="joinTdbirth">
 										<input type="text" id="birthDay" maxlength="6" name="birthDay"
 											value="${loginUser.birthDay }" placeholder="ex)191129"
-											style="width: 130px; margin-right: 35px;" requi#f53f29>
+											style="width: 40%;" requi#f53f29>
 
 										<c:if test="${loginUser.gender eq 'M'}">
-											<input id="genderM" type="radio" name="gender" value="M"
-												checked style="width: 18px; height: 18px;" disabled requi#f53f29>
+											<input id="genderM" type="radio" name="gender" value="M" checked
+												 style="width: 18px; height: 18px;" >
 											<label for="genderM">남</label>
 											<input id="genderF" type="radio" name="gender" value="F"
-												style="width: 18px; height: 18px;" disabled requi#f53f29>
+												style="width: 18px; height: 18px;" disabled >
 											<label for="genderF">여</label>
 										</c:if>
 										<c:if test="${loginUser.gender eq 'F'}">
-											<input id="genderM" type="radio" name="gender" value="M" 
-												style="width: 18px; height: 18px;" disabled requi#f53f29 >
+											<input id="genderM" type="radio" name="gender" value="M"
+												style="width: 18px; height: 18px;" disabled  >
 											<label for="genderM">남</label>
-											<input id="genderF" type="radio" name="gender" value="F" 
-												checked style="width: 18px; height: 18px;" disabled requi#f53f29>
+											<input id="genderF" type="radio" name="gender" value="F" checked
+											 style="width: 18px; height: 18px;" >
 											<label for="genderF">여</label>
 										</c:if>
 									</div>
@@ -375,7 +360,7 @@ canvas {
 								<c:if test="${status.index eq 0}">
 								<td>
 								<select id="tel0" class="phone" name="phone1" value="${tal}"
-									style="width: 90px; margin-left: 18px; height: 48px;">
+									style="width: 20%; margin-left: 18px; height: 48px;">
 										<option value="010">010</option>
 										<option value="011">011</option>
 										<option value="016">016</option>
@@ -384,36 +369,37 @@ canvas {
 								</c:if>
 								<c:if test="${status.index eq 1}">
 								<input id="tel1" class="phone" type="tel" maxlength="4" value="${tal}"
-									name="phone2" style="width: 130px; margin-left: 15px;">
+									name="phone2" style="width: 25%; margin-left: 15px;">
 								</c:if>
 								<c:if test="${status.index eq 2}">
 								<input id="tel2" class="phone" type="tel" maxlength="4"	value="${tal}"
-									name="phone3" style="width: 130px; margin-left: 15px;">
+									name="phone3" style="width: 25%; margin-left: 15px;">
 								</c:if>
 								
 								</c:forTokens>
 							</tr>
 								<tr>
 									<th>이메일</th>
+									<td id="emailPt" width="60%">
 							<c:forTokens var="mail" items="${loginUser.userEmail}" delims="@"
 								varStatus="status">
 									<c:if test="${status.index eq 0}">
-										<td id="emailPt"><input type="text" name="emailId" value="${mail }"
-											style="width: 141px;" requi#f53f29>
+										<input type="text" name="emailId" value="${mail }"
+											style="width: 25%;" requi#f53f29>
 											<em>@</em>
 										</c:if>
 										<c:if test="${status.index eq 1}">	
 										
 										<input type="text" name="email2" value="${mail }"
-											style="width: 220px; margin-left: 0px;" ReadOnly
+											style="width: 25%; margin-left: 0px;" ReadOnly
 											placeholder="naver.com">
 										
 									</c:if>
 								</c:forTokens>
 										
-										<td>
+										
 										<select id="selctEmail" name="selctEmail"
-											class="info" style="width: 150px; margin-left: 0px;"
+											class="info" style="width: 25%; margin-left: 0px;"
 											onchange="SetEmailTail(selctEmail.options[this.selectedIndex].value)">
 												<!-- <option value = "notSelected">====선택====</option> -->
 												<option value="naver.com">naver.com</option>
@@ -425,8 +411,7 @@ canvas {
 												<option value="daum.net">daum.net</option>
 												<option value="etc">직접입력</option>
 										</select>
-										</td>
-										
+										</td>										
 								</tr>
 							
 							<c:forTokens var="addr" items="${loginUser.address}" delims=","	varStatus="status">
@@ -434,14 +419,13 @@ canvas {
 								<tr>
 										<th>주소</th>
 										<td><input type="text" name="address1"
-											class="postcodify_address" value="${addr}" readonly></td>
-									<td style="text-align: left;">
-										<button type="button" id="postcodify_search_button">
-											<i class="fa fa-search"></i>검색
-										</button>
+											class="postcodify_address" value="${addr}" readonly>
+										<button type="button" id="postcodify_search_button"><i class="fa fa-search"></i>검색</button>
+										
 									</td>
 								</tr>
 									</c:if>
+								
 									<c:if test="${status.index eq 1}">
 								<tr>
 										<th>상세 주소</th>
@@ -451,40 +435,54 @@ canvas {
 								</c:if>
 							</c:forTokens>
 
-							<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
-							<script>
-								$(function() {
-									$("#postcodify_search_button")
-											.postcodifyPopUp();
-								});
-							</script>
-
+						<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
+				<script>
+					$(function(){
+						$("#postcodify_search_button").postcodifyPopUp();
+					});
+				</script>
 
 						</table>
 					</div>
 
 
 
-					<div
-						style="border: 2px solid red; display: inline-block; width: 40%;">
-						<table align="center" border="1" style="width: 100%;">
+					<div style= " display: inline-block; width: 40%;">
+						<table align="center" style="width: 90%;">
 							<tr>
-								<td colspan="4" style="text-align: center;">프로필사진</td>
+								<th colspan="4" style="text-align: left;">프로필사진</th>
 							</tr>
-							<tr>
+								
+								<br>
+								<br>
+								
+					<tr>
 						<td class="profile" colspan="2">
 						<script	src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js">
 						</script>
-						<canvas id="canvas">
+							<div id = "img">
+								<img src ="resources/proFiles/${loginUser.profile }" style = "width: 300px; height: 300px;">
+							</div>
+						<canvas id="canvas" style = "display: none;">
 						</canvas>
-						</td>
-								<td colspan="2"><input id="uploadFile" name="uploadFile"
-									type="file" multiple="false" accept="image/*"
-									onchange="upload()" style="width: 280px;"></td>
-							</tr>
+						</td>	
+								
+								<td colspan="2">
+								<input id="uploadFile" name="uploadFile" 
+									type="file" multiple="false" accept="image/*" 
+									onchange="upload()" style="width: 280px;" ">
+									
+				
+								</td>
+					</tr>
 							<script>
+						
+							
 						function upload()
 						{
+							alert($("#uploadFile").val());
+							$("#img").css("display","none");
+							$("#canvas").css("display","inline-block");
 						  var Ican = document.getElementById ("canvas");
 						  var proup = document.getElementById ("uploadFile");
 						  var ima1 = new SimpleImage (proup);
@@ -494,49 +492,58 @@ canvas {
 						
 						
 							<tr>
-								<td colspan="4" style="text-align: center;">포지션</td>
+								<th colspan="4" style="text-align: left;">포지션</th>
 							</tr>
-							<%-- <c:forTokens var="pos" items="${loginUser.position}" delims=","	varStatus="status"> --%>
+							 <c:forTokens var="pos" items="${loginUser.position}" delims="," varStatus="status"> 
+					 			<c:if test="${pos == 'GK' }">
+					 			<c:set var="GK" value="CHECKED"/>
+					 	 	</c:if>
+					 	 	<c:if test="${pos == 'DF' }">
+					 			<c:set var="DF" value="CHECKED"/>
+					 		</c:if>
+					 		<c:if test="${pos == 'MF' }">
+					 			<c:set var="MF" value="CHECKED"/>
+					 		</c:if>
+					 		<c:if test="${pos == 'FW' }">
+					 			<c:set var="FW" value="CHECKED"/>
+					 		</c:if>
+					 		</c:forTokens> 
 								<tr>
+								
 								<td>
-								<%-- <input type="checkbox" id="GK" name="position" ${pos=="GK"?"CHECKED" } --%>
 								 <input type="checkbox" id="GK" name="position"  
-									value="GK" <%=checkedIn[0] %> style="width: 20px;"> <label for="GK">골키퍼</label>
+									value="GK" ${GK} style="width: 18px; height: 18px; "> <label for="GK">골키퍼</label>
 								</td>
-							
+								
 								<td>
 								<input type="checkbox" id="DF" name="position" 
-									value="DF" <%=checkedIn[1] %> style="width: 20px;"> <label for="DF">수비수</label>
+									value="DF" ${DF} style="width: 18px; height: 18px; "> <label for="DF">수비수</label>
 								</td>
 								
 								<td>
 								<input type="checkbox" id="MF" name="position"
-									value="MF" <%=checkedIn[2] %> style="width: 20px;"> <label for="MF">미드필더</label>
+									value="MF" ${MF} style="width: 18px; height: 18px; "> <label for="MF">미드필더</label>
 								</td>
 								
 								<td>
 								<input type="checkbox" id="FW" name="position" 
-									value="FW" <%=checkedIn[3] %> style="width: 20px;"> <label for="FW">공격수</label>
+									value="FW" ${FW} style="width: 18px; height: 18px; "> <label for="FW">공격수</label>
 								</td>
 							</tr>
-					<%-- </c:forTokens> --%>
 						</table>
 					</div>
 
 					
 
+				</form>
+			</div>
 					<div align="center">
 						<input type="button" class="btns" id="joinBtn"
-							onclick="insertMember()" value="가입하기">
+							onclick="insertMember()" value="수정하기">
 
-
-
-						<!-- <div class = "btns" id = "goMain" onclick = "goMain();">메인으로</div> -->
 						<input type="button" class="btns" id="goMain"
 							onclick="location.href='home.do'" value="메인으로">
 					</div>
-				</form>
-			</div>
 
 
 
@@ -548,7 +555,6 @@ canvas {
 		</div>
 		<!-- mainContent -->
 	</div>
-
 
 
 
@@ -576,50 +582,16 @@ canvas {
 	////////////////////////////////////////////////// 유효성검사 /////////////////////////////////////////////
 	
 		
-		idCheck = false;
-		pwdCheck = false;
-		pwdCheck2 = false;
-		nameCheck = false;
-		phoneCheck = false;
-		rrnCheck = false;
+		idCheck = true;
+		pwdCheck = true;
+		pwdCheck2 = true;
+		nameCheck = true;
+		phoneCheck = true;
+		rrnCheck = true;
 		
 		
 		
-		$("#userId").keyup(function() {
-			var userId = $("#userId").val();
-			var idRe = /^[a-z,A-Z,0-9]{4,12}$/;
-
-			$.ajax({
-				url : "Du.me",
-				data : {
-					id : userId
-				},
-				success : function(data) {
-					if (userId == "") {
-						$("#checkId").css("color", "#f53f29");
-						$("#userId").css("border", "2px solid #f53f29");
-						$("#checkId").text("아이디를 입력하세요.");
-						idCheck = false;
-					} else if (!idRe.test(userId)) {
-						$("#checkId").css("color", "#f53f29");
-						$("#userId").css("border", "2px solid #f53f29");
-						$("#checkId").text("4-12의 영문자,숫자만 입력가능합니다.");
-						idCheck = false;
-					} else if (data.Usable ==false) {
-						$("#checkId").css("color", "#f53f29");
-						$("#userId").css("border", "2px solid #f53f29");
-						$("#checkId").text("중복된 아이디입니다.");
-						idCheck = false;
-					} else {
-						$("#checkId").text("사용가능한 아이디입니다.");
-						$("#checkId").css("color", "green");
-						$("#userId").css("border", "2px solid blue");
-						idCheck = true;
-					}
-				}
-				
-			});
-		});
+		
 
 		$("#userPwd").keyup(function() {
 			var userPwd = $("#userPwd").val();
@@ -749,10 +721,7 @@ canvas {
 		
 		// 회원가입 하기 함수
 		function insertMember(){
-			if(idCheck == false){
-				alert("아이디를 확인해주세요.");
-				$("#userId").focus();
-			}else if(pwdCheck  == false){
+			if(pwdCheck  == false){
 				alert("비밀번호를 확인해주세요.");
 				$("#userPwd").focus();
 			}else if(pwdCheck2  == false){
@@ -767,14 +736,11 @@ canvas {
 			}else if(rrnCheck  == false){
 				alert("생년월일를 확인해주세요.");
 				$("#birthDay").focus();
-			}else if($("input:radio[name='gender']").is(":checked")==false){
-				alert("성별을 선택해주세요.");
-				$("input:radio[name='gender']").focus();
 			}else if($("#emailId").val() == ""){
 				alert("이메일을 입력해주세요.");
 				$("#emailId").focus();
 			}else{
-				if(!confirm("정말로 회원가입하시겠습니까 ?")){
+				if(!confirm("정보를 수정하시겠습니까")){
 					return false;
 				};
 				$("#joinForm").submit();

@@ -11,6 +11,7 @@
 		<result property="birthDay" column="BIRTHDAY"/>
 		<result property="gender" column="GENDER"/>
 		<result property="phone" column="PHONE"/>
+		<result property="profile" column="PROFILE"/>
 		<result property="position" column="POSITION"/>
 		<result property="address" column="ADDRESS"/>
 		<result property="status" column="STATUS"/>
@@ -38,8 +39,53 @@
 		select count(*)
 		from member
 		where USER_ID=#{id}
+  </select>
+  
+  <!-- 안효찬꺼 -->
+  <select id="selectAllMember" resultMap="memberResultSet">
+  	SELECT * FROM
+  	MEMBER
+  	WHERE STATUS = 'Y'
+  </select>
+
+	<update id="updateMember" parameterType="Member">
+	UPDATE MEMBER SET 
+	USER_PWD=#{userPwd},USER_NAME=#{userName},USER_EMAIL=#{userEmail},BIRTHDAY=#{birthDay},PHONE=#{phone},PROFILE=#{profile},POSITION=#{position},ADDRESS=#{address}
+	WHERE USER_NO=#{userNo}
+	</update>
+	
+	
+	<select id = "selectLogin" parameterType="Member" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE USER_ID=#{userId} AND USER_PWD=#{userPwd}
 	</select>
-  
+
+
+	<select id="findId" parameterType="Member" resultType="String">
+		SELECT USER_ID
+		FROM MEMBER
+		WHERE USER_NAME=#{userName} AND USER_EMAIL=#{userEmail}
+	</select>
+	
+	<select id="findPwd" parameterType="Member" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE USER_ID=#{userId} AND PHONE=#{phone} AND USER_EMAIL=#{userEmail}
+		
+	</select>
  
+ 	<update id="newPwd" parameterType="hashmap">
+ 		UPDATE MEMBER SET
+ 		USER_PWD=#{newPwd}
+ 		WHERE USER_ID=#{userId} AND PHONE=#{phone} AND USER_EMAIL=#{userEmail}
+ 	
+ 	</update>
   
+  <!-- 안효찬꺼 -->
+  <select id="drawMember" resultMap="memberResultSet">
+  	SELECT * FROM
+  	MEMBER
+  	WHERE STATUS='Y' AND USER_NO=#{userNo}
+  </select>
 </mapper>

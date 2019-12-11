@@ -30,12 +30,14 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.kh.FIFAOFFLINE.common.Pagination;
 import com.kh.FIFAOFFLINE.member.model.exception.MemberException;
+import com.kh.FIFAOFFLINE.member.model.service.MemberService;
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.team.model.exception.TeamException;
 import com.kh.FIFAOFFLINE.team.model.service.TeamService;
 import com.kh.FIFAOFFLINE.team.model.vo.PageInfo;
 import com.kh.FIFAOFFLINE.team.model.vo.Team;
 import com.kh.FIFAOFFLINE.team.model.vo.TeamAD;
+import com.kh.FIFAOFFLINE.team.model.vo.TeamFilter;
 import com.kh.FIFAOFFLINE.team.model.vo.TeamJoinedMember;
 import com.kh.FIFAOFFLINE.team.model.vo.TeamMember;
 
@@ -45,8 +47,11 @@ public class TeamController {
 	@Autowired
 	private TeamService tService;
 	
+	@Autowired
+	private MemberService mService;
+	
 	@RequestMapping("tlist.tm")
-	public ModelAndView teamList(ModelAndView mv, HttpSession session,
+	public ModelAndView teamList(ModelAndView mv, HttpSession session, TeamFilter tf,
 									@RequestParam(value="page", required=false) Integer page) {
 		int currentPage = 1;
 		if(page != null) {
@@ -65,7 +70,7 @@ public class TeamController {
 		
 		ArrayList<Team> teamLeader = tService.selectTeamLeader(userNo);
 		
-		System.out.println(teamLeader);
+		System.out.println("리더인 팀 : " +teamLeader);
 		
 		mv.addObject("list",list);
 		mv.addObject("pi", pi);
@@ -81,7 +86,8 @@ public class TeamController {
 	 
 	
 	@RequestMapping("moreList.tm")
-	public void moreList(HttpServletResponse response, HttpServletRequest request, @RequestParam(value="page", required=false) Integer page) throws IOException, ServletException {
+	public void moreList(HttpServletResponse response, HttpServletRequest request, TeamFilter tf,
+						@RequestParam(value="page", required=false) Integer page) throws IOException, ServletException {
 		response.setContentType("application/json;charset=utf-8");
 		
 		int currentPage = 1; 
@@ -90,11 +96,11 @@ public class TeamController {
 			currentPage = page; 
 		}
 		
-		int listCount = tService.getListCount();
+		int listCount = tService.getSearchListCount(tf);
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		
-		ArrayList<Team> list = tService.selectList(pi);
+		ArrayList<Team> list = tService.selectSearchList(pi,tf);
 		
 		JSONArray jArr = new JSONArray();
 		JSONArray jArr2 = new JSONArray();
@@ -135,7 +141,8 @@ public class TeamController {
 		sendJson.put("list",jArr);
 		sendJson.put("pi",jArr2);
 		
-		System.out.println(sendJson);
+		System.out.println("more sendJson : " + sendJson);
+		System.out.println("listCount: " + listCount);
 		
 		
 		
@@ -347,12 +354,10 @@ public class TeamController {
 			ArrayList<Team> myTeam = tService.selectMyTeam(userNo);
 			session.setAttribute("myTeam", myTeam);
 			
-			return "home";
-		}else {
-			throw new MemberException("회원 가입 실패!!");
+			return "team/teamManageView";
 		}
 		
-		
+		return "team/teamManageView";
 		
 	}
 	
@@ -417,6 +422,135 @@ public class TeamController {
 		
 	}
 	
+	@RequestMapping("teamFilter.tm")
+	public void teamFilter(HttpServletResponse response, HttpServletRequest request, TeamFilter tf,
+							@RequestParam(value="page", required=false) Integer page) throws JsonIOException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		
+		System.out.println(tf);
+		
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+//		int listCount = tService.getListCount();
+		
+		int searchListCount = tService.getSearchListCount(tf);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, searchListCount);
+		
+		System.out.println(searchListCount);
+		
+		ArrayList<Team> list = tService.selectSearchList(pi,tf);
+		
+		//	여기까지가 리스트 받아온거임 ( 검색한거 )
+		
+		JSONArray jArr = new JSONArray();
+		JSONArray jArr2 = new JSONArray();
+		
+		JSONObject jObj2 = new JSONObject();
+		
+		jObj2.put("currentPage",pi.getCurrentPage());
+		jObj2.put("listCount",pi.getListCount());
+		jObj2.put("pageLimit",pi.getPageLimit());
+		jObj2.put("maxPage",pi.getMaxPage());
+		jObj2.put("startPage",pi.getStartPage());
+		jObj2.put("endpage",pi.getEndPage());
+		jObj2.put("boardLimit",pi.getBoardLimit());
+		
+
+		jArr2.add(jObj2);	//	 페이지 정보 Jobj로 만들어서 jArr에 하나 담고
+		
+		for(Team t:list) {
+			JSONObject jObj = new JSONObject();
+			
+			jObj.put("teamNo",t.getTeamNo());
+			jObj.put("userNo",t.getUserNo());
+			jObj.put("userName",t.getUserName());
+			jObj.put("teamName",t.getTeamName());
+			jObj.put("teamImage",t.getTeamImage());
+			jObj.put("teamArea",t.getTeamArea());
+			jObj.put("teamIntro",t.getTeamIntro());
+			jObj.put("teamAdver",t.getTeamAdver());
+			jObj.put("resisterDay",t.getResisterDay());
+			jObj.put("ad_status",t.getAd_status());
+			jObj.put("recruitCount", t.getRecruitCount());
+			
+			jArr.add(jObj);	//	리스트 jobj로 만들어서 jArr에 하나 더 담고
+		}
+		
+		JSONObject sendJson = new JSONObject();
+					
+		sendJson.put("list",jArr);
+		sendJson.put("pi",jArr2);
+		
+		System.out.println("sendJson : " + sendJson);
+		
+		//	jArr 2개를 보낼 jObj에 담고
+
+		PrintWriter out = response.getWriter(); out.print(sendJson); 
+		out.flush();
+		out.close();
+		
+		// 보내고
+
+		
+	}
+	
+	@RequestMapping("searchTeamName.tm")
+	public void searchTeamName(String teamName, HttpServletResponse response) throws JsonIOException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		Team t = tService.searchTeamName(teamName);
+		
+		System.out.println("검색된 팀 : " + t);
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(t,response.getWriter());
+	}
+	
+	@RequestMapping("managedTeam.tm")
+	public ModelAndView managedTeam(ModelAndView mv, HttpSession session) {
+		
+		ArrayList<Member> mList = mService.selectAllMember();
+		ArrayList<Team> tList = tService.selectAllTeam();
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int userNo = loginUser.getUserNo();
+		
+		ArrayList<Team> teamLeader = tService.selectTeamLeader(userNo);
+		
+		mv.addObject("tList",tList);
+		mv.addObject("teamLeader",teamLeader);
+		mv.addObject("mList",mList);
+		mv.setViewName("team/teamManageView");
+		
+		return mv;
+	}
+	
+	@RequestMapping("drawMember.tm")
+	public void drawMember(int userNo, HttpServletResponse response) throws JsonIOException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		Member m = mService.drawMember(userNo);
+		
+		System.out.println(m);
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(m,response.getWriter());
+	}
+	
+	@RequestMapping("moreTeamMember.tm")
+	public void moreTeamMember(int teamNo, HttpServletResponse response) throws JsonIOException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		ArrayList<TeamMember> tMember = tService.moreTeamMember(teamNo);
+		
+		System.out.println("tMember : " + tMember);
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(tMember,response.getWriter());
+	
+	}
 	
 	
 	

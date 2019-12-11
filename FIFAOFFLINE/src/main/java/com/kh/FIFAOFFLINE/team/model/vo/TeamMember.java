@@ -6,16 +6,18 @@ public class TeamMember {
 	private int t_Grade;
 	private String profile;
 	private String userName;
+	private String position;
 	public TeamMember() {
 		super();
 	}
-	public TeamMember(int userNo, int teamNo, int t_Grade, String profile, String userName) {
+	public TeamMember(int userNo, int teamNo, int t_Grade, String profile, String userName, String position) {
 		super();
 		this.userNo = userNo;
 		this.teamNo = teamNo;
 		this.t_Grade = t_Grade;
 		this.profile = profile;
 		this.userName = userName;
+		this.position = position;
 	}
 	public int getUserNo() {
 		return userNo;
@@ -47,10 +49,18 @@ public class TeamMember {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+	public String getPosition() {
+		return position;
+	}
+	public void setPosition(String position) {
+		this.position = position;
+	}
 	@Override
 	public String toString() {
 		return "TeamMember [userNo=" + userNo + ", teamNo=" + teamNo + ", t_Grade=" + t_Grade + ", profile=" + profile
-				+ ", userName=" + userName + "]";
+				+ ", userName=" + userName + ", position=" + position + "]";
 	}
+	
+	
 	
 }

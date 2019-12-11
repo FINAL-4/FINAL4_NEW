@@ -11,6 +11,7 @@ import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.team.model.vo.PageInfo;
 import com.kh.FIFAOFFLINE.team.model.vo.Team;
 import com.kh.FIFAOFFLINE.team.model.vo.TeamAD;
+import com.kh.FIFAOFFLINE.team.model.vo.TeamFilter;
 import com.kh.FIFAOFFLINE.team.model.vo.TeamJoinedMember;
 import com.kh.FIFAOFFLINE.team.model.vo.TeamMember;
 
@@ -142,4 +143,34 @@ public class TeamDao {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("teamMapper.deleteTJM",teamNo);
 	}
+
+	public int getSearchListCount(TeamFilter tf) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("teamMapper.getSearchListCount",tf);
+	}
+
+	public ArrayList<Team> selectSearchList(PageInfo pi, TeamFilter tf) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("teamMapper.selectSearchList", tf, rowBounds);
+	}
+
+	public Team searchTeamName(String teamName) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("teamMapper.searchTeamName",teamName);
+	}
+
+	public ArrayList<Team> selectAllTeam() {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("teamMapper.selectAllTeam");
+	}
+
+	public ArrayList<TeamMember> moreTeamMember(int teamNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("teamMapper.moreListMember",teamNo);
+	}
+
+
 }
