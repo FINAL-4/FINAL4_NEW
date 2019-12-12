@@ -5,19 +5,19 @@ public class Tournament {
 	private int teamNo;
 	private String teamName;
 	private int score;
-	private int slotNum;
+	private int rSlotNum;
 	private int userNo;
 	private String teamLogo;
 	
 	public Tournament() {}
 
-	public Tournament(int toNo, int teamNo, String teamName, int score, int slotNum, int userNo, String teamLogo) {
+	public Tournament(int toNo, int teamNo, String teamName, int score, int rSlotNum, int userNo, String teamLogo) {
 		super();
 		this.toNo = toNo;
 		this.teamNo = teamNo;
 		this.teamName = teamName;
 		this.score = score;
-		this.slotNum = slotNum;
+		this.rSlotNum = rSlotNum;
 		this.userNo = userNo;
 		this.teamLogo = teamLogo;
 	}
@@ -54,12 +54,12 @@ public class Tournament {
 		this.score = score;
 	}
 
-	public int getSlotNum() {
-		return slotNum;
+	public int getrSlotNum() {
+		return rSlotNum;
 	}
 
-	public void setSlotNum(int slotNum) {
-		this.slotNum = slotNum;
+	public void setrSlotNum(int rSlotNum) {
+		this.rSlotNum = rSlotNum;
 	}
 
 	public int getUserNo() {
@@ -81,7 +81,7 @@ public class Tournament {
 	@Override
 	public String toString() {
 		return "Tournament [toNo=" + toNo + ", teamNo=" + teamNo + ", teamName=" + teamName + ", score=" + score
-				+ ", slotNum=" + slotNum + ", userNo=" + userNo + ", teamLogo=" + teamLogo + "]";
+				+ ", rSlotNum=" + rSlotNum + ", userNo=" + userNo + ", teamLogo=" + teamLogo + "]";
 	}
 
 	

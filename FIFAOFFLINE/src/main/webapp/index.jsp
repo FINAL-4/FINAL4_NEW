@@ -26,9 +26,8 @@
 
 
 
-
 		<button id = "visual-btn" onclick="location.href='home.do'" style = "width: 100px; height: 50px; margin-top: 30px;">home.jsp로</button>
-		
+
 	</div>
 </body>
 </html>
