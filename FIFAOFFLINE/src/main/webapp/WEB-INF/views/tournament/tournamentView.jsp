@@ -17,7 +17,8 @@
 			to.get(i).setTeamName("");
 		}
 	}
-%>    
+%>     
+
     
 <!DOCTYPE html>
 <html>
