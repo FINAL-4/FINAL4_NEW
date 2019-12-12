@@ -175,6 +175,7 @@ function edit_fn(container, data, doneCb) {
 					<div id = "tInfo" style = "border-left:2px solid lightgrey; display: inline-block; height: 600px; width: 40%; padding-left: 5%; padding-top: 5%; margin-top: 50px; margin-bottom: 50px;">sfsagasdg</div>
 				
 				
+				
 			</div>
 			<br>
 			<div class="ha-waypoint" data-animate-down="ha-header-shrink" data-animate-up="ha-header-show" style = "height: 0px; width: 90%; background: white; margin: auto; margin-bottom: -200px;">
