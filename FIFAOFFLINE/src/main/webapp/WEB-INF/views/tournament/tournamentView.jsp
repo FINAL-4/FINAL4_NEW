@@ -4,12 +4,13 @@
     pageEncoding="UTF-8"%>
     
 <%
-	ArrayList<Tournament> to = new ArrayList();
+	ArrayList<Tournament> to = (ArrayList)session.getAttribute("trList");
 	
-
-
-
-
+	for(int i = 0 ; i < to.size() ; i++){
+		if(to.get(i).getTeamName()==null){
+			to.get(i).setTeamName("");
+		}
+	}
 %>    
     
 <!DOCTYPE html>
@@ -69,10 +70,10 @@ function edit_fn(container, data, doneCb) {
 		
 		switch (state) {		
 		case "empty-bye":
-			container.append("미등록")
+			container.append("")
 			return;
 		case "empty-tbd":
-			container.append("진행전")
+			container.append("")
 			return;
 
 		case "entry-no-score":
@@ -114,7 +115,7 @@ function edit_fn(container, data, doneCb) {
 								url:"saveResult.to",
 								data:{teamNo:$$$("#team"+i+" h1").text(),
 									teamName:$$$("#team"+i).text(),
-									slotNum:i,
+									rSlotNum:i,
 									score:$$$("#score"+i).text()
 								},
 								success:function(data){
@@ -135,7 +136,7 @@ function edit_fn(container, data, doneCb) {
 					teamWidth : 150, // number
 					scoreWidth : 40, // number
 					roundMargin : 25, // number
-					matchMargin : 30, // number
+					matchMargin : 40, // number
 					skipConsolationRound: true,
 					decorator : {
 						edit : edit_fn,
@@ -166,10 +167,12 @@ function edit_fn(container, data, doneCb) {
 <body>
 
 <div id = "outer" style = "margin-top: 150px;">
-			<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style = "height: 800px; width: 90%; background: white; margin: auto; margin-top: 300px;">
+			<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style = "height: 800px; width: 90%; background: white; margin: auto; margin-top: 200px;">
+					<div id = title><h1 style = "font-size: 50px; margin-top: 0px; border-bottom: 3px solid lightgrey; padding-bottom: 10px;">토너먼트 대회</h1></div>
 				
-				
-					<div id = "tTree"></div>
+					<div id = "tTree" style = "height: 700px; width: 49.5%; position: absolute;  float: left; padding-left: 50px;"></div>
+					<div id = "tSche" style = "/* border : 3px solid blue; */ height: 700px; width: 1000px; position: relative; ; float: left;">sdfsdffgfsdgdfgdfgdfgsdgdsgdsfgdgdgdf</div>
+					<div id = "tInfo" style = "border-left:2px solid lightgrey; display: inline-block; height: 600px; width: 40%; padding-left: 5%; padding-top: 5%; margin-top: 50px; margin-bottom: 50px;">sfsagasdg</div>
 				
 				
 			</div>

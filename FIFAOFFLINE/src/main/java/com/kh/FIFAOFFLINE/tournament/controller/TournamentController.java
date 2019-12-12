@@ -2,20 +2,27 @@ package com.kh.FIFAOFFLINE.tournament.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.kh.FIFAOFFLINE.match.model.vo.Match;
 import com.kh.FIFAOFFLINE.tournament.model.service.TournamentService;
 import com.kh.FIFAOFFLINE.tournament.model.vo.Tournament;
 import com.kh.FIFAOFFLINE.tournament.model.vo.TournamentInfo;
+import com.kh.FIFAOFFLINE.tournament.model.vo.TournamentSche;
 
 @Controller
 public class TournamentController {
@@ -31,44 +38,87 @@ public class TournamentController {
 		
 		session.setAttribute("toList", toList);
 		
-		new Gson().toJson(toList, response.getWriter());
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		
+		gson.toJson(toList, response.getWriter());
 	}
 	
 	
 	@RequestMapping("goTournament.to")
-	public String goTournament(String toNo) {
+	public String goTournament(HttpSession session, @RequestParam("toNo") int toNo) {
 		
-		System.out.println(toNo);
+		ArrayList<Tournament> trList = toService.getToResultList(toNo);
+		ArrayList<TournamentSche> tsList = toService.getToScheList(toNo);
+		TournamentInfo to = toService.getTournament(toNo);
+		
+
+		session.setAttribute("trList", trList);
+		session.setAttribute("tsList", tsList);
+		session.setAttribute("to", to);
+		
 		
 		return "tournament/tournamentView";
 	}
 	
+	
+	// 대회 만들기
+	@RequestMapping("createTo.to")
+	public String createTo(RedirectAttributes redirect) {
+		
+		int result = toService.insertToInfo();
+		int toNo = 0;
+		
+		if(result == 1) {
+			toNo = toService.selectCreateTo();
+			
+			HashMap<String, Integer> hs = new HashMap<String, Integer>();
+			hs.put("toNo", toNo);
+			
+			for(int i = 0 ; i < 15 ; i++) {
+				hs.put("sSlotNum", i);
+				int sResult = toService.insertToSche(hs);
+			}
+			
+			for(int i = 0 ; i < 30 ; i++) {
+				hs.put("rSlotNum", i);
+				int sResult = toService.insertToResult(hs);
+			}
+		}
+		
+		redirect.addAttribute("toNo", toNo);
+		
+		return "redirect:goTournament.to";
+	}
+	
+	
+	
 	@RequestMapping("saveResult.to")
-	public void saveResult(HttpServletResponse response, String teamNo, String teamName, String score, String slotNum) throws JsonIOException, IOException {
+	public void saveResult(HttpServletResponse response, String teamName, String score, String teamLogo, int rSlotNum) throws JsonIOException, IOException {
 		response.setContentType("application/json; charset=utf-8");
 
-		Tournament to = new Tournament();
-		to.setSlotNum(Integer.valueOf(slotNum));
+		Tournament tr = new Tournament();
+
+		tr.setrSlotNum(rSlotNum);
 		
-		if(teamNo.equals("null") || teamNo.equals("")) {
-			to.setTeamNo(-1);
+		if(teamName.equals(" 0") || teamName.equals("")) {
+			tr.setTeamName(null);
 		}else {
-			to.setTeamNo(Integer.valueOf(teamNo));
+			tr.setTeamName(teamName);
 		}
 		
-		if(teamName.equals("null") || teamName.equals("진행전")) {
-			to.setTeamName(null);
+		
+		tr.setTeamLogo(teamLogo);
+		
+		
+		if(score.equals("0") || score.equals("--")) {
+			tr.setScore(0);
 		}else {
-			to.setTeamName(teamName);
+			tr.setScore(Integer.valueOf(score));
 		}
 		
-		if(score == null || score.equals("--")) {
-			to.setScore(-1);
-		}else {
-			to.setScore(Integer.valueOf(score));
-		}
+		int result = toService.saveResult(tr);
 		
-		System.out.println(to);
-		new Gson().toJson(1, response.getWriter());
+
+		new Gson().toJson(result, response.getWriter());
 	}
 }

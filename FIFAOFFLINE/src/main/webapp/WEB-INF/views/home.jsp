@@ -94,9 +94,9 @@
 												<td id = "toTitle" colspan="3"></td>
 											</tr>
 											<tr>
-												<td id = "toSdate"></td>
-												<td id = "toEdate"></td>
+												<td id = "toLocation"></td>
 												<td id = "toReward"></td>
+												<td id = "createDate"></td>
 											</tr>
 											<tr>
 												<td id = "toContent" colspan="3"></td>
@@ -112,7 +112,6 @@
 			</div>
 </div>
 
-
 <script type="text/javascript">
 $.ajax({
 	url:"showTournament.to",
@@ -125,9 +124,9 @@ $.ajax({
 				if(data[i].toStatus == "Y"){
 					$("#toNo").val(data[i].toNo);
 					$("#toTitle").html("<p style = 'font-size:20px; color:grey;'>"+data[i].toName+"</p>");
-					$("#toSdate").html("<p>시작일</p>");
-					$("#toEdate").html("<p>종료일</p>");
-					$("#toReward").html("<p>상금</p>");
+					$("#toLocation").html("<p>장소 : "+data[i].toLocation+"</p>");
+					$("#toReward").html("<p>상금 : "+data[i].toReward+"</p>");
+					$("#createDate").html("<p>등록일 : "+data[i].createDate+"</p>");
 					$("#toContent").html("<p>"+data[i].toContent+"</p>");
 					flag = true;
 				}
@@ -161,7 +160,7 @@ $.ajax({
 
 <script type="text/javascript">
 	function createTo(){
-		
+		location.href="createTo.to";
 		
 	}
 </script>
@@ -171,7 +170,7 @@ $.ajax({
 <script type="text/javascript">
 	function showDetail(){
 		var toNo = $("#toNo").val();
-		location.href="goTournament.to?="+toNo;
+		location.href="goTournament.to?toNo="+Number(toNo);
 	}
 
 
