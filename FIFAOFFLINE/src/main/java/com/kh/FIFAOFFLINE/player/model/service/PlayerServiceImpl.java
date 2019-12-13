@@ -72,10 +72,10 @@ public class PlayerServiceImpl implements PlayerService{
 		return pDao.playPersonModify(pe);
 	}
 
-	@Override
+	/* @Override
 	public int personApply(int userNo) {
 		return pDao.personApply(userNo);
-	}
+	} */
 
 	@Override
 	public int teamPlayApply(P_LIST pl) {
@@ -101,6 +101,30 @@ public class PlayerServiceImpl implements PlayerService{
 	public int checkTeamSelect(int mt) {
 		return pDao.checkTeamSelect(mt);
 	}
+
+	@Override
+	public int personApply(P_ENROLL pe) {
+		return pDao.personApply(pe);
+	}
+
+	@Override
+	public int ald(P_LIST pl) {
+		return pDao.ald(pl);
+	}
+
+	@Override
+	public int agreeResult(Member m) {
+		return pDao.agreeResult(m);
+	}
+
+	@Override
+	public int deadlineUpdate(int rNum) {
+		return pDao.deadlineUpdate(rNum);
+	}
+
+	
+
+	
 
 
 

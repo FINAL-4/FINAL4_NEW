@@ -123,7 +123,7 @@
 	border-collapse: separate;
 	border-spacing: 10px 25px;
 } 
-#agreeBtn, #cancelBtn{
+.agreeBtn, .cancelBtn{
 	width:35px;
 	height:32px;
 	font-weight: bold; 
@@ -131,13 +131,13 @@
 	padding-bottom: 30px;
 	padding-left:7px;
 }
-#agreeBtn:hover, #cancelBtn:hover, #closeBtn:hover{
+.agreeBtn:hover, .cancelBtn:hover, #closeBtn:hover{
 	cursor: pointer;
 }
-#agreeBtn{
+.agreeBtn{
 	background: green;
 }
-#cancelBtn{
+.cancelBtn{
 	background: red;
 }
 #closeBtn{
@@ -223,9 +223,9 @@ h6{
 	font-size : 2.5em;
 	border-bottom: 2px solid grey;
 	text-align: center;
-	border-spacing: 13px;
+	border-spacing: 24px;
 }
-#listTr{
+#listTr, #listTd{
 	border-bottom:2px solid grey;
 }
 
@@ -255,7 +255,7 @@ h6{
 		<div id = playContent style = "float:left">																					
 		<table align = center>
 			<tr>
-				<img id = "picture" src="resources/images/${pRecruit.teamImage }">
+				<img id = "picture" src="resources/images/team/${pRecruit.teamImage }">
 			</tr>
 			<tr>
 				<td colspan = 2 style = "width: 100%; text-align: center;"> ${pRecruit.teamName } </td> 
@@ -318,7 +318,6 @@ h6{
 		<c:if test="${loginUser.userNo == pRecruit.userNo }">                 <!-- "document.getElementById('id02').style.display='block'" -->
 			<input type = button id = applyingBtn value = "신  청  현  황" onclick = "document.getElementById('id02').style.display='block';">
 		</c:if>
-		</div>
 	</div>	
 </div>
 
@@ -332,12 +331,11 @@ h6{
     	<label style="font-size:3em; font-weight: bold; border-bottom: 5px solid grey;"> 신 청 현 황</label> <br><br><br><br>
     	
     	<table id = listTable>
+    	<c:if test="${!empty pList }">
     	<thead>
     		<tr id = listTr>
     			<th> 프로필사진 </th>
     			<th> 이름 </th>
-    			<th> 매너 </th>
-    			<th> 실력 </th>
     			<th> 포지션 </th>
     			<th> 번호 </th>
     			<th></th>
@@ -345,20 +343,26 @@ h6{
     		</tr>
     	</thead>
     	
-    	<c:forEach var="pList" items="${pList }">   
-    		<tr id = listTr>
-    			<td><img id = "picture" src="resources/proFiles/${pList.proFile }" style="width:120px; height: 80px; margin-left:5px;"></td>
+    	<c:forEach var="pList" items="${pList }" varStatus="status">   
+    		<tr id = listTd>
+    			<td><img id = "picture" src="resources/proFiles/${pList.proFile }" style="width:150px; height: 80px; margin-left:5px;"></td>
     			<td>${pList.userName }</td>
-    			<td>${pList.manner }</td>
-    			<td>${pList.skill }</td>
     			<td>${pList.position }</td>
     			<td>${pList.phone }</td>
-    			<td> <input type = button id="agreeBtn" value="O" name="agree" onclick="agree(${pRecruit.userNo})">
+    			<td> 
+    			<input type = "button" id="agreeBtn${pList.userNo }" class="agreeBtn" value="O" name="agree" onclick="agree1(${pList.userNo})" style="margin-left:18px;">
     			</td>
-    			<td> <input type = button id="cancelBtn" value="X" name="cancel">
+    			<td> <input type = "button" id="cancelBtn${pList.userNo }" class="cancelBtn" value="X" name="cancel" onclick="cancel1(${pList.userNo})">
     			</td>
     		</tr>
     	</c:forEach>
+    	</c:if>
+    	
+    	<c:if test="${empty pList }">
+    		<tr>
+    			<td colspan=6> 신청한 인원이 없습니다. </td>
+    		</tr>
+    	</c:if>
     	</table> 	
     	
     </div>
@@ -458,19 +462,30 @@ window.onclick = function(event) {
     }
 }
 
-
-function agree(id){
-	alert("asdfadsf");
+// 신청 수락
+function agree1(id){
+	var userNo = id;
+	
+	$.ajax({
+		url:"agreePlay.pl",
+		data:{userNo:userNo},
+		dataType:"json",
+		success:function(data){
+			if(data != 0){
+				alert("수락하였습니다.\n 문자메세지가 전송됩니다.");
+				$("#listTd"+id).remove();
+			} else {
+				alert("수락이 실패하였습니다.");
+			}
+		}
+	});
 }
 
-$("#cancelBtn").click(function(){
-	alert("ratstsdat");
-});
+// 신청 거절 
+function cancel1(id){
+	alert("ASDF");
+}
 
-
-</script>
-
-<script type="text/javascript">
 function applyBtn(){
 	var playerFlag = false;
 	var userNo = ${loginUser.userNo};

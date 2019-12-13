@@ -625,7 +625,7 @@ $(function(){
 			url:"checkTeamSelect.pl",
 			data:{mt:mt},
 			success:function(data){
-				if(data == "0"){
+				if(data != "0"){
 					alert("이미 등록 된 글이 있습니다. \n등록 글을 삭제하고 새로운 글을 등록해주세요.");
 					$("#myTeam").val("").prop("selected", true);
 				}

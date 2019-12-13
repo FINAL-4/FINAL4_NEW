@@ -145,7 +145,7 @@
 	</update>
 
 	<!-- 개인 용병 신청 참가 횟수 증가 쿼리문 -->
-	<update id="personApply" parameterType="_int">
+	<update id="personApply" parameterType="P_ENROLL">
   		UPDATE MEMBER
   		SET A_COUNT=A_COUNT+1
 		WHERE USER_NO=#{userNo}
@@ -168,7 +168,6 @@
   	<select id="applyList" resultMap="listResultSet">
   		SELECT * FROM P_LIST P
 		JOIN MEMBER M ON (P.USER_NO = M.USER_NO)
-		JOIN P_ENROLL E ON(E.USER_NO = M.USER_NO)
 		WHERE ACCEPT='H' AND R_NUM=#{rNum}
   	</select>
   	
@@ -185,4 +184,26 @@
   		FROM P_RECRUIT
   		WHERE R_NUM=#{rNum} AND R_STATUS='N'
   	</select>
+  	
+  	<!-- 신청 리스트에 신청 한 사람 없어지는 거 -->
+  	<delete id="ald" parameterType="P_LIST">
+  		DELETE FROM
+  		P_LIST
+  		WHERE USER_NO=#{userNo} AND R_NUM=#{rNum}
+  	</delete>
+  	
+  	<!-- 수락 한 사람 member 에 count 올려주는거  -->
+  	<update id="agreeResult" parameterType="P_LIST">
+  		UPDATE MEMBER
+  		SET A_COUNT=A_COUNT+1
+		WHERE USER_NO=#{userNo}
+  	</update>
+  	
+  	<!-- 수락 하면 마감인원 -1 시키기 -->
+  	<update id="deadlineUpdate" parameterType="_int">
+  		UPDATE P_RECRUIT
+  		SET DEADLINE=DEADLINE-1
+  		WHERE R_NUM=#{rNum} AND TEAM_NO=#{teamNo}
+  	</update>
+ 
 </mapper>
