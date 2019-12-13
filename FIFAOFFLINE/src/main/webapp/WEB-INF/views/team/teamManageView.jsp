@@ -763,6 +763,7 @@ function autocomplete(inp, arr) {
         }
       }
   });
+          
   function addActive(x) {
     /*a function to classify an item as "active":*/
     if (!x) return false;
@@ -907,10 +908,17 @@ function beforeCreateTeam(){
 		alert("3개 이상의 팀을 가입하거나 생성할 수 없습니다.");
 	}else{
 		document.getElementById('createAD').style.display='block';
-	}
+	};
 	
-}
-
+};
+function beforeCreateTeam(){
+	   if(${myTeam.size()}==3){
+	      alert("3개 이상의 팀을 가입하거나 생성할 수 없습니다.");
+	   }else{
+	      location.href='createTeamView.tm';
+	   };
+	   
+	};
 /* function myTeamList(){
 	$.ajax({
 		url:"myTeamList",

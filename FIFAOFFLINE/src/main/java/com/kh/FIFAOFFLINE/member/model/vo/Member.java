@@ -8,7 +8,7 @@ public class Member {
 	private String userEmail;
 	private String userPwd;
 	private String userName;
-	private int birthDay;
+	private String birthDay;
 	private String gender;
 	private	String profile;
 	private String address;
@@ -22,7 +22,7 @@ public class Member {
 		super();
 	}
 
-	public Member(int userNo, String userId, String userEmail, String userPwd, String userName, int birthDay,
+	public Member(int userNo, String userId, String userEmail, String userPwd, String userName, String birthDay,
 			String gender, String profile, String address, String phone, String position, String status, int aCount,
 			Date joinDate) {
 		super();
@@ -82,11 +82,11 @@ public class Member {
 		this.userName = userName;
 	}
 
-	public int getBirthDay() {
+	public String getBirthDay() {
 		return birthDay;
 	}
 
-	public void setBirthDay(int birthDay) {
+	public void setBirthDay(String birthDay) {
 		this.birthDay = birthDay;
 	}
 
@@ -161,6 +161,8 @@ public class Member {
 				+ ", address=" + address + ", phone=" + phone + ", position=" + position + ", status=" + status
 				+ ", aCount=" + aCount + ", joinDate=" + joinDate + "]";
 	}
+
+	
 
 	
 	

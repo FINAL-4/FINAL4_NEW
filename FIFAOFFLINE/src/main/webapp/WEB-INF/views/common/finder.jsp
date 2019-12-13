@@ -6,11 +6,11 @@
 	<head>
 		<meta charset="UTF-8" />
 		<title>메인 페이지 시작</title>
-		<link rel="stylesheet" type="text/css" href="resources/css/normalize.css" />
-		<link rel="stylesheet" type="text/css" href="resources/css/demo.css" />
-		<link rel="stylesheet" type="text/css" href="resources/css/style-ama.css" />
+		
+	
+		<link rel="stylesheet" type="text/css" href="resources/css/style-ama.css" /><!--   -->
 		<link rel="stylesheet" href="resources/css/base.css">
-  		<link rel="stylesheet" href="resources/css/main.css">  
+
 		<link rel="stylesheet" type="text/css" href="resources/css/component.css" />
 		<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script>
@@ -18,11 +18,12 @@
 		</script>
 		
 		
-		<script>document.documentElement.className="js";var supportsCssVars=function(){var e,t=document.createElement("style");return t.innerHTML="root: { --tmp-var: bold; }",document.head.appendChild(t),e=!!(window.CSS&&window.CSS.supports&&window.CSS.supports("font-weight","var(--tmp-var)")),t.parentNode.removeChild(t),e};supportsCssVars()||alert("Please view this demo in a modern browser that supports CSS Variables.");</script>		
-		<script src="js/modernizr.custom.js"></script>
-		<script src="js/modernizr.custom.js"></script>
+		
+
 		
 		<style>	
+		
+	
 		#loginModal input[type=text], #loginModal input[type=password] {
 		 outline:none;
 		  width: 100%;
@@ -44,11 +45,12 @@
 		  cursor: pointer;
 		  width: 100%;
 		  margin-bottom: 10px;
-		  font-size: 25px;
+		  font-size: 20px;
 		}  
 		 
 		#id01 button:hover {
-		 opacity: 0.8;
+		  background-color: white;
+		  color: black;
 		  
 		}
 		 
@@ -74,13 +76,7 @@
 		 cursor: pointer;
 		 
 		}
-		span.find {
-		  float: right;
-		  /* padding-top: 16px; */
-		}
-		span.join{
-		float: right;
-		}
+		
 		
 		
 		/* Add Zoom Animation */
@@ -103,11 +99,11 @@
 		@media screen and (max-width: 300px) {
 		  span.find {
 		     display: block;
-		     float: none;
+		     float: right;
 		  }
 		  span.join{
 		  display: block;
-		  float :none;
+		  float :right;
 		  }
 		}
 		
@@ -159,32 +155,14 @@
 
 
 			
-		<header id="ha-header" class="ha-header ha-header-large" >
-			<div class="ha-header-perspective">
-				<div class="ha-header-front" style = "padding-bottom: 100px; background: whitesmoke;" >
+		<header id="ha-header" class="ha-header ha-header-large" style="height: 200px; ">
+			<div class="ha-header-perspective" >
+				<div class="ha-header-front" style = "background: whitesmoke;" >
 					<span>
 						<img id = "header-logo" src="resources/images/fifalogo1.png" width="280px;" height="70px;" onclick = "location.href='home.do'" style = "margin-top: 20px; cursor: pointer">
 					</span>
-					<nav class="menu menu--ama" style = "margin-bottom: 100px;">
-						<!-- <a class="menu__item" href="nlist.do" style = "border: none;"> <span class="menu__item-name">공지    </span></a> -->
-						<a class="menu__item" href="nlist.do" style = "border: none;"> <span class="menu__item-name">공지    </span></a>  
-						<c:if test="${!empty sessionScope.loginUser }">
-						<a class="menu__item" href="tlist.tm" id="teamMenu"> <span class="menu__item-name">팀       </span> </a>
-						</c:if>
-						<c:if test="${empty sessionScope.loginUser }">
-						<a class="menu__item" onclick="document.getElementById('id01').style.display='block'" id= "teamMenu"> <span class="menu__item-name">팀       </span> </a>
-						</c:if>
-						<c:if test="${!empty sessionScope.loginUser }">
-						<a class="menu__item" href="playMain.pl" id = "playerMenu" style = "border:none;"> <span class="menu__item-name">용병     </span> </a>
-						</c:if> 
-						<c:if test="${empty sessionScope.loginUser }">
-						<a class="menu__item" onclick="document.getElementById('id01').style.display='block'" id = "playerMenu" style = "border:none;"> <span class="menu__item-name">용병     </span> </a>
-						</c:if>
-						<a class="menu__item" href="goMatch.ma" style = "border: none;"> <span class="menu__item-name">매칭     </span></a>
-
-						<c:if test="${!empty sessionScope.loginUser }">
-						<a class="menu__item" href="mypage.me" style = "border: none;"> <span class="menu__item-name">마이페이지     </span></a>
-						</c:if>
+					<nav class="menu menu--ama" style = "margin-bottom: 50px;">
+						
 
 						<span>
 						<c:if test="${empty sessionScope.loginUser }">
@@ -224,10 +202,10 @@
 		      <button id = "loginBtn" type="button">로그인</button>
 		     
 		      <div style="display: inline-block;">
-		      <span class="join" style="font-size: 12px;">회원이아니신가요? <a href="goJoin.me">회원가입하러가기</a></span>
+		      <span class="join" style="font-size: 12px; padding-left: 100px;">회원이아니신가요? <a href="goJoin.me">회원가입하러가기</a></span>
 		     
 		     
-		      <span class="find" style="font-size: 12px;">아이디 혹은 비밀번호를 잊으셨나요? <a href="find.me">찾으러가기</a></span>
+		      <span class="find" style="font-size: 12px;padding-left: 60px;">비밀번호를 잊으셨나요? <a href="find.me">비밀번호 찾으러가기</a></span>
 		    </div>
 		    </div>
 		
@@ -282,16 +260,7 @@
 		
 		
 
-		<script src="resources/js/jquery-2.1.3.min.js"></script>
-  		<script src="resources/js/plugins.js"></script>
- 		<script src="resources/js/main.js"></script>
-		<script src="resources/js/charming.min.js"></script>
-		<script src="resources/js/anime.min.js"></script>
-		<script src="resources/js/demo.js"></script>
-		<script src="resources/js/demo-ama.js"></script>
-		<script src="resources/js/waypoints.min.js"></script>
-		<script src="resources/js/classie.js"></script>
-		<script src="resources/js/sidebarEffects.js"></script>
+	
 
 	</body>
 </html>
