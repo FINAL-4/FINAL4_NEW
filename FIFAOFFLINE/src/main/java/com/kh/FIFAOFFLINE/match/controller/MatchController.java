@@ -402,4 +402,35 @@ public class MatchController {
 	}
 	
 	
+	
+	@RequestMapping("showCal.ma")
+	public void showCal(HttpServletResponse response) throws JsonIOException, IOException {
+		response.setContentType("application/json; charset=utf-8");
+		
+		ArrayList<Match> mList = maService.getAllMatchList();
+		
+		HashMap resultHM = null;
+		ArrayList<HashMap> result = new ArrayList<HashMap>();
+		
+		for(int i = 0 ; i < mList.size() ; i++) {
+			resultHM = new HashMap();
+			String id = String.valueOf(mList.get(i).getmId());
+			String start = String.valueOf(mList.get(i).getmDay());
+			String end = String.valueOf(mList.get(i).getmDay());
+			
+			resultHM.put("id", id);
+			resultHM.put("start", start);
+			resultHM.put("end", end);
+			resultHM.put("description", "테스트입니당!!");
+			resultHM.put("title", mList.get(i).getmTitle());
+			resultHM.put("color", "#514644");
+			resultHM.put("textColor", "#F6F6F6");
+			
+			result.add(resultHM);
+		}
+		
+		new Gson().toJson(result, response.getWriter());
+	}
+	
+	
 }

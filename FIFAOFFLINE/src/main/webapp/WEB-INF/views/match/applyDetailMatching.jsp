@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
-  var $$ = jQuery.noConflict();
+  var $$$ = jQuery.noConflict();
 </script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.min.js'></script>
 
@@ -581,7 +581,7 @@ h6{
 			
 			<c:if test="${match.mStatus == 'ING' }">
 			<div id = btn style = "margin-left: 30%; margin-top: 5%;">
-					<input type = button id = applyingBtn value = "매칭 결과 입력" style = "margin-right: 22.5%;" onclick = "showInputResult();">
+					<input type = button id = applyingBtn value = "매칭 결과 입력" style = "margin-right: 22.5%; " onclick = "showInputResult();">
 					<input type = button id = applyBtn value = "상세위치보기" onclick = "showMap()">
 					<input type = button id = recruitBtn value = "돌아가기" onclick = "location.href='goMatch.ma'" style = "margin-left: 1%;">
 			</div>	
@@ -689,7 +689,7 @@ h6{
 
 
 
-<div id = "inputResultDiv" style = "width: 500px; height: 200px; background: white; padding: 30px;">
+<div id = "inputResultDiv" style = "width: 500px; height: 200px; background: white; padding: 30px; display: none;">
 	<form id = "scoreForm" action="insertResult.ma">
 		<input type = "hidden" name = "mId" value = "${match.mId }">
 		<table id = "inputResultTb" style = "width: 100%; height: 100%; text-align: center;">
@@ -733,7 +733,7 @@ h6{
 <!-- 팀보기 -->
 <script type="text/javascript">
 	function showTeamInfo(tId){
-		$$("#showTeamInfo").bPopup();
+		$$$("#showTeamInfo").bPopup();
 		
 		$.ajax({
 			url:"showTeamInfo.ma",
@@ -981,27 +981,27 @@ h6{
 <script type="text/javascript">
 
 	function showAppMatch(){
-			$$("#applyDetail").bPopup();
+			$$$("#applyDetail").bPopup();
 	}
 
 	function closeBtn(){
-		$$("#applyDetail").bPopup().close();
+		$$$("#applyDetail").bPopup().close();
 	}
 	
 	function closePop(){
-		$$("#showTeamInfo").bPopup().close();
+		$$$("#showTeamInfo").bPopup().close();
 	}
 
 	function showMap(){
-		$$("#map").bPopup();
+		$$$("#map").bPopup();
 	}
 	
 	function showInputResult(){
-		$$("#inputResultDiv").bPopup();	
+		$$$("#inputResultDiv").bPopup();	
 	}
 	
 	function closeInputResult(){
-		$$("#inputResultDiv").bPopup().close();	
+		$$$("#inputResultDiv").bPopup().close();	
 	}
 	
 	
