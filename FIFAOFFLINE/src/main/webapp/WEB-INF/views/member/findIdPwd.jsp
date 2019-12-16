@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <title>Insert title here</title>
 
@@ -56,8 +57,8 @@
 	}
 	
 	.btn:hover{
-		color: black;
-		background: white;
+		 opacity: 0.5;
+		
 		cursor: pointer;
 	}
 	
@@ -193,13 +194,14 @@
 							<td id ="infoP"></td>
 						</tr>
 					</table>
+					
 					<button id = "pwdBtn" class = "btn" onclick="sendEmail('pwd')">확인하기</button>
 				</div>
 			</div>
 			
 	</div><!-- container -->
 </div><!-- mainContent -->
-
+<jsp:include page="../common/footer.jsp"/>
 	
 <script type="text/javascript">
 
@@ -244,6 +246,7 @@ pwd = null;
 
 function sendEmail(idOrPwd){
 
+	
 	
 	if(idOrPwd == "id"){
 		$.ajax({
@@ -292,7 +295,7 @@ function sendEmail(idOrPwd){
 													newPwd : pwd
 												},
 												success : function(data) {
-													alert("이메일을확인해주세요.");
+													swal("Success!", "Check your email", "success");
 												}
 											});
 										}, function(err) {
@@ -351,7 +354,7 @@ function sendEmail(idOrPwd){
 													newPwd : pwd
 												},
 												success : function(data) {
-													alert("성공");
+													swal("Success!", "Check your email", "success");
 												}
 											});
 										}, function(err) {

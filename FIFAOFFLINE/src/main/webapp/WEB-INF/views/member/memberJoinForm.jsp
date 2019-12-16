@@ -15,6 +15,9 @@
 	src='https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.min.js'></script>
 <title>KH sports</title>
 <style>
+input:focus {
+	  outline: none;
+	}
 .outer {
 	/* border: 2px solid black; */
 	width: 90%;
@@ -141,7 +144,7 @@ select {
 
 #goMain:active {
 	color: white;
-	background-color: #f53f29;
+	background-color: black;
 	box-shadow: 0 3px #666;
 	transform: translateY(4px);
 	border-radius: 4px;
@@ -214,7 +217,7 @@ canvas {
 	font-size: inherit;
 	line-height: normal;
 	vertical-align: middle;
-	background-color: #337ab7;
+	background-color: black;
 	cursor: pointer;
 	border: 1px solid #ebebeb;
 	border-bottom-color: #e2e2e2;
@@ -359,7 +362,7 @@ canvas {
 						</tr>
 						<tr>
 							<th>주소</th>
-							<td><input type="text" name="address1"
+							<td><input type="text" name="address1" id = "address1"
 								class="postcodify_address" value="" readonly>
 							
 								<button type="button" id="postcodify_search_button"><i class="fa fa-search"></i>검색</button>
@@ -367,7 +370,7 @@ canvas {
 						</tr>
 						<tr>
 							<th>상세 주소</th>
-							<td><input type="text" name="address2" class="postcodify_extra_info" value=""></td>
+							<td><input id = "address2" type="text" name="address2" class="postcodify_extra_info" value=""></td>
 						</tr>
 
 						<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
@@ -714,6 +717,12 @@ canvas {
 			}else if($("input:radio[name='gender']").is(":checked")==false){
 				alert("성별을 선택해주세요.");
 				$("input:radio[name='gender']").focus();
+			}else if($("#address1").val() == ""){
+				alert("주소을 입력해주세요.");
+				$("#adderess1").focus();
+			}else if($("#address2").val() == ""){
+				alert("상세 주소을 입력해주세요.");
+				$("#adderess2").focus();
 			}else if($("#emailId").val() == ""){
 				alert("이메일을 입력해주세요.");
 				$("#emailId").focus();
