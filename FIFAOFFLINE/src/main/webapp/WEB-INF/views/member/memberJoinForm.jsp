@@ -15,6 +15,9 @@
 	src='https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.min.js'></script>
 <title>KH sports</title>
 <style>
+input:focus {
+	  outline: none;
+	}
 .outer {
 	/* border: 2px solid black; */
 	width: 90%;
@@ -141,7 +144,7 @@ select {
 
 #goMain:active {
 	color: white;
-	background-color: #f53f29;
+	background-color: black;
 	box-shadow: 0 3px #666;
 	transform: translateY(4px);
 	border-radius: 4px;
@@ -214,7 +217,7 @@ canvas {
 	font-size: inherit;
 	line-height: normal;
 	vertical-align: middle;
-	background-color: #337ab7;
+	background-color: black;
 	cursor: pointer;
 	border: 1px solid #ebebeb;
 	border-bottom-color: #e2e2e2;
