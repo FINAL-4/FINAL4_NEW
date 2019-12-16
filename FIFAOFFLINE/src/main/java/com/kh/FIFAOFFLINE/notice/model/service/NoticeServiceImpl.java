@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.FIFAOFFLINE.notice.model.dao.NoticeDao;
 import com.kh.FIFAOFFLINE.notice.model.vo.PageInfo;
+import com.kh.FIFAOFFLINE.notice.model.vo.Reply;
 import com.kh.FIFAOFFLINE.notice.model.vo.Notice;
 
 @Service("nService")
@@ -33,6 +34,12 @@ public class NoticeServiceImpl implements NoticeService{
 
 		return nDao.insertNotice(n);
 	}
+	
+	@Override
+	public int addReadCount(int nId) {
+		
+		return nDao.addReadCount(nId);
+	}
 
 	@Override
 	public Notice selectOne(int nId) { 
@@ -52,5 +59,16 @@ public class NoticeServiceImpl implements NoticeService{
 		return nDao.deleteNotcie(nId);
 	}
 
+	@Override
+	public ArrayList<Reply> selectReplyList(int nId) {
+		
+		return nDao.selectReplyList(nId);
+	}
+
+	@Override
+	public int insertReply(Reply r) {
+		
+		return nDao.insertReply(r);
+	}
 
 }

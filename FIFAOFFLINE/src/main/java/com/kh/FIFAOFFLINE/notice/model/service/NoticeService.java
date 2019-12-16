@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.FIFAOFFLINE.notice.model.vo.Notice;
 import com.kh.FIFAOFFLINE.notice.model.vo.PageInfo;
+import com.kh.FIFAOFFLINE.notice.model.vo.Reply;
 
 public interface NoticeService {
 	
@@ -26,7 +27,11 @@ public interface NoticeService {
 	public int insertNotice(Notice n);
 	
 	/*
-	 * 3. 공지사항 상세 조회
+	 * 3_1. 게시판 상세 조회시 조회수 증가
+	 */
+	public int addReadCount(int nId);
+	/*
+	 * 3_2 공지사항 상세 조회
 	 */
 	public Notice selectOne(int nId);
 	
@@ -39,5 +44,15 @@ public interface NoticeService {
 	 * 5. 공지사항 삭제
 	 */
 	public int deleteNotice(int nId);
+	
+	/*
+	 * 6. 댓글 조회
+	 */
+	public ArrayList<Reply> selectReplyList(int nId);
 
+	/*
+	 * 7. 댓글 추가
+	 */
+	public int insertReply(Reply r);
+	
 }
