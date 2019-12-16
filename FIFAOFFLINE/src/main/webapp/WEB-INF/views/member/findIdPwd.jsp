@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <title>Insert title here</title>
 
@@ -17,42 +18,47 @@
 	}
 	
 	#findId{
-		border: 3px solid lightgrey;
+		border: 2px solid lightgrey;
 		display: inline-block;
 		width: 40%;
+		height: 450px;
 		margin: 4%;
 		margin-left: 5%;
-		margin: 5%;
-		margin-top: 30px;
-		margin-right:1%;
+	/* 	margin: 5%; */
+		margin-top: 40px; 
+
 		padding: 20px;
+		float: left;
 	}
 
 	#findPwd{
-		border: 3px solid lightgrey; 
+		border: 2px solid lightgrey; 
 		display: inline-block;
 		width: 40%;
-		margin: 4%;
-		margin-top: 30px;
-		margin-left: 1%;
+	/* 	margin: 4%; */
+		margin-top: 40px;
+		height:450px;
 		padding: 20px;
+		float: left;
 	}
 
 	.btn{
-		width : 10%;
-		margin-top: 50px;
+	
+		margin-top: 40px;
 		margin-left: 45%;
 		margin-right: 45%;
+		
 		width: 100px;
 		height: 40px;
 		color: white;
 		background: black;
-		font-size: 14px;
+		font-size: 15px;
+		border-radius: 4px;
 	}
 	
 	.btn:hover{
-		color: black;
-		background: grey;
+		 opacity: 0.5;
+		
 		cursor: pointer;
 	}
 	
@@ -72,13 +78,14 @@
 		font-size: 15px;
 	}
 
-#banner{
+/* #banner{
+	text-align:center;
+	width:10%;
+	height:15%;
 	
-	width: 60%;
-	height: 350px;
-	margin-top: 0px;
-	margin-bottom: 50px;
-}
+
+	margin-bottom: 30px;
+} */
 
 #banner img{
 	width: 100%;
@@ -103,11 +110,12 @@
    <div id="mainContent" style="overflow: auto;"><!-- mainContent -->
 			<div id = "banner">	
 			
-				<a href="home.do"><img src="resources/images/fifalogo1.png" alt="image" border="0"></a>
-				
+				<!--  <a href="home.do"><img src="resources/images/fifalogo1.png" alt="image" border="0"></a> --> 				
 			</div>
+			<jsp:include page="../common/finder.jsp"></jsp:include>
 			<div id = "outer">
-			<div  id = "mainTitle" style="text-align: center; font-size:90px; "><b >아이디/비밀번호 찾기</b></div>
+			<div  id = "mainTitle" style="text-align: center; font-size:70px; "><b >아이디/비밀번호 찾기</b></div>
+			
 				<div id = "findId">
 					<h2 style = "margin-left: 15px;">아이디 찾기</h2>
 					<table id = "idTable" align = "center">
@@ -121,7 +129,7 @@
 							<input type="text" id = "email2I" name="email2I" value="naver.com" style="width: 130px; height: 30px; margin-left: 0px;" ReadOnly="true" placeholder = "naver.com">
 							</td>
 							<th>
-							<select id = "selctEmailI" name = "selctEmail" class = "info" style="width: 110px; margin-left: 3px; height: 36px;" onchange="SetEmailTailI(selctEmailI.options[this.selectedIndex].value)" >
+							<select id = "selctEmailI" name = "selctEmail" class = "info" style="width: 120px; margin-left: 3px; height: 30px;" onchange="SetEmailTailI(selctEmailI.options[this.selectedIndex].value)" >
 								<!-- <option value = "notSelected">====선택====</option> -->
 								<option value = "naver.com">naver.com</option> 
 								<option value = "goole.com">google.com</option>
@@ -153,8 +161,8 @@
 						<tr>
 							<td class = "label">이메일</td>
 							<td><input type = "text" id = "emailPtP" name = "emailId" style="width: 100px; height: 30px; margin-right: 5px;" required="required"><em>@</em>
-							<input type="text" id="email2P" name="email2P" value="naver.com" style="width: 130px; height: 30px; margin-left: 0px;" ReadOnly="true" placeholder = "naver.com">
-							<select id = "selctEmailP" name = "selctEmail" class = "info" style="width: 110px; margin-left: 3px; height: 36px;" onchange="SetEmailTailP(selctEmailP.options[this.selectedIndex].value)" >
+							<input type="text" id="email2P" name="email2P" value="naver.com" style="width: 120px; height: 30px; margin-left: 0px;" ReadOnly="true" placeholder = "naver.com">
+							<select id = "selctEmailP" name = "selctEmail" class = "info" style="width: 110px; margin-left: 3px; height: 30px;" onchange="SetEmailTailP(selctEmailP.options[this.selectedIndex].value)" >
 								<!-- <option value = "notSelected">====선택====</option> -->
 								<option value = "naver.com">naver.com</option> 
 								<option value = "goole.com">google.com</option>
@@ -171,7 +179,7 @@
 						<tr>
 							<td class = "label">전화번호</td>
 							<td>
-								<select id = "tel0" class = "phone" name = "phone1" style="width: 90px; margin-left: 0px; height: 36px;">
+								<select id = "tel0" class = "phone" name = "phone1" style="width: 90px; margin-left: 0px; height: 30px;">
 									<option value = "010">010</option>
 									<option value = "011">011</option>
 									<option value = "016">016</option>
@@ -186,13 +194,14 @@
 							<td id ="infoP"></td>
 						</tr>
 					</table>
+					
 					<button id = "pwdBtn" class = "btn" onclick="sendEmail('pwd')">확인하기</button>
 				</div>
 			</div>
 			
 	</div><!-- container -->
 </div><!-- mainContent -->
-
+<jsp:include page="../common/footer.jsp"/>
 	
 <script type="text/javascript">
 
@@ -238,6 +247,7 @@ pwd = null;
 function sendEmail(idOrPwd){
 
 	
+	
 	if(idOrPwd == "id"){
 		$.ajax({
 			url:"findId.me",
@@ -256,12 +266,14 @@ function sendEmail(idOrPwd){
 					(function() {
 						if (idOrPwd == "id") {
 							var emailC = {
+								name : $("#nameI").val() +" 님 안녕하세요." ,
 								contents : "찾으시는 아이디는 '" + id + "'입니다.",
 								userEmail : $("#emailPtI").val() + "@"
 										+ $("#email2I").val()
 							}
 						} else if (idOrPwd == "pwd") {
 							var emailC = {
+									name : $("#nameI").val() +"님 안녕하세요." ,
 								contents : "임시비밀번호는 '" + pwd + "'입니다.",
 								userEmail : $("#emailPtP").val() + "@"
 										+ $("#email2P").val()
@@ -283,7 +295,7 @@ function sendEmail(idOrPwd){
 													newPwd : pwd
 												},
 												success : function(data) {
-													alert("성공");
+													swal("Success!", "Check your email", "success");
 												}
 											});
 										}, function(err) {
@@ -342,7 +354,7 @@ function sendEmail(idOrPwd){
 													newPwd : pwd
 												},
 												success : function(data) {
-													alert("성공");
+													swal("Success!", "Check your email", "success");
 												}
 											});
 										}, function(err) {

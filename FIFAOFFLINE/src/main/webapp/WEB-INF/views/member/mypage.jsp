@@ -22,6 +22,10 @@
 	src='https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.min.js'></script>
 <title>KH sports</title>
 <style>
+
+input:focus {
+	  outline: none;
+	}
 .outer {
 	
 	width: 90%;
@@ -52,7 +56,7 @@ input {
 
 #idCheck, #joinBtn, #searchAdd {
 	margin-top: 2px;
-	background: #002aff;
+	background: black;
 	color: white;
 	border-radius: 4px;
 	width: 150px;
@@ -73,7 +77,7 @@ input {
 
 #idCheck:active {
 	color: white;
-	background-color: #f53f29;
+	background-color: gray;
 	box-shadow: 0 3px #666;
 	transform: translateY(4px);
 	border-radius: 4px;
@@ -81,7 +85,7 @@ input {
 
 #joinBtn:active {
 	color: white;
-	background-color: #f53f29;
+	background-color: gray;
 	box-shadow: 0 3px #666;
 	transform: translateY(4px);
 	border-radius: 16px;
@@ -105,8 +109,8 @@ td {
 
 select {
 	font-size: 20px;
-	height: 40px;
-	width: 400px;
+	height: 46px;
+	width: 350px;
 	margin-top: 20px;
 }
 
@@ -115,17 +119,19 @@ select {
 }
 
 #postcodify_search_button {
-	background-color: white;
+	background-color: lightgery;
 	color: black;
-	border-radius: 15px;
-	margin-top: 20px;
-	height: 40px;
+	border-radius: 4px;
+	height: 43px;
 	text-align: left;
 	border: none;
-	padding: 10px 16px;
-	font-size: 15px;
+	padding: 0px 16px;
+	font-size: 16px;
 	cursor: pointer;
-	box-shadow: 0 5px #999;
+	
+}
+#postcodify_search_button:hover {
+
 }
 
 #goMain {
@@ -151,7 +157,7 @@ select {
 
 #goMain:active {
 	color: white;
-	background-color: #f53f29;
+	background-color: black;
 	box-shadow: 0 3px #666;
 	transform: translateY(4px);
 	
@@ -179,7 +185,7 @@ th {
 	max-width: 200px;
 	height: 20px;
 	text-align: right;
-	padding-left: 10px;
+	font-size:20px;
 	vertical-align: middle;
 }
 
@@ -215,8 +221,8 @@ th {
 
 
 .memberjoinForm {
-	padding: 70px 0;
-	margin: 50px auto 0 auto;
+	padding: 50px 0 250px 0;
+	margin: 0 auto 0 auto;
 	width: 100%;
 	height: 700px;
 }
@@ -264,6 +270,50 @@ canvas {
 
 	
 }
+.filebox input[type="file"] {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}
+
+.filebox label {
+	display: inline-block;
+	padding: 2px 16px 20px;
+	color: white;
+	font-size: inherit;
+	line-height: normal;
+	vertical-align: middle;
+	background-color: black;
+	cursor: pointer;
+	border: 1px solid #ebebeb;
+	border-bottom-color: #e2e2e2;
+	border-radius: 4px;
+	width: 25%;
+	height: 20px;
+	
+} /* named upload */
+.filebox .upload-name {
+	display: inline-block;
+/* 	padding: .5em .75em; */ /* label의 패딩값과 일치 */
+	font-size: inherit;
+	font-family: inherit;
+	line-height: normal;
+	vertical-align: middle;
+	background-color: #f5f5f5;
+	border: 1px solid #ebebeb;
+	border-bottom-color: #e2e2e2;
+	border-radius: 4px;
+	-webkit-appearance: none; /* 네이티브 외형 감추기 */
+	-moz-appearance: none;
+	appearance: none;
+	width:60%;
+	margin: 0;
+}
 </style>
 </head>
 
@@ -271,19 +321,16 @@ canvas {
 
 
 <body>
-<%=m %>
+
 
 	<div id="container" style="">
 		<!-- container -->
 		<div id="mainContent" style="">
 			<!-- mainContent -->
-			<div style="align: center">
-				<img src="resources/images/fifalogo1.png" text-align="center">
-			</div>
-
 			
-			<div></div>
-			<div class="memberjoinForm" style="padding-bottom: 150px;">
+			
+		
+			<div class="memberjoinForm">
 					<h1 align="center"style="font-size: 50px;">
 						회원정보수정
 					</h1>
@@ -296,7 +343,7 @@ canvas {
 					 	<input type="hidden" name = "aCount" value="${loginUser.aCount }">
 						<input type="hidden" name = "joinDate" value="${loginUser.joinDate }"> 
 
-					<div style="width: 55%; display: inline-block; float: left;">
+					<div style="width: 50%; display: inline-block; float: left; border-right: 2px solid grey;">
 						<table align="center">
 							<tr>
 								<th width="200px;">아이디</th>
@@ -360,7 +407,7 @@ canvas {
 								<c:if test="${status.index eq 0}">
 								<td>
 								<select id="tel0" class="phone" name="phone1" value="${tal}"
-									style="width: 20%; margin-left: 18px; height: 48px;">
+									style="width: 19%; margin-left: 18px; height: 48px;">
 										<option value="010">010</option>
 										<option value="011">011</option>
 										<option value="016">016</option>
@@ -369,11 +416,11 @@ canvas {
 								</c:if>
 								<c:if test="${status.index eq 1}">
 								<input id="tel1" class="phone" type="tel" maxlength="4" value="${tal}"
-									name="phone2" style="width: 25%; margin-left: 15px;">
+									name="phone2" style="width: 22%; margin-left: 15px;">
 								</c:if>
 								<c:if test="${status.index eq 2}">
 								<input id="tel2" class="phone" type="tel" maxlength="4"	value="${tal}"
-									name="phone3" style="width: 25%; margin-left: 15px;">
+									name="phone3" style="width: 22%; margin-left: 15px;">
 								</c:if>
 								
 								</c:forTokens>
@@ -385,13 +432,13 @@ canvas {
 								varStatus="status">
 									<c:if test="${status.index eq 0}">
 										<input type="text" name="emailId" value="${mail }"
-											style="width: 25%;" requi#f53f29>
+											style="width: 18%;" requi#f53f29>
 											<em>@</em>
 										</c:if>
 										<c:if test="${status.index eq 1}">	
 										
 										<input type="text" name="email2" value="${mail }"
-											style="width: 25%; margin-left: 0px;" ReadOnly
+											style="width: 21%; margin-left: 4px;" ReadOnly
 											placeholder="naver.com">
 										
 									</c:if>
@@ -399,7 +446,7 @@ canvas {
 										
 										
 										<select id="selctEmail" name="selctEmail"
-											class="info" style="width: 25%; margin-left: 0px;"
+											class="info" style="width: 23%; margin-left: 0px;"
 											onchange="SetEmailTail(selctEmail.options[this.selectedIndex].value)">
 												<!-- <option value = "notSelected">====선택====</option> -->
 												<option value="naver.com">naver.com</option>
@@ -447,14 +494,13 @@ canvas {
 
 
 
-					<div style= " display: inline-block; width: 40%;">
-						<table align="center" style="width: 90%;">
+					<div class="filebox" style= " display: inline-block; width: 35%; margin-left: 10%;">
+						<table>
 							<tr>
 								<th colspan="4" style="text-align: left;">프로필사진</th>
 							</tr>
 								
-								<br>
-								<br>
+							
 								
 					<tr>
 						<td class="profile" colspan="2">
@@ -466,21 +512,30 @@ canvas {
 						<canvas id="canvas" style = "display: none;">
 						</canvas>
 						</td>	
+					</tr>
+					<tr>
 								
 								<td colspan="2">
-								<input id="uploadFile" name="uploadFile" 
-									type="file" multiple="false" accept="image/*" 
-									onchange="upload()" style="width: 280px;" ">
+								<input class="upload-name" value="${loginUser.profile }" disabled="disabled">
+								<label for="uploadFile">사진선택</label>
+								<input
+								 id="uploadFile"
+								 name="uploadFile"
+								 class="upload-hidden"
+								 type="file"
+								 multiple="false"
+								 accept="image/*" 
+								 onchange="upload()" style="width: 280px;">
 									
 				
 								</td>
-					</tr>
+								</tr>
 							<script>
 						
 							
 						function upload()
 						{
-							alert($("#uploadFile").val());
+						
 							$("#img").css("display","none");
 							$("#canvas").css("display","inline-block");
 						  var Ican = document.getElementById ("canvas");
@@ -488,9 +543,22 @@ canvas {
 						  var ima1 = new SimpleImage (proup);
 						  ima1.drawTo (Ican);
 						}
+						$(document).ready(function(){
+							var fileTarget = $('.filebox .upload-hidden');
+							fileTarget.on('change', function(){ // 값이 변경되면 
+							if(window.FileReader){ // modern browser 
+							var filename = $(this)[0].files[0].name; } else { // old IE 
+							var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출 
+							} // 추출한 파일명 삽입
+							$(this).siblings('.upload-name').val(filename); 
+							});
+							});
 						</script>
+						</table>
+						</div>
 						
-						
+						<div style= " display: inline-block; width: 35%; margin-left: 10%;">
+						<table>
 							<tr>
 								<th colspan="4" style="text-align: left;">포지션</th>
 							</tr>

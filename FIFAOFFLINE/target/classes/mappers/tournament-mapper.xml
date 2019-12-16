@@ -1,5 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="tournamentMapper">
-  
+	<resultMap type="TournamentInfo" id="toInfoResultSet">
+		<id property = "toNo" column="TOID"/>
+		<result property="toName" column="TO_NAME"/>
+		<result property="toContent" column="TO_CONTENT"/>
+		<result property="toReward" column="TO_REWARD"/>
+		<result property="toLocation" column="TO_LOCATION"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="toStatus" column="TO_STATUS"/>
+		
+	</resultMap>  
+	
+	<resultMap type="Tournament" id="tournamentResultSet">
+		<id property = "toNo" column="TOID"/>
+		<result property="teamNo" column="TEAM_NO"/>
+		<result property="teamName" column="TEAM_NAME"/>
+		<result property="score" column="SCORE"/>
+		<result property="rSlotNum" column="R_SLOT"/>
+		<result property="userNo" column="USER_NO"/>
+		<result property="teamLogo" column="TEAM_IMAGE"/>
+	</resultMap>
+	
+	<resultMap type="TournamentSche" id="toScheResultSet">
+		<id property = "toNo" column="TOID"/>
+		<result property="sSlotNum" column="S_SLOT"/>
+		<result property="toTime" column="TO_TIME"/>	
+	</resultMap> 
+	
+	<select id="selectAllList" resultMap="toInfoResultSet">
+		SELECT * 
+		FROM TOURNAMENT
+		WHERE TO_STATUS = 'Y' OR TO_STATUS = 'E'
+	</select>
+	
+	<select id="selectCreateTo" resultType="_int">
+		SELECT TOID
+		FROM TOURNAMENT
+		WHERE TO_STATUS = 'Y'
+	</select>
+	
+	<insert id="insertToInfo">
+		INSERT INTO TOURNAMENT
+		VALUES(SEQ_TOID.NEXTVAL, DEFAULT, DEFAULT, DEFAULT, DEFAULT, SYSDATE, DEFAULT)
+	</insert>
+
+	<insert id="insertToSche" parameterType="hashmap">
+		INSERT INTO TO_SCHEDULE
+		VALUES(#{toNo}, #{sSlotNum}, DEFAULT)
+	</insert>
+	
+	<insert id="insertToResult" parameterType="hashmap">
+		INSERT INTO TO_RESULT
+		VALUES(#{toNo}, DEFAULT, DEFAULT, DEFAULT, #{rSlotNum}, DEFAULT, DEFAULT)
+	</insert>
+	
+	<select id="selectResultList" resultMap="tournamentResultSet">
+		SELECT *
+		FROM TO_RESULT
+		WHERE TOID = #{toNo}
+	</select>
+	
+	<select id="selectScheList" resultMap="toScheResultSet">
+		SELECT *
+		FROM TO_SCHEDULE
+		WHERE TOID = #{toNo}
+	</select>
+	
+	<select id="selectToInfo" resultMap="toInfoResultSet">
+		SELECT *
+		FROM TOURNAMENT
+		WHERE TOID = #{toNo}
+	</select>
+	
+	<update id="updateResult" parameterType="Tournament">
+		UPDATE TO_RESULT
+		SET TEAM_NAME=#{teamName}, TEAM_IMAGE=#{teamLogo}, SCORE=#{score}, TEAM_NO=#{teamNo}
+		WHERE R_SLOT=#{rSlotNum} AND TOID=#{toNo}
+	</update>
+	
+	<update id="updateInfo" parameterType="TournamentInfo">
+		UPDATE TOURNAMENT
+		SET TO_NAME=#{toName}, TO_CONTENT=#{toContent}, TO_LOCATION=#{toLocation}, TO_REWARD=#{toReward}
+		WHERE TOID=#{toNo}
+	</update>
+	
+	<update id="updateSche" parameterType="TournamentSche">
+	 	UPDATE TO_SCHEDULE
+	 	SET TO_TIME=#{toTime}
+	 	WHERE S_SLOT=#{sSlotNum} AND TOID=#{toNo}
+	</update>
+	
+	<update id="endTo">
+		UPDATE TOURNAMENT
+		SET TO_STATUS = 'E'
+		WHERE TOID=#{toNo}
+	</update>
 </mapper>

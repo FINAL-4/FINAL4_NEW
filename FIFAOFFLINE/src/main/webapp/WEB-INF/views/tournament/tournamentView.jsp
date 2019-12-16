@@ -1,45 +1,27 @@
+<%@page import="com.kh.FIFAOFFLINE.team.model.vo.MyTeam"%>
+<%@page import="com.kh.FIFAOFFLINE.tournament.model.vo.TournamentSche"%>
+<%@page import="com.kh.FIFAOFFLINE.tournament.model.vo.TournamentInfo"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.kh.FIFAOFFLINE.tournament.model.vo.Tournament"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
 <%
-	ArrayList<Tournament> to = new ArrayList();
+	TournamentInfo tInfo =(TournamentInfo)session.getAttribute("to");	
+	ArrayList<Tournament> to = (ArrayList)session.getAttribute("trList");
+	ArrayList<TournamentSche> tSche = (ArrayList)session.getAttribute("tsList");
+	
+	
+	ArrayList<MyTeam> tList = (ArrayList)session.getAttribute("myTeam");
+	
+	for(int i = 0 ; i < to.size() ; i++){
+		if(to.get(i).getTeamName()==null){
+			to.get(i).setTeamName("");
+		}
+	}
+%>     
 
-
-to.add(new Tournament(1,3,"테스트!!",3,0,0,"ba1.jpg"));
-to.add(new Tournament(1,5,"df!!",4,0,0,"ba2.jpg"));
-to.add(new Tournament(1,8,"테스asdf트!!",5,2,0,"ba3.jpg"));
-to.add(new Tournament(1,15,"테스sadf트!!",6,3,0,"ba4.jpg"));
-to.add(new Tournament(1,153,"sf!!",7,4,0,"degea.jpg"));
-to.add(new Tournament(1,12,"sad!!",8,5,0,"dybala.jpg"));
-to.add(new Tournament(1,155,"asdf!!",9,6,0,"juventus.jpg"));
-to.add(new Tournament(1,115,"gssa!!",10,7,0,"login.png"));
-to.add(new Tournament(1,23,"asdg!!",11,8,0,"man.jpg"));
-to.add(new Tournament(1,251,"테스트sss!!",12,9,0,"marker.png"));
-to.add(new Tournament(1,152,"dfd!!",13,10,0,"search.jpg"));
-to.add(new Tournament(1,123,"sd!!",14,11,0,"son.png"));
-to.add(new Tournament(1,415,"bsa!!",15,12,0,"tot.jpg"));
-to.add(new Tournament(1,53,"sdf!!",16,13,0,"youri.jpg"));
-to.add(new Tournament(1,67,"vsd!!",17,14,0,"leicester.jpg"));
-to.add(new Tournament(1,12,"asd!!",18,15,0,"fifalogo1.png"));
-to.add(new Tournament(1,4,"sa!!",19,16,0,""));
-to.add(new Tournament(1,345,"sdf!!",20,17,0,""));
-to.add(new Tournament(1,65,"sdf!!",21,18,0,""));
-to.add(new Tournament(1,14,"bsd!!",22,19,0,""));
-to.add(new Tournament(1,25,"sd!!",23,20,0,""));
-to.add(new Tournament(1,65,"테스트asd!!",24,21,0,""));
-to.add(new Tournament(1,45,"테스dd트!!",25,22,0,""));
-to.add(new Tournament(1,124,"v!!",26,23,0,""));
-to.add(new Tournament(1,135,"a!!",27,24,0,""));
-to.add(new Tournament(1,13,"s!!",28,25,0,""));
-to.add(new Tournament(1,537,"dfd!!",29,26,0,""));
-to.add(new Tournament(1,1246,"d!!",30,27,0,""));
-to.add(new Tournament(1,5135,"aad!!",31,28,0,""));
-to.add(new Tournament(1,2145,"vd!!",32,29,0,""));
-
-
-%>    
     
 <!DOCTYPE html>
 <html>
@@ -52,6 +34,8 @@ to.add(new Tournament(1,2145,"vd!!",32,29,0,""));
 <!-- <script src="//code.jquery.com/jquery-1.11.3.min.js"></script> -->
 <script src="resources/js/jquery.bracket.min.js"></script>
 <link href="resources/css/jquery.bracket.min.css" rel="stylesheet">
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.min.js'></script>
 <title>Insert title here</title>
 
 <script type="text/javascript">
@@ -98,16 +82,17 @@ function edit_fn(container, data, doneCb) {
 		
 		switch (state) {		
 		case "empty-bye":
-			container.append("미등록")
+			container.append("")
 			return;
 		case "empty-tbd":
-			container.append("진행전")
+			container.append("")
 			return;
 
 		case "entry-no-score":
 		case "entry-default-win":
 		case "entry-complete":
-			container.append('<img class = "num" src="resources/images/'+data.flag+'" style = "width:15px; height:15px;"/> ').append(data.name).append('<h1 style = "display:none;">'+data.num+'</h1>');
+			container.append('<img class = "num" src="resources/images/'+data.flag+'" style = "width:15px; height:15px;" />').append(data.name).append('<input class ="tNum" type="hidden" style = "display:none;" value = "'+data.num+'">').append('<input class ="tFlag" type="hidden" style = "display:none;" value = "'+data.flag+'">');
+			
 			return;
 		}
 		
@@ -139,12 +124,18 @@ function edit_fn(container, data, doneCb) {
 					    for(var i = 0 ; i < jbT.length ; i++){
 					    	jbT[i].id = "team"+i;
 					    	jbS[i].id = "score"+i;
+					    	
+					    	var teamName = $$$("#team"+i).text()
+					    	
+					    	
 						    $.ajax({
 								url:"saveResult.to",
-								data:{teamNo:$$$("#team"+i+" h1").text(),
-									teamName:$$$("#team"+i).text(),
-									slotNum:i,
-									score:$$$("#score"+i).text()
+								data:{teamNo:$$$("#team"+i+" .tNum").val(),
+									teamName:teamName,
+									teamLogo:$$$("#team"+i+" .tFlag").val(),
+									rSlotNum:i,
+									score:$$$("#score"+i).text(),
+									toNo:<%=tInfo.getToNo()%>
 								},
 								success:function(data){
 									
@@ -164,7 +155,7 @@ function edit_fn(container, data, doneCb) {
 					teamWidth : 150, // number
 					scoreWidth : 40, // number
 					roundMargin : 25, // number
-					matchMargin : 30, // number
+					matchMargin : 40, // number
 					skipConsolationRound: true,
 					decorator : {
 						edit : edit_fn,
@@ -175,13 +166,21 @@ function edit_fn(container, data, doneCb) {
 </script>
 
 
-
-
-
 </head>
 <jsp:include page = "../common/header.jsp"/>
 
 <style>
+
+	button:focus {
+	  outline: none;
+	}
+	input:focus {
+	  outline: none;
+	}
+	textarea:focus {
+	  outline: none;
+	}
+	
 	.tools{
 		width: 100%;
 		height: 200px;
@@ -190,16 +189,234 @@ function edit_fn(container, data, doneCb) {
 	.match{
 		font-size: 15px;
 	}
+	
+	#tScheTb td{
+		padding: 0px;
+		margin: 0px;
+	}
+	
+	#tScheTb button{
+		width: 100%;
+		height: 20px;
+		margin-left: 10%;
+		border: none;
+		padding:none;
+		font-size: 12px;
+		color: black;
+		background: white;
+		border: 1px solid black;
+	}
+	
+	#tScheTb button:hover{
+		color: white;
+		background: black;
+	}
+	
+	#tScheTb input{
+		width: 200px;
+		height: 20px;
+		font-size: 15px;
+		padding:none;
+		margin-bottom: 50px;
+		margin-left: 10px;
+		text-align-last:center;
+	}
+	
+	.sche{
+		vertical-align: center;
+	}
+	
+	#btns{
+		width: 80%;
+		margin-left: 20%;
+		margin-top: 5%;
+	}
+	
+	#btns button{
+		width: 130px;
+		height: 40px;
+		background: black;
+		color: white;
+		border: 1px solid black;
+		font-size: 15px;
+	}
+	
+	#btns button:hover{
+		background: white;
+		color: black;
+		border: 1px solid black;
+	}
+	
+	#selectTeam{
+		background: white;
+		color: black;
+		width: 20%;
+		height: 500px;
+		display: none;
+		padding: 0px 20px 20px 20px;
+	}
+	
+	.team{
+		background: white;
+		color: black;
+	}
+	
+	.team:hover{
+		background: black;
+		color: white;
+		cursor: pointer;
+	}
 </style>
 
 <body>
 
+
 <div id = "outer" style = "margin-top: 150px;">
-			<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style = "height: 800px; width: 90%; background: white; margin: auto; margin-top: 300px;">
+	
+			<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style = "height: 800px; width: 90%; background: white; margin: auto; margin-top: 200px;">
 				
+					<div id = title><h1 style = "font-size: 50px; margin-top: 0px; border-bottom: 3px solid lightgrey; padding-bottom: 10px;">토너먼트 대회</h1></div>
 				
-					<div id = "tTree"></div>
+					<div id = "tTree" style = "height: 700px; width: 49.5%; position: absolute;  float: left; padding-left: 50px;"></div>
+					
+					<div id = "tSche" style = "/* border : 3px solid blue; */ height: 700px; width: 1000px; position: relative; ; float: left; bottom: 15px;">
+						<table id = "tScheTb" style = "width: 900px; height: 684px;">
+							<tr>
+								<td class = "app" style = "width: 52px; padding-top: 25px;" ></td>
+								<td class = "sche" style = "width: 205px;" rowspan="2"></td>
+								<td class = "sche" style = "width: 213px;" rowspan="4"></td>
+								<td class = "sche" style = "width: 213px;" rowspan="8"></td>
+								<td class = "sche" rowspan="16"></td>
+							</tr>
+							<tr>
+								<td class = "app" ></td>
+							</tr>
+							<tr>
+								<td class = "app" style = "padding-top: 25px;"></td>
+								<td class = "sche"  rowspan="2"></td>
+							</tr>
+							<tr>
+								<td class = "app"></td>
+							</tr>
+							<tr>
+								<td class = "app" style = "padding-top: 25px;"></td>
+								<td class = "sche"  rowspan="2"></td>
+								<td class = "sche"  rowspan="4"></td>
+							</tr>
+							<tr>
+								<td class = "app" ></td>
+							</tr>
+							<tr>
+								<td class = "app" style = "padding-top: 25px;"></td>
+								<td class = "sche"  rowspan="2"></td>
+							</tr>
+							<tr>
+								<td class = "app"></td>
+							</tr>
+							<tr>
+								<td class = "app" style = "padding-top: 25px;"></td>
+								<td class = "sche"  rowspan="2"></td>
+								<td class = "sche"  rowspan="4"></td>
+								<td class = "sche" rowspan="8"></td>
+							</tr>
+							<tr>
+								<td class = "app"></td>
+							</tr>
+							<tr>
+								<td class = "app" style = "padding-top: 25px;"></td>
+								<td class = "sche"  rowspan="2"></td>
+							</tr>
+							<tr>
+								<td class = "app"></td>
+							</tr>
+							<tr>
+								<td class = "app" style = "padding-top: 25px;"></td>
+								<td class = "sche"  rowspan="2"></td>
+								<td class = "sche"  rowspan="4"></td>
+							</tr>
+							<tr>
+								<td class = "app"></td>
+							</tr>
+							<tr>
+								<td class = "app" style = "padding-top: 25px;"></td>
+								<td class = "sche" rowspan="2"></td>
+							</tr>
+							<tr>
+								<td class = "app"></td>
+							</tr>
+						</table>
+					</div>
 				
+				<div id = "tInfo" style = "border-left:2px solid lightgrey; display: inline-block; height: 600px; width: 40%; padding-left: 5%; padding-top: 2%; margin-top: 50px; margin-bottom: 50px;">
+					<table id = "tInfoTb"  style = "width: 100%; height: 70%; text-align: left">
+						<tr>
+							<td colspan="2" style = "height: 100px; border-bottom: 3px solid whitesmoke;">
+								<input id = "toName" class = "toInfo" type = "text" style = "width: 500px; height: 40px; font-size: 40px; color:grey;" value = '${to.toName }' placeholder="제목을 입력하세요.">
+							</td>
+						</tr>
+						<tr>
+							<td style = "width: 20%; vertical-align: top;">
+								<h2 style = "font-size:20px; margin-top: 0px;">장소</h2>
+							</td>
+							<td style = "vertical-align: top;">
+								<input id = "toLocation" class = "toInfo" type = "text" style = "width: 400px; height: 30px; font-size: 20px; margin-top: 0px;" value = ${to.toLocation }>
+							</td>
+						</tr>
+						<tr>
+							<td style = "vertical-align: top;">
+								<h2 style = "font-size:20px; margin-top: 0px;">상금</h2>
+							</td>
+							<td style = "vertical-align: top;">
+								<input id = "toReward" class = "toInfo" type = "text" style = "width: 400px; height: 30px; font-size: 20px; margin-top: 0px;" value = ${to.toReward }>
+							</td>
+						</tr>
+						<tr>
+							<td style = "vertical-align: top;">
+								<h2 style = "font-size:20px; padding-top: 0px; margin-top: 0px;">내용</h2>
+							</td>
+							<td>
+								<textarea id = "toContent" class = "toInfo" style = "width: 400px; height: 200px; font-size: 15px; resize: none;">${to.toContent }</textarea>
+							</td>
+						</tr>
+						<tr>
+							<td style = "border-bottom: 3px solid whitesmoke;">
+								<h2 style = "font-size:15px;">등록일</h2>
+							</td>
+							<td style = "border-bottom: 3px solid whitesmoke;">
+								<input class = "toInfo" type = "text" style = "width: 200px; height: 30px; font-size: 15px;" value = ${to.createDate }>
+							</td>
+						</tr>
+					</table>
+					<div id = "btns">
+						<c:if test="${sessionScope.loginUser.userId == 'admin'}">
+						<button onclick = "endTo(${to.toNo})" style = "margin-right: 4%;">대회마감</button>
+						<button onclick = "saveInfoSche()" style = "margin-right: 4%;">저장하기</button>
+						<button onclick = "location.href='home.do'">뒤로가기</button>
+						</c:if>
+						<c:if test="${sessionScope.loginUser.userId != 'admin'}">
+						<button onclick = "location.href='home.do'" style = "margin-right: 1%; margin-left: 70%;">뒤로가기</button>.
+						</c:if>
+					</div>
+				</div>
+				
+				<div id = "selectTeam">
+					<div style = "text-align: center; width: 70%; margin-left: 15%; margin-right: 15%"><h1 style = "font-size: 30px; padding-bottom:10px;  border-bottom: 2px solid black; ">팀 선택</h1></div>
+					
+					<div style = "border-bottom: 2px solid black; margin-top: 40px; "></div>
+					<c:forEach var="team" items="${myTeam }" varStatus="status">
+					<c:if test="${team.t_Grade == '1' }">
+					<div id = "${team.teamNo }" class = "team" style = "; height: 100px; width: 100%; " onclick = "selectTeam(${team.teamNo},${to.toNo} )">
+						<div class = "teamLogo" style = "width: 30%; height: 100%;  display: inline-block; float: left; border-bottom: 2px solid black;">
+							<img src="resources/images/team/${team.teamImage }" width="100%" height="100%;" style="border-radius: 50%;">
+						</div>
+						<div class = "teamName" style = "width: 70%; height: 100%;  display: inline-block; float: left; vertical-align: center; border-bottom: 2px solid black; ">
+							<h1 align="center" style = "font-size: 30px; margin-top: 12%; margin-bottom: 12%; height: 76%;">${team.teamName }</h1>
+						</div>
+					</div>
+					</c:if>					
+					</c:forEach>
+					<h2 style = "margin-top: 30px; text-align: center; font-size: 20px; color: grey; font-style: italic;">대회 신청은 취소할 수 없습니다.</h2>
+				</div>
 				
 			</div>
 			<br>
@@ -208,6 +425,212 @@ function edit_fn(container, data, doneCb) {
 </div>
 
 
+
+<script type="text/javascript">
+	function endTo(toNo){
+		if(!confirm("대회를 마감하시겠습니까?")){
+			return false;
+		}
+		location.href="endTo.to?toNo="+toNo;
+		
+	}
+
+
+</script>
+
+
+<script type="text/javascript">
+
+	function saveInfoSche(){
+		
+		if(!confirm("대회정보와 일정을 저장하시겠습니까?")){
+			return false;
+		}
+		
+		 $.ajax({
+				url:"saveInfo.to",
+				data:{toNo:<%=tInfo.getToNo()%>,
+					toContent:$$$("#toContent").val(),
+					toReward:$$$("#toReward").val(),
+					toLocation:$$$("#toLocation").val(),
+					toName:$$$("#toName").val(),
+				},
+				success:function(data){
+					
+					
+					
+				},
+				error:function(request, status, errorData){
+					alert("error code: " + request.status + "\n"
+							+"message: " + request.responseText
+							+"error: " + errorData);
+				}
+			})
+				
+			scheArr = new Array();
+			
+			for(var i = 0 ; i < 15 ; i++){
+				scheArr[i] = $$$("#sche"+i).val();
+				$.ajax({
+					url:"saveSche.to",
+					data:{toNo:<%=tInfo.getToNo()%>,
+						toTime:scheArr[i],
+						sSlotNum:i
+					},
+					success:function(data){
+						
+						
+						
+					},
+					error:function(request, status, errorData){
+						alert("error code: " + request.status + "\n"
+								+"message: " + request.responseText
+								+"error: " + errorData);
+					}
+				})
+			}
+	
+	}
+
+
+</script>
+
+
+<script type="text/javascript">
+	function appTo(slot){
+		var flag = false;
+		<%if(tList != null){%>
+			<%for(int i = 0 ; i < tList.size() ; i++){%>
+				<%if(tList.get(i).getT_Grade() == 1){%>
+					flag = true;
+				<%}%>
+			<%}%>
+		<%}%>
+		
+		
+		if(!flag){
+			alert("신청가능한 팀이 없습니다.");
+			return false;
+		}
+		
+		$$$("#selectTeam").val(slot);
+		$$$("#selectTeam").bPopup();
+		
+	}
+
+	function selectTeam(teamNo,toNo){
+		var flag = true;
+		var teamName;
+		var teamLogo;
+		var userNo;
+		var rSlotNum = $$$("#selectTeam").val();
+		
+		<%for(int i = 0 ; i < to.size() ; i++){%>
+			if(teamNo == <%=to.get(i).getTeamNo()%>){
+				flag = false;
+			}
+		<%}%>
+		
+		if(!flag){
+			alert("이미 신청된 팀입니다.");
+			return false;
+		}
+		
+		<%if(tList != null){%>
+			<%for(int i = 0 ; i < tList.size() ; i++){%>
+				if(teamNo == <%=tList.get(i).getTeamNo()%>){
+					teamName = "<%=tList.get(i).getTeamName()%>";
+					teamLogo = "<%=tList.get(i).getTeamImage()%>";
+					userNo = <%=tList.get(i).getUserNo()%>;
+				}
+			<%}%>
+		<%}%>
+	
+		if(!confirm("신청하시겠습니까?")){
+			return false;
+		}
+		
+		$.ajax({
+			url:"saveResult.to",
+			data:{teamNo:teamNo,
+				teamLogo:teamLogo,
+				teamName:teamName,
+				rSlotNum:rSlotNum,
+				score:0,
+				toNo:toNo,
+				userNo:userNo
+			},
+			success:function(data){
+				
+				
+				alert("신청이 완료되었습니다.");
+				location.reload();
+				
+			},
+			error:function(request, status, errorData){
+				alert("error code: " + request.status + "\n"
+						+"message: " + request.responseText
+						+"error: " + errorData);
+			}
+		})
+		
+	}
+
+</script>
+
+
+
+<script type="text/javascript">
+	$(function(){
+		if('${loginUser}' == ''){
+			$(".sche").html('<input class ="scheInfo" type ="text"  style = "border:0px solid white;" readonly/>');
+			$(".toInfo").css({"border":"0px solid white"});
+			$(".toInfo").attr("readonly","readonly");
+			$(".score").removeClass("editable");
+		}else if('${loginUser.userId}'=='admin'){
+			$(".sche").html('<input class ="scheInfo" type ="text"/>');
+			
+		}else{
+			$(".sche").html('<input class ="scheInfo" type ="text"  style = "border:0px solid white;" readonly/>');
+			$(".app").html('<button class = "appBtn"></button>');
+			$(".toInfo").css({"border":"0px solid white"});
+			$(".toInfo").attr("readonly","readonly");
+			$(".score").removeClass("editable");
+		}
+		
+		
+		var btSche = $$$('.appBtn').get();
+	    for(var i = 0 ; i < btSche.length ; i++){
+	    	btSche[i].id = "app"+i;
+	    	$$$("#app"+i).attr("onclick","appTo("+i+")");
+	    	<%for(int i = 0 ; i < to.size() ; i++){%>
+	    		if(<%=to.get(i).getrSlotNum()%> == i){
+	    			if("<%=to.get(i).getTeamName()%>" == ''){
+	    				$$$("#app"+i).html("등록");
+	    			}else{
+	    				$$$("#app"+i).html("마감");
+	    				$$$("#app"+i).css({"cursor":"default","background":"white","color":"black"})
+	    				$$$("#app"+i).attr("onclick",  null);
+	    			}
+	    		}
+	    	<%}%>
+	    }
+		
+	    var ipSche = $$$('.scheInfo').get();
+	    for(var i = 0 ; i < ipSche.length ; i++){
+	    	ipSche[i].id = "sche"+i;
+	    	<%for(int i = 0 ; i < tSche.size() ; i++){%>
+	    		if(<%=tSche.get(i).getsSlotNum()%> == i){
+	    			$$$("#sche"+i).val('<%=tSche.get(i).getToTime()%>');
+	    		}
+	    	<%}%>
+	    }
+		
+	})
+	
+	
+	
+</script>
 
 
 
