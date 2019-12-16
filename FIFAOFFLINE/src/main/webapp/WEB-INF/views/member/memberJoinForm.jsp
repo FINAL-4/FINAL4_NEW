@@ -362,7 +362,7 @@ canvas {
 						</tr>
 						<tr>
 							<th>주소</th>
-							<td><input type="text" name="address1"
+							<td><input type="text" name="address1" id = "address1"
 								class="postcodify_address" value="" readonly>
 							
 								<button type="button" id="postcodify_search_button"><i class="fa fa-search"></i>검색</button>
@@ -370,7 +370,7 @@ canvas {
 						</tr>
 						<tr>
 							<th>상세 주소</th>
-							<td><input type="text" name="address2" class="postcodify_extra_info" value=""></td>
+							<td><input id = "address2" type="text" name="address2" class="postcodify_extra_info" value=""></td>
 						</tr>
 
 						<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
@@ -717,6 +717,12 @@ canvas {
 			}else if($("input:radio[name='gender']").is(":checked")==false){
 				alert("성별을 선택해주세요.");
 				$("input:radio[name='gender']").focus();
+			}else if($("#address1").val() == ""){
+				alert("주소을 입력해주세요.");
+				$("#adderess1").focus();
+			}else if($("#address2").val() == ""){
+				alert("상세 주소을 입력해주세요.");
+				$("#adderess2").focus();
 			}else if($("#emailId").val() == ""){
 				alert("이메일을 입력해주세요.");
 				$("#emailId").focus();
