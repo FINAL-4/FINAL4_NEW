@@ -4,6 +4,64 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+  var $$$ = jQuery.noConflict();
+</script>
+<script src='resources/js/moment.min.js'></script>
+<script src='resources/js/fullcalendar.min.js'></script>
+<script src='resources/js/gcal.min.js'></script>
+
+<!-- locale = ko ==> 한글로 -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/locale/ko.js'></script>
+  
+<!-- CSS 파일 -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" type='text/css' rel='stylesheet'/>
+<script>
+	$$$(function(){
+		$$$("#calendar").fullCalendar({
+			navLinkDayClick: function(){
+				return false;
+			},
+			/* eventRender: function(eventObj, $el) {
+			      $el.popover({
+			        title: eventObj.title,
+			        content: eventObj.description,
+			        trigger: 'hover',
+			        placement: 'top',
+			        container: 'body'
+			      });
+			 }, */
+			eventClick : function(ev, jsEvent, view){
+				if(!confirm("해당 매치로 이동하시겠습니까?")){
+					return false;
+				}
+				
+				location.href = "goMatchDetail.ma?mId="+ev.id;
+			},
+			selectable: true,
+			header : {
+				left : 'prev, next',
+				center : 'title',
+				right : 'today,addScheduleBtn' 
+			},
+			select: function(startDate ,endDate){
+			
+				
+ 			},
+ 			events : {
+				url: "showCal.ma",
+				
+				error:function(){
+					alert("불러오기 실패");
+				},
+				success:function(data){
+				}
+			},
+		});
+	});
+</script>
+
 <meta charset="UTF-8">
 <style>
 /* body{
@@ -49,6 +107,10 @@
 		padding: 4%;
 	}
 	
+	.fc-content:hover{
+		cursor: pointer;
+	}
+	
 	
 </style>
 <title>Insert title here</title>
@@ -71,7 +133,7 @@
 							<td rowspan="2" width="50%">
 								<div id = "scheduleInfo">
 									<h1 style = "margin-top: 5px; margin-bottom: 10px; padding-bottom:5px; border-bottom: 2px solid lightgrey; font-size: 30px">진행중인 매치</h1>
-									<div id = "calendar" style = "height: 85%; border: 1px solid red;">
+									<div id = "calendar" style = "padding:35px; height: 85%; border: 1px solid red;">
 									</div>
 								</div>
 							</td>

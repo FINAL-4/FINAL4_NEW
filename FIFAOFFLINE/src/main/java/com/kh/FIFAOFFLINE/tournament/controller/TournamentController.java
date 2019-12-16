@@ -91,11 +91,11 @@ public class TournamentController {
 	}
 	
 	
-	
 	@RequestMapping("saveResult.to")
-	public void saveResult(HttpServletResponse response, String teamName, String score, String teamLogo, int rSlotNum) throws JsonIOException, IOException {
+	public void saveResult(HttpServletResponse response, String teamName, String score, String teamLogo, int toNo, int rSlotNum, String teamNo) throws JsonIOException, IOException {
 		response.setContentType("application/json; charset=utf-8");
 
+		
 		Tournament tr = new Tournament();
 
 		tr.setrSlotNum(rSlotNum);
@@ -107,7 +107,11 @@ public class TournamentController {
 		}
 		
 		
-		tr.setTeamLogo(teamLogo);
+		if(teamNo == null || teamNo.equals("")) {			
+			tr.setTeamNo(0);
+		}else {
+			tr.setTeamNo(Integer.valueOf(teamNo));
+		}
 		
 		
 		if(score.equals("0") || score.equals("--")) {
@@ -116,9 +120,42 @@ public class TournamentController {
 			tr.setScore(Integer.valueOf(score));
 		}
 		
+		tr.setToNo(toNo);
+		tr.setTeamLogo(teamLogo);
+		
+		
 		int result = toService.saveResult(tr);
 		
 
 		new Gson().toJson(result, response.getWriter());
 	}
+	
+	@RequestMapping("saveInfo.to")
+	public void updateInfo(HttpServletResponse response, TournamentInfo ti) throws JsonIOException, IOException {
+		response.setContentType("application/json; charset=utf-8");
+		
+		int result = toService.updateInfo(ti);
+		
+		new Gson().toJson(result, response.getWriter());
+		
+	}
+	
+	@RequestMapping("saveSche.to")
+	public void updateInfo(HttpServletResponse response, TournamentSche ts) throws JsonIOException, IOException {
+		response.setContentType("application/json; charset=utf-8");
+		
+		int result = toService.updateSche(ts);
+		
+		new Gson().toJson(result, response.getWriter());
+	}
+	
+	@RequestMapping("endTo.to")
+	public String endTo(HttpServletResponse response, int toNo) throws JsonIOException, IOException {
+		
+		int result = toService.endTo(toNo);
+		
+		return "home";
+	}
+	
+	
 }
