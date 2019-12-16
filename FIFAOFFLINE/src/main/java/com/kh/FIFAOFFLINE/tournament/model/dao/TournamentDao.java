@@ -61,4 +61,19 @@ public class TournamentDao {
 		
 		return sqlSession.update("tournamentMapper.updateResult", tr);
 	}
+
+	public int updateInfo(TournamentInfo ti) {
+		
+		return sqlSession.update("tournamentMapper.updateInfo", ti);
+	}
+
+	public int updateSche(TournamentSche ts) {
+		
+		return sqlSession.update("tournamentMapper.updateSche", ts);
+	}
+
+	public int endTo(int toNo) {
+		
+		return sqlSession.update("tournamentMapper.endTo", toNo);
+	}
 }

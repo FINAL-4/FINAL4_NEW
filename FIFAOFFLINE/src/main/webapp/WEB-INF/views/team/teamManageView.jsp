@@ -903,14 +903,13 @@ window.onclick = function(event) {
 	}
 
 function beforeCreateTeam(){
-	if(${myTeam.size()}==3){
-		alert("3개 이상의 팀을 가입하거나 생성할 수 없습니다.");
-	}else{
-		document.getElementById('createAD').style.display='block';
-	}
-	
-}
-
+	   if(${myTeam.size()}==3){
+	      alert("3개 이상의 팀을 가입하거나 생성할 수 없습니다.");
+	   }else{
+	      location.href='createTeamView.tm';
+	   }
+	   
+	};
 /* function myTeamList(){
 	$.ajax({
 		url:"myTeamList",

@@ -75,7 +75,25 @@
 	
 	<update id="updateResult" parameterType="Tournament">
 		UPDATE TO_RESULT
-		SET TEAM_NAME=#{teamName}, TEAM_IMAGE=#{teamLogo}, SCORE=#{score}
-		WHERE SLOT=#{rSlotNum}
+		SET TEAM_NAME=#{teamName}, TEAM_IMAGE=#{teamLogo}, SCORE=#{score}, TEAM_NO=#{teamNo}
+		WHERE R_SLOT=#{rSlotNum} AND TOID=#{toNo}
+	</update>
+	
+	<update id="updateInfo" parameterType="TournamentInfo">
+		UPDATE TOURNAMENT
+		SET TO_NAME=#{toName}, TO_CONTENT=#{toContent}, TO_LOCATION=#{toLocation}, TO_REWARD=#{toReward}
+		WHERE TOID=#{toNo}
+	</update>
+	
+	<update id="updateSche" parameterType="TournamentSche">
+	 	UPDATE TO_SCHEDULE
+	 	SET TO_TIME=#{toTime}
+	 	WHERE S_SLOT=#{sSlotNum} AND TOID=#{toNo}
+	</update>
+	
+	<update id="endTo">
+		UPDATE TOURNAMENT
+		SET TO_STATUS = 'E'
+		WHERE TOID=#{toNo}
 	</update>
 </mapper>

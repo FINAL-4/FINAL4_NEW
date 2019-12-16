@@ -70,4 +70,22 @@ public class TournamentServiceImpl implements TournamentService{
 		
 		return toDao.saveResult(tr);
 	}
+
+	@Override
+	public int updateInfo(TournamentInfo ti) {
+		
+		return toDao.updateInfo(ti);
+	}
+
+	@Override
+	public int updateSche(TournamentSche ts) {
+		
+		return toDao.updateSche(ts);
+	}
+
+	@Override
+	public int endTo(int toNo) {
+		
+		return toDao.endTo(toNo);
+	}
 }

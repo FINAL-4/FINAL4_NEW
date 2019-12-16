@@ -27,4 +27,10 @@ public interface TournamentService {
 
 	int saveResult(Tournament tr);
 
+	int updateInfo(TournamentInfo ti);
+
+	int updateSche(TournamentSche ts);
+
+	int endTo(int toNo);
+
 }
