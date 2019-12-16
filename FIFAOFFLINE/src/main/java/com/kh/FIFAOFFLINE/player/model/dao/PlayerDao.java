@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.player.model.vo.P_ENROLL;
+import com.kh.FIFAOFFLINE.player.model.vo.P_EN_LIST;
 import com.kh.FIFAOFFLINE.player.model.vo.P_LIST;
 import com.kh.FIFAOFFLINE.player.model.vo.P_RECRUIT;
 
@@ -74,6 +75,16 @@ public class PlayerDao {
 	//	System.out.println("Dao test 수정 : " + pe);
 		return sqlSession.update("playerMapper.playPersonModify", pe);
 	}
+	
+	// 개인 용병 신청 중복검사
+	public int checkPersonApply(P_EN_LIST pel) {
+		return sqlSession.insert("playerMapper.checkPersonApply", pel);
+	}
+
+	// 개인 용병 신청 
+	public int personApply(P_ENROLL pe) {
+		return sqlSession.update("playerMapper.personApply", pe);
+	}
 
 	// 신청 하는 거
 	public int teamPlayApply(P_LIST pl) {
@@ -93,27 +104,16 @@ public class PlayerDao {
 		return (ArrayList)sqlSession.selectList("playerMapper.applyList", rNum);
 	}
 
-	// 개인용병 신청
-	public int ajaxApplyPerson(P_ENROLL pe) {
+	// 개인 용병 신청 
+	public int ajaxApplyPerson(P_EN_LIST pe) {
 		return sqlSession.selectOne("playerMapper.ajaxApplyPerson", pe);
 	}
-
+		
 	// 용병 모집 글 등록 중복 검사
 	public int checkTeamSelect(int mt) {
 		return sqlSession.selectOne("playerMapper.checkTeamSelect", mt);
 	}
-
-	// 개인 용병 신청 참가횟수 증가
-		/* public int personApply(int userNo) {
-			// System.out.println("DAO 신청 : " + userNo);
-			return sqlSession.update("playerMapper.personApply", userNo);
-	} */
 	
-	// 개인 용병 신청 참가횟수 증가
-	public int personApply(P_ENROLL pe) {
-		return sqlSession.update("playerMapper.personApply", pe);
-	}
-
 	// 신청 리스트에 신청 한 사람 없어지는 거
 	public int ald(P_LIST pl) {
 		return sqlSession.delete("playerMapper.ald", pl);
@@ -128,6 +128,25 @@ public class PlayerDao {
 	public int deadlineUpdate(int rNum) {
 		return sqlSession.update("playerMapper.deadlineUpdate", rNum);
 	}
+
+	// 신청 리스트에 신청 거절 
+	public int cancelPlay(P_LIST pl) {
+		return sqlSession.delete("playerMapper.ald", pl);
+	}
+
+	// 팀용병 모집인원이 0 이 되면 글 삭제
+	public int deletePlay() {
+		return sqlSession.delete("playerMapper.deletePlay");
+	}
+
+	
+	
+
+	
+
+	
+
+	
 
 	
 

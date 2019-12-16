@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
-  var $$ = jQuery.noConflict();
+  var $$$ = jQuery.noConflict();
 </script>
 <script src='resources/js/moment.min.js'></script>
 <script src='resources/js/fullcalendar.min.js'></script>
@@ -18,8 +18,8 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" type='text/css' rel='stylesheet'/>
 <title>Insert title here</title>
 <script type="text/javascript">
-	$$(function(){
-		$$("#calendar").fullCalendar({
+	$$$(function(){
+		$$$("#calendar").fullCalendar({
 			navLinkDayClick: function(){
 				return false;
 			},
@@ -62,17 +62,17 @@
 				console.log(startDate.format(), endDate.format());
 				sDate = startDate.format();
 				eDate = endDate.format();
-				$$("#dayInfo").html(sDate);
-				$$("#mDayInfo").val(sDate);
-				$$("#calendar").fullCalendar("refetchEvents");
+				$$$("#dayInfo").html(sDate);
+				$$$("#mDayInfo").val(sDate);
+				$$$("#calendar").fullCalendar("refetchEvents");
 				
  			}
 		});
 	});
 </script>
 <script type="text/javascript">
-	$$(function(){
-		$$("#calendar").fullCalendar({
+	$$$(function(){
+		$$$("#calendar").fullCalendar({
 			navLinkDayClick: function(){
 				return false;
 			},
@@ -91,8 +91,8 @@
 				console.log(startDate.format(), endDate.format());
 				sDate = startDate.format();
 				eDate = endDate.format();
-				$$("#dayInfo").html(sDate);
-				$$("#mDayInfo").val(sDate);
+				$$$("#dayInfo").html(sDate);
+				$$$("#mDayInfo").val(sDate);
 				$("#calendar").fullCalendar("refetchEvents");
 				
  			}
@@ -416,7 +416,7 @@ input, select{
 					<tr>
 						<td style = "width: 40%; font-size: 20px; text-align: center">참가비</td>
 						<td>
-							<input id ="playerMoney" name = "rMoney" onkeyup="checkNumber(this);" type = "text" maxlength="7" style = "width : 100%;">
+							<input id ="playerMoney" name = "rMoney" onkeyup="checkNumber(this);" type = "text" maxlength="7" placeholder="0" style = "width : 100%;">
 						</td>
 					</tr>
 					</table>
@@ -444,7 +444,7 @@ input, select{
 					<table>
 						<tr>
 							<td style = "width: 30%">
-							<input id = "keyword" type = "text" value = "강남역" style = "margin: 0px; padding: 0px; font-size: 20px;">
+							<input id = "keyword" type = "text" value = "강남 축구장" style = "margin: 0px; padding: 0px; font-size: 20px;">
 							</td>
 							<td style = "width: 20%">
 							<button id = "searchLocation" onclick = "searchPlaces(); return false;">검색</button>

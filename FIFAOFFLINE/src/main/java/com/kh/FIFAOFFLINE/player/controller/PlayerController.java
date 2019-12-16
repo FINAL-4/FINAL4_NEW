@@ -20,6 +20,7 @@ import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.player.model.exception.PlayerException;
 import com.kh.FIFAOFFLINE.player.model.service.PlayerService;
 import com.kh.FIFAOFFLINE.player.model.vo.P_ENROLL;
+import com.kh.FIFAOFFLINE.player.model.vo.P_EN_LIST;
 import com.kh.FIFAOFFLINE.player.model.vo.P_LIST;
 import com.kh.FIFAOFFLINE.player.model.vo.P_RECRUIT;
 import com.kh.FIFAOFFLINE.team.model.service.TeamService;
@@ -211,7 +212,7 @@ public class PlayerController {
  	} 
 	
 	// 개인 용병 신청 승인
-	/*@RequestMapping("personApply.pl")
+	/* @RequestMapping("personApply.pl")
 	public ModelAndView personApply(ModelAndView mv, int userNo, HttpServletRequest request) {
 		//System.out.println("컨트롤러 신청 " + userNo);
 		int result = pService.personApply(userNo);
@@ -223,17 +224,20 @@ public class PlayerController {
 			throw new PlayerException("개인 용병 신청 실패");
 		}
 		return mv;
-	}*/
+	} */
 	@RequestMapping("personApply.pl")
-	public ModelAndView personApply(ModelAndView mv, HttpServletRequest request, P_ENROLL pe, HttpSession session) {
+	public ModelAndView personApply(ModelAndView mv, HttpServletRequest request, P_ENROLL pe, P_EN_LIST pel, HttpSession session) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int userNo = loginUser.getUserNo();
-		int result = pService.personApply(pe);
-		
+	//	int result = pService.personApply(pe);
+		int result1 = pService.checkPersonApply(pel);  // <- 신청 하면 리스트에 insert
+		if(result1 > 0 ) {
+			int result = pService.personApply(pe); // <- 신청한 사람 member 테이블에 count + 1 추가
+		}
 		mv.addObject("pe", pe);
 		mv.setViewName("redirect:playMain.pl");
 		return mv;
-	}
+	} 
 	
 	
 	// 팀 모집글에 신청하기
@@ -260,7 +264,7 @@ public class PlayerController {
 	
 	// 개인 용병 글에 신청하기
 	@RequestMapping("ajaxApplyPerson.pl")
-	public void ajaxApplyPerson(P_ENROLL pe, HttpServletResponse response) throws JsonIOException, IOException {
+	public void ajaxApplyPerson(P_EN_LIST pe, HttpServletResponse response) throws JsonIOException, IOException {
 		int aap = pService.ajaxApplyPerson(pe);
 	
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
@@ -273,6 +277,7 @@ public class PlayerController {
 		response.setContentType("application/json; charset=utf-8");
 		
 		int result = pService.checkTeamSelect(mt);
+		System.out.println(mt);
 		
 		new Gson().toJson(result, response.getWriter());
 	}
@@ -280,18 +285,29 @@ public class PlayerController {
 	// 팀 용병 신청 수락
 	@RequestMapping("agreePlay.pl")
 	public void agreePlay(HttpServletResponse response, P_LIST pl, P_RECRUIT pr, Member m) throws JsonIOException, IOException {
-		System.out.println("컨트롤러 수락 테스트 : " + pl);
+		//System.out.println("컨트롤러 수락 테스트 : " + pl);
 		
 		int userNo = pl.getUserNo();
 		int rNum = pr.getrNum();
-		System.out.println("컨트롤러 수락 테스트 유저 넘버 : " + userNo);
-		System.out.println("컨트롤러 수락 테스트 글 넘버 : " + rNum);
+		//System.out.println("컨트롤러 수락 테스트 유저 넘버 : " + userNo);
+		//System.out.println("컨트롤러 수락 테스트 글 넘버 : " + rNum);
 		int applyListdelete = pService.ald(pl);  // <- 신청 리스트에 신청 한 사람 없어지는 거
+		//System.out.println("컨트롤러 수락 테스트 : " + applyListdelete);
 		if(applyListdelete > 0) {
 			int agreeResult = pService.agreeResult(m);  // <- 신청 수락 되면 member 에 count 올려 주는 거
-			int deadelineUpdate = pService.deadlineUpdate(rNum);  // <- 모집인원 -1 
+			int deadelineUpdate = pService.deadlineUpdate(rNum);  // <- 모집인원 -1
+			int deletePlay = pService.deletePlay();  // <- 모집 인원이 0 이 되면 글이 없어
 		}
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		gson.toJson(applyListdelete,response.getWriter());
+	}
+	
+	// 팀 용병 신청 거절
+	@RequestMapping("cancelPlay.pl")
+	public void cancelPlay(HttpServletResponse response, P_LIST pl) throws JsonIOException, IOException {
+		int result = pService.cancelPlay(pl);
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(result,response.getWriter());
 	}
 }

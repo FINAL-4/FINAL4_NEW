@@ -29,7 +29,8 @@
 		<typeAlias type="com.kh.FIFAOFFLINE.player.model.vo.P_RECRUIT" alias="P_RECRUIT"/>
 		<typeAlias type="com.kh.FIFAOFFLINE.player.model.vo.P_LIST" alias="P_LIST"/>
 		<typeAlias type="com.kh.FIFAOFFLINE.player.model.vo.P_ENROLL" alias="P_ENROLL"/>
-		
+		<typeAlias type="com.kh.FIFAOFFLINE.player.model.vo.P_EN_LIST" alias="P_EN_LIST"/>
+
 		
 		
 		
