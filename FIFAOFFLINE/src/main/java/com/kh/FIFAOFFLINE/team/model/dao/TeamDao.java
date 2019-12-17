@@ -172,5 +172,20 @@ public class TeamDao {
 		return (ArrayList)sqlSession.selectList("teamMapper.moreListMember",teamNo);
 	}
 
+	public int inviteTeam(TeamJoinedMember tjm) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("teamMapper.inviteTeam",tjm);
+	}
+
+	public ArrayList<Team> selectInviteMe(int userNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("teamMapper.selectInviteMe",userNo);
+	}
+
+	public Team getModalTeam(int teamNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("teamMapper.getModalTeam",teamNo);
+	}
+
 
 }

@@ -40,16 +40,19 @@
   	<result property="teamIntro" column="TEAM_INTRO"/>
   </resultMap>
   
-  <!-- 콜렉션용 팀에 신청한 유저 / 팀이 초대한 유저 ResultMap -->
+  <!-- 콜렉션용 팀에 신청한 유저 / 유저가 가입신청한 ResultMap -->
   <resultMap type="TeamJoinedMember" id="JoinedResultSet">
   	<id property="teamNo" column="TEAM_NO"/>
   	<result property="userNo" column="USER_NO"/>
-  	<result property="name" column="USER_NAME"/>
+  	<result property="teamName" column="TEAM_NAME"/>
+  	<result property="userName" column="USER_NAME"/>
   	<result property="profile" column="PROFILE"/>
+  	<result property="teamArea" column="TEAM_AREA"/>
   	<result property="reg_Date" column="REG_DATE"/>
   	<result property="fromInvite" column="FROMINVITE"/>
   	<result property="reg_Status" column="REG_STATUS"/>
   </resultMap>
+
   
   <!-- TEAM 모집 광고글 -->
   <resultMap type="TeamAD" id="ADResultSet">
@@ -318,6 +321,26 @@
   	FROM T_MEMBER TM
   	JOIN MEMBER M ON (TM.USER_NO = M.USER_NO)  
   	WHERE TM.TEAM_NO = #{teamNo}	
+  </select>
+  
+  <insert id="inviteTeam" parameterType="TeamJoinedMember">
+  	INSERT INTO T_JOINED_MEMBER
+  	VALUES(#{userNo},#{teamNo},SYSDATE,'N','M')
+  </insert>
+  
+  <select id="selectInviteMe" parameterType="_int" resultMap="JoinedResultSet">
+  	SELECT * 
+  	FROM T_JOINED_MEMBER TJM
+  	JOIN TEAM T ON(TJM.TEAM_NO = T.TEAM_NO)
+  	JOIN MEMBER M ON (T.USER_NO = M.USER_NO)
+  	WHERE FROMINVITE='M' AND REG_STATUS='N' AND TJM.USER_NO=#{userNo}
+  </select>
+  
+  <select id="getModalTeam" parameterType="_int" resultMap="teamResultSet">
+  	SELECT *
+  	FROM TEAM T 
+  	JOIN MEMBER M ON (T.USER_NO = M.USER_NO)
+  	WHERE TEAM_NO = #{teamNo}
   </select>
 
 <!-- ===================매칭===================== -->

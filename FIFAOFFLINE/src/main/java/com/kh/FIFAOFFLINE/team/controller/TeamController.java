@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -222,8 +223,9 @@ public class TeamController {
 			result = tService.teamJoin(tjm);
 			updateCount = tService.updateCount(teamNo);
 			deleteAD = tService.deleteAD();
-			deleteTJM = tService.deleteTJM(teamNo);
-			
+			if(deleteAD > 0) {
+				deleteTJM = tService.deleteTJM(teamNo);
+			}
 		}
 		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
@@ -351,10 +353,10 @@ public class TeamController {
 			ArrayList<Team> myTeam = tService.selectMyTeam(userNo);
 			session.setAttribute("myTeam", myTeam);
 			
-			return "team/teamManageView";
+			return "redirect:managedTeam.tm";
 		}
 		
-		return "team/teamManageView";
+		return "redirect:managedTeam.tm";
 		
 	}
 	
@@ -516,8 +518,10 @@ public class TeamController {
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int userNo = loginUser.getUserNo();
 		
+		ArrayList<Team> inviteMeTeam = tService.selectInviteMe(userNo);
 		ArrayList<Team> teamLeader = tService.selectTeamLeader(userNo);
 		
+		mv.addObject("inviteMeTeam",inviteMeTeam);
 		mv.addObject("tList",tList);
 		mv.addObject("teamLeader",teamLeader);
 		mv.addObject("mList",mList);
@@ -549,6 +553,57 @@ public class TeamController {
 	
 	}
 	
+	@RequestMapping("choiceTeamMember.tm")
+	public void choiceTeamMember(int teamNo, HttpServletResponse response) throws JsonIOException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		ArrayList<TeamMember> tMember = tService.moreTeamMember(teamNo);
+		
+		int[] tNo = new int[tMember.size()];
+		
+		for(int i=0; i<tMember.size(); i++) {
+			tNo[i] = tMember.get(i).getUserNo();
+		}
+		
+		System.out.println("tNo : " + Arrays.toString(tNo));
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(tNo,response.getWriter());
+	
+	}
+	
+	@RequestMapping("inviteTeam.tm")
+	public void inviteTeam(int[] sendArr, int teamNo, HttpServletResponse response) throws JsonIOException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		System.out.println("sendArr : " + Arrays.toString(sendArr));
+		System.out.println("teamNo : " + teamNo);
+		int inviteResult = 0;
+		TeamJoinedMember tjm = new TeamJoinedMember();
+		
+		tjm.setTeamNo(teamNo);
+		
+		for(int i=0; i<sendArr.length; i++) {
+			
+			tjm.setUserNo(sendArr[i]);
+			inviteResult += tService.inviteTeam(tjm);
+		}
+		
+		System.out.println("inviteResult : " + inviteResult);
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(inviteResult,response.getWriter());
+	
+	}
+	
+	@RequestMapping("modalTeam.tm")
+	public void modalTeam(int teamNo,HttpServletResponse response)  throws JsonIOException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		Team t = tService.getModalTeam(teamNo);
+		
+		
+	}
+	
+}	
 	
 	
-}

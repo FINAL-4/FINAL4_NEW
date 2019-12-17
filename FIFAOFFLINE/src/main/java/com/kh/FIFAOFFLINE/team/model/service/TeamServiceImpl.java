@@ -194,5 +194,25 @@ public class TeamServiceImpl implements TeamService{
 		return tDao.moreTeamMember(teamNo);
 	}
 
+	@Override
+	public int inviteTeam(TeamJoinedMember tjm) {
+		// TODO Auto-generated method stub
+		return tDao.inviteTeam(tjm);
+	}
+
+	@Override
+	public ArrayList<Team> selectInviteMe(int userNo) {
+		// TODO Auto-generated method stub
+		return tDao.selectInviteMe(userNo);
+	}
+
+	@Override
+	public Team getModalTeam(int teamNo) {
+		// TODO Auto-generated method stub
+		return tDao.getModalTeam(teamNo);
+	}
+
+	
+
 
 }

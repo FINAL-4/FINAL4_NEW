@@ -69,6 +69,12 @@ public interface TeamService {
 	ArrayList<Team> selectAllTeam();
 
 	ArrayList<TeamMember> moreTeamMember(int teamNo);
+
+	int inviteTeam(TeamJoinedMember tjm);
+
+	ArrayList<Team> selectInviteMe(int userNo);
+
+	Team getModalTeam(int teamNo);
 	
 	
 
