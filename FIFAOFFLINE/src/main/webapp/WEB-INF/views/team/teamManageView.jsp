@@ -414,10 +414,20 @@ div[id^="test"]{
 }
 
 /* Modal Content */
-.modal-contentM,.modal-contentM {
+.modal-contentM{
   background-color: #fefefe;
-/*   z-index:50001; */
+  z-index:2;
   margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 600px;
+}
+
+.modal-contentT{
+  background-color: #fefefe;
+  z-index:2;
+  margin: auto;
+  margin-top:10%;
   padding: 20px;
   border: 1px solid #888;
   width: 600px;
@@ -441,11 +451,13 @@ div[id^="test"]{
   text-align: center;
   margin: 24px 0 12px 0;
   position: relative;
+  height:150px;
+  vertical-align: center;
 }
 
 img.avatarM, img.avatarT {
-  width: 40%;
-  border-radius: 50%;
+  width: 50%;
+  height:100%;
 }
 
 .container {
@@ -485,7 +497,7 @@ img.avatarM, img.avatarT {
 	cursor:pointer;
 	border:1px solid red;
 }
-.updateTeam{
+.updateTeam,.disTeam{
 	float:right;
 	background:black;
 	color:white;
@@ -498,7 +510,7 @@ img.avatarM, img.avatarT {
 	margin-bottom:5px;
 	height:40px;
 }
-.updateTeam:hover{
+.updateTeam:hover,.disTeam:hover{
 	background:red;
 	color:white;
 	cursor:pointer;
@@ -577,7 +589,12 @@ table.type08 td {
     border-bottom: 1px solid #ccc;
 }
 .teamTR:hover{
-	background:gray;
+	background:#ececec;
+	font-weight:bold;
+	cursor:pointer;
+}
+.agree:hover,.deny:hover,.more:hover{
+	background:skyblue;
 	color:white;
 	cursor:pointer;
 }
@@ -594,14 +611,21 @@ table.type08 td {
 			<h1 style="font-size:48px;">나의 팀</h1>
 			<hr style="border:1px solid black">
 			<button class="createTeam" onclick="beforeCreateTeam()">팀 생성</button>
-			<button class="updateTeam" onclick="location.href='updateTeamView.tm'">팀 정보 수정</button>
+			<button class="updateTeam" onclick="updateTeam()">팀 정보 수정</button>
+			<button class="disTeam" onclick="disTeam()">팀 탈퇴 & 팀 해체</button>
+			<select style="float:left; font-size:18px; margin-top:10px; margin-right:10px;" class="teamSelector">
+				<option selected value="0">-- 팀을 선택하세요 --</option>
+				<c:forEach var="myTeam" items="${myTeam}" varStatus="status">
+				<option value="${myTeam.teamNo}">${myTeam.teamName}</option>
+				</c:forEach>
+			</select>
 			<div class="myTeam" style="display:inline-block; height:800px; width:100%;">
 			<c:if test="${!empty myTeam }">
 			<c:forEach var="myTeam" items="${myTeam}" varStatus="status">
 				<div class="carousel-cell1 flip-container">
   					<div id = "test${status.index}" class= "flipper" style="width:100%; height:100%;">
   						<input type="hidden" value="${myTeam.teamNo }" class="hTeamNo">
-  						<input type="hidden" value="${myTeam.userNo }" class="hUserNo">
+  						<input type="hidden" value="${myTeam.leaderNo }" class="hLeaderNo">
   							<div class="front card" style="width:100%; height:100%">
   								<div class="card-header"  style="height:210px;">
                 					<!-- <div class="card-header-btn">12전 11승 0무 1패</div> -->
@@ -654,43 +678,47 @@ table.type08 td {
   						</div>
   						<div style="width:20%; float:left; height:500px;"></div>
   						<div class="inviteTeam" style="width:40%; height:500px; float:left; overflow:auto; align:center; text-align:center">
-  						<h1 style="font-size:24px;">초대한 팀</h1>
-  							<table class="type08">
-    <thead>
-    <tr>
-        <th scope="cols">팀 이름</th>
-        <th scope="cols">팀장 이름</th>
-        <th scope="cols">활동 지역</th>
-        <th scope="cols">승인</th>
-        <th scope="cols">거부</th>
-    </tr>
-    </thead>
-    <tbody>
-    <c:if test="${!empty inviteMeTeam }">
-	<c:forEach var="invite" items="${inviteMeTeam}" varStatus="status">
-    <tr class="teamTR" style="height:70px;">
-        <td>${invite.teamName }</td>
-        <td>${invite.userName }</td>
-        <td>${invite.teamArea }</td>
-        <td class="agree">
-        	<i class="fas fa-check" style="color:green"></i>
-        	<input type="hidden" class="hTeamNo" value="${invite.teamNo }">
-        </td>
-        <td class="deny">
-        	<i class="fas fa-check" style="color:red"></i>
-        	<input type="hidden" class="hTeamNo" value="${invite.teamNo }">
-        </td>
-    </tr>
-    </c:forEach>
-    </c:if>
-    <c:if test="${empty inviteMeTeam }">
-    <tr>
-    	<td colspan="5" style="background: #ececec; font-size:18px; text-align:center; font-weight: bold">${loginUser.userName }님을 초대한 팀이 없습니다.</td>
-    </tr>
-    </c:if>
-    </tbody>
-</table>
-  						</div>
+	  						<h1 style="font-size:24px;">초대한 팀</h1>
+	  						<table class="type08">
+	    						<thead>
+	    							<tr>
+								        <th scope="cols">팀 이름</th>
+								        <th scope="cols">팀장 이름</th>
+								        <th scope="cols">활동 지역</th>
+								        <th scope="cols">승인</th>
+								        <th scope="cols">거부</th>
+								        <th scope="cols">자세히</th>
+								    </tr>
+	    						</thead>
+	    						<tbody>
+							    <c:if test="${!empty inviteMeTeam }">
+								<c:forEach var="invite" items="${inviteMeTeam}" varStatus="status">
+							    <tr class="teamTR" style="height:70px;">
+							        <td>${invite.teamName }</td>
+							        <td>${invite.userName }</td>
+							        <td>${invite.teamArea }</td>
+							        <td class="agree">
+							        	<i class="fas fa-check" style="color:green"></i>
+							        	<input type="hidden" class="hTeamNo" value="${invite.teamNo }">
+							        </td>
+							        <td class="deny">
+							        	<i class="fas fa-check" style="color:red"></i>
+							        	<input type="hidden" class="hTeamNo" value="${invite.teamNo }">
+							        </td>
+							        <td class="more">
+							        	<i class="fas fa-search" style="color:black;"></i>
+							        </td>
+							    </tr>
+							    </c:forEach>
+							    </c:if>
+							    <c:if test="${empty inviteMeTeam }">
+							    <tr>
+							    	<td colspan="6" style="background: #ececec; font-size:18px; text-align:center; font-weight: bold">${loginUser.userName }님을 초대한 팀이 없습니다.</td>
+							    </tr>
+							    </c:if>
+							    </tbody>
+							</table>
+	  					</div>
   						<button type="button" class="InviteMyTeam">추가</button>
   					</div>	
 				</div>
@@ -706,7 +734,7 @@ table.type08 td {
   								<input type="hidden" value="${tList.teamNo }" class="hTeamNo">
   								<div class="front card">
   									<div class="card-header"  style="width:100%; height:210px;">
-                						<div class="card-header-btn">전적</div>
+                						<!-- <div class="card-header-btn">전적</div> -->
                 						<img src="resources/images/team/${tList.teamImage }" style="width:100%; height:100%;"/>
             						</div>
             							<div class="card-body">
@@ -756,15 +784,15 @@ table.type08 td {
     					</div>
    			 			<div class="container" align="center">
       						<label><b>팀 이름</b></label>
-     				 		<p class="tUserName"></p>
+     				 		<p class="tTeamName"></p>
       						<label><b>팀장 이름</b></label>
-      						<p class="tGender"></p>
+      						<p class="tUserName"></p>
       		
      						<label><b>활동 지역</b></label>
-      						<p class="tEmail"></p>
+      						<p class="tTeamArea"></p>
       
       						<label><b>전적</b></label>
-      						<p class="tAddress"></p>
+      						<p class="tScore"></p>
     					</div>
   					</div>
 				</div>  
@@ -783,7 +811,7 @@ table.type08 td {
 
 	$('.flipper').click(function(){
 		var teamNo = $(this).children('.hTeamNo').val();
-		var userNo = $(this).children('.hUserNo').val();
+		var leaderNo = $(this).children('.hLeaderNo').val();
 		
 		$div = $(this).children('.back')
 		
@@ -793,24 +821,26 @@ table.type08 td {
 			success:function(data){
 				
 				var appendStr = "<h1 style='font-size:24px;'>팀 원</h1>";
-				appendStr += "<h1 style='font-size:16px;'>전적 : 16전 12승 2무 2패</h1>";
+				appendStr += "<h1 style='font-size:16px;'>전적 : "+data.scoreStr[0].scoreStr+"</h1>";
 				
-				if(userNo == ${loginUser.userNo}){
-					for(var i=0; i<data.length; i++){
+				if(leaderNo == ${loginUser.userNo}){
+					for(var i=0; i<data.tMember.length; i++){
 						appendStr += "<div class='chip'>";
-						appendStr += "<img src='resources/proFiles/"+data[i].profile+"' width='96' height='96'>";
-						appendStr += "<input type='hidden' class='hUserNo' value='"+data[i].userNo+"'>";
-						appendStr += data[i].userName+"&emsp;&emsp;"+data[i].position;
-						appendStr += "<span class='closebtnM'>&times</span>";
+						appendStr += "<img src='resources/proFiles/"+data.tMember[i].profile+"' width='96' height='96'>";
+						appendStr += "<input type='hidden' class='hUserNo' value='"+data.tMember[i].userNo+"'>";
+						appendStr += "<input type='hidden' class='hhTeamNo' value='"+data.tMember[i].teamNo+"'>";
+						appendStr += data.tMember[i].userName+"&emsp;&emsp;"+data.tMember[i].position;
+						appendStr += "<span class='closebtn'>&times</span>";
 						appendStr += "</div>";
 						appendStr += "<br>";
 					}
 				}else{
-					for(var i=0; i<data.length; i++){
+					for(var i=0; i<data.tMember.length; i++){
 						appendStr += "<div class='chip'>";
-						appendStr += "<img src='resources/proFiles/"+data[i].profile+"' width='96' height='96'>";
-						appendStr += "<input type='hidden' class='hUserNo' value='"+data[i].userNo+"'>";
-						appendStr += data[i].userName+"&emsp;&emsp;"+data[i].position;
+						appendStr += "<img src='resources/proFiles/"+data.tMember[i].profile+"' width='96' height='96'>";
+						appendStr += "<input type='hidden' class='hUserNo' value='"+data.tMember[i].userNo+"'>";
+						appendStr += "<input type='hidden' class='hhTeamNo' value='"+data.tMember[i].teamNo+"'>";
+						appendStr += data.tMember[i].userName+"&emsp;&emsp;"+data.tMember[i].position;
 						appendStr += "</div>";
 						appendStr += "<br>";
 					}
@@ -820,7 +850,7 @@ table.type08 td {
 				$div.append(appendStr);
 				
 				
-				console.log(data.length);
+				console.log(data.tMember.length);
 			}
 		});
 		
@@ -949,8 +979,14 @@ $(document).on("click",".searchMember",function(){
 	selectedNo = selUserNo;
 });
 
-$(document).on("click",".closeBtn",function(){
-	var userNo = $(this).children('')
+$(document).on("click",".closebtn",function(){
+	/* var userNo = $(this).parent('.chip').children('.hUserNo').val();
+	var teamNo = $(this).parent('.chip').children('.hhTeamNo').val(); */
+	
+	
+	alert("야호");
+	
+	event.stopPropagation();
 });
 
 $(".InviteMyTeam").click(function(){
@@ -1104,21 +1140,22 @@ $(document).on("mouseover",".modalUp",function(){
 	});
 });
 
-$(document).on("click",".teamTR",function(){
-	var teamNo = $(this).children('.agree').children('.hTeamNo').val();
+$(document).on("click",".more",function(){
+	var teamNo = $(this).parent('.teamTR').children('.agree').children('.hTeamNo').val();
 	$.ajax({
 		url:"modalTeam.tm",
-		data{teamNo:teamNo},
+		data:{teamNo:teamNo},
 		success:function(data){
 			$(".tTeamName").text(data.teamName);
 			$(".tUserName").text(data.userName);
 			$(".tTeamArea").text(data.teamArea);
-			$(".tScore").text(data.tScore);
-			$(".tTeamName").attr('src',"resources/images/team/"+data.profile);
+			$(".tScore").text(data.scoreStr);
+			$(".avatarT").attr('src',"resources/images/team/"+data.teamImage);
 			
 			var modal2 = document.getElementById("teamModal");
 			
 			modal2.style.display="block";
+			
 			
 		}
 		
@@ -1130,6 +1167,9 @@ var modal2 = document.getElementById("teamModal");
 
 function closeM(){
 	modal.style.display="none";
+}
+
+function closeT(){
 	modal2.style.display="none";
 }
 
@@ -1142,6 +1182,7 @@ window.onclick = function(event) {
 	}
 
 function beforeCreateTeam(){
+
 	if(${myTeam.size()}==3){
 		alert("3개 이상의 팀을 가입하거나 생성할 수 없습니다.");
 	}else{
@@ -1152,6 +1193,7 @@ function beforeCreateTeam(){
 
 function choiceTeamMember(){
 	var teamNo = $('.teamSelect').val();
+
 	
 	if(teamNo != '0'){
 		$.ajax({
@@ -1165,6 +1207,116 @@ function choiceTeamMember(){
 			}
 		});
 	}
+}
+
+$('.agree').click(function(){
+	var teamNo = $(this).children('.hTeamNo').val();
+	
+	var confirmFlag = confirm("승인 하시겠습니까?");
+	
+	if(confirmFlag){
+		$.ajax({
+			url:'inviteAgree.tm',
+			data:{teamNo:teamNo},
+			success:function(data){
+				if(${myTeam.size()} == 3){
+					alert("3개 이상의 팀을 가입 할 수 없습니다.");
+				}else{
+					if(data > 0){
+						alert("가입되었습니다.");
+						$(this).parent('.teamTR').remove();
+					}else{
+						alert("이미 가입된 팀입니다.");
+					}
+				}
+			}
+		});
+	}else
+		alert("취소");
+	
+	
+	
+});
+
+
+
+
+$('.deny').click(function(){
+	var teamNo = $(this).children('.hTeamNo').val();
+	
+	alert(teamNo);
+});
+
+function updateTeam(){
+	var teamNo = $('.teamSelector').val();
+	
+	if(teamNo == '0'){
+		alert("팀을 먼저 선택해주세요");
+	}else{
+		location.href="updateTeamInfo.tm?teamNo="+teamNo;
+	}
+}
+
+function disTeam(){
+	var teamNo = $('.teamSelector').val();
+	var leaderNo = [];
+	var disFlag = false; //	팀원인지 팀장인지 구분하기 위해 ( 탈퇴 / 해체 구분 ) 
+	
+	
+	if(teamNo == '0'){
+		alert("먼저 팀을 선택 해주세요");
+	}else{
+		<%for(int i=0; i<teamLeader.size(); i++){%>
+			leaderNo[<%=i%>] = <%=teamLeader.get(i).getTeamNo()%>;
+		<%}%>
+	
+		for(var i=0; i<leaderNo.length; i++){
+			if(leaderNo[i] == teamNo){
+				disFlag = true;
+			}
+		}
+	
+		if(disFlag){
+			var confirmFlag = confirm("정말로 해체 하시겠습니까?");
+			if(confirmFlag){
+				$.ajax({
+					url:'breakUpTeam.tm',
+					data:{teamNo:teamNo},
+					success:function(data){
+						if(data > 0){
+							alert("해체 되었습니다.. ㅜㅜ");
+							location.href="managedTeam.tm";
+						}else{
+							alert('해체 실패');
+						}
+					}
+				});
+			}else{
+				alert('취소 되었습니다.');
+			}
+		}else{
+			var confirmFlag = confirm("정말로 탈퇴 하시겠습니까?");
+			
+			if(confirmFlag){
+				$.ajax({
+					url:'withdrawal.tm',
+					data:{teamNo:teamNo},
+					success:function(data){
+						if(data > 0){
+							alert("탈퇴 되었습니다 .. ㅠㅠ");
+							location.href="managedTeam.tm";
+						}else{
+							alert("탈퇴 실패");
+						}
+					}
+				});
+			}else{
+				alert("취소 되었습니다.");
+			}
+		}
+	}
+	
+	
 }
 
 

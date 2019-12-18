@@ -15,118 +15,49 @@
 	src='https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.min.js'></script>
 <title>KH sports</title>
 <style>
-
-.outer{
-
-	/* border: 2px solid black; */ 
-	width : 90%;
-	height : 500px;
-	background : white;
-	color : black;
-	margin-left : 5%;
-	margin-right : 5%;
-	margin-top : 3%;
+input:focus {
+	  outline: none;
+	}
+.outer {
+	/* border: 2px solid black; */
+	width: 90%;
+	height: 500px;
+	background: white;
+	color: black;
+	margin-left: 5%;
+	margin-right: 5%;
+	margin-top: 3%;
 	position: relative;
 }
 
-.outer label, .outer td{
-	color : black;
-	
+.outer label, .outer td {
+	color: black;
 }
-	
-#joinForm{
+
+#joinForm {
 	margin-top: 40px;
-		
 }
-	
-input{
-	font-size: 20px;
-	margin-top : 20px;
+
+input {
+	font-size: 18px;
+	margin-top: 20px;
 	width: 400px;
 	height: 40px;
 	margin-left: 20px;
-
-}
-	
-#idCheck, #joinBtn, #searchAdd{
-		margin-top: 2px;
-		background : black;
-		color : white;
-		border-radius : 10px;
-		width : 150px;
-		height : 40px;
-		text-align : center;
-		border: none;
-		padding: 10px 16px;
-		font-size: 15px;
-		cursor: pointer;
-	    box-shadow: 0 5px #999;
-}
-#idCheck:hover, #joinBtn:hover, #searchAdd:hover{
-		background-color: #f53f29; 
- 	  	color: white;
-     	border-radius: 16px;
-		
-}
-#idCheck:active{
-		color : white;
-  		background-color: #f53f29; 
-  		box-shadow: 0 3px #666;
-  		transform: translateY(4px);
-   		border-radius: 16px;
-}
-#joinBtn:active{
-		color : white;
-  		background-color: #f53f29; 
-  		box-shadow: 0 3px #666;
-  		transform: translateY(4px);
-   		border-radius: 16px;
 }
 
-/* #searchAdd:actvie{
-		color : white;
-  		background-color: #f53f29; 
-  		box-shadow: 0 3px #666;
-  		transform: translateY(4px);
-   		border-radius: 16px;
+label {
+	font-size: 15px;
 }
- */
 
-
-#searchAdd{
-	align-content: left;
-}
-	
-td{
-	margin-top: 20px;
-	font-size: 22px;
-	text-align : right;
-	height: 50px;
-	
-}
-.joinTd{
-	width : 100px;
-
-}
-select{
-	font-size: 20px;
+#idCheck, #joinBtn, #searchAdd {
+	margin-top: 2px;
+	background: black;
+	color: white;
+	border-radius: 10px;
+	width: 150px;
 	height: 40px;
-	width: 400px;
-	/* margin-left: 10px; */
-	margin-top: 20px;
-}
-
-#joinForm tr{
-	margin-bottom: 40px;
-	
-}
-#postcodify_search_button {
-	background-color: banana;
-	color: black;
-	border-radius: 15px;
-	margin-top : 20px;
-	height: 40px;
-	text-align: left;
+	text-align: center;
 	border: none;
 	padding: 10px 16px;
 	font-size: 15px;
@@ -134,140 +65,183 @@ select{
 	box-shadow: 0 5px #999;
 }
 
-#goMain{
+#joinBtn:hover {
+	background-color: #e9ecef;
+	color: black;
+}
+
+#idCheck:active {
+	color: white;
+	background-color: #f53f29;
+	box-shadow: 0 3px #666;
+	transform: translateY(4px);
+	border-radius: 16px;
+}
+
+#joinBtn:active {
+	color: white;
+	background-color: #f53f29;
+	box-shadow: 0 3px #666;
+	transform: translateY(4px);
+	border-radius: 16px;
+}
+
+#searchAdd {
+	align-content: left;
+}
+
+td {
+	margin-top: 15px;
+	font-size: 22px;
+	text-align: left;
+	height: 50px;
+}
+
+select {
+	font-size: 18px;
+	height: 46px;
+	width: 400px;
+	
+	margin-top: 20px;
+}
+
+#joinForm tr {
+	margin-bottom: 30px;
+}
+
+#postcodify_search_button {
+	background-color: lightgery;
+	color: black;
+	border-radius: 4px;
+	height: 43px;
+	text-align: left;
+	border: none;
+	padding: 0px 16px;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+#goMain {
 	background-color: #f1f1f1;
-	color : black;
-	border-radius : 16px;
-	width : 150px;
-	height : 40px;
-	text-align : center;
+	color: black;
+	border-radius: 16px;
+	width: 150px;
+	height: 40px;
+	text-align: center;
 	border: 1px solid black;
 	border: none;
 	padding: 10px 16px;
 	font-size: 15px;
 	cursor: pointer;
-	box-shadow: 0 5px #999;		
+	box-shadow: 0 5px #999;
 }
-	
-#goMain:hover{
+
+#goMain:hover {
 	background-color: #666;
 	color: white;
-	border-radius: 16px;
-} 
+	border-radius: 4px;
+}
 
 #goMain:active {
-	color : white;
-  	background-color: #f53f29; 
-  	box-shadow: 0 3px #666;
-  	transform: translateY(4px);
-   	border-radius: 16px;
+	color: white;
+	background-color: black;
+	box-shadow: 0 3px #666;
+	transform: translateY(4px);
+	border-radius: 4px;
 }
 
-
-#joinBtn, #goMain{
-	display : inline-block;
+#joinBtn, #goMain {
+	display: inline-block;
 }
-	
-.btns{
+
+.btns {
 	margin: 50px;
 	font-size: 20px;
 	padding: auto;
 }
-	
-#idCheckPop{
-	width:	500px;
-	height: 200px; 
+
+#idCheckPop {
+	width: 500px;
+	height: 200px;
 	display: none;
 	background: white;
 	padding: 20px;
 }
 
-th{
+th {
 	max-width: 200px;
 	height: 20px;
 	text-align: right;
 	padding-left: 10px;
-	vertical-align:middle;
-	
-}
-#joinTdbirth{
-	margin-right : 80px;
+	vertical-align: middle;
+	font-size: 20px;
 }
 
-.scrollheader {
-  	position: fixed;
-  	top: 0;
-  	z-index: 1;
-  	width: 100%;
-  	background-color: #f1f1f1;
-  	font-size : 35px;
+#joinTdbirth {
+	margin-right: 80px;
 }
 
-.scrollheader h2 {
-  	text-align: center;
-}
-
-.progress-container {
-  	width: 100%;
-  	height: 8px;
-  	background: #ccc;
-}
-
-.progress-bar {
-  	height: 8px;
-  	background: #f53f29;
-  	width: 0%;
-}
-ㄴ
 .memberjoinForm {
-  	padding: 100px 0;
-  	margin: 50px auto 0 auto;
-  	width: 80%;
+	
+	margin: 0 auto 0 auto;
+	width: 80%;
+	height: 700px;
 }
 /* 개인정보 탭  */
-.collapsible {
-  background-color: #777;
-  color: white;
-  cursor: pointer;
-  padding: 18px;
-  width: 100%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
-}
-
-.active, .collapsible:hover {
-  background-color: #555;
-}
-
-.person-content {
-  padding: 0 18px;
-  display: none;
-  overflow: hidden;
- /*  overflow : scroll; */
-  background-color: #f1f1f1;
-  overflow : scroll;
-  height : 100px;
-  font-size : 12px;
-}
-
-#personinfo{
-	width : 490px;
-
-}
-
-#userinfo1{
-	width : 20px;
+#userinfo1 {
+	width: 20px;
 	position: relative;
-    top: 14px;
+	top: 14px;
 }
-canvas
-{
- width: 200px;
-  height: 200px;
-  border: 0.5px solid gray;
-  margin-left:20px; 
+
+canvas {
+	width: 300px;
+	height: 300px;
+	border: 1px solid gray;
+}
+
+.filebox input[type="file"] {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}
+
+.filebox label {
+	display: inline-block;
+	padding: 5px 16px 20px;
+	color: white;
+	font-size: inherit;
+	line-height: normal;
+	vertical-align: middle;
+	background-color: black;
+	cursor: pointer;
+	border: 1px solid #ebebeb;
+	border-bottom-color: #e2e2e2;
+	border-radius: 4px;
+	width: 25%;
+	height: 20px;
+	
+} /* named upload */
+.filebox .upload-name {
+	display: inline-block;
+/* 	padding: .5em .75em; */ /* label의 패딩값과 일치 */
+	font-size: inherit;
+	font-family: inherit;
+	line-height: normal;
+	vertical-align: middle;
+	background-color: #f5f5f5;
+	border: 1px solid #ebebeb;
+	border-bottom-color: #e2e2e2;
+	border-radius: 4px;
+	-webkit-appearance: none; /* 네이티브 외형 감추기 */
+	-moz-appearance: none;
+	appearance: none;
+	width:60%;
+	margin: 0;
 }
 </style>
 </head>
@@ -276,34 +250,30 @@ canvas
 
 
 <body>
-
+	
+	
 	<div id="container" style="">
 		<!-- container -->
 		<div id="mainContent" style="">
 			<!-- mainContent -->
 			<div style="align: center">
-				<img src="resources/images/fifalogo1.png" text-align="center">
+				
 			</div>
-
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<div></div>
-			<div class="memberjoinForm" style = "border: 1px solid black;">
-				<br>
-
-				<form id="joinForm" enctype="multipart/form-data"
-					action="join.me" method="post">
+	
+			
+			
+			
+			<div class="memberjoinForm" style = "padding-bottom:200px; ">
 					<h2 align="center">
 						<em>FIFAOFFLINE에 오신 것을 환영합니다.</em>
 					</h2>
 					
+				<br>
+
+				<form id="joinForm" enctype="multipart/form-data"
+					action="join.me" method="post">
 					
-					<div style = "width: 55%;  display: inline-block;">
+					<div style = "width: 50%;  display: inline-block; float: left; border-right: 2px solid grey;">
 					<table align="center">
 						<tr>
 							<th width="200px;">아이디</th>
@@ -334,8 +304,8 @@ canvas
 							<th>생년월일</th>
 							<td>
 								<div id="joinTdbirth">
-									<input type="text" id="birthDay" maxlength="6" name="birthDay" placeholder="ex)191129"
-										style="width: 130px;margin-right:35px;" requi#f53f29>
+									<input type="text" id="birthDay" maxlength="6" name="birthDay" placeholder="ex)000930"
+										style="width: 35%;" requi#f53f29>
 										
 									<input id="genderM" type="radio" name="gender" value="M"
 										style="width: 18px; height: 18px;" requi#f53f29>
@@ -358,6 +328,7 @@ canvas
 									<option value="019">019</option>
 							</select> <input id="tel1" class="phone" type="tel" maxlength="4"
 								name="phone2" style="width: 130px; margin-left: 15px;">
+								
 								<input id="tel2" class="phone" type="tel" maxlength="4"
 								name="phone3" style="width: 130px; margin-left: 15px;">
 
@@ -367,17 +338,15 @@ canvas
 							<th>이메일</th>
 							<td id="emailPt">
 							<input type="text" name="emailId"
-								style="width: 141px;"
-								requi#f53f29="requi#f53f29">
+								style="width: 20%;"
+								requi#f53f29>
 							<em>@</em>
 							<input
 								type="text" name="email2" value="naver.com"
-								style="width: 220px; margin-left: 0px;" ReadOnly="true"
-								placeholder="naver.com">
-							</td>
-							<td>
+								style="width: 21%; margin-left: 4px;" ReadOnly>
+							
 							<select id="selctEmail" name="selctEmail" class="info"
-								style="width: 150px; margin-left: 0px;"
+								style="width: 23%; margin-left: 0px;"
 								onchange="SetEmailTail(selctEmail.options[this.selectedIndex].value)">
 									<!-- <option value = "notSelected">====선택====</option> -->
 									<option value="naver.com">naver.com</option>
@@ -393,19 +362,20 @@ canvas
 						</tr>
 						<tr>
 							<th>주소</th>
-							<td><input type="text" name="address1"
-								class="postcodify_address" value="" readonly></td>
-							<td style="text-align:left;">
+							<td><input type="text" name="address1" id = "address1"
+								class="postcodify_address" value="" readonly>
+							
 								<button type="button" id="postcodify_search_button"><i class="fa fa-search"></i>검색</button>
 							</td>
 						</tr>
 						<tr>
 							<th>상세 주소</th>
-							<td><input type="text" name="address2" class="postcodify_extra_info" value=""></td>
+							<td><input id = "address2" type="text" name="address2" class="postcodify_extra_info" value=""></td>
 						</tr>
 
 						<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
-						<script>
+				<script>
+					
 					$(function(){
 						$("#postcodify_search_button").postcodifyPopUp();
 					});
@@ -415,12 +385,10 @@ canvas
 					</table>
 					</div>
 					
-					
-					
-					<div style = "border: 2px solid red;  display: inline-block; width: 40%;">
-					<table align="center"  border = "1"  style  = "width: 100%;"> 
+					<div class="filebox" style = " display: inline-block; width: 35%; margin-left: 10%;">
+					<table> 
 						<tr>
-							<td colspan="4" style="text-align : center;">프로필사진</td>
+							<th colspan="4" style="text-align: left;" >프로필사진</th>
 						</tr>
 						<tr>
 							<td class="profile" colspan="2">
@@ -431,16 +399,20 @@ canvas
 							  id = "canvas">
 						</canvas>
 							</td>
+						</tr><tr>
 							<td colspan="2">
-							<input
+							<input class="upload-name" value="" disabled="disabled">
+							<label for="uploadFile">사진선택</label>
+							<input 
 							       id = "uploadFile"
 							       name="uploadFile"
 							       type = "file"
+							      class="upload-hidden"
 							       multiple = "false"
 							       accept = "image/*"
+							      
 							       onchange = "upload()" style = "width: 280px;">
-							</td>
-						</tr>
+							</td></tr>
 						<script>
 						function upload()
 						{
@@ -449,81 +421,71 @@ canvas
 						  var ima1 = new SimpleImage (proup);
 						  ima1.drawTo (Ican);
 						}
+						$(document).ready(function(){
+						var fileTarget = $('.filebox .upload-hidden');
+						fileTarget.on('change', function(){ // 값이 변경되면 
+						if(window.FileReader){ // modern browser 
+						var filename = $(this)[0].files[0].name; } else { // old IE 
+						var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출 
+						} // 추출한 파일명 삽입
+						$(this).siblings('.upload-name').val(filename); 
+						});
+						});
+
 						</script>
+						</table>
+						</div>
+						<div style = " display: inline-block; width: 35%; margin-left: 10%;"><table>
 						<tr>
-							<td colspan="4" style="text-align : center;">
+							<th colspan="4" style="text-align: left; padding-top: 50px;">
 								포지션
-							</td>
+							</th>
 						</tr>
 						<tr>
-							<td>
-								<input type="checkbox" id="GK" name="position" value="GK" style = "width: 20px;">
+						
+							<td style="width: 0px;">
+							<div style="width: 100px; margin: 0; display: inline-block;">
+								<input type="checkbox" id="GK" name="position" value="GK" style="width: 18px; height: 18px; margin:0;">
 								<label for="GK">골키퍼</label>
+							</div>
 							</td>
-							<td>
-								<input type="checkbox" id="DF" name="position" value="DF" style = "width: 20px;">
+							<td style="width: 0px;">
+							<div style="width: 100px; margin: 0; display: inline-block;">
+								<input type="checkbox" id="DF" name="position" value="DF" style="width: 18px; height: 18px; margin:0;">
 								<label for="DF">수비수</label>
+							</div>
 							</td>
-							<td>
-								<input type="checkbox" id="MF" name="position" value="MF" style = "width: 20px;">
+							<td style="width: 0px;">
+							<div style="width: 100px; margin: 0; display: inline-block;">
+								<input type="checkbox" id="MF" name="position" value="MF" style="width: 18px; height: 18px; margin:0; ">
 								<label for="MF">미드필더</label>
+							</div>
 							</td>
-							<td>
-								<input type="checkbox" id="FW" name="position" value="FW" style = "width: 20px;">
+							<td style="width: 0px;">
+							<div style="width: 100px; margin: 0; display: inline-block;">
+								<input type="checkbox" id="FW" name="position" value="FW" style="width: 18px; height: 18px; margin:0;">
 								<label for="FW">공격수</label>
+							</div>
 							</td>
-						</tr>
 						
-						<!-- <script>
-function checkboxArr() {
-    var checkArr = [];     // 배열 초기화
-    $("input[name='position']:checked").each(function(i)){
-        checkArr.push($(this).val());     // 체크된 것만 값을 뽑아서 배열에 push
-    }
-
-    $.ajax({
-        url: 'join.me'
-        , type: 'post'
-        , dataType: 'text'
-        , data: {
-            valueArrTest: checkArr
-        }
-    });
-}
-
-</script>
- -->						
+						</tr>
+					
 					</table>
 					</div>
 					
-					<table id="personinfo" align="center">
-						<tr>
-							<td>
-								<p>
-									<span style="font-size: 18px;"> KHFIFAOFFLINE에 가입하시는 것에
-										대해 동의합니다.</span><input type="checkbox" id="userinfo1">
-								</p>
-
-							</td>
-						</tr>
-					</table>
 					
-					<div align="center">
-						<!-- submit 방법 1 (함수활용해서 submit하기 )(requi#f53f29동작 안함) -->
-						<!-- <div class = "btns" id = "joinBtn" onclick = "insertMember();">가입하기</div> 함수방식은 requi#f53f29 적용이안됨 -->
-						<input type="button" class="btns" id="joinBtn"
-							onclick="insertMember()" value="가입하기">
-						
-
-						
-						<!-- <div class = "btns" id = "goMain" onclick = "goMain();">메인으로</div> -->
-						<input type="button" class="btns" id="goMain" onclick="location.href='home.do'"
-							value="메인으로">
-					</div>
 				</form>
 			</div>
+				
 
+					<div align="center">
+					<input type="button" class="btns" id="joinBtn"
+							onclick="insertMember()" value="가입하기">
 
+					<input type="button" class="btns" id="goMain" onclick="location.href='home.do'"
+							value="메인으로">
+					</div>
+	
 
 			<!-- 중복체크 팝업창 -->
 			<div id="idCheckPop">
@@ -532,6 +494,7 @@ function checkboxArr() {
 			<!-- container -->
 		</div>
 		<!-- mainContent -->
+
 	</div>
 
 
@@ -597,7 +560,7 @@ function checkboxArr() {
 						idCheck = false;
 					} else {
 						$("#checkId").text("사용가능한 아이디입니다.");
-						$("#checkId").css("color", "blue");
+						$("#checkId").css("color", "green");
 						$("#userId").css("border", "2px solid green");
 						idCheck = true;
 					}
@@ -620,8 +583,8 @@ function checkboxArr() {
 				$("#checkPwd").text("문자,숫자,특수문자를 포함한 8-20자");
 				pwdCheck = false;
 			} else {
-				$("#checkPwd").css("color", "blue");
-				$("#userPwd").css("border", "2px solid blue");
+				$("#checkPwd").css("color", "green");
+				$("#userPwd").css("border", "2px solid green");
 				$("#checkPwd").text("사용가능한 비밀번호입니다.");
 				pwdCheck = true;
 			}
@@ -650,8 +613,8 @@ function checkboxArr() {
 				$("#checkPwd2").text("비밀번호가 일치하지 않습니다.");
 				pwdCheck2 = false;
 			} else {
-				$("#checkPwd2").css("color", "blue");
-				$("#userPwd2").css("border", "2px solid blue");
+				$("#checkPwd2").css("color", "green");
+				$("#userPwd2").css("border", "2px solid green");
 				$("#checkPwd2").text("비밀번호가 일치합니다.");
 				pwdCheck2 = true;
 			}
@@ -673,8 +636,8 @@ function checkboxArr() {
 				$("#checkName").text("2~6자의 한글");
 				nameCheck = false;
 			} else {
-				$("#checkName").css("color", "blue");
-				$("#userName").css("border", "2px solid blue");
+				$("#checkName").css("color", "green");
+				$("#userName").css("border", "2px solid green");
 				$("#checkName").text("유효한 이름입니다.");
 				nameCheck = true;
 			}
@@ -698,10 +661,10 @@ function checkboxArr() {
 				$("#checkPhone").text("3~4자의 숫자");
 				phoneCheck = false;
 			} else {
-				$("#checkPhone").css("color", "blue");
-				$("#tel0").css("border", "2px solid blue");
-				$("#tel1").css("border", "2px solid blue");
-				$("#tel2").css("border", "2px solid blue");
+				$("#checkPhone").css("color", "green");
+				$("#tel0").css("border", "2px solid green");
+				$("#tel1").css("border", "2px solid green");
+				$("#tel2").css("border", "2px solid green");
 				$("#checkPhone").text("유효한 전화번호입니다.");
 				phoneCheck = true;
 			}
@@ -723,8 +686,8 @@ function checkboxArr() {
 				$("#checkRRN").text("정확한 생년월일 6자리");
 				rrnCheck  = false;
 			} else {
-				$("#checkRRN").css("color", "blue");
-				$("#birthDay").css("border", "2px solid blue");
+				$("#checkRRN").css("color", "green");
+				$("#birthDay").css("border", "2px solid green");
 				$("#checkRRN").text("유효한 생년월일입니다.");
 				rrnCheck  = true;
 			}
@@ -754,13 +717,17 @@ function checkboxArr() {
 			}else if($("input:radio[name='gender']").is(":checked")==false){
 				alert("성별을 선택해주세요.");
 				$("input:radio[name='gender']").focus();
+			}else if($("#address1").val() == ""){
+				alert("주소을 입력해주세요.");
+				$("#adderess1").focus();
+			}else if($("#address2").val() == ""){
+				alert("상세 주소을 입력해주세요.");
+				$("#adderess2").focus();
 			}else if($("#emailId").val() == ""){
 				alert("이메일을 입력해주세요.");
 				$("#emailId").focus();
 			}else{
-				if(!confirm("정말로 회원가입하시겠습니까 ?")){
-					return false;
-				};
+			
 				$("#joinForm").submit();
 			}	
 		}
@@ -779,7 +746,6 @@ function checkboxArr() {
 		
 		
 	</script>
-
 
 </body>
 </html>

@@ -211,6 +211,9 @@ img.avatarM {
 				<img id = "picture" src="resources/images/team/${t.teamImage }"> 
 				<td> ${t.teamName }</td>
 			</tr>
+			<tr>
+				<td>${scoreStr}</td>
+			</tr>
 		</table>
 		</div>
 		

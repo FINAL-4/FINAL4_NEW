@@ -31,6 +31,7 @@
 		  display: inline-block;
 		  border: 1px solid #ccc;
 		  box-sizing: border-box;
+		  font-size: 13px;
 		}
 		
 		#id01 button {
@@ -43,11 +44,11 @@
 		  cursor: pointer;
 		  width: 100%;
 		  margin-bottom: 10px;
+		  font-size: 25px;
 		}  
 		 
 		#id01 button:hover {
-		  background-color: white;
-		  color: black;
+		 opacity: 0.8;
 		  
 		}
 		 
@@ -180,17 +181,23 @@
 						<a class="menu__item" onclick="document.getElementById('id01').style.display='block'" id = "playerMenu" style = "border:none;"> <span class="menu__item-name">용병     </span> </a>
 						</c:if>
 						<a class="menu__item" href="goMatch.ma" style = "border: none;"> <span class="menu__item-name">매칭     </span></a>
+
 						<c:if test="${!empty sessionScope.loginUser }">
-						<a class="menu__item" href="mypage.me" style = "border: none;"> <span class="menu__item-name">마이페이지     </span></a></c:if>
+						<a class="menu__item" href="mypage.me" style = "border: none;"> <span class="menu__item-name">마이페이지   </span></a>
+						</c:if>
+
 						<span>
 						<c:if test="${empty sessionScope.loginUser }">
 						<img id = "login-logo" src="resources/images/login.png" width="30px;" height="30px;" onclick="document.getElementById('id01').style.display='block'">
 						</c:if>
 						<c:if test="${!empty sessionScope.loginUser }">
 						<c:url var = "logout" value="logout.me"/>
-						<img id = "logout-logo" src="resources/images/logout.png" width="30px;" height="30px;" onclick="location.href='${logout}'">
+						<label style="font-size : 24px;"> ${loginUser.userName } :) </label>
+						<img id = "logout-logo" src="resources/images/logout.png" width="30px;" height="30px;" onclick="location.href='${logout}'" style="margin-left : 40px;">
 						</c:if>
 						</span> 
+						
+						
 
 						
 					</nav>
@@ -211,19 +218,19 @@
 		
 		    <div id = "loginModal"  class="container" >
 		    <h2 style = "font-size: 35px; margin-top: 0px; text-align: center;">LOG-IN</h2>
-		      <label for="id"><b>ID</b></label>
+		      <label for="id" style="font-size: 15px;"><b>ID</b></label>
 		      <input type="text" class="id" placeholder="아이디를 입력해주세요." name="userId" required>
 		
-		      <label for="psw"><b>Password</b></label>
+		      <label for="psw" style="font-size: 15px;"><b>Password</b></label>
 		      <input type="password" class="pwd" placeholder="비밀번호를 입력해주세요." name="userPwd" required>
 		      <div id = "loginInfo"></div>
 		      <button id = "loginBtn" type="button">로그인</button>
 		     
 		      <div style="display: inline-block;">
-		      <span class="join">회원이아니신가요? <a href="goJoin.me">회원가입하러가기</a></span>
+		      <span class="join" style="font-size: 12px;">회원이아니신가요? <a href="goJoin.me">회원가입하러가기</a></span>
 		     
 		     
-		      <span class="find">비밀번호를 잊으셨나요? <a href="find.me">비밀번호 찾으러가기</a></span>
+		      <span class="find" style="font-size: 12px;">아이디 혹은 비밀번호를 잊으셨나요? <a href="find.me">찾으러가기</a></span>
 		    </div>
 		    </div>
 		
@@ -258,7 +265,7 @@
 					$$("#loginInfo").css("color","red");
 					$$("#loginInfo").html("일치하는 정보가 없습니다.");
 				}else{
-					alert("로그인성공");
+
 					$$("#loginForm").submit();
 				}
 			}

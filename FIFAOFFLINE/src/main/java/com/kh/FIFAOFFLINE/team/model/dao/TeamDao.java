@@ -187,5 +187,35 @@ public class TeamDao {
 		return sqlSession.selectOne("teamMapper.getModalTeam",teamNo);
 	}
 
+	public int inviteAgree(TeamJoinedMember tjm) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("teamMapper.inviteAgree",tjm);
+	}
+
+	public Team teamDetail2(int teamNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("teamMapper.teamDetail2",teamNo);
+	}
+
+	public int updateTeamInfo(Team t) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("teamMapper.updateTeamInfo",t);
+	}
+
+	public int deleteTeam(int teamNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("teamMapper.deleteTeam",teamNo);
+	}
+
+	public int deleteTeamM(int teamNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("teamMapper.deleteTeamM",teamNo);
+	}
+
+	public int withdrawal(TeamMember tm) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("teamMapper.withdrawal",tm);
+	}
+
 
 }

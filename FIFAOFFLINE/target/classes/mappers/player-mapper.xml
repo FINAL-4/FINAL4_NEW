@@ -61,6 +61,12 @@
 		<result property="proFile" column="PROFILE"/>
 	</resultMap>
 	
+	<resultMap type="P_EN_LIST" id="pEnListResultSet">
+		<id property="eNum" column="E_NUM"/>
+		<result property="userNo" column="USER_NO"/>
+		<result property="eAccept" column="E_ACCEPT"/>
+	</resultMap>
+	
 	<!-- 팀용병 리스트 보여주기 쿼리문 -->
 	<select id="teamPlayList" resultMap="recruitResultSet">
 		SELECT *
@@ -145,11 +151,17 @@
 	</update>
 
 	<!-- 개인 용병 신청 참가 횟수 증가 쿼리문 -->
-	<update id="personApply" parameterType="_int">
+	<update id="personApply" parameterType="P_ENROLL">
   		UPDATE MEMBER
   		SET A_COUNT=A_COUNT+1
 		WHERE USER_NO=#{userNo}
   	</update>
+  	
+  	<!-- 개인 용병 신청 중복 검사 -->
+  	<insert id="checkPersonApply" parameterType="P_EN_LIST">
+  		INSERT INTO P_EN_LIST
+  		VALUES(${eNum}, #{userNo}, DEFAULT)
+  	</insert>
   	
   	<!-- 팀 용병 신청하기 쿼리문 -->
   	<insert id="teamPlayApply" parameterType="P_LIST">
@@ -168,14 +180,13 @@
   	<select id="applyList" resultMap="listResultSet">
   		SELECT * FROM P_LIST P
 		JOIN MEMBER M ON (P.USER_NO = M.USER_NO)
-		JOIN P_ENROLL E ON(E.USER_NO = M.USER_NO)
 		WHERE ACCEPT='H' AND R_NUM=#{rNum}
   	</select>
   	
   	<!-- 개인 용병 신청 AJAX 쿼리문 -->
-  	<select id="ajaxApplyPerson" parameterType="P_ENROLL" resultType="_int">
+  	<select id="ajaxApplyPerson" parameterType="P_EN_LIST" resultType="_int">
   		SELECT COUNT(*)
-  		FROM P_ENROLL
+  		FROM P_EN_LIST
   		WHERE E_NUM=#{eNum} AND USER_NO=#{userNo}
   	</select>
   	
@@ -183,6 +194,35 @@
   	<select id="checkTeamSelect" parameterType="_int" resultType="_int">
   		SELECT COUNT(*)
   		FROM P_RECRUIT
-  		WHERE R_NUM=#{rNum} AND R_STATUS='N'
+  		WHERE TEAM_NO=#{rNum} AND R_STATUS='N'
   	</select>
+  	
+  	<!-- 신청 리스트에 신청 한 사람 없어지는 거 -->
+  	<delete id="ald" parameterType="P_LIST">
+  		DELETE FROM
+  		P_LIST
+  		WHERE USER_NO=#{userNo} AND R_NUM=#{rNum}
+  	</delete>
+  	
+  	<!-- 수락 한 사람 member 에 count 올려주는거  -->
+  	<update id="agreeResult" parameterType="P_LIST">
+  		UPDATE MEMBER
+  		SET A_COUNT=A_COUNT+1
+		WHERE USER_NO=#{userNo}
+  	</update>
+  	
+  	<!-- 수락 하면 마감인원 -1 시키기 -->
+  	<update id="deadlineUpdate" parameterType="_int">
+  		UPDATE P_RECRUIT
+  		SET DEADLINE=DEADLINE-1
+  		WHERE R_NUM=#{rNum}
+  	</update>
+  	
+  	<!-- 팀 용병 모집인원 0 이면 글 삭제 -->
+  	<delete id="deletePlay" parameterType="_int">
+  		DELETE FROM P_RECRUIT
+  		WHERE DEADLINE=0
+  	</delete>
+  	
+ 
 </mapper>

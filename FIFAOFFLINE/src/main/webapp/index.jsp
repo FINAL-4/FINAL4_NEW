@@ -27,7 +27,7 @@
 
 
 		<button id = "visual-btn" onclick="location.href='home.do'" style = "width: 100px; height: 50px; margin-top: 30px;">home.jsp로</button>
-		<button id = "visual-btn" onclick="location.href='goTournament.to'" style = "width: 100px; height: 50px; margin-top: 30px;">토너먼트 </button>
+
 	</div>
 </body>
 </html>

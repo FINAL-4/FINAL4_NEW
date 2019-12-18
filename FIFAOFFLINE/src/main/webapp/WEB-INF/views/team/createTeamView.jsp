@@ -673,6 +673,7 @@ label{
 		$$("#createForm").submit();
 	}
 
+	
 	function upload(){
 	var Ican = document.getElementById ("teamImgTag");
 	var proup = document.getElementById ("uploadFile");

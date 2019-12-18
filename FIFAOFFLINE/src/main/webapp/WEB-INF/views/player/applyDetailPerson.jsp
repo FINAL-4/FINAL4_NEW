@@ -7,6 +7,13 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+@import url(//fonts.googleapis.com/earlyaccess/jejumyeongjo.css);
+@import url(//fonts.googleapis.com/earlyaccess/kopubbatang.css);
+@import url(//fonts.googleapis.com/earlyaccess/hanna.css);
+@import url(//fonts.googleapis.com/earlyaccess/jejuhallasan.css);
+@import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
+
 #playerMenu .menu__item-name::after,
 #playerMenu .menu__item-name::before{
    background: red;
@@ -54,6 +61,7 @@
 	border-collapse: separate;
 	border-spacing: 0 30px;
 	letter-spacing: 6px;
+	font-weight: bold;
 }
 #locationDiv{
 	width: 25%;
@@ -126,12 +134,13 @@
 #detailContent1 td{
 	width:400px;
 	margin-left: 15px;
-	border-bottom: 1px solid lightgrey;
+	border-bottom: 3px solid lightgrey;
 }
 h6{
 	margin-top:0px;
 	margin-bottom:10px;
-	font-size:20px;
+	font-size:35px;
+	font-family: 'Nanum Pen Script', cursive;
 }	
 
 </style>
@@ -140,7 +149,7 @@ h6{
 <body>
 <div id="content" style="margin-top: 50px; border-bottom: 5px solid grey; border-top: 5px solid grey; margin-left: 5%; margin-right:5%; width: 90%;">
 <div id = "title"> 
-	<h4 style="font-size:45px; margin-bottom: 10px; margin-top: 0px; width: 85%; display: inline-block;">${pEnroll.eTitle }</h4>
+	<h4 style="font-size:45px; margin-bottom: 10px; margin-top: 0px; width: 85%; display: inline-block; font-family: 'Hanna', serif;">${pEnroll.eTitle }</h4>
 	<div style = "width: 14%; display: inline-block;">
 		<c:url var="pplDelete" value="personPlayListDelete.pl">
 			<c:param name="eNum" value="${pEnroll.eNum }"/>
@@ -171,38 +180,38 @@ h6{
 		<h6> 용병 정보 </h6>
 		<table id = detailContent1> 
 			<tr>
-				<td>매너</td> 
-				<td>${pEnroll.eManner } </td>
+				<td style="font-family: 'Nanum Myeongjo', serif;">매너</td> 
+				<td style="font-family: 'Hanna', serif;">${pEnroll.eManner } </td>
 			</tr>
 			<tr>
-				<td>실력</td>
-				<td>${pEnroll.eSkill } </td>
+				<td style="font-family: 'Nanum Myeongjo', serif;">실력</td>
+				<td style="font-family: 'Hanna', serif;">${pEnroll.eSkill } </td>
 			</tr>
 			<tr>
-				<td>가능 포지션</td>
-				<td>${pEnroll.position }</td>
+				<td style="font-family: 'Nanum Myeongjo', serif;">가능 포지션</td>
+				<td style="font-family: 'Hanna', serif;">${pEnroll.position }</td>
 			</tr>
 			<tr>
-				<td>성별 </td>
-				<td>${pEnroll.gender }</td>
+				<td style="font-family: 'Nanum Myeongjo', serif;">성별 </td>
+				<td style="font-family: 'Hanna', serif;">${pEnroll.gender }</td>
 			</tr>
 			<tr>
-				<td>가능 경기장</td>
-				<td>${pEnroll.ePlace }
+				<td style="font-family: 'Nanum Myeongjo', serif;">가능 경기장</td>
+				<td style="font-family: 'Hanna', serif;">${pEnroll.ePlace }
 			</tr>
 			<tr>
-				<td>가능 경기 날짜 </td>
-				<td>${pEnroll.eDay }</td>
+				<td style="font-family: 'Nanum Myeongjo', serif;">가능 경기 날짜 </td>
+				<td style="font-family: 'Hanna', serif;">${pEnroll.eDay }</td>
 			</tr>
 			<tr>
-				<td>가능 경기 시간</td>
-				<td>${pEnroll.esHour } 시 ~ ${pEnroll.efHour } 시 </td>
+				<td style="font-family: 'Nanum Myeongjo', serif;">가능 경기 시간</td>
+				<td style="font-family: 'Hanna', serif;">${pEnroll.esHour } 시 ~ ${pEnroll.efHour } 시 </td>
 			</tr>
 			<tr>
-				<td> 참고내용 </td>
+				<td style="font-family: 'Nanum Myeongjo', serif;"> 참고내용 </td>
 			</tr>
 			<tr>
-				<td colspan=2> &nbsp;&nbsp;&nbsp;${pEnroll.eContent } <br><br> 
+				<td colspan=2 style="font-family: 'Nanum Brush Script', cursive;"> &nbsp;&nbsp;&nbsp;${pEnroll.eContent } <br><br> 
 				${pEnroll.phone } 번호로 연락주세요 ! </td>
 			</tr>
 		</table>
@@ -317,13 +326,19 @@ h6{
 					if(data == 1){
 						alert("이미 신청했습니다.");
 					} else {
-						var confirmFlag = confirm("정말로 신청하시겠습니까 ?");
+						var confirmFlag = confirm("정말로 신청하시겠습니까 ? \n해당 번호로 문자메세지가 전송됩니다.");
 						if(confirmFlag){
 							location.href="personApply.pl?userNo="+userNo+"&eNum="+eNum;
+							alert("신청이 완료 되었습니다.");
 						} else {
-							alert("");
+							alert("신청을 취소 하였습니다.");
 						}
 					}
+				},
+				error:function(request, status, errorData){
+					alert("error code: " + request.status + "\n"
+							+"message: " + request.responseText
+							+"error: " + errorData);
 				}
 			});
 		} else {

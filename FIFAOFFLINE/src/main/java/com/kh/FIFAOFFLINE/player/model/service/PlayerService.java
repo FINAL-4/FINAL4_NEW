@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.player.model.vo.P_ENROLL;
+import com.kh.FIFAOFFLINE.player.model.vo.P_EN_LIST;
 import com.kh.FIFAOFFLINE.player.model.vo.P_LIST;
 import com.kh.FIFAOFFLINE.player.model.vo.P_RECRUIT;
 
@@ -29,8 +30,6 @@ public interface PlayerService {
 
 	public int playPersonModify(P_ENROLL pe);
 
-	public int personApply(int userNo);
-
 	public int teamPlayApply(P_LIST pl);
 
 	public int ajaxApplyPlayer(P_LIST pl);
@@ -39,7 +38,26 @@ public interface PlayerService {
 
 	public int checkTeamSelect(int mt);
 
-	public int ajaxApplyPerson(P_ENROLL pe);
+	public int ald(P_LIST pl);
+
+	public int agreeResult(Member m);
+
+	public int deadlineUpdate(int rNum);
+
+	public int cancelPlay(P_LIST pl);
+
+	public int ajaxApplyPerson(P_EN_LIST pe);
+
+	public int personApply(P_ENROLL pe);
+
+	public int checkPersonApply(P_EN_LIST pel);
+
+	public int deletePlay();
+
+	
+
+	
+
 
 	
 
