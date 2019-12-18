@@ -1,17 +1,27 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
-<%@ page session="false" %> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import = "com.kh.FIFAOFFLINE.notice.model.vo.*, java.util.ArrayList" %>
+<%@page import="java.util.Date" %>
+<%@page import="java.text.SimpleDateFormat" %>    
+
+
+
+<%
+	java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy.MM.dd");
+	 String today = formatter.format(new java.util.Date());
+%>
+  
 <!DOCTYPE html>
 <html>
 <head>
+<script src="http://cdn.ckeditor.com/4.7.0/standard-all/ckeditor.js"></script>
+
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<style>
-   #outer{
+ <style>
+    #outer{
+  		position: relative;
        width: 100%;
-       position: relative;
-       padding:0px;
+       padding: 0px;
    	   border:none;
   	} 
    
@@ -36,7 +46,7 @@
 
 	.titleDiv2{
 		position: relative;
-		width: 290px;	
+		width: 240px;	
 		font-size: 45px;
 		margin-left:auto;
 		margin-right:auto;
@@ -51,7 +61,6 @@
     .tableTd{
     	border-bottom:1px solid  #dbdbdb;
     	border-right: 1px solid  #dbdbdb;
-    	width:98%;
     	
     }
     
@@ -130,7 +139,7 @@
 	   color: white;
 	   font-size: 16px;
 	   height: 40px;
-	   width: 70px;
+	   width: 90px;
 	}
 	
 	#listBtn:hover{
@@ -145,7 +154,7 @@
 	   color: white;
 	   font-size: 16px;
 	   height: 40px;
-	   width: 70px;
+	   width: 90px;
 	}
 	
 	#insertBtn:hover{
@@ -193,7 +202,6 @@
 		margin-left: 30px;
 	}
 	
-	
 	#boardImg1{
 	position: relative;	
 	width:100%;
@@ -203,23 +211,21 @@
 	align: center;
 	text-align: center;
 	background: black;
-	}
+}
 	
-	
-	.modal-dialog {
+		.modal-dialog {
 	    width: 600px;
 	    margin: 30px auto;
 	    margin-top: 300px;
 	}
-	
-</style>
+ </style> 
 </head>
 
 
-	<jsp:include page="../common/header.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 <body>
-
-		<div id = "outer" style = "margin-top: 180px;">
+<!-- 각페이지별 고정  start-->
+	<div id = "outer" style = "margin-top: 180px;">
 			<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; margin: auto;">
 		<div style="height:100%; width:100%; border-bottom:3px solid red;">
 			<div class="example">
@@ -229,46 +235,74 @@
 			<br>
 			<div class="ha-waypoint" data-animate-down="ha-header-shrink" data-animate-up="ha-header-show" style = "height: 1200px; width: 90%;  margin: auto;">
 			<div align="center">
-
+	<br><br>
+	<!-- 각 페이지별 고정  end-->
 
 	
-	<br><br>	
-	
+<div id="container" style="overflow: auto;"><!-- container -->
+   <div id="mainContent" style="overflow: auto;"><!-- mainContent -->
 
-	<form action="ninsert.do" method="post" enctype="Multipart/form-data">
-		<table align="center" border="1" cellspacing="0" width="400">
-			<tr>
-				<td>제목</td>
-				<td>
-					<input type="text" size="50" name="nTitle">
-				</td>
-			</tr>
-			<tr>
-				<td>작성자</td>
-				<td>
-					<input type="text" name="nWriter" readonly value="${loginUser.id }">
-				</td>
-			</tr>
-			<tr>
-				<td>내용</td>
-				<td>
-					<textarea rows="7" cols="50" name="nContent"></textarea>
-				</td>
-			</tr>
-			<tr>
-				<td>첨부파일</td>
-				<td>
-					<input type="file" name="uploadFile">
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center">
-					<input type="submit" value="등록 허가"> &nbsp;
-					<input type="reset" value="등록 취소">					
-				</td>
-			</tr>			
-		</table>
-	</form>
+			<form id= insertForm action = "<%=request.getContextPath()%>/ninsert.do" method="post" encType="multipart/form-data">
+			<div id="outer">
+				<div class="titleDiv1"><div class= "titleDiv2"><b>공&nbsp;지&nbsp;사&nbsp;항&nbsp;등&nbsp;록&nbsp;</b></div></div>
+				<br>
+				<div id = "tableDiv">
+					<table align="center" id="listArea">
+						<tr>
+							<td class= "titleTd tableTd"><b>제목</b></td>
+							<td class ="tableTd"><input type="text" name= "nTitle" class="inputTd">
+							</td> 
+						</tr>
+							<td class= "titleTd tableTd"><b>작성자</b></td>
+							<td  class ="tableTd"><span style="padding-left: 17px; font-size: 16px;"><input id="nWriter" name="nWriter" value="${loginUser.userId }" readonly></span></td>
+						<tr>
+							<td class= "titleTd tableTd"><b>작성일</b></td>
+							<td class ="tableTd"><span style="padding-left: 17px; font-size: 16px;" id="nCreateDate" name="nCreateDate" ><%=today%></span></td>
+						</tr>
+					</table>
+						<div id="textareaDiv">
+						<textarea id="nContent" name="nContent"></textarea>
+						<script>
+						    CKEDITOR.replace( 'nContent', {
+						    //filebrowserImageUploadUrl : '/dev-guide/ckeditorImageUpload.do'
+						    } );
+						</script>
+						</div>
+					<br>
+					<table id = "attachTable">
+						<tr class= attachTr align="left">
+								<input type="file" name="uploadFile">
+						</tr>
+					</table>
+					<br><br>
+					<div class= btnDiv>
+							<button type='button'id=listBtn onclick="Nlist()"><b>목록</b></button>&nbsp;&nbsp;
+							<button id=insertBtn type="button" onclick="insertSubmit();"><b>등록</b></button>
+					</div>
+				</div>
+			</form>
+		</div><!-- container -->
+</div><!-- mainContent -->
+
+</body>
+
+
+<script>
+
+function Nlist(){
+	$("#nlist.do");
+}
+
+
+ function insertSubmit(){
+	$("#insertForm").submit();	
+} 
+
+
+</script>
+
+
+
 <script>
 	var $head = $( '#ha-header' );
 	$( '.ha-waypoint' ).each( function(i) {

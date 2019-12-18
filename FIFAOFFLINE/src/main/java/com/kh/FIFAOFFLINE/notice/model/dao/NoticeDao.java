@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.FIFAOFFLINE.notice.model.vo.Notice;
 import com.kh.FIFAOFFLINE.notice.model.vo.PageInfo;
+import com.kh.FIFAOFFLINE.notice.model.vo.Reply;
 
 @Repository("nDao")
 public class NoticeDao {
@@ -40,14 +41,33 @@ public class NoticeDao {
 		return sqlSession.insert("noticeMapper.insertNotice", n);
 	}
 
+	public int addReadCount(int nId) {
+
+		return sqlSession.update("noticeMapper.updateCount", nId);
+	}
+	
 	public int updateNotice(Notice n) {
 
 		return sqlSession.update("noticeMapper.updateNotice", n);
 	}
-
+	
 	public int deleteNotcie(int nId) {
 
 		return sqlSession.delete("noticeMapper.deleteNotice", nId);
 	}
 
+	public ArrayList<Reply> selectReplyList(int nId) {
+
+		return (ArrayList)sqlSession.selectList("noticeMapper.selectReplyList", nId);
+	}
+
+	public int insertReply(Reply r) {
+
+		return sqlSession.insert("noticeMapper.insertReply", r);
+	}
+
+
+
+	
+	
 }

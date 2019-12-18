@@ -13,8 +13,27 @@
 	src='https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.js'></script>
 <script
 	src='https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.min.js'></script>
+	
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <title>KH sports</title>
 <style>
+
+.swal-button--danger {
+    background-color: black;
+}
+.swal-button--danger:not([disabled]):hover {
+    background-color: black;
+}
+.swal-button--confirm{
+ 
+  background-color: black;
+
+}.swal-button--confirm:not([disabled]):hover{
+ 
+  background-color: black;
+
+}
+
 input:focus {
 	  outline: none;
 	}
@@ -37,6 +56,12 @@ input:focus {
 #joinForm {
 	margin-top: 40px;
 }
+
+.postcodify_controls input{
+margin-top: 0;
+margin-left: 0;
+}
+
 
 input {
 	font-size: 18px;
@@ -80,7 +105,7 @@ label {
 
 #joinBtn:active {
 	color: white;
-	background-color: #f53f29;
+	background-color: gray;
 	box-shadow: 0 3px #666;
 	transform: translateY(4px);
 	border-radius: 16px;
@@ -362,7 +387,7 @@ canvas {
 						</tr>
 						<tr>
 							<th>주소</th>
-							<td><input type="text" name="address1"
+							<td><input type="text" name="address1" id = "address1"
 								class="postcodify_address" value="" readonly>
 							
 								<button type="button" id="postcodify_search_button"><i class="fa fa-search"></i>검색</button>
@@ -370,7 +395,7 @@ canvas {
 						</tr>
 						<tr>
 							<th>상세 주소</th>
-							<td><input type="text" name="address2" class="postcodify_extra_info" value=""></td>
+							<td><input id = "address2" type="text" name="address2" class="postcodify_extra_info" value=""></td>
 						</tr>
 
 						<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
@@ -697,32 +722,54 @@ canvas {
 		// 회원가입 하기 함수
 		function insertMember(){
 			if(idCheck == false){
-				alert("아이디를 확인해주세요.");
+				swal("아이디를 확인해주세요");
 				$("#userId").focus();
 			}else if(pwdCheck  == false){
-				alert("비밀번호를 확인해주세요.");
+				swal("비밀번호를 확인해주세요");
 				$("#userPwd").focus();
 			}else if(pwdCheck2  == false){
-				alert("비밀번호 일치여부를 확인해주세요.");
+				swal("비밀번호 일치여부를 확인해주세요.");
 				$("#userPwd2").focus();
 			}else if(nameCheck  == false){
-				alert("이름를 확인해주세요.");
+				swal("이름를 확인해주세요.");
 				$("#name").focus();
 			}else if(phoneCheck  == false){
-				alert("전화번호를 확인해주세요.");
+				swal("전화번호를 확인해주세요.");
 				$("#tel1").focus();
 			}else if(rrnCheck  == false){
-				alert("생년월일를 확인해주세요.");
+				swal("생년월일를 확인해주세요.");
 				$("#birthDay").focus();
 			}else if($("input:radio[name='gender']").is(":checked")==false){
-				alert("성별을 선택해주세요.");
+				swal("성별을 선택해주세요.");
 				$("input:radio[name='gender']").focus();
+			}else if($("#address1").val() == ""){
+				swal("주소을 입력해주세요.");
+				$("#adderess1").focus();
+			}else if($("#address2").val() == ""){
+				swal("상세 주소을 입력해주세요.");
+				$("#adderess2").focus();
 			}else if($("#emailId").val() == ""){
-				alert("이메일을 입력해주세요.");
+				swal("이이메일을 입력해주세요.");
 				$("#emailId").focus();
 			}else{
+				swal({
+	            	  title: "회원가입하시겠습니까?",
+	            	  text: "저희는 회원 탈퇴가 없습니다.",
+	            	  icon: "info",
+	            	  buttons: true,
+	            	  dangerMode: true,
+	            	})
+	            	.then((willDelete) => {
+	            	  if (willDelete) {
+	            	    swal("회원 가입 성공 하셨습니다.", {
+	            	      icon: "success",
+	            	    });
+	          		  $("#joinForm").submit();
+	            	  } else {
+	            		  return false;
+	            	  }
+	            	});
 			
-				$("#joinForm").submit();
 			}	
 		}
 	
