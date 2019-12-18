@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.FIFAOFFLINE.match.model.vo.SmsInfo;
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.player.model.vo.P_ENROLL;
 import com.kh.FIFAOFFLINE.player.model.vo.P_EN_LIST;
@@ -137,6 +138,16 @@ public class PlayerDao {
 	// 팀용병 모집인원이 0 이 되면 글 삭제
 	public int deletePlay() {
 		return sqlSession.delete("playerMapper.deletePlay");
+	}
+
+	// 문자 메세지 팀용병
+	public ArrayList<SmsInfo> SMSservice(int getrNum) {
+		return (ArrayList)sqlSession.selectList("playerMapper.SMSservice", getrNum);
+	}
+
+	// 문자 메세지 개인용병
+	public ArrayList<SmsInfo> SMSservice1(int geteNum) {
+		return (ArrayList)sqlSession.selectList("playerMapper.SMSservice1", geteNum);
 	}
 
 	

@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
   var $$$ = jQuery.noConflict();
 </script>
@@ -44,7 +45,7 @@
 				var dateCompare = dateSelect[0]+dateSelect[1]+dateSelect[2];
 				
 				 if(Number(dateNow)>Number(dateCompare)){
-					alert("지난 날짜를 선택할 수 없습니다.");
+					swal("지난 날짜를 선택할 수 없습니다.", "", "error");
 					return false;
 				}  	
 				if(confirm("날짜를 선택하시겠습니까?") == false){
@@ -545,27 +546,27 @@ input, select{
 <script type="text/javascript">
 	function submitCreate(){		
 		if($$("#playerTitle").val() == ""){
-			alert("용병 등록 제목을 입력하세요.");
-			$$("#basicLabel").click();
-			return false;
-		}else if($$("#cplace").html() == "장소를 선택하세요."){
-			alert("장소를 선택하세요.");
-			$$("#locationLabel").click();
-			return false;
-		}else if($$("#dayInfo").html() == "날짜를 선택하세요."){
-			alert("날짜를 선택하세요.");
-			$$("#timeLabel").click();
-			return false;
-		}else if($$("#mContent").val() == ""){
-			alert("남기실 말을 입력하세요.");
-			return false;
-		}else if($$("#skill").val() == ""){
-			alert("실력을 선택하세요.");
+			swal("용병 등록 제목을 입력하세요!", "", "error");
 			$$("#basicLabel").click();
 			return false;
 		}else if($$("#manner").val() == "") {
-			alert("매너를 선택하세요.");
+			swal("매너를 선택하세요!", "", "error");
 			$$("#basicLabel").click();
+			return false;
+		}else if($$("#skill").val() == ""){
+			swal("실력을 선택하세요!", "", "error");
+			$$("#basicLabel").click();
+			return false;
+		}else if($$("#cplace").html() == "장소를 선택하세요."){
+			swal("장소를 선택하세요!", "", "error");
+			$$("#locationLabel").click();
+			return false;
+		}else if($$("#dayInfo").html() == "날짜를 선택하세요."){
+			swal("날짜를 선택하세요!", "", "error");
+			$$("#timeLabel").click();
+			return false;
+		}else if($$("#mContent").val() == ""){
+			swal("남기실 말을 입력하세요!", "", "error");
 			return false;
 		}
 		$$("#createForm").submit();
@@ -611,7 +612,7 @@ searchPlaces();
 function searchPlaces() {
     var keyword = document.getElementById('keyword').value;
     if (!keyword.replace(/^\s+|\s+$/g, '')) {
-        alert('키워드를 입력해주세요!');
+    	swal("키워드를 입력하세요!", "", "error");
         return false;
     }
     // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
@@ -626,10 +627,10 @@ function placesSearchCB(data, status, pagination) {
         // 페이지 번호를 표출합니다
         displayPagination(pagination);
     } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-        alert('검색 결과가 존재하지 않습니다.');
+        swal("검색 결과가 존재하지 않습니다!", "", "error");
         return;
     } else if (status === kakao.maps.services.Status.ERROR) {
-        alert('검색 결과 중 오류가 발생했습니다.');
+    	swal("검색 결과 중 오류가 발생하였습니다!", "", "error");
         return;
     }
 }

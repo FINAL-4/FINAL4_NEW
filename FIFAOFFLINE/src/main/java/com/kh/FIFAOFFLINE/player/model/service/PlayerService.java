@@ -2,6 +2,7 @@ package com.kh.FIFAOFFLINE.player.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.FIFAOFFLINE.match.model.vo.SmsInfo;
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.player.model.vo.P_ENROLL;
 import com.kh.FIFAOFFLINE.player.model.vo.P_EN_LIST;
@@ -53,6 +54,10 @@ public interface PlayerService {
 	public int checkPersonApply(P_EN_LIST pel);
 
 	public int deletePlay();
+
+	public ArrayList<SmsInfo> SMSservice(int getrNum);
+
+	public ArrayList<SmsInfo> SMSservice1(int geteNum);
 
 	
 
