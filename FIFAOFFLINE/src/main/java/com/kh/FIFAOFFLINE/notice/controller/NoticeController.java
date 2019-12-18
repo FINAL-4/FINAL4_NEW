@@ -1,19 +1,22 @@
 package com.kh.FIFAOFFLINE.notice.controller;
 
 import java.io.File;
-import java.util.ArrayList;
+
+import java.io.IOException;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.RowBounds;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,15 +25,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
+import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.notice.model.exception.NoticeException;
 import com.kh.FIFAOFFLINE.notice.model.service.NoticeService;
 import com.kh.FIFAOFFLINE.notice.model.vo.Notice;
 import com.kh.FIFAOFFLINE.notice.model.vo.PageInfo;
-import com.kh.FIFAOFFLINE.common.Pagination;
-import com.kh.FIFAOFFLINE.member.model.vo.Member;
-import com.kh.FIFAOFFLINE.notice.model.exception.NoticeException;
-
-
+import com.kh.FIFAOFFLINE.notice.model.vo.Pagination;
+import com.kh.FIFAOFFLINE.notice.model.vo.Reply;
+import com.kh.FIFAOFFLINE.notice.model.vo.SearchCondition;
 
 @Controller
 public class NoticeController {
@@ -47,8 +49,9 @@ public class NoticeController {
 	NoticeService nService;
 	
 	@RequestMapping("nlist.do")
-	public ModelAndView noticeList(ModelAndView mv,
-									@RequestParam(value="page", required=false)Integer page) {
+	public ModelAndView boardList(ModelAndView mv,
+									@RequestParam(value="page", required=false) Integer page) {
+		// 마이바티스 때 했던 PageInfo와 Pagination을 그대로 쓰자.
 		
 		int currentPage = 1;
 		if(page != null) {
@@ -57,27 +60,28 @@ public class NoticeController {
 		
 		int listCount = nService.getListCount();
 		
-		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		
 		ArrayList<Notice> list = nService.selectList(pi);
-	
-		if(list != null && list.size() > 0) {
-			mv.addObject("list",list);
-			mv.addObject("pi",pi);
-			mv.setViewName("notice/noticeListView");
-			
-		}else {
-			throw new NoticeException("공지사항 목록 보기 실패!!");
-		}
 		
+		
+		/*
+		 * if(list != null && list.size() > 0) { // 공지게시글이 있다면
+		 */			mv.addObject("list",list);
+			mv.addObject("pi", pi);
+			mv.setViewName("notice/noticeListView");
+		/*}else {
+			throw new NoticeException("공지게시글 전체 조회 실패!!");
+		}*/
 		return mv;
+		
 	}
 	
 	@RequestMapping("ndetail.do")
 	public String noticeDetail(Model model, int nId, Notice n) {
+		
+		nService.addReadCount(nId);
 		n = nService.selectOne(nId);
-//		System.out.println(n);
 		if(n!=null) {
 			model.addAttribute("notice", n);
 		}else {
@@ -105,7 +109,7 @@ public class NoticeController {
 			String savePath = saveFile(file, request);
 			
 			if(savePath != null) {	// 파일이 잘 저장된 경우
-				n.setFilePath(file.getOriginalFilename()); 
+				n.setFilePath(file.getOriginalFilename());
 			}
 		}
 		
@@ -134,6 +138,8 @@ public class NoticeController {
 		{
 			folder.mkdirs();
 		}
+		
+		
 		
 		// 공지글은 굳이 파일명 중복 제거는 신경쓰지 말고 게시판에서 파일명 rename하는거 하자!
 		// 공지글은 보통 관리자만 쓰니깐..
@@ -169,6 +175,9 @@ public class NoticeController {
 		 * 
 		 */
 		
+		System.out.println(n);
+		
+		
 		 if(reloadFile != null && !reloadFile.isEmpty()) {	// 새로 업로드한 파일이 있다면
 			 if(n.getFilePath() != null) {	// 기존의 파일이 존재했을 경우 기존 파일을 삭제해 주자.
 				 deleteFile(n.getFilePath(), request);
@@ -183,6 +192,7 @@ public class NoticeController {
 		 }
 		 
 		 int result = nService.updateNotice(n);
+		 
 		 
 		 if(result > 0) {
 			 return "redirect:nlist.do";
@@ -220,6 +230,46 @@ public class NoticeController {
 		}
 			
 	}
- 	
+	
+	
+	//댓글 관련 부분
+	//댓글 리스트 불러오기
+	@RequestMapping("rList.do")
+	public void getReplyList(HttpServletResponse response, int nId) throws JsonIOException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		ArrayList<Reply> rList = nService.selectReplyList(nId);
+		
+	
+		for(Reply r: rList) {
+			r.setrContent(r.getrContent());
+		}
+		
+		Gson gson =new GsonBuilder().setDateFormat("yyyyMMddHHmmss").create();
+		gson.toJson(rList, response.getWriter());
+	}
+	
+	
+	@RequestMapping("addReply.do")
+	@ResponseBody
+	public String addReply(Reply r, HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String rWriter = loginUser.getUserId();
+		r.setrWriter(rWriter);
+		
+		System.out.println(r);
+		
+		int result = nService.insertReply(r);
+		
+		if(result > 0) {
+			return "success";
+		}else {
+			throw new NoticeException("댓글 등록 실패!");
+		}
+	}
+
+	
+
+	
 	
 }

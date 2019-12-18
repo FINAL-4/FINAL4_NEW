@@ -7,9 +7,19 @@
   	<result property="nTitle" column="NTITLE"/>
   	<result property="nWriter" column="NWRITER"/>
   	<result property="nContent" column="NCONTENT"/>
-  	<result property="nCreateDate" column="N_CREATE_DATE"/>
-  	<result property="nModifyDate" column="N_MODIFY_DATE"/>
-  	<result property="filePath" column="FILE_PATH"/>
+  	<result property="nCreateDate" column="NCREATEDATE"/>
+  	<result property="nModifyDate" column="NMODIFYDATE"/>
+  	<result property="filePath" column="FILEPATH"/>
+  </resultMap>
+  
+  <resultMap type="Reply" id="replyResultSet">
+  	<id property="rId" column="RID"/>
+  	<result property="rContent" column="RCONTENT"/>
+  	<result property="refBid" column="REF_BID"/>
+  	<result property="rWriter" column="RWRITER"/>
+  	<result property="rCreateDate" column="RCREATEDATE"/>
+  	<result property="rModifyDate" column="RMODIFYDATE"/>
+  	<result property="rStatus" column="RSTATUS"/>
   </resultMap>
   
   <select id="getListCount" resultType="_int">
@@ -31,25 +41,53 @@
   	WHERE NID=#{nId}
   </select>
   
-  <insert id="insertNotice" parameterType="Notice">
+   <insert id="insertNotice" parameterType="Notice">
+<!-- 	<insert id="insertNotice" parameterType="Notice"> 
+		INSERT INTO NOTICE VALUES(
+		SEQ_NID.NEXTVAL, #{userName}, #{nTitle}, #{nContent}, #{nWriter}, #{nCount}, SYSDATE, SYSDATE, 'Y', #{filePath}
+    </insert> -->
+    
   	INSERT INTO NOTICE VALUES(
-  		SEQ_NID.NEXTVAL, #{nTitle}, #{nWriter}, #{nContent}, SYSDATE, SYSDATE, #{filePath}
+  		SEQ_NID.NEXTVAL, '1', #{nTitle}, #{nContent}, #{nWriter}, #{nCount}, SYSDATE, SYSDATE, 'Y', #{filePath}
   	)
-  </insert>
+  </insert> 
   
+  
+ <update id="updateCount" parameterType="_int"> 
+	UPDATE NOTICE SET NCOUNT = NCOUNT + 1 WHERE NID=#{nId}
+</update>
+    
   <update id="updateNotice" parameterType="Notice">
- 	UPDATE NOTICE
+<!--  	UPDATE NOTICE
  	SET NTITLE=#{nTitle},
  		NCONTENT=#{nContent},
- 		FILE_PATH=#{filePath}
- 	WHERE NID=#{nId} 	
+ 		FILEPATH=#{filePath}
+ 	WHERE NID=#{nId} 	 -->
+ 	<![CDATA[
+ 	UPDATE NOTICE
+ 	SET NTITLE=#{nTitle},
+ 	NCONTENT=#{nContent},
+ 	FILEPATH=#{filePath}
+  	WHERE NID=#{nId} 	 
+ 		]]>
   </update>
   
   <delete id="deleteNotice" parameterType="_int">
   DELETE NOTICE 
   WHERE NID=#{nId} 	
-  
   </delete>
   
+ <select id="selectReplyList" resultMap="replyResultSet" parameterType="_int">
+  	SELECT *
+  	FROM REPLY R
+  	JOIN NOTICE N ON (R.REF_BID=N.NID)
+  	WHERE REF_BID=#{nId}
+  	ORDER BY RID DESC
+ </select>
+  
+<insert id="insertReply" parameterType="Reply">
+	INSERT INTO REPLY VALUES
+	(SEQ_RID.NEXTVAL, #{rContent}, #{refBid}, #{rWriter}, SYSDATE, SYSDATE, DEFAULT)
+</insert>
   
 </mapper>
