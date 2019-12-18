@@ -11,6 +11,17 @@
 <title>Insert title here</title>
 
 <style>
+	
+	.swal-button {
+	  padding: 7px 19px;
+	  border-radius: 2px;
+	  background-color: black;
+	  font-size: 12px;
+	  border: 1px solid white;
+	  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+	  border-radius: 4px;
+	}
+	
 	#outer{
 		/* border: 3px solid black; */
 		width: 100%;
