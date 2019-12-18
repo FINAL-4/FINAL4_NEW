@@ -299,8 +299,7 @@
 										<td><img
 											src="${contextPath }/resources/nuploadFiles/${notice.filePath}">
 											<br> <a
-											href="${contextPath }/resources/nuploadFiles/${notice.filePath}"
-											download> ${notice.filePath } </a></td>
+											href="${contextPath }/resources/nuploadFiles/${notice.filePath}" download> ${notice.filePath } </a></td>
 									</tr>
 								</c:if>
 

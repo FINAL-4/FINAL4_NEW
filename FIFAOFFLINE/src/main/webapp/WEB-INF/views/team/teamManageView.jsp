@@ -1225,6 +1225,8 @@ $('.agree').click(function(){
 					if(data > 0){
 						alert("가입되었습니다.");
 						$(this).parent('.teamTR').remove();
+						
+						location.href='managedTeam.tm';
 					}else{
 						alert("이미 가입된 팀입니다.");
 					}
