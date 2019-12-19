@@ -2,6 +2,7 @@ package com.kh.FIFAOFFLINE.team.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.FIFAOFFLINE.match.model.vo.ScoreInfo;
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.team.model.vo.PageInfo;
 import com.kh.FIFAOFFLINE.team.model.vo.Team;
@@ -69,6 +70,24 @@ public interface TeamService {
 	ArrayList<Team> selectAllTeam();
 
 	ArrayList<TeamMember> moreTeamMember(int teamNo);
+
+	int inviteTeam(TeamJoinedMember tjm);
+
+	ArrayList<Team> selectInviteMe(int userNo);
+
+	Team getModalTeam(int teamNo);
+
+	int inviteAgree(TeamJoinedMember tjm);
+
+	Team teamDetail2(int teamNo);
+
+	int updateTeamInfo(Team t);
+
+	int deleteTeam(int teamNo);
+
+	int deleteTeamM(int teamNo);
+
+	int withdrawal(TeamMember tm);
 	
 	
 
