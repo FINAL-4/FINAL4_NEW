@@ -44,13 +44,24 @@
 				var dateSelect = startDate.format().split("-");
 				var dateCompare = dateSelect[0]+dateSelect[1]+dateSelect[2];
 				
-				 if(Number(dateNow)>Number(dateCompare)){
+				if(Number(dateNow)>Number(dateCompare)){
 					swal("지난 날짜를 선택할 수 없습니다.", "", "error");
 					return false;
 				}  	
-				if(confirm("날짜를 선택하시겠습니까?") == false){
-					return false;
-				}
+				swal({
+					 title: "날짜를 선택하시겠습니까 ? ",
+					 buttons: true,
+					 dangerMode: true,
+				}).then((willDelete) => {
+					  if (willDelete) {
+					    swal("날짜를 선택 완료되었습니다!", {
+					      icon: "success",
+					    });
+					  } else {
+					    swal("날짜선택을 취소했습니다!");
+					  }
+					});
+				
 				console.log(startDate.format(), endDate.format());
 				sDate = startDate.format();
 				eDate = endDate.format();
@@ -704,9 +715,19 @@ function getListItem(index, places) {
     el.innerHTML = itemStr;
     el.className = 'item';
 	el.onclick = function (){
-		if(confirm("장소를 선택하시겠습니까?") == false){
-			return false;
-		}
+		swal({
+			 title: "장소를 선택하시겠습니까 ? ",
+			 buttons: true,
+			 dangerMode: true,
+		}).then((willDelete) => {
+			  if (willDelete) {
+			    swal("장소가 선택 완료되었습니다!", {
+			      icon: "success",
+			    });
+			  } else {
+			    swal("장소선택을 취소했습니다!");
+			  }
+			});
 		$$("#cplace").html(places.place_name);
 		$$("#cplaceName").val(places.place_name);
 		$$("#cplaceX").val(places.x);

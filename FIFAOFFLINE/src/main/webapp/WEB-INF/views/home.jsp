@@ -127,14 +127,17 @@
 				<div class="mainPage1">
 					<ul class="slider">
 						<li>
-							<img src="resources/images/slide1.jpg" alt="slide1"/>
+							<img src="resources/images/33333.png" alt="slide1" style="height:800px;"/>
 						</li>
 						<li>
-						    <img src="resources/images/slide2.jpg" alt="slide2"/>
+						    <img src="resources/images/11111.png" alt="slide2" style="height:800px;"/>
 						</li>
 						<li>
-						    <img src="resources/images/slide3.jpg"  alt="slide3"/>
+						    <img src="resources/images/22222.png"  alt="slide3" style="height:800px;"/>
 						</li>
+						<li>
+							<img src="resources/images/44444.png" alt="slide4" style="height:800px;"/>
+						</li> 
 					</ul>
 				</div>
 			</div>
@@ -273,7 +276,7 @@ $.ajax({
 $$$(".slider").slider({
 
 	  // animation speed
-	   speed: 1500,
+	   speed: 1000,
 
 	  // animation delay
 	   delay: 15000,

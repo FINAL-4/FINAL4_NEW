@@ -234,15 +234,15 @@
   		SELECT *
   		FROM MEMBER M
   		JOIN P_LIST P ON(M.USER_NO = P.USER_NO)
-  		WHERE R_NUM=#{rNum}
+  		WHERE P.USER_NO=#{userNo}
   	</select>
   	
   	<!-- 문자메세지 개인용병 -->
   	<select id="SMSservice1" resultMap="smsInfoResultSet">
   		SELECT *
   		FROM MEMBER M
-  		JOIN P_EN_LIST P ON(M.USER_NO = P.USER_NO)
-  		WHERE E_NUM=#{eNum}
+  		JOIN P_ENROLL P ON(M.USER_NO = P.USER_NO)
+  		WHERE P.USER_NO=#{userNo}
   	</select>
  
 </mapper>

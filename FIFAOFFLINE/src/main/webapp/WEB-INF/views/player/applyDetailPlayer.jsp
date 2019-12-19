@@ -148,7 +148,7 @@
 #detailContent1 td{
 	width:400px;
 	margin-left: 15px;
-	border-bottom: 1px solid lightgrey;
+	border-bottom: 2px solid lightgrey;
 }
 h6{
 	margin-top:0px;
@@ -162,7 +162,7 @@ h6{
 	z-index: 1; /* Sit on top */
 	left: 0;
 	top: 0;
-	width: 50%; /* Full width */
+	width: 60%; /* Full width */
 	height: 100%; /* Full height */
 	overflow: auto; /* Enable scroll if needed */
 	background-color: rgb(0,0,0); /* Fallback color */
@@ -174,7 +174,7 @@ h6{
 	background-color: #fefefe;
 	margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
 	border: 1px solid #888;
-	width: 50%; /* Could be more or less, depending on screen size */
+	width: 60%; /* Could be more or less, depending on screen size */
 }
 /* The Close Button (x) */
 .close {
@@ -224,8 +224,9 @@ h6{
 	font-size : 2.5em;
 	border-bottom: 2px solid grey;
 	text-align: center;
-	border-spacing: 35px;
+	border-spacing: 20px;
 }
+
 #listTr, #listTd{
 	border-bottom:2px solid grey;
 }
@@ -334,10 +335,10 @@ h6{
     	<table id = listTable>
     	<c:if test="${!empty pList }">
     	<thead>
-    		<tr id = listTr>
+    		<tr id = listTr >
     			<th> 프로필사진 </th>
     			<th> 이름 </th>
-    			<th> 포지션 </th>
+    			<th style="width:90px;"> 포지션 </th>
     			<th> 번호 </th>
     			<th></th>
     			<th></th>
@@ -525,7 +526,6 @@ function applyBtn(){
 				} else {
 					swal({
 						  title: "정말로 신청하시겠습니까 ? ",
-						  icon: "warning",
 						  buttons: true,
 						  dangerMode: true,
 						})
@@ -548,21 +548,51 @@ function applyBtn(){
 }
 
 function deleteBtn(){
-	var deleteBtn = confirm("정말로 삭제하시겠습니까 ?");
+	swal({
+		  title: "정말로 삭제하시겠습니까 ? ",
+		  buttons: true,
+		  dangerMode: true,
+		})
+		.then((willDelete) => {
+		  if (willDelete) {
+			location.href='${tplDelete}'
+		    swal("삭제가 완료되었습니다!", {
+		      icon: "success",
+		    });
+		  } else {
+		    swal("삭제를 취소했습니다!");
+		  }
+		});
+	/* var deleteBtn = confirm("정말로 삭제하시겠습니까 ?");
 	if(deleteBtn){
 		location.href='${tplDelete}';
 	}else{
 		return false;
-	}
+	} */
 }
 
 function modifyBtn(){
-var modifyBtn = confirm("정말로 수정하시겠습니까 ?");
+	swal({
+		  title: "정말로 수정하시겠습니까 ? ",
+		  buttons: true,
+		  dangerMode: true,
+		})
+		.then((willDelete) => {
+		  if (willDelete) {
+			location.href='${tplModify}'
+		   swal("수정이 완료되었습니다!", {
+		      icon: "success",
+		    });
+		  } else {
+		    swal("수정을 취소했습니다!");
+		  }
+		});
+/* var modifyBtn = confirm("정말로 수정하시겠습니까 ?");
 	if(modifyBtn){
 		location.href='${tplModify}';
 	} else {
 		return false;
-	}
+	} */
 }
 </script>
 
