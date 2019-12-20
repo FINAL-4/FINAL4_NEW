@@ -61,6 +61,17 @@
 		<result property="proFile" column="PROFILE"/>
 	</resultMap>
 	
+	<resultMap type="P_EN_LIST" id="pEnListResultSet">
+		<id property="eNum" column="E_NUM"/>
+		<result property="userNo" column="USER_NO"/>
+		<result property="eAccept" column="E_ACCEPT"/>
+	</resultMap>
+	
+	<resultMap type="SmsInfo" id="smsInfoResultSet">
+		<result property="phone" column="PHONE"/>
+		<result property="userName" column="USER_NAME"/>
+  	</resultMap>
+	
 	<!-- 팀용병 리스트 보여주기 쿼리문 -->
 	<select id="teamPlayList" resultMap="recruitResultSet">
 		SELECT *
@@ -151,6 +162,12 @@
 		WHERE USER_NO=#{userNo}
   	</update>
   	
+  	<!-- 개인 용병 신청 중복 검사 -->
+  	<insert id="checkPersonApply" parameterType="P_EN_LIST">
+  		INSERT INTO P_EN_LIST
+  		VALUES(${eNum}, #{userNo}, DEFAULT)
+  	</insert>
+  	
   	<!-- 팀 용병 신청하기 쿼리문 -->
   	<insert id="teamPlayApply" parameterType="P_LIST">
   		INSERT INTO P_LIST
@@ -172,9 +189,9 @@
   	</select>
   	
   	<!-- 개인 용병 신청 AJAX 쿼리문 -->
-  	<select id="ajaxApplyPerson" parameterType="P_ENROLL" resultType="_int">
+  	<select id="ajaxApplyPerson" parameterType="P_EN_LIST" resultType="_int">
   		SELECT COUNT(*)
-  		FROM P_ENROLL
+  		FROM P_EN_LIST
   		WHERE E_NUM=#{eNum} AND USER_NO=#{userNo}
   	</select>
   	
@@ -182,7 +199,7 @@
   	<select id="checkTeamSelect" parameterType="_int" resultType="_int">
   		SELECT COUNT(*)
   		FROM P_RECRUIT
-  		WHERE R_NUM=#{rNum} AND R_STATUS='N'
+  		WHERE TEAM_NO=#{rNum} AND R_STATUS='N'
   	</select>
   	
   	<!-- 신청 리스트에 신청 한 사람 없어지는 거 -->
@@ -203,7 +220,29 @@
   	<update id="deadlineUpdate" parameterType="_int">
   		UPDATE P_RECRUIT
   		SET DEADLINE=DEADLINE-1
-  		WHERE R_NUM=#{rNum} AND TEAM_NO=#{teamNo}
+  		WHERE R_NUM=#{rNum}
   	</update>
+  	
+  	<!-- 팀 용병 모집인원 0 이면 글 삭제 -->
+  	<delete id="deletePlay" parameterType="_int">
+  		DELETE FROM P_RECRUIT
+  		WHERE DEADLINE=0
+  	</delete>
+  	
+  	<!-- 문자메세지 팀용병 -->
+  	<select id="SMSservice" resultMap="smsInfoResultSet">
+  		SELECT *
+  		FROM MEMBER M
+  		JOIN P_LIST P ON(M.USER_NO = P.USER_NO)
+  		WHERE P.USER_NO=#{userNo}
+  	</select>
+  	
+  	<!-- 문자메세지 개인용병 -->
+  	<select id="SMSservice1" resultMap="smsInfoResultSet">
+  		SELECT *
+  		FROM MEMBER M
+  		JOIN P_ENROLL P ON(M.USER_NO = P.USER_NO)
+  		WHERE P.USER_NO=#{userNo}
+  	</select>
  
 </mapper>

@@ -183,7 +183,7 @@
 						<a class="menu__item" href="goMatch.ma" style = "border: none;"> <span class="menu__item-name">매칭     </span></a>
 
 						<c:if test="${!empty sessionScope.loginUser }">
-						<a class="menu__item" href="mypage.me" style = "border: none;"> <span class="menu__item-name">마이페이지     </span></a>
+						<a class="menu__item" href="mypage.me" style = "border: none;"> <span class="menu__item-name">마이페이지   </span></a>
 						</c:if>
 
 						<span>
@@ -192,9 +192,12 @@
 						</c:if>
 						<c:if test="${!empty sessionScope.loginUser }">
 						<c:url var = "logout" value="logout.me"/>
-						<img id = "logout-logo" src="resources/images/logout.png" width="30px;" height="30px;" onclick="location.href='${logout}'">
+						<label style="font-size : 24px;"> ${loginUser.userName } :) </label>
+						<img id = "logout-logo" src="resources/images/logout.png" width="30px;" height="30px;" onclick="location.href='${logout}'" style="margin-left : 40px;">
 						</c:if>
 						</span> 
+						
+						
 
 						
 					</nav>
@@ -262,7 +265,7 @@
 					$$("#loginInfo").css("color","red");
 					$$("#loginInfo").html("일치하는 정보가 없습니다.");
 				}else{
-				
+
 					$$("#loginForm").submit();
 				}
 			}

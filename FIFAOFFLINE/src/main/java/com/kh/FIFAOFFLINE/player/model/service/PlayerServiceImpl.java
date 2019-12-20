@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.FIFAOFFLINE.match.model.vo.SmsInfo;
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.player.model.dao.PlayerDao;
 import com.kh.FIFAOFFLINE.player.model.vo.P_ENROLL;
+import com.kh.FIFAOFFLINE.player.model.vo.P_EN_LIST;
 import com.kh.FIFAOFFLINE.player.model.vo.P_LIST;
 import com.kh.FIFAOFFLINE.player.model.vo.P_RECRUIT;
 
@@ -93,18 +95,8 @@ public class PlayerServiceImpl implements PlayerService{
 	}
 
 	@Override
-	public int ajaxApplyPerson(P_ENROLL pe) {
-		return pDao.ajaxApplyPerson(pe);
-	}
-
-	@Override
 	public int checkTeamSelect(int mt) {
 		return pDao.checkTeamSelect(mt);
-	}
-
-	@Override
-	public int personApply(P_ENROLL pe) {
-		return pDao.personApply(pe);
 	}
 
 	@Override
@@ -121,6 +113,42 @@ public class PlayerServiceImpl implements PlayerService{
 	public int deadlineUpdate(int rNum) {
 		return pDao.deadlineUpdate(rNum);
 	}
+
+	@Override
+	public int cancelPlay(P_LIST pl) {
+		return pDao.cancelPlay(pl);
+	}
+
+	@Override
+	public int ajaxApplyPerson(P_EN_LIST pe) {
+		return pDao.ajaxApplyPerson(pe);
+	}
+
+	@Override
+	public int personApply(P_ENROLL pe) {
+		return pDao.personApply(pe);
+	}
+
+	@Override
+	public int checkPersonApply(P_EN_LIST pel) {
+		return pDao.checkPersonApply(pel);
+	}
+
+	@Override
+	public int deletePlay() {
+		return pDao.deletePlay();
+	}
+
+	@Override
+	public ArrayList<SmsInfo> SMSservice(int getrNum) {
+		return pDao.SMSservice(getrNum);
+	}
+
+	@Override
+	public ArrayList<SmsInfo> SMSservice1(int geteNum) {
+		return pDao.SMSservice1(geteNum);
+	}
+
 
 	
 

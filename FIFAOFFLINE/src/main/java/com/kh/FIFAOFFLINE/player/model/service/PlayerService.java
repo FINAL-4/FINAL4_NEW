@@ -2,8 +2,10 @@ package com.kh.FIFAOFFLINE.player.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.FIFAOFFLINE.match.model.vo.SmsInfo;
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.player.model.vo.P_ENROLL;
+import com.kh.FIFAOFFLINE.player.model.vo.P_EN_LIST;
 import com.kh.FIFAOFFLINE.player.model.vo.P_LIST;
 import com.kh.FIFAOFFLINE.player.model.vo.P_RECRUIT;
 
@@ -37,15 +39,25 @@ public interface PlayerService {
 
 	public int checkTeamSelect(int mt);
 
-	public int ajaxApplyPerson(P_ENROLL pe);
-
-	public int personApply(P_ENROLL pe);
-
 	public int ald(P_LIST pl);
 
 	public int agreeResult(Member m);
 
 	public int deadlineUpdate(int rNum);
+
+	public int cancelPlay(P_LIST pl);
+
+	public int ajaxApplyPerson(P_EN_LIST pe);
+
+	public int personApply(P_ENROLL pe);
+
+	public int checkPersonApply(P_EN_LIST pel);
+
+	public int deletePlay();
+
+	public ArrayList<SmsInfo> SMSservice(int getrNum);
+
+	public ArrayList<SmsInfo> SMSservice1(int geteNum);
 
 	
 

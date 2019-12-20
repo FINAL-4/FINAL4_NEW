@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.kh.FIFAOFFLINE.common.Pagination;
+import com.kh.FIFAOFFLINE.match.model.service.MatchService;
+import com.kh.FIFAOFFLINE.match.model.vo.ScoreInfo;
 import com.kh.FIFAOFFLINE.member.model.exception.MemberException;
 import com.kh.FIFAOFFLINE.member.model.service.MemberService;
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
@@ -49,6 +52,9 @@ public class TeamController {
 	
 	@Autowired
 	private MemberService mService;
+	
+	@Autowired
+	private MatchService maService;
 	
 	@RequestMapping("tlist.tm")
 	public ModelAndView teamList(ModelAndView mv, HttpSession session, TeamFilter tf,
@@ -168,6 +174,37 @@ public class TeamController {
 		ArrayList<TeamJoinedMember> joinList = tService.selectJoinList(tNo);
 		ArrayList<TeamMember> memberList = tService.selectMemberList(tNo);
 		
+String scoreStr = "";
+		
+		int winCnt = 0;
+		int loseCnt = 0;
+		int drawCnt = 0;
+		
+		ArrayList<ScoreInfo> score = maService.selectTeamScore(teamNo);
+		
+		int allScore = score.size();
+		
+		if(score.isEmpty()) {
+			scoreStr = "전적이 없습니다.";
+		}else {
+			for(int i=0; i<score.size(); i++) {
+				if(score.get(i).getResult().equals("승")) {
+					winCnt++;
+				}else if(score.get(i).getResult().equals("무")) {
+					drawCnt++;
+				}else {
+					loseCnt++;
+				}
+			}
+			scoreStr = "전적 : "+ allScore +"전" + winCnt+"승" + drawCnt + "무" + loseCnt + "패";
+		}
+		
+		System.out.println("전적 : " + scoreStr);
+		
+		System.out.println("t : " + t);
+		
+		mv.addObject("scoreStr",scoreStr);
+		
 		if(t != null) {
 			mv.addObject("t",t);
 			mv.addObject("joinList",joinList);
@@ -219,14 +256,14 @@ public class TeamController {
 		
 		int deleteResult = tService.joinedAgree(tjm);    // <- 팀원 신청 리스트에서 해당 사람 없어지는거 
 		if(deleteResult>0) {
-			result = tService.teamJoin(tjm);  // <- 팀원에 넣은거 
-			updateCount = tService.updateCount(teamNo); // <- 팀원 모집수를 -1 한거
-			deleteAD = tService.deleteAD();  // <- 팀원 모집수가 0 이면 글이 없어지는거 
-			deleteTJM = tService.deleteTJM(teamNo); // <- 신청리스트에서 그 사람 없어지는거 (왜 있는거지??)
-			
-			// 1. 팀원 모집수가 1이 남았다.
-			//  - 신청한 인원은 총 4명이다.  
-			//  - 그 중 한명만 수락했을 때 -> 
+
+			result = tService.teamJoin(tjm);
+			updateCount = tService.updateCount(teamNo);
+			deleteAD = tService.deleteAD();
+			if(deleteAD > 0) {
+				deleteTJM = tService.deleteTJM(teamNo);
+			}
+
 		}
 		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
@@ -354,10 +391,10 @@ public class TeamController {
 			ArrayList<Team> myTeam = tService.selectMyTeam(userNo);
 			session.setAttribute("myTeam", myTeam);
 			
-			return "team/teamManageView";
+			return "redirect:managedTeam.tm";
 		}
 		
-		return "team/teamManageView";
+		return "redirect:managedTeam.tm";
 		
 	}
 	
@@ -519,8 +556,10 @@ public class TeamController {
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int userNo = loginUser.getUserNo();
 		
+		ArrayList<Team> inviteMeTeam = tService.selectInviteMe(userNo);
 		ArrayList<Team> teamLeader = tService.selectTeamLeader(userNo);
 		
+		mv.addObject("inviteMeTeam",inviteMeTeam);
 		mv.addObject("tList",tList);
 		mv.addObject("teamLeader",teamLeader);
 		mv.addObject("mList",mList);
@@ -543,15 +582,331 @@ public class TeamController {
 	@RequestMapping("moreTeamMember.tm")
 	public void moreTeamMember(int teamNo, HttpServletResponse response) throws JsonIOException, IOException {
 		response.setContentType("application/json;charset=utf-8");
+		
 		ArrayList<TeamMember> tMember = tService.moreTeamMember(teamNo);
 		
-		System.out.println("tMember : " + tMember);
+		JSONArray jArr = new JSONArray();
+		JSONArray jArr2 = new JSONArray();
+		
+		JSONObject jObj2 = new JSONObject();
+		
+		JSONObject sendJson = new JSONObject();
+		
+		String scoreStr = "";
+		
+		int winCnt = 0;
+		int loseCnt = 0;
+		int drawCnt = 0;
+		
+		ArrayList<ScoreInfo> score = maService.selectTeamScore(teamNo);
+		
+		int allScore = score.size();
+		
+		if(score.isEmpty()) {
+			scoreStr = "전적이 없습니다.";
+		}else {
+			for(int i=0; i<score.size(); i++) {
+				if(score.get(i).getResult().equals("승")) {
+					winCnt++;
+				}else if(score.get(i).getResult().equals("무")) {
+					drawCnt++;
+				}else {
+					loseCnt++;
+				}
+			}
+			scoreStr = "전적 : "+ allScore +"전" + winCnt+"승" + drawCnt + "무" + loseCnt + "패";
+		}
+		
+		for(TeamMember t:tMember) {
+			JSONObject jObj = new JSONObject();
+			
+			jObj.put("teamNo",t.getTeamNo());
+			jObj.put("userNo",t.getUserNo());
+			jObj.put("userName",t.getUserName());
+			jObj.put("position",t.getPosition());
+			jObj.put("profile",t.getProfile());
+			jObj.put("t_grade",t.getT_Grade());
+			
+			
+			jArr.add(jObj);	//	리스트 jobj로 만들어서 jArr에 하나 더 담고
+		}
+		
+		jObj2.put("scoreStr", scoreStr);
+		jArr2.add(jObj2);
+		
+		sendJson.put("tMember",jArr);
+		sendJson.put("scoreStr",jArr2);
+		
+		System.out.println("sendJson : " + sendJson);
+		
+		//	jArr 2개를 보낼 jObj에 담고
+
+		PrintWriter out = response.getWriter(); 
+		out.print(sendJson); 
+		out.flush();
+		out.close();
+		
+		
+	
+	}
+	
+	@RequestMapping("choiceTeamMember.tm")
+	public void choiceTeamMember(int teamNo, HttpServletResponse response) throws JsonIOException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		ArrayList<TeamMember> tMember = tService.moreTeamMember(teamNo);
+		
+		int[] tNo = new int[tMember.size()];
+		
+		for(int i=0; i<tMember.size(); i++) {
+			tNo[i] = tMember.get(i).getUserNo();
+		}
+		
+		System.out.println("tNo : " + Arrays.toString(tNo));
 		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-		gson.toJson(tMember,response.getWriter());
+		gson.toJson(tNo,response.getWriter());
 	
+	}
+	
+	@RequestMapping("inviteTeam.tm")
+	public void inviteTeam(int[] sendArr, int teamNo, HttpServletResponse response) throws JsonIOException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		System.out.println("sendArr : " + Arrays.toString(sendArr));
+		System.out.println("teamNo : " + teamNo);
+		int inviteResult = 0;
+		TeamJoinedMember tjm = new TeamJoinedMember();
+		
+		tjm.setTeamNo(teamNo);
+		
+		for(int i=0; i<sendArr.length; i++) {
+			
+			tjm.setUserNo(sendArr[i]);
+			inviteResult += tService.inviteTeam(tjm);
+		}
+		
+		System.out.println("inviteResult : " + inviteResult);
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(inviteResult,response.getWriter());
+	
+	}
+	
+	@RequestMapping("modalTeam.tm")
+	public void modalTeam(int teamNo,HttpServletResponse response)  throws JsonIOException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		Team t = tService.getModalTeam(teamNo);
+		
+		String scoreStr = "";
+		
+		int winCnt = 0;
+		int loseCnt = 0;
+		int drawCnt = 0;
+		
+		ArrayList<ScoreInfo> score = maService.selectTeamScore(teamNo);
+		
+		int allScore = score.size();
+		
+		if(score.isEmpty()) {
+			scoreStr = "전적이 없습니다.";
+		}else {
+			for(int i=0; i<score.size(); i++) {
+				if(score.get(i).getResult().equals("승")) {
+					winCnt++;
+				}else if(score.get(i).getResult().equals("무")) {
+					drawCnt++;
+				}else {
+					loseCnt++;
+				}
+			}
+			scoreStr = "전적 : "+ allScore +"전" + winCnt+"승" + drawCnt + "무" + loseCnt + "패";
+		}
+		
+		System.out.println("전적 : " + scoreStr);
+		
+		JSONArray jArr2 = new JSONArray();
+		
+		JSONObject jObj2 = new JSONObject();
+		
+		jObj2.put("teamName",t.getTeamName());
+		jObj2.put("teamArea",t.getTeamArea());
+		jObj2.put("teamImage",t.getTeamImage());
+		jObj2.put("userName",t.getUserName());
+		jObj2.put("scoreStr",scoreStr);
+		
+
+		PrintWriter out = response.getWriter(); out.print(jObj2); 
+		out.flush();
+		out.close();
+		
+	}
+	
+	@RequestMapping("inviteAgree.tm")
+	public void inviteAgree(int teamNo, HttpServletResponse response, HttpSession session) throws JsonIOException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		TeamJoinedMember tjm = new TeamJoinedMember();
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int userNo = loginUser.getUserNo();
+		
+		tjm.setUserNo(userNo);
+		tjm.setTeamNo(teamNo);
+		
+		int teamJoin = 0;
+		int deleteInvite = tService.inviteAgree(tjm);
+		
+		if(deleteInvite > 0) {
+			teamJoin = tService.teamJoin(tjm);
+		}
+		
+		if(teamJoin > 0) {
+			session.removeAttribute("myTeam");
+			
+			ArrayList<Team> myTeam = tService.selectMyTeam(userNo);
+			session.setAttribute("myTeam", myTeam);
+			
+		}
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(teamJoin,response.getWriter());
+	
+	}
+	
+	@RequestMapping("updateTeamInfo.tm")
+	public ModelAndView updateTeamInfo(ModelAndView mv, HttpSession session, int teamNo) {
+		
+		Team t = tService.teamDetail2(teamNo);
+		
+		String scoreStr = "";
+		
+		int winCnt = 0;
+		int loseCnt = 0;
+		int drawCnt = 0;
+		
+		ArrayList<ScoreInfo> score = maService.selectTeamScore(teamNo);
+		
+		int allScore = score.size();
+		
+		if(score.isEmpty()) {
+			scoreStr = "전적이 없습니다.";
+		}else {
+			for(int i=0; i<score.size(); i++) {
+				if(score.get(i).getResult().equals("승")) {
+					winCnt++;
+				}else if(score.get(i).getResult().equals("무")) {
+					drawCnt++;
+				}else {
+					loseCnt++;
+				}
+			}
+			scoreStr = "전적 : "+ allScore +"전" + winCnt+"승" + drawCnt + "무" + loseCnt + "패";
+		}
+		
+		System.out.println("전적 : " + scoreStr);
+		
+		System.out.println("t : " + t);
+		
+		mv.addObject("scoreStr",scoreStr);
+		mv.addObject("t",t);
+		mv.setViewName("team/updateTeamInfoView");
+		
+		return mv;
+	}
+	
+	@RequestMapping("updateTeam.tm")
+	public String updateTeam(HttpServletRequest request, Team t, String ImgStr, HttpSession session,
+			@RequestParam(value="uploadFile",required = false) MultipartFile file) {
+		
+		System.out.println("파일명 : " +file);
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int userNo = loginUser.getUserNo();
+		t.setUserNo(userNo);
+		 
+		String teamImage = saveFile(file, request);
+		
+		if(file.getOriginalFilename().equals("")){ 
+			t.setTeamImage(ImgStr);
+		}else {
+			if(teamImage != null) { // 파일이 잘 저장된 경우
+				t.setTeamImage(file.getOriginalFilename()); 
+				} 
+				  
+		}
+		
+		int updateInfo = tService.updateTeamInfo(t);
+		
+		if(updateInfo > 0) {
+			session.removeAttribute("myTeam");
+			
+			ArrayList<Team> myTeam = tService.selectMyTeam(userNo);
+			session.setAttribute("myTeam", myTeam);
+		}
+		
+		
+		
+		System.out.println("지금 수정한놈  :" +t);
+		
+		return "redirect:managedTeam.tm";
+	}
+	
+	@RequestMapping("breakUpTeam.tm")
+	public void breakUpTeam(int teamNo, HttpServletResponse response, HttpSession session) throws JsonIOException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int userNo = loginUser.getUserNo();
+		
+		// 1. 팀 지우기
+		int deleteTeam = tService.deleteTeam(teamNo);
+		// 2. 팀 모집글 지우고
+		int deleteTeamAD = tService.deleteTeamAD(teamNo);
+		// 3. 팀 멤버 다 지우고
+		int deleteTeamM = tService.deleteTeamM(teamNo);
+		// 4. 팀에 신청한 사람 지우고
+		int deleteTJM = tService.deleteTJM(teamNo);
+		
+		if(deleteTeam > 0) {
+			session.removeAttribute("myTeam");
+			
+			ArrayList<Team> myTeam = tService.selectMyTeam(userNo);
+			session.setAttribute("myTeam", myTeam);
+		}
+		
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(deleteTeam,response.getWriter());
+	}
+	
+	@RequestMapping("withdrawal.tm")
+	public void withdrawal(int teamNo, HttpServletResponse response, HttpSession session) throws JsonIOException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int userNo = loginUser.getUserNo();
+		
+		TeamMember tm = new TeamMember();
+		
+		tm.setUserNo(userNo);
+		tm.setTeamNo(teamNo);
+		
+		int withdrawal = tService.withdrawal(tm);
+		
+		
+		if(withdrawal > 0) {
+			session.removeAttribute("myTeam");
+			
+			ArrayList<Team> myTeam = tService.selectMyTeam(userNo);
+			session.setAttribute("myTeam", myTeam);
+		}
 	}
 	
 	
 	
-}
+	
+}	
+	
+	

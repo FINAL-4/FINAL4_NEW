@@ -11,12 +11,14 @@
 <script src='resources/js/moment.min.js'></script>
 <script src='resources/js/fullcalendar.min.js'></script>
 <script src='resources/js/gcal.min.js'></script>
+<script src="resources/js/slider.js"></script>
 
 <!-- locale = ko ==> 한글로 -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/locale/ko.js'></script>
   
 <!-- CSS 파일 -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" type='text/css' rel='stylesheet'/>
+<link rel="stylesheet" href="resources/css/slider.css">
 <script>
 	$$$(function(){
 		$$$("#calendar").fullCalendar({
@@ -111,7 +113,6 @@
 		cursor: pointer;
 	}
 	
-	
 </style>
 <title>Insert title here</title>
 
@@ -121,11 +122,26 @@
 
 <body>
 
-<div id = "outer" style = "margin-top: 180px; background-image: url('resources/images/ba1.jpg'); background-size:100% 100%;">
-			<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style = "height: 1200px; width: 90%; background: white; margin: auto;">
-				
+<div id = "outer" style = "margin-top: 180px;">
+			<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style = "height: 1000px; width: 100%; background: white; margin: auto;">
+				<div class="mainPage1">
+					<ul class="slider">
+						<li>
+							<img src="resources/images/33333.png" alt="slide1" style="height:800px;"/>
+						</li>
+						<li>
+						    <img src="resources/images/11111.png" alt="slide2" style="height:800px;"/>
+						</li>
+						<li>
+						    <img src="resources/images/22222.png"  alt="slide3" style="height:800px;"/>
+						</li>
+						<li>
+							<img src="resources/images/44444.png" alt="slide4" style="height:800px;"/>
+						</li> 
+					</ul>
+				</div>
 			</div>
-			<br>
+			<br><br><br><br><br><br><br><br><br><br><br>
 			<div class="ha-waypoint" data-animate-down="ha-header-shrink" data-animate-up="ha-header-show" style = "height: 1200px; width: 90%; background: white; margin: auto;">
 				<div id = "infoTableDiv">
 					<table id = "infoTable" border = "1">
@@ -255,6 +271,52 @@ $.ajax({
 				}, { offset: '100%' } );
 			} );
 		</script>
+<script type="text/javascript">
+
+$$$(".slider").slider({
+
+	  // animation speed
+	   speed: 1000,
+
+	  // animation delay
+	   delay: 15000,
+
+	  // autoplay
+	  //autoplay: true,
+
+	  // pause on hover
+	  pauseonhover: true,
+
+	  // shows navigation
+	  navigation: true,
+
+	  // shows pagination
+	  //pagination: true,
+
+	  // or 'thumbnail'
+	  paginationType: 'dots',
+
+	  // initial slide
+	  initialslide: 1,
+
+	  // width/height
+	  width: '100%',
+	  height: 'auto',
+
+	  // or right
+	  direction: 'right',
+
+	  // is responsive
+	  responsive: true,
+
+	  // custom navigation buttons
+	  buttons: {
+	    prev: "<div class='prev slider-buttons'><span>&#8249;</span></div>",
+	    next: "<div class='next slider-buttons'><span>&#8250;</span></div>"
+	  }
+	  
+	});
+</script>
 
 <jsp:include page = "common/footer.jsp"/>
 </body>

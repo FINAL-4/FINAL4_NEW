@@ -1,146 +1,312 @@
+<%@page import="com.kh.FIFAOFFLINE.member.model.vo.Member"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
-<%@ page session="false" %> 
+<%-- <%@ page session="false" %>  --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	Member m = (Member)session.getAttribute("loginUser");
+
+%>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, inital-scale=1">
-<script src="js/jquery-3.1.1.js"></script>
-<script src="js/bootstrap.js"></script>
+<meta name="viewport" content="width=device-width" initial-scale="1">
+<link rel="stylesheet" href="css/bootstrap.css">
 <title>Insert title here</title>
-<style>
+<style type="text/css">
+a, a:hover {
+	color: #000000;
+	text-decoration: none;
+}
 
-    
+/* Full-width input fields */
+input[type=text], input[type=password] {
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+button {
+	background-color: #4CAF50;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+}
+
+button:hover {
+	opacity: 0.8;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+	width: auto;
+	padding: 10px 18px;
+	background-color: #f44336;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+	text-align: center;
+	margin: 24px 0 12px 0;
+	position: relative;
+}
+
+img.avatar {
+	width: 40%;
+	border-radius: 50%;
+}
+
+.container {
+	padding: 16px;
+}
+
+span.psw {
+	float: right;
+	padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+	padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+	background-color: #fefefe;
+	margin: 5% auto 15% auto;
+	/* 5% from the top, 15% from the bottom and centered */
+	border: 1px solid #888;
+	width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+	position: absolute;
+	right: 25px;
+	top: 0;
+	color: #000;
+	font-size: 35px;
+	font-weight: bold;
+}
+
+.close:hover, .close:focus {
+	color: red;
+	cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+	-webkit-animation: animatezoom 0.6s;
+	animation: animatezoom 0.6s
+}
+
+@
+-webkit-keyframes animatezoom {
+	from {-webkit-transform: scale(0)
+}
+
+to {
+	-webkit-transform: scale(1)
+}
+
+}
+@
+keyframes animatezoom {
+	from {transform: scale(0)
+}
+
+to {
+	transform: scale(1)
+}
+
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+}
+
+span.psw {
+	display: block;
+	float: none;
+}
+
+.cancelbtn {
+	width: 100%;
+}
+
+.listTr:hover {
+	background: whitesmoke;
+	cursor: pointer;
+}
+
+#listTable{
+	border-collapse: collapse;
+}
+
+#listTable td {
+	border-bottom: 1px solid lightgrey;
+	
+}
+
+#banner {
+	border-bottom: 3px solid lightgrey;
+}
+
+#btns {
+	width: 8%;
+	display: inline-block;
+}
+
+#title {
+	width: 90%;
+	font-size: 55px;
+	display: inline-block;
+}
+
+#cBtn{
+	background: black;
+	color: white;
+	border: 1px solid black;
+	font-size: 15px;
+}
+
+#cBtn:hover{
+	background: white;
+	color: black;
+}
 </style>
 
 </head>
 	<jsp:include page="../common/header.jsp"/>	
 <body>
-	<div id = "outer" style = "margin-top: 180px;">
-			<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; margin: auto;">
-		<div style="height:100%; width:100%; border-bottom:3px solid red;">
-			<div class="example">
-			<br><br><br>
-		</div>
+
+	<!-- 각페이지 고정 start -->
+	<div id="outer" style="margin-top: 200px;">
+		<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style="width: 80%; height: 800px; margin: auto;">
+			<div id = "banner">
+				<h1 id = "title" style = "margin: 0px 0px 10px 5px;">게시판</h1>
+				<div id = "btns">
+					<input id = "cBtn" type="button" name="name" value="글쓰기" style= "height:40px; width:100%; " onclick="createBoard()">
+				</div>
 			</div>
-			<br>
-			<div class="ha-waypoint" data-animate-down="ha-header-shrink" data-animate-up="ha-header-show" style = "height: 1200px; width: 90%;  margin: auto;">
+			
+			<div id = "infoDiv" style = "height: 150px; border: 1px solid red; width: 80%; margin-left: 10%; margin-right: 10%;">
+			
+			</div>
+			
 			<div align="center">
-
-
+					<!-- 각페이지 고정 end -->
+					<!-- <table align="center" width="600" border="1" cellspacing="0" style="clear:right;" id="td"> -->
+					<table id = "listTable" class="table table-bordered" style="text-align: center; border: 1px; width: 80%; font-size: 17px;">
+							<tr>
+								<th style="background-color: #eeeeee; text-align: center;"
+									width="10%" height="33px;">번 호</th>
+								<th style="background-color: #eeeeee; text-align: center;"
+									width="50%">제 목</th>
+								<th style="background-color: #eeeeee; text-align: center;"
+									width="12%">작성자</th>
+								<th style="background-color: #eeeeee; text-align: center;"
+									width="10%">조회수</th>
+								<th style="background-color: #eeeeee; text-align: center;"
+									width="18%">작성일</th>
+							</tr>
+							<c:forEach var="n" items="${list }">
+								<c:url var="ndetail" value="ndetail.do">
+									<c:param name="nId" value="${n.nId }" />
+									<c:param name="page" value="${pi.currentPage }" />
+								</c:url>
+								<tr id = "nId${n.nId }" class = "listTr" onclick = "location.href='${ndetail}'">
+									<td align= "center" style = "height: 28px;]">${n.nId }</td>
+									<td align = "left">${n.nTitle }</td>
+									<td align="center">${n.nWriter }</td>
+									<td align="center">${n.nCount }</td>
+									<td align="center">${n.nCreateDate }</td>
+								</tr>
+							</c:forEach>
+					</table>
+					
+					
+					<table id = "paginTable">
+						<!-- 페이징 부분 -->
+						<tr align="center" height="20">
+							<td colspan="6">
+							
+							<!-- [이전] --> 
+							<c:if test="${pi.currentPage == 1 }">
+	 							[이전]&nbsp;
+			 				</c:if> 
+			 				<c:if test="${pi.currentPage > 1 }">
+									<c:url var="nlistBack" value="nlist.do">
+										<c:param name="page" value="${pi.currentPage - 1 }" />
+									</c:url>
+									<a href="${nlistBack }">[이전]</a>
+							</c:if>
+							 
+							<!-- [번호들] --> 
+							<c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
+							<c:if test="${p eq pi.currentPage }">
+								<font color="red" size="4"><b>[${p}]</b></font>&nbsp;&nbsp;&nbsp;
+	 						</c:if>
 	
-	<br><br>
+							<c:if test="${p ne pi.currentPage }">
+								<c:url var="nlistCheck" value="nlist.do">
+									<c:param name="page" value="${p }" />&nbsp;&nbsp;&nbsp;
+	 							</c:url>
+								<a href="${nlistCheck }">${p }</a>&nbsp;&nbsp;&nbsp;
+	 						</c:if>
+							</c:forEach> 
+							
+							<!-- [다음] --> 
+							<c:if test="${pi.currentPage == pi.maxPage }">
+	 							&nbsp;[다음]
+	 						</c:if> 
+	 						<c:if test="${pi.currentPage < pi.maxPage }">
+								<c:url var="nlistEnd" value="nlist.do">
+									<c:param name="page" value="${pi.currentPage + 1 }" />
+								</c:url>
+								<a href="${nlistEnd }">&nbsp;[다음]</a>
+							</c:if>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
 		
-	<!-- <table align="center" width="600" border="1" cellspacing="0" style="clear:right;" id="td"> -->
-	<table class="table table-striped" font:14px;>
-		<tr>
-         <th width="100px">번 호</th>
-         <th width="600px">제 목</th>
-         <th width="150px">작성자</th>
-         <th width="100px">조회수</th>
-         <th width= "100px">첨부</th>
-         <th width="180px">작성일</th>
-       </tr>
-	
-		<c:forEach var="n" items="${list }">
-			<tr>
-				<td align="center">${n.nId }</td>
-				<td>
-					<c:if test="${!empty loginUser }">
-						<c:url var="ndetail" value="ndetail.do">
-							<c:param name="nId" value="${n.nId }"/>
-						</c:url>
-						<a href="${ndetail }">${n.nTitle }</a>
-					</c:if>
-					<c:if test="${empty loginUser }">
-						${n.nTitle }
-					</c:if>
-				</td>
-				
-				<td align="center">${n.nWriter }</td>
-				<td align="center">${n.nCount }</td>
-				<td align="center">
-					<c:if test="${!empty n.filePath }">
-						★
-					</c:if>
-					<c:if test="${!empty n.filePath }">
-						&nbsp;
-					</c:if>
-
-				<td align="center">${n.nCreateDate }</td>
-
-				</td>
-			</tr>
-		</c:forEach>
-
-	</table>
-  	  
-  <!--     <align="right" style="outline:none;border:none;padding:0px;margin:0px" class = "searchBtn"><i class="fa fa-search searchBtn" style="color:white;width:40px;height:39px;font-size:25px;padding-top:7px"><i>  -->
-		<%-- <%-- 	<c:if test="${!empty loginUser }">
-			<div align="center">
-			<button onclick="location.href='nWriterView.do'">글쓰기</button>	
-			</div>
-		</c:if> --%>
-
- 			<!-- 페이징 부분 -->
- 			<tr align="center" height="20">
- 				<td colspan="6">
-	 				<!-- [이전] -->
-	 				<c:if test="${pi.currentPage == 1 }">
-	 					[이전]&nbsp;
-	 				</c:if>
-	 				
-	 				<c:if test="${pi.currentPage > 1 }">
-	 					<c:url var="nlistBack" value="/selectList.do">
-	 						<c:param name="Page" value="${pi.currentPage - 1 }"/>
-	 					</c:url>
-	 					<a href="${nlistBack }">[이전]</a>
-	 				</c:if>
-	 				
-	 				<!-- [번호들] -->
-	 				<c:forEach var="p" begin="${pi.startPage }" end="${pi.endPage }">
-	 					<c:if test="${p eq pi.currentPage }">
-	 						<font color="red" size="4"><b>[${p}]</b></font>
-	 					</c:if>
-	 					
-	 					<c:if test="${p ne pi.currentPage }">
-	 						<c:url var="nlistCheck" value="nList.do">
-	 							<c:param name="Page" value="${p }"/>
-	 						</c:url>
-	 						<a href="${nlistCheck }">${p }</a>
-	 					</c:if>
-	 				</c:forEach>
-	 				
-	 				<!-- [다음] -->
-	 				<c:if test="${pi.currentPage == pi.maxPage }">
-	 					&nbsp;[다음]
-	 				</c:if>
-	 				
-	 				<c:if test="${pi.currentPage < pi.maxPage }">
-	 					<c:url var="nlistEnd" value="nlist.do">
-	 						<c:param name="Page" value="${pi.currentPage + 1 }"/>
-	 					</c:url>
-	 					<a href="${nlistEnd }">&nbsp;[다음]</a>
-	 				</c:if>
- 				</td>
- 			</tr>
- 			<br><br>
-	
- 		</div class="in-line">
-  			   		<span><img id = "search-logo" src="resources/images/search.jpg" width="30px;" height="30px;"></span> 
-<!--  			   <button  style="width:100px; float:right; height:30px;">글쓰기</button> -->
- 				   <input type="button" name="name" value="글쓰기"  style = "float:right; height:30px; width:60px;" onclick="location.href='nWriterView.do'">
- 		</div>
- 		</div>
-
- 
+		<div class="ha-waypoint" data-animate-down="ha-header-shrink" data-animate-up="ha-header-show" style="height: 10px; width: 90%; margin: auto;">
+		</div>
 	</div>
 
 
+<script type="text/javascript">
+	function createBoard(){
+		<%if(m == null){%> 
+			alert("로그인이 필요한 기능입니다.");
+		<%}else{%>
+			location.href='nWriterView.do'
+		<%}%>
+	}
 
+
+</script>
 
 <script>
 	var $head = $( '#ha-header' );
@@ -159,11 +325,13 @@
 		}, { offset: '100%' } );
 	});
 </script>
+
 <script>
 	function tdetail(id){
 		alert($(".hiddenTno"+id).val());
 	}
 </script>
+
 <script>
 	$(document).ready( function() {
 		$(".addressB").click(function(){
@@ -171,6 +339,8 @@
 		});
 	});
 </script>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="js/bootstrap.js"></script>
 
 
     <jsp:include page="../common/footer.jsp"/>

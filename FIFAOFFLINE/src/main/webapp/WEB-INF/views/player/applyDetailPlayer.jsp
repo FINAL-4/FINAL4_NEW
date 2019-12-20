@@ -9,6 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 #playerMenu .menu__item-name::after,
 #playerMenu .menu__item-name::before{
@@ -126,20 +127,20 @@
 .agreeBtn, .cancelBtn{
 	width:35px;
 	height:32px;
-	font-weight: bold; 
+	/* font-weight: bold; 
 	color:black;
 	padding-bottom: 30px;
-	padding-left:7px;
+	padding-left:7px; */
 }
 .agreeBtn:hover, .cancelBtn:hover, #closeBtn:hover{
 	cursor: pointer;
 }
-.agreeBtn{
+/* .agreeBtn{
 	background: green;
 }
 .cancelBtn{
 	background: red;
-}
+} */
 #closeBtn{
 	background: white;
 	border: 1px solid white;
@@ -147,7 +148,7 @@
 #detailContent1 td{
 	width:400px;
 	margin-left: 15px;
-	border-bottom: 1px solid lightgrey;
+	border-bottom: 2px solid lightgrey;
 }
 h6{
 	margin-top:0px;
@@ -161,7 +162,7 @@ h6{
 	z-index: 1; /* Sit on top */
 	left: 0;
 	top: 0;
-	width: 50%; /* Full width */
+	width: 60%; /* Full width */
 	height: 100%; /* Full height */
 	overflow: auto; /* Enable scroll if needed */
 	background-color: rgb(0,0,0); /* Fallback color */
@@ -169,11 +170,11 @@ h6{
 	padding-top: 60px;
 }
 /* Modal Content/Box */
-.modal-content {
+.modal-content1 {
 	background-color: #fefefe;
 	margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
 	border: 1px solid #888;
-	width: 80%; /* Could be more or less, depending on screen size */
+	width: 60%; /* Could be more or less, depending on screen size */
 }
 /* The Close Button (x) */
 .close {
@@ -223,8 +224,9 @@ h6{
 	font-size : 2.5em;
 	border-bottom: 2px solid grey;
 	text-align: center;
-	border-spacing: 24px;
+	border-spacing: 20px;
 }
+
 #listTr, #listTd{
 	border-bottom:2px solid grey;
 }
@@ -286,7 +288,7 @@ h6{
 			</tr>
 			<tr>
 				<td> 마감인원 </td>
-				<td>${pRecruit.deadline } 명</td>
+				<td class="deadlineCount">${pRecruit.deadline } 명</td>
 			</tr>
 			<tr>
 				<td> 참가비 </td>
@@ -322,7 +324,7 @@ h6{
 </div>
 
 <div id = id02 class = "modal">
-	<form class="modal-content animate" action="/action_page.php" method="post">
+	<form class="modal-content1 animate" action="/action_page.php" method="post">
     <div class="imgcontainer">
       <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
     </div>
@@ -333,10 +335,10 @@ h6{
     	<table id = listTable>
     	<c:if test="${!empty pList }">
     	<thead>
-    		<tr id = listTr>
+    		<tr id = listTr >
     			<th> 프로필사진 </th>
     			<th> 이름 </th>
-    			<th> 포지션 </th>
+    			<th style="width:90px;"> 포지션 </th>
     			<th> 번호 </th>
     			<th></th>
     			<th></th>
@@ -344,15 +346,20 @@ h6{
     	</thead>
     	
     	<c:forEach var="pList" items="${pList }" varStatus="status">   
-    		<tr id = listTd>
-    			<td><img id = "picture" src="resources/proFiles/${pList.proFile }" style="width:150px; height: 80px; margin-left:5px;"></td>
-    			<td>${pList.userName }</td>
-    			<td>${pList.position }</td>
-    			<td>${pList.phone }</td>
+    		<tr id = "listTd${pList.userNo }">
+    			<td><img id = "picture" src="resources/proFiles/${pList.proFile }" style="width:170px; 
+    																					  height: 100px; margin-left:5px; border-radius:50%;
+			  																			  border-bottom:5px solid grey;"></td>
+    			<td style="width:250px;">${pList.userName }</td>
+    			<td style="width:80px;">${pList.position }</td>
+    			<td style="width:500px;">${pList.phone }</td>
     			<td> 
-    			<input type = "button" id="agreeBtn${pList.userNo }" class="agreeBtn" value="O" name="agree" onclick="agree1(${pList.userNo})" style="margin-left:18px;">
+    			<img id="agreeBtn${pList.userNo }" src="resources/images/agree2.png" class=agreeBtn value="O" name="agree" onclick="agree1(${pList.userNo})" style="margin-left:20px;">
+    			<%-- <input type = "button" id="agreeBtn${pList.userNo }" class="agreeBtn" value="O" name="agree" onclick="agree1(${pList.userNo})" style="margin-left:20px;"> --%>
     			</td>
-    			<td> <input type = "button" id="cancelBtn${pList.userNo }" class="cancelBtn" value="X" name="cancel" onclick="cancel1(${pList.userNo})">
+    			<td>
+    			<img id="cancelBtn${pList.userNo }" src="resources/images/reject2.png" class="cancelBtn" value="X" name="cancel" onclick="cancel1(${pList.userNo})"> 
+    			<%-- <input type = "button" id="cancelBtn${pList.userNo }" class="cancelBtn" value="X" name="cancel" onclick="cancel1(${pList.userNo})"> --%>
     			</td>
     		</tr>
     	</c:forEach>
@@ -465,17 +472,19 @@ window.onclick = function(event) {
 // 신청 수락
 function agree1(id){
 	var userNo = id;
+	var rNum = ${pRecruit.rNum};
 	
 	$.ajax({
 		url:"agreePlay.pl",
-		data:{userNo:userNo},
+		data:{userNo:userNo, rNum:rNum},
 		dataType:"json",
 		success:function(data){
 			if(data != 0){
-				alert("수락하였습니다.\n 문자메세지가 전송됩니다.");
+				swal("신청을 수락하였습니다. \n수락 문자메세지가 전송됩니다!", "", "success");
 				$("#listTd"+id).remove();
+				$(".deadlineCount").text(parseInt($(".deadlineCount").text())-1 + " 명");
 			} else {
-				alert("수락이 실패하였습니다.");
+				swal("이미 수락하였습니다!", "", "error");
 			}
 		}
 	});
@@ -483,7 +492,22 @@ function agree1(id){
 
 // 신청 거절 
 function cancel1(id){
-	alert("ASDF");
+	var userNo = id;
+	var rNum = ${pRecruit.rNum};
+	
+	$.ajax({
+		url:"cancelPlay.pl",
+		data:{userNo:userNo, rNum:rNum},
+		dataType:"json",
+		success:function(data){
+			if(data != 0){
+				swal("신청을 거절하였습니다. \n거절 문자메세지가 전송됩니다!", "", "success");
+				$("#listTd"+id).remove();
+			} else {
+				swal("거절실패!", "", "error");
+			}
+		}
+	});
 }
 
 function applyBtn(){
@@ -498,38 +522,77 @@ function applyBtn(){
 			data:{userNo:userNo, rNum:rNum},
 			success:function(data){
 				if(data == 1){
-					alert("이미 신청했습니다.");
+					swal("이미 신청했습니다.", "", "error");
 				} else {
-					var confirmFlag = confirm("정말로 신청하시겠습니까 ?");
-					if(confirmFlag){
-						location.href="teamPlayApply.pl?userNo="+userNo+"&rNum="+rNum;
-					} else {
-						alert("취소");
-					}
+					swal({
+						  title: "정말로 신청하시겠습니까 ? ",
+						  buttons: true,
+						  dangerMode: true,
+						})
+						.then((willDelete) => {
+						  if (willDelete) {
+						    swal("신청이 완료되었습니다!", {
+						      icon: "success",
+						    });
+						    location.href="teamPlayApply.pl?userNo="+userNo+"&rNum="+rNum;
+						  } else {
+						    swal("신청을 취소했습니다!");
+						  }
+						});
 				}
 			}
 		});
 	} else {
-		alert("이미 가입되어있는 팀 입니다.");
+		swal("이미 가입되어있는 팀 입니다!", "", "error");
 	}
 }
 
 function deleteBtn(){
-	var deleteBtn = confirm("정말로 삭제하시겠습니까 ?");
+	swal({
+		  title: "정말로 삭제하시겠습니까 ? ",
+		  buttons: true,
+		  dangerMode: true,
+		})
+		.then((willDelete) => {
+		  if (willDelete) {
+			location.href='${tplDelete}'
+		    swal("삭제가 완료되었습니다!", {
+		      icon: "success",
+		    });
+		  } else {
+		    swal("삭제를 취소했습니다!");
+		  }
+		});
+	/* var deleteBtn = confirm("정말로 삭제하시겠습니까 ?");
 	if(deleteBtn){
 		location.href='${tplDelete}';
 	}else{
 		return false;
-	}
+	} */
 }
 
 function modifyBtn(){
-var modifyBtn = confirm("정말로 수정하시겠습니까 ?");
+	swal({
+		  title: "정말로 수정하시겠습니까 ? ",
+		  buttons: true,
+		  dangerMode: true,
+		})
+		.then((willDelete) => {
+		  if (willDelete) {
+			location.href='${tplModify}'
+		   swal("수정이 완료되었습니다!", {
+		      icon: "success",
+		    });
+		  } else {
+		    swal("수정을 취소했습니다!");
+		  }
+		});
+/* var modifyBtn = confirm("정말로 수정하시겠습니까 ?");
 	if(modifyBtn){
 		location.href='${tplModify}';
 	} else {
 		return false;
-	}
+	} */
 }
 </script>
 

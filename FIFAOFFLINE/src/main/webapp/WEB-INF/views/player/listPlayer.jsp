@@ -23,6 +23,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 * {
 	box-sizing: border-box;
@@ -37,6 +38,7 @@
 }
 table {
  	border-collapse: collapse;
+ 	border-spacing:1px;
   	width: 100%;
 }
 td {
@@ -60,18 +62,24 @@ th {
 	padding-left:10px;
 }
 thead th {
-    background-color: #0d47a1;
+    background-color: black;
     color:white;
+    font-size:23px;
+    font-weight: bold;
 }
 thead tr {
 	background-color: #0d47a1;
 	color: #ffffff;
 }
 tbody tr:nth-child(4n-3) {
-	background-color: #e3f2fd;
+	border-top:1px solid #4F5F4C;
+	border-bottom:1px solid #4F5F4C;
+	background-color: #E2E4EC;
 }
 tbody tr:nth-child(4n-1) {
-	background-color: #e3f2fd;
+	border-top:1px solid #4F5F4C;
+	border-bottom:1px solid #4F5F4C;
+	background-color: #E2E4EC;
 }
 
 #playerMenu .menu__item-name::after, #playerMenu .menu__item-name::before{
@@ -81,11 +89,12 @@ tbody tr:nth-child(4n-1) {
    	color: red;
 }
 .teamselector:hover{
-	background-color:#8EA8DB;
+	background-color:#5C685F;
 	cursor:pointer;
+	color:white;
 }
 .spacetr{
-	height:30px;
+	height:10px;
 }
 hr.new4 {
 	border: 1px solid red;
@@ -131,8 +140,8 @@ hr.new4 {
 	position:relative;
 }
 .card-carousel .my-card {
-	height:400px;
-	width:500px;
+	height:550px;
+	width:800px;
     position:relative;
     z-index:1;
     -webkit-transform: scale(0.6) translateY(-2rem);
@@ -149,7 +158,7 @@ hr.new4 {
 	height:5px;
 	width:100%;
 	border-radius:100%;
-	background-color: rgba(0,0,0,1);
+	background-color: rgba(0,0,0,0.8);
 	bottom:-3rem;
 	-webkit-filter: blur(4px);
 	filter: blur(4px);
@@ -241,28 +250,23 @@ div[id^="player"]{
 	height: 100%;
 	backface-visibility: hidden;
 	transform: rotateX(180deg);
-	padding: 5px;
+	padding: 5px;	
 }
-/* .imgcover{
-	width:100%;
-	height:100%;
-	background-repeat: no-repeat;
-	opacity: 0.3;
-} */
 #btn{
-	margin-left:1150px;
+	margin-left:1300px;
 }
 #playerEnroll, #playerRecruit{
 	width:250px;
 	height: 70px;
 	font-size: 3.5em;
 	font-weight: bold;
-	background: white;
-	border: 1px solid white;
+	background: black;
+	border: 1px solid black;
+	color:white;
 }
 #playerEnroll:hover, #playerRecruit:hover{
-	color:white;
-	background: #2AF08E;
+	color:black;
+	background: white;
 	border-radius: 13px;
 }
 #cardDetailBtn{
@@ -286,9 +290,9 @@ div[id^="player"]{
 
 <body>
 
-<div id = "outer" style = "margin-top:180px; background-image: url('resources/images/ba2.jpg'); background-size:100% 100%;">
-	<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; height:800px; margin:auto; padding-bottom:50px;">
-		<div id = "title"> 오늘의 추천 용병 </div> <br><br><br><br>
+<div id = "outer" style = "margin-top:180px;">
+	<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 100%; height:1000px; margin:auto; padding-bottom:50px;">
+		<div id = "title" style="width:90%; margin-left : 5%;"> 오늘의 추천 용병 </div> <br><br><br><br>
 		<div class="card-carousel">
 		<c:forEach var="pp" items="${person }" varStatus="status">
 			<c:url var="ppDetail" value="playPersonDetail.pl">
@@ -302,14 +306,34 @@ div[id^="player"]{
 			  		</div>
 			  		<div class="back"  onclick="toggleTrsf(${status.count})">
 			  			<%-- <div class=imgcover style = "background-image: url('resources/proFiles/${pp.proFile }'); "> --%>
-				  			<div style="font-size:4em; font-weight:bold; text-align: center; border-bottom: 3px solid gray;">${pp.eTitle }</div> <br>
+				  			<%-- <div style="font-size:4em; font-weight:bold; text-align: center; border-bottom: 3px solid gray;">${pp.eTitle }</div> <br>
 				  			<div style="font-size:3em; font-weight:bold;">매너 : ${pp.eManner }</div> <br>
 				  			<div style="font-size:3em; font-weight:bold;">실력 : ${pp.eSkill }</div> <br>
 				  			<div style="font-size:2.5em; font-weight:bold;">가능 장소 : ${pp.ePlace }</div> <br>
 				  			<div style="font-size:2.5em; font-weight:bold;">가능 날짜 : ${pp.eDay }</div> <br>
 				  			<div style="font-size:2.5em; font-weight:bold;">가능 시간 : ${pp.esHour } 시  ~ ${pp.efHour } 시</div> <br><br><br>
-				  			<input type = button value = "상세보기" id = cardDetailBtn onclick="location.href='${ppDetail }'">
+				  			<input type = button value = "상세보기" id = cardDetailBtn onclick="location.href='${ppDetail }'"> --%>
 			  			<!-- </div> -->
+			  			<div style="background-image: url('resources/proFiles/${pp.proFile }'); 
+			  						background-size:100% 100%; 
+			  						width:200px; 
+			  						height:150px;
+			  						margin-left:70px;
+			  						border-radius:50%;
+			  						border-bottom:10px solid grey;"></div> <br>
+			  			<label style="font-size: 2.0em; color:gray; margin-left:30px;"> 이름 </label> 
+			  			<label style="font-size: 2.0em; color:gray; margin-left:130px;"> 매너 </label> 
+			  			<label style="font-size: 2.0em; color:gray; margin-left:20px;"> 실력 </label> <br> <br>
+			  			<label style="font-size: 2.4em; margin-left:15px;"> ${pp.userName }</label> 
+			  			<label style="font-size: 2.4em; margin-left:120px;"> ${pp.eManner }</label> 
+			  			<label style="font-size: 2.4em; margin-left:40px;">${pp.eSkill }</label> <br><br>
+			  			<label style="font-size: 2.0em; color:gray; margin-left:30px;"> 가능 날짜 </label> <br><br>
+			  			<label style="font-size: 2.4em; margin-left:15px;"> ${pp.eDay }</label> <br><br>
+			  			<label style="font-size: 2.0em; color:gray; margin-left:30px;"> 가능 시간 </label> <br><br>
+			  			<label style="font-size: 2.4em; margin-left:15px;">${pp.ePlace }</label> <br><br>
+			  			<label style="font-size: 2.0em; color:gray; margin-left:30px;"> 가능 시간 </label> <br><br>
+			  			<label style="font-size: 2.4em; margin-left:15px;"> ${pp.esHour } 시부터 ${pp.efHour } 시까지 </label> <br><br>
+			  			<input type = button value = "상세보기" id = cardDetailBtn onclick="location.href='${ppDetail }'">
 			  		</div>
 				</div>
 			</div>
@@ -388,17 +412,16 @@ div[id^="player"]{
   				<tr class="teamselector" onclick="location.href='${ptDetail}'">
 			    <td class="playList">
 			    	<div style="height:100%; width:80" class="Timgtag">
-			    		<%-- <input type="hidden" value="<%=i%>" class="hiddenTno<%=i%>"> --%>
 			    		<img src="<%=request.getContextPath()%>/resources/images/team/${tp.teamImage}" style="width:100%; height:100%; padding-left:25px;">
 			    	</div>
 			    </td>
-			    <td class="playList">${tp.teamName } </td>
-			    <td class="playList">${tp.rTitle }</td>
-			    <td class="playList">${tp.rPlace }</td>
-			    <td class="playList">${tp.rDay }</td>
-			    <td class="playList">${tp.rsHour } : ${tp.rsMin } ~ <br> ${tp.rfHour } : ${tp.rfMin }</td>
-			    <td class="playList">${tp.deadline } 명</td>
-			    <td class="playList">${tp.rMoney } 원</td>
+			    <td class="playList" style="font-size:27px; font-weight: bold;">${tp.teamName } </td>
+			    <td class="playList" style="font-size:27px;">${tp.rTitle }</td>
+			    <td class="playList" style="font-size:24px;">${tp.rPlace }</td>
+			    <td class="playList" style="font-size:27px;">${tp.rDay }</td>
+			    <td class="playList" style="font-size:27px;">${tp.rsHour } : ${tp.rsMin } ~ <br> ${tp.rfHour } : ${tp.rfMin }</td>
+			    <td class="playList" style="font-size:27px;">${tp.deadline } 명</td>
+			    <td class="playList" style="font-size:27px;">${tp.rMoney } 원</td>
   			</tr>
   			<tr class="spacetr"></tr>
 			</c:forEach>
@@ -425,11 +448,11 @@ div[id^="player"]{
 
 function playerRecruit(loginUser){
 	if(loginUser == ""){
-		alert("로그인이 필요합니다.");
+		swal("로그인이 필요합니다!", "", "error");
 		return false;
 	} else {
 		<% if(myTeam == null) { %>
-		alert("소속된 팀이 없어 용병 모집이 불가합니다.");
+		swal("소속된 팀이 없어 용병 모집이 \n불가합니다!", "", "error");
 		<% } else { %>
 			<% for(int i = 0; i < myTeam.size(); i++) {
 				if(myTeam.get(i).getT_Grade() == 1){
@@ -441,33 +464,10 @@ function playerRecruit(loginUser){
 	<% if(flag) { %>
 		location.href="playTeamCreate.pl";
 	<% } else { %>
-		alert("팀장이 되어야 용병 모집이 가능합니다.");
+		swal("팀장만 용병 모집이 가능합니다!", "", "error");
 	<% } %>
 }
 
-/*
-function playerEnroll(){
-	var eNum = ${pp.eNum};
-	var userNo = ${loginUser.userNo};
-	
-	$.ajax({
-		url:"checkPerson.pl",
-		data:{eNum:eNum, userNo:userNo},
-		success:function(data){
-			if(data != "0"){
-				alert("이미 등록 된 글이 있습니다. \n등록 글을 삭제하고 새로운 글을 등록해주세요.");
-			} else {
-				location.href="playPersonCreate.pl";
-			}
-		},
-		error:function(request, status, errorData){
-			alert("error code: " + request.status + "\n"
-					+"message: " + request.responseText
-					+"error: " + errorData);
-		}
-	});	
-	
-} */
 function playerEnroll(){
 	location.href="playPersonCreate.pl";
 }
@@ -520,7 +520,8 @@ function toggleTrsf(id) {
 		card.css("transform", "");
 		card.addClass("change");
 	}   
-}  // 여기까지 카드 뒤집기
+} 
+// 여기까지 카드 뒤집기
 
 
 

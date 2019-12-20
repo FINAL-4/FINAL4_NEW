@@ -1,3 +1,4 @@
+<%@page import="com.kh.FIFAOFFLINE.member.model.vo.Member"%>
 <%@page import="com.kh.FIFAOFFLINE.team.model.vo.MyTeam"%>
 <%@page import="com.kh.FIFAOFFLINE.tournament.model.vo.TournamentSche"%>
 <%@page import="com.kh.FIFAOFFLINE.tournament.model.vo.TournamentInfo"%>
@@ -11,7 +12,7 @@
 	TournamentInfo tInfo =(TournamentInfo)session.getAttribute("to");	
 	ArrayList<Tournament> to = (ArrayList)session.getAttribute("trList");
 	ArrayList<TournamentSche> tSche = (ArrayList)session.getAttribute("tsList");
-	
+	Member m = (Member)session.getAttribute("loginUser");
 	
 	ArrayList<MyTeam> tList = (ArrayList)session.getAttribute("myTeam");
 	
@@ -62,8 +63,11 @@ var tData = {
  
 /* Edit function is called when team label is clicked */
 function edit_fn(container, data, doneCb) {
-  var input = $$$('<input type="text">')
-  input.val(data ? data.flag + ':' + data.name : '')
+	
+	
+var input = $$$('<input type="text" class = "inputScore">')
+
+input.val(data ? data.flag + ':' + data.name : '')
   container.html(input)
   input.focus()
   input.blur(function() {
@@ -162,6 +166,7 @@ function edit_fn(container, data, doneCb) {
 						render : render_fn
 					}
 				})
+				$(".score").removeClass("editable");
 	})
 </script>
 
@@ -266,13 +271,23 @@ function edit_fn(container, data, doneCb) {
 		color: white;
 		cursor: pointer;
 	}
+	
+	<%if (m != null && m.getUserId().equals("admin")) {%>
+		.score{
+			pointer-events:auto;
+		}
+	<%} else {%>
+		.score{
+			pointer-events:none;
+		}
+	<%}%>
+
 </style>
 
 <body>
 
 
 <div id = "outer" style = "margin-top: 150px;">
-	
 			<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style = "height: 800px; width: 90%; background: white; margin: auto; margin-top: 200px;">
 				
 					<div id = title><h1 style = "font-size: 50px; margin-top: 0px; border-bottom: 3px solid lightgrey; padding-bottom: 10px;">토너먼트 대회</h1></div>
@@ -578,6 +593,13 @@ function edit_fn(container, data, doneCb) {
 
 </script>
 
+<script type="text/javascript">
+	
+
+	
+	
+	
+</script>
 
 
 <script type="text/javascript">
@@ -586,7 +608,6 @@ function edit_fn(container, data, doneCb) {
 			$(".sche").html('<input class ="scheInfo" type ="text"  style = "border:0px solid white;" readonly/>');
 			$(".toInfo").css({"border":"0px solid white"});
 			$(".toInfo").attr("readonly","readonly");
-			$(".score").removeClass("editable");
 		}else if('${loginUser.userId}'=='admin'){
 			$(".sche").html('<input class ="scheInfo" type ="text"/>');
 			
@@ -595,8 +616,8 @@ function edit_fn(container, data, doneCb) {
 			$(".app").html('<button class = "appBtn"></button>');
 			$(".toInfo").css({"border":"0px solid white"});
 			$(".toInfo").attr("readonly","readonly");
-			$(".score").removeClass("editable");
 		}
+		
 		
 		
 		var btSche = $$$('.appBtn').get();
@@ -625,6 +646,10 @@ function edit_fn(container, data, doneCb) {
 	    		}
 	    	<%}%>
 	    }
+	    
+	    
+	    
+	    
 		
 	})
 	

@@ -6,8 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
-  var $$ = jQuery.noConflict();
+  var $$$ = jQuery.noConflict();
 </script>
 <script src='resources/js/moment.min.js'></script>
 <script src='resources/js/fullcalendar.min.js'></script>
@@ -18,8 +19,8 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" type='text/css' rel='stylesheet'/>
 <title>Insert title here</title>
 <script type="text/javascript">
-	$$(function(){
-		$$("#calendar").fullCalendar({
+	$$$(function(){
+		$$$("#calendar").fullCalendar({
 			navLinkDayClick: function(){
 				return false;
 			},
@@ -51,28 +52,38 @@
 			
 				
 				 if(Number(dateNow)>Number(dateCompare)){
-					alert("지난 날짜를 선택할 수 없습니다.");
+					swal("지난 날짜를 선택할 수 없습니다.", "", "error");
 					return false;
 				}  
 				
-				if(confirm("날짜를 선택하시겠습니까?") == false){
-					return false;
-				}
+				 swal({
+					 title: "날짜를 선택하시겠습니까 ? ",
+					 buttons: true,
+					 dangerMode: true,
+				}).then((willDelete) => {
+					  if (willDelete) {
+					    swal("날짜를 선택 완료되었습니다!", {
+					      icon: "success",
+					    });
+					  } else {
+					    swal("날짜선택을 취소했습니다!");
+					  }
+					});
 				
 				console.log(startDate.format(), endDate.format());
 				sDate = startDate.format();
 				eDate = endDate.format();
-				$$("#dayInfo").html(sDate);
-				$$("#mDayInfo").val(sDate);
-				$$("#calendar").fullCalendar("refetchEvents");
+				$$$("#dayInfo").html(sDate);
+				$$$("#mDayInfo").val(sDate);
+				$$$("#calendar").fullCalendar("refetchEvents");
 				
  			}
 		});
 	});
 </script>
 <script type="text/javascript">
-	$$(function(){
-		$$("#calendar").fullCalendar({
+	$$$(function(){
+		$$$("#calendar").fullCalendar({
 			navLinkDayClick: function(){
 				return false;
 			},
@@ -84,15 +95,25 @@
 			},
 			select: function(startDate ,endDate){
 				
-				if(confirm("날짜를 선택하시겠습니까?") == false){
-					return false;
-				}
+				 swal({
+					 title: "날짜를 선택하시겠습니까 ? ",
+					 buttons: true,
+					 dangerMode: true,
+				}).then((willDelete) => {
+					  if (willDelete) {
+					    swal("날짜를 선택 완료되었습니다!", {
+					      icon: "success",
+					    });
+					  } else {
+					    swal("날짜선택을 취소했습니다!");
+					  }
+					});
 				
 				console.log(startDate.format(), endDate.format());
 				sDate = startDate.format();
 				eDate = endDate.format();
-				$$("#dayInfo").html(sDate);
-				$$("#mDayInfo").val(sDate);
+				$$$("#dayInfo").html(sDate);
+				$$$("#mDayInfo").val(sDate);
 				$("#calendar").fullCalendar("refetchEvents");
 				
  			}
@@ -388,7 +409,7 @@ input, select{
 					<tr>
 						<td style = "width:40%; font-size:20ps; text-align:center">용병 모집 팀 </td>
 						<td> <select id="myTeam" style="width:100%;" name="teamNo">
-							<option selected value="">==팀 선택==</option>
+							<option value="">==팀 선택==</option>
 							<c:forEach var="tArr" items="${tArr}" varStatus="status">
 							<option value="${tArr.teamNo}">${tArr.teamName }</option>
 							</c:forEach>
@@ -416,7 +437,7 @@ input, select{
 					<tr>
 						<td style = "width: 40%; font-size: 20px; text-align: center">참가비</td>
 						<td>
-							<input id ="playerMoney" name = "rMoney" onkeyup="checkNumber(this);" type = "text" maxlength="7" style = "width : 100%;">
+							<input id ="playerMoney" name = "rMoney" onkeyup="checkNumber(this);" type = "text" maxlength="7" placeholder="0" style = "width : 100%;">
 						</td>
 					</tr>
 					</table>
@@ -444,7 +465,7 @@ input, select{
 					<table>
 						<tr>
 							<td style = "width: 30%">
-							<input id = "keyword" type = "text" value = "강남역" style = "margin: 0px; padding: 0px; font-size: 20px;">
+							<input id = "keyword" type = "text" value = "강남 축구장" style = "margin: 0px; padding: 0px; font-size: 20px;">
 							</td>
 							<td style = "width: 20%">
 							<button id = "searchLocation" onclick = "searchPlaces(); return false;">검색</button>
@@ -590,27 +611,37 @@ input, select{
 <script type="text/javascript">
 	function submitCreate(){		
 		if($$("#playerTitle").val() == ""){
-			alert("용병 모집 제목을 입력하세요.");
+			swal("용병 모집 제목을 입력하세요!", "", "error");
+			$$("#basicLabel").click();
+			return false;
+		}
+		if($$("#myTeam").val() == ""){
+			swal("팀을 선택하세요!", "", "error");
+			$$("#basicLabel").click();
+			return false;
+		}
+		if($$("#playerSelect").val() == ""){
+			swal("모집인원을 선택하세요!", "", "error");
 			$$("#basicLabel").click();
 			return false;
 		}
 		if($$("#playerMoney").val() == ""){
-			alert("참가비를 입력하세요.");
+			swal("참가비를 입력하세요!", "", "error");
 			$$("#basicLabel").click();
 			return false;
 		}
 		if($$("#cplace").html() == "장소를 선택하세요."){
-			alert("장소를 선택하세요.");
+			swal("장소를 선택하세요!", "", "error");
 			$$("#locationLabel").click();
 			return false;
 		}
 		if($$("#dayInfo").html() == "날짜를 선택하세요."){
-			alert("날짜를 선택하세요.");
+			swal("날짜를 선택하세요!", "", "error");
 			$$("#timeLabel").click();
 			return false;
 		}
 		if($$("#mContent").val() == ""){
-			alert("남기실 말을 입력하세요.");
+			swal("남기실 말을 입력하세요!", "", "error");
 			return false;
 		} 
 		$$("#createForm").submit();
@@ -626,7 +657,7 @@ $(function(){
 			data:{mt:mt},
 			success:function(data){
 				if(data != "0"){
-					alert("이미 등록 된 글이 있습니다. \n등록 글을 삭제하고 새로운 글을 등록해주세요.");
+					swal("이미 등록 된 글이 있습니다! \n등록 글을 삭제하고 새로운 글을 등록해주세요!", "", "error");
 					$("#myTeam").val("").prop("selected", true);
 				}
 			},
@@ -679,7 +710,7 @@ searchPlaces();
 function searchPlaces() {
     var keyword = document.getElementById('keyword').value;
     if (!keyword.replace(/^\s+|\s+$/g, '')) {
-        alert('키워드를 입력해주세요!');
+    	swal("키워드를 입력해주세요!", "", "error");
         return false;
     }
     // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
@@ -694,10 +725,10 @@ function placesSearchCB(data, status, pagination) {
         // 페이지 번호를 표출합니다
         displayPagination(pagination);
     } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-        alert('검색 결과가 존재하지 않습니다.');
+    	swal("검색 결과가 존재하지 않습니다!", "", "error");
         return;
     } else if (status === kakao.maps.services.Status.ERROR) {
-        alert('검색 결과 중 오류가 발생했습니다.');
+        swal("검색 결과 중 오류가 발생했습니다!", "", "error");
         return;
     }
 }
@@ -771,9 +802,19 @@ function getListItem(index, places) {
     el.innerHTML = itemStr;
     el.className = 'item';
 	el.onclick = function (){
-		if(confirm("장소를 선택하시겠습니까?") == false){
-			return false;
-		}
+		swal({
+			 title: "장소를 선택하시겠습니까 ? ",
+			 buttons: true,
+			 dangerMode: true,
+		}).then((willDelete) => {
+			  if (willDelete) {
+			    swal("장소가 선택 완료되었습니다!", {
+			      icon: "success",
+			    });
+			  } else {
+			    swal("장소선택을 취소했습니다!");
+			  }
+			});
 		$$("#cplace").html(places.place_name);
 		$$("#cplaceName").val(places.place_name);
 		$$("#cplaceX").val(places.x);

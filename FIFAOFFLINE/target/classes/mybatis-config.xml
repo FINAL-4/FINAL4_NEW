@@ -20,8 +20,9 @@
 		<!-- ======================= 배성용 ========================= -->
 		<typeAlias type="com.kh.FIFAOFFLINE.board.model.vo.Board" alias="Board"/>
 		<typeAlias type="com.kh.FIFAOFFLINE.notice.model.vo.Notice" alias="Notice"/>
-		
-		
+		<typeAlias type="com.kh.FIFAOFFLINE.notice.model.vo.PageInfo" alias="PageInfo"/>
+		<typeAlias type="com.kh.FIFAOFFLINE.notice.model.vo.Reply" alias="Reply"/>
+		<typeAlias type="com.kh.FIFAOFFLINE.notice.model.vo.SearchCondition" alias="SearchCondition"/>
 		
 		
 		
@@ -29,7 +30,8 @@
 		<typeAlias type="com.kh.FIFAOFFLINE.player.model.vo.P_RECRUIT" alias="P_RECRUIT"/>
 		<typeAlias type="com.kh.FIFAOFFLINE.player.model.vo.P_LIST" alias="P_LIST"/>
 		<typeAlias type="com.kh.FIFAOFFLINE.player.model.vo.P_ENROLL" alias="P_ENROLL"/>
-		
+		<typeAlias type="com.kh.FIFAOFFLINE.player.model.vo.P_EN_LIST" alias="P_EN_LIST"/>
+
 		
 		
 		
