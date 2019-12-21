@@ -18,12 +18,12 @@
 		<typeAlias type="com.kh.FIFAOFFLINE.tournament.model.vo.TournamentSche" alias="TournamentSche"/>
 		
 		<!-- ======================= 배성용 ========================= -->
-		<typeAlias type="com.kh.FIFAOFFLINE.board.model.vo.Board" alias="Board"/>
 		<typeAlias type="com.kh.FIFAOFFLINE.notice.model.vo.Notice" alias="Notice"/>
 		<typeAlias type="com.kh.FIFAOFFLINE.notice.model.vo.PageInfo" alias="PageInfo"/>
 		<typeAlias type="com.kh.FIFAOFFLINE.notice.model.vo.Reply" alias="Reply"/>
 		<typeAlias type="com.kh.FIFAOFFLINE.notice.model.vo.SearchCondition" alias="SearchCondition"/>
-		
+		<typeAlias type="com.kh.FIFAOFFLINE.notice.model.vo.Catagory" alias="Catagory"/>
+		<typeAlias type="com.kh.FIFAOFFLINE.notice.model.vo.Like" alias="Like"/>
 		
 		
 		<!-- ======================= 서재웅 ========================= -->
@@ -60,7 +60,6 @@
 	<!-- sql문들을 지는 mapper.xml들을 등록 -->
 	<mappers>
 		<!-- ======================= 배성용 ========================= -->
-		<mapper resource="mappers/board-mapper.xml"/>
 		<mapper resource="mappers/notice-mapper.xml"/>
 		
 		

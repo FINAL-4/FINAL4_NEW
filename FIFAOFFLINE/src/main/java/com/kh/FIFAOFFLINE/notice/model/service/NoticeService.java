@@ -2,9 +2,12 @@ package com.kh.FIFAOFFLINE.notice.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.FIFAOFFLINE.notice.model.vo.Catagory;
+import com.kh.FIFAOFFLINE.notice.model.vo.Like;
 import com.kh.FIFAOFFLINE.notice.model.vo.Notice;
 import com.kh.FIFAOFFLINE.notice.model.vo.PageInfo;
 import com.kh.FIFAOFFLINE.notice.model.vo.Reply;
+import com.kh.FIFAOFFLINE.notice.model.vo.SearchCondition;
 
 public interface NoticeService {
 	
@@ -54,5 +57,35 @@ public interface NoticeService {
 	 * 7. 댓글 추가
 	 */
 	public int insertReply(Reply r);
+
+
+	public ArrayList<Catagory> getcList();
+
+
+	public int modifyReply(Reply r);
+
+
+	public int deleteReply(int rId);
+
+
+	public int getsListCount(SearchCondition sc);
+
+
+	public ArrayList<Notice> selectsList(PageInfo pi, SearchCondition sc);
+
+
+	public ArrayList<Like> getlList();
+
+
+	public int selectLike(Like l);
+
+
+	public int selectnLike(int nId);
+
+
+	public int appLike(Like l);
+
+
+	public int canLike(Like l);
 	
 }

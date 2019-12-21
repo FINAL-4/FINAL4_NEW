@@ -193,6 +193,26 @@ span.psw {
 	background: white;
 	color: black;
 }
+
+#searchDiv{
+	font-size: 15px;
+}
+
+#searchDiv input{
+	padding: 0px;
+}
+
+#searchDiv button{
+	background: black;
+	color: white;
+	border: 1px solid black;
+}
+
+#searchDiv button:hover{
+	background: white;
+	color: black;
+}
+
 </style>
 
 </head>
@@ -209,19 +229,43 @@ span.psw {
 				</div>
 			</div>
 			
-			<div id = "infoDiv" style = "height: 150px; border: 1px solid red; width: 80%; margin-left: 10%; margin-right: 10%;">
-			
+			<div id = "searchDiv" style = "width: 80%; margin-left: 10%; margin-right: 10%; margin-top: 5px; margin-bottom: 10px;">
+				<div id = "info" style = "text-align: center; height: 100px; vertical-align: center;"><h3 id = "searchInfo" style = "padding-top: 50px; margin: 0px; padding-bottom: 0px;">${info }</h3></div>
+				<span style = "width: 50%; float: left;">
+					<b style = "font-size: 17px;">분류</b>
+					<select id = "catagorySearch" style = "width: 15%; height: 30px;">
+						<option value = "0">전체</option>
+						<c:forEach var="c" items="${cList }" begin="1">
+						<option value="${c.cId }" <c:if test="${sc.catagory == c.cId}">selected</c:if>>${c.cName }</option>
+						</c:forEach>
+					</select>
+				</span>
+				
+				<span style = "width: 50%; float: right; margin-bottom: 10px;">
+					<select id = "contentSearch" style = "width: 15%; height: 30px; margin-left: 29%;">
+						<option value = "nTitle" <c:if test="${sc.sCondition == 'nTitle'}">selected</c:if>>제목</option>
+						<option value = "nContent" <c:if test="${sc.sCondition == 'nContent'}">selected</c:if>>내용</option>
+						<option value = "nWriter" <c:if test="${sc.sCondition == 'nWriter'}">selected</c:if>>작성자</option>
+						<option value = "plus" <c:if test="${sc.sCondition == 'plus'}">selected</c:if>>제목+내용</option>
+					</select>
+					<input id = "sContent" type = "text" style = "width: 45%; height: 30px; margin: 0px;">
+					<button style = "width: 10%; height: 30px; padding: 0px;" onclick = "search();">검색</button>
+				</span>
 			</div>
+			
+			
 			
 			<div align="center">
 					<!-- 각페이지 고정 end -->
 					<!-- <table align="center" width="600" border="1" cellspacing="0" style="clear:right;" id="td"> -->
 					<table id = "listTable" class="table table-bordered" style="text-align: center; border: 1px; width: 80%; font-size: 17px;">
-							<tr>
+							<tr style = "border-bottom: 1px solid black">
 								<th style="background-color: #eeeeee; text-align: center;"
 									width="10%" height="33px;">번 호</th>
 								<th style="background-color: #eeeeee; text-align: center;"
-									width="50%">제 목</th>
+									width="10%" height="33px;">분 류</th>
+								<th style="background-color: #eeeeee; text-align: center;"
+									width="40%">제 목</th>
 								<th style="background-color: #eeeeee; text-align: center;"
 									width="12%">작성자</th>
 								<th style="background-color: #eeeeee; text-align: center;"
@@ -235,9 +279,10 @@ span.psw {
 									<c:param name="page" value="${pi.currentPage }" />
 								</c:url>
 								<tr id = "nId${n.nId }" class = "listTr" onclick = "location.href='${ndetail}'">
-									<td align= "center" style = "height: 28px;]">${n.nId }</td>
-									<td align = "left">${n.nTitle }</td>
-									<td align="center">${n.nWriter }</td>
+									<td align= "center" style = "height: 28px;">${n.nId }</td>
+									<td class = "catagory" align= "center" style = "height: 28px;">${n.cName }</td>
+									<td align ="left">${n.nTitle }&nbsp;&nbsp; <p style = "color:red; font-size: 8px; display: inline-block; border-bottom: 0.2px solid red;">+${n.likeCount }</p></td>
+									<td align="left"><img src ="resources/proFiles/${n.profile }" width= "25px" height= "25px" style = "float: left; margin-left: 30px; margin-right: 5px;">${n.nWriter }</td>
 									<td align="center">${n.nCount }</td>
 									<td align="center">${n.nCreateDate }</td>
 								</tr>
@@ -257,6 +302,9 @@ span.psw {
 			 				<c:if test="${pi.currentPage > 1 }">
 									<c:url var="nlistBack" value="nlist.do">
 										<c:param name="page" value="${pi.currentPage - 1 }" />
+										<c:param name="catagory" value="${sc.catagory }" />
+										<c:param name="sCondition" value="${sc.sCondition }" />
+										<c:param name="sContent" value="${sc.sContent }" />
 									</c:url>
 									<a href="${nlistBack }">[이전]</a>
 							</c:if>
@@ -269,7 +317,10 @@ span.psw {
 	
 							<c:if test="${p ne pi.currentPage }">
 								<c:url var="nlistCheck" value="nlist.do">
-									<c:param name="page" value="${p }" />&nbsp;&nbsp;&nbsp;
+									<c:param name="page" value="${p }" />
+									<c:param name="catagory" value="${sc.catagory }" />
+									<c:param name="sCondition" value="${sc.sCondition }" />
+									<c:param name="sContent" value="${sc.sContent }" />
 	 							</c:url>
 								<a href="${nlistCheck }">${p }</a>&nbsp;&nbsp;&nbsp;
 	 						</c:if>
@@ -282,6 +333,9 @@ span.psw {
 	 						<c:if test="${pi.currentPage < pi.maxPage }">
 								<c:url var="nlistEnd" value="nlist.do">
 									<c:param name="page" value="${pi.currentPage + 1 }" />
+									<c:param name="catagory" value="${sc.catagory }" />
+									<c:param name="sCondition" value="${sc.sCondition }" />
+									<c:param name="sContent" value="${sc.sContent }" />
 								</c:url>
 								<a href="${nlistEnd }">&nbsp;[다음]</a>
 							</c:if>
@@ -294,6 +348,39 @@ span.psw {
 		<div class="ha-waypoint" data-animate-down="ha-header-shrink" data-animate-up="ha-header-show" style="height: 10px; width: 90%; margin: auto;">
 		</div>
 	</div>
+
+<script type="text/javascript">
+
+	function search(){
+		var catagory = $("#catagorySearch").val();
+		var sCondition = $("#contentSearch").val();
+		var sContent = $("#sContent").val();
+		
+		location.href = "nlist.do?catagory="+catagory+"&sCondition="+sCondition+"&sContent="+sContent;
+		
+	}
+
+
+	$("#catagorySearch").change(function(){
+		var catagory = $("#catagorySearch").val();
+	
+		location.href = "nlist.do?catagory="+catagory;
+		
+	});
+</script>
+
+
+
+
+
+
+<script type="text/javascript">
+	$(function(){
+		$(".catagory").filter(":contains('공지')").parent().css("background","#eeeeee");
+		$("#sContent").val('${sc.sContent}');
+	});
+
+</script>
 
 
 <script type="text/javascript">

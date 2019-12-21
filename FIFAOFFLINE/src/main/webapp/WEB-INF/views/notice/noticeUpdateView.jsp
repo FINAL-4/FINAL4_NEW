@@ -17,6 +17,8 @@
 <head>
 <meta charset="UTF-8">
 <script src="http://cdn.ckeditor.com/4.7.0/standard-all/ckeditor.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
  <style>
     #outer{
   		position: relative;
@@ -218,147 +220,142 @@
 	    margin: 30px auto;
 	    margin-top: 300px;
 	}
+	
+		#cke_1_bottom{
+		display: none;
+	}
+	
+
+	
+	#cke_1_contents{
+		height: 500px !important;
+	}
+	
+	.cke_wysiwyg_frame{
+		height: 500px !important;
+	}
+	
  </style> 
 <title>Insert title here</title>
 </head>
 	<jsp:include page="../common/header.jsp"/>
 <body>
-<%=m %>
+
+
 <c:set var="mem" value="<%=m%>"/>
-	<div id = "outer" style = "margin-top: 180px;">
-	<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; margin: auto;">
-		<div style="height:100%; width:100%; border-bottom:3px solid red;">
-			<div class="example">
-			<br><br><br>
-		</div>
-	</div>
-	<br>
-	<div class="ha-waypoint" data-animate-down="ha-header-shrink" data-animate-up="ha-header-show" style = "height: 1200px; width: 90%;  margin: auto;">
-	<div align="center">
-
-
-	
-	<br><br>	
-	
-	<h1 align="center">공지글 수정 페이지</h1>
-
-<br><br>
-<div id="container" style="overflow: auto;"><!-- container -->
-   <div id="mainContent" style="overflow: auto;"><!-- mainContent -->
-
-				<form id= updateForm action = "nupdate.do"  method="post" encType="multipart/form-data">
-				<input type="hidden" name="nId"  value = "${notice.nId }"/>
-				<input type="hidden" name="nWriter" value = "${notice.nWriter }"/>
-				<input type="hidden" name="filePath" value="${notice.filePath }"/>
-
-
-
-				
-				<div id="outer">
-				<br><br><br><br>
-				   <br>
-				   <div id = "tableDiv">
-				      <table align="center" id="listArea">
-				         <tr>
-				            <td class= "titleTd tableTd"><b>제목</b></td>
-				            <td class ="tableTd"><input type="text" name= "nTitle" class="inputTd" value="${notice.nTitle}" >&nbsp;&nbsp;
-				         </tr>
-				         <tr>
-				            <td class= "titleTd tableTd"><b>작성자</b></td>
-				            <td  class ="tableTd"><span name= "nWriter" style="padding-left: 17px; font-size: 16px;">${notice.nWriter }</span></td>
-				         <tr>
-				            <td class= "titleTd tableTd"><b>작성일</b></td>
-				            <td  class ="tableTd"><span name= "nModifyDate" style="padding-left: 17px; font-size: 16px;" ><%=today%></span></td>
-				         </tr>
-				      </table>
-				      	<div id="textareaDiv">
-						<textarea id="nContent" name="nContent"> ${notice.nContent}</textarea>
-						<script>
-						    CKEDITOR.replace( 'nContent', {
-						    //filebrowserImageUploadUrl : '/dev-guide/ckeditorImageUpload.do'
-						    } );
-						</script>
+<div id = "outer" style = "margin-top: 180px;">
+	<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; height: 1000px; margin: auto;">
+		<div id="container" style="overflow: auto;"><!-- container -->
+		   <div id="mainContent" style="overflow: auto;"><!-- mainContent -->
+		
+				<div class="titleDiv1"><div class= "titleDiv2"><b>게&nbsp;시&nbsp;글&nbsp;수&nbsp;정&nbsp;</b></div></div>
+		
+						<form id= updateForm action = "nupdate.do"  method="post" encType="multipart/form-data">
+						<input type="hidden" name="nId"  value = "${notice.nId }"/>
+						<input type="hidden" name="nWriter" value = "${notice.nWriter }"/>
+						<input type="hidden" name="filePath" value="${notice.filePath }"/>
+						<input type="hidden" name="profile" value="${notice.profile }"/>
+		
+						<br><br><br><br>
+						   <br>
+						   <div id = "tableDiv">
+						      <table align="center" id="listArea">
+						         <tr>
+						            <td class= "titleTd tableTd"><b>제목</b></td>
+						            <td class ="tableTd" style = "font-size: 15px;"><input id = "nTitle" type="text" name= "nTitle" class="inputTd" value="${notice.nTitle}" >&nbsp;&nbsp;
+						         </tr>
+						         <tr>
+						            <td class= "titleTd tableTd"><b>작성자</b></td>
+						            <td  class ="tableTd"><img src ="resources/proFiles/${notice.profile }" width= "25px" height= "25px" style = "float: left; margin-left: 10px; margin-right: 5px;"><span style="font-size: 16px;"><input id="nWriter" name="nWriter" value="${notice.nWriter }" readonly style = "border: 0px solid white;"></span></td>
+						         <tr>
+						         <tr>
+									<td class= "titleTd tableTd"><b>분류</b></td>
+									<td class ="tableTd">
+										<span style="padding-left: 10px; font-size: 16px;">
+											<select id="nCate" name="cId" value="${loginUser.userId }" readonly style = "width: 150px; height: 30px;">
+												<c:if test="${loginUser.userId == 'admin' }">
+												<option value="${cList[0].cId }">${cList[0].cName }</option>
+												</c:if>
+												<c:forEach var="c" items="${cList }" begin="1">
+												<option value="${c.cId }">${c.cName }</option>
+												</c:forEach>
+											</select>
+										</span>
+									</td>
+								</tr>
+								<tr>
+						            <td class= "titleTd tableTd"><b>작성일</b></td>
+						            <td  class ="tableTd"><span name= "nModifyDate" style="padding-left: 17px; font-size: 16px;" ><%=today%></span></td>
+						         </tr>
+						      </table>
+						      	<div id="textareaDiv">
+								<textarea id="nContent" name="nContent"> ${notice.nContent}</textarea>
+								<script>
+								    CKEDITOR.replace( 'nContent', {
+								    //filebrowserImageUploadUrl : '/dev-guide/ckeditorImageUpload.do'
+								    } );
+								</script>
+								</div>
+							<div style = "margin-left: 25px;">
+							<table id = "attachTable">
+							<tr>
+								<td>첨부파일</td>
+									<td>
+									<input type="file" name="reloadFile">
+									<c:if test="${!empty notice.filePath }">
+										<br>현재 업로드한 파일:
+										<img src="${contextPath }/resources/nuploadFiles/${notice.filePath}">
+										<a href="${contextPath }/resources/nuploadFiles/${notice.filePath }" download>
+										</a>
+									</c:if>
+								<br>			
+							</td>
+							</tr>
+							</table>
+							</div>
+							<br><br>
+							<div class= btnDiv>
+									<button type='button'id=listBtn onclick="location.href = 'nlist.do'"><b>목록</b></button>&nbsp;&nbsp;
+									<button id=insertBtn type="button" onclick="insertSubmit();"><b>수정</b></button>
+							</div>
 						</div>
-					<table id = "attachTable">
-					<tr>
-						<td>첨부파일</td>
-							<td>
-							<input type="file" name="reloadFile">
-							<c:if test="${!empty notice.filePath }">
-								<br>현재 업로드한 파일:
-								<img src="${contextPath }/resources/nuploadFiles/${notice.filePath}">
-								<a href="${contextPath }/resources/nuploadFiles/${notice.filePath }" download>
-								</a>
-							</c:if>
-						<br>			
-					</td>
-					</tr>
-					</table>
-					<br><br>
-					<div class= btnDiv>
-							<button type='button'id=listBtn onclick="nlist.do"><b>목록</b></button>&nbsp;&nbsp;
-							<button id=insertBtn type="button" onclick="insertSubmit();"><b>등록</b></button>
-					</div>
-				</div>
-			</form>				      
-
-				
-				<br><br><br><br><br><br>
-	</div><!-- container -->
-</div><!-- mainContent -->
+					</form>				      
+			</div><!-- container -->
+		</div><!-- mainContent -->
+	</div>
+	<div class="ha-waypoint" data-animate-down="ha-header-shrink" data-animate-up="ha-header-show" style = "height: 100px; width: 90%;  margin: auto;">
 	
-<%-- <form action="nupdate.do" method="post" enctype="Multipart/form-data">
-	<!-- 첨부파일도 수정할 수 있으니깐 form태그에 enctype은 multipart로 하자 -->
-		
-		<!-- 화면에 뿌려줄 필요 x, 사용자가 입력할 필요는 x지만 쿼리에서 필요한 것들 -->
-		<input type="hidden" name="nId" value="${notice.nId }"/>
-		<!-- 파일을 수정했다면 기존 파일은 지우기 위해 기존 파일명도 넘기자-->
-		<input type="hidden" name="filePath" value="${notice.filePath }"/>
-		
-		
-		<table align="center" border="1" cellspacing="0" width="400">
-			<tr>
-				<td>제목</td>
-				<td>
-					<input type="text" size="50" name="nTitle" value="${notice.nTitle }">
-				</td>
-			</tr>
-			<tr>
-				<td>작성자</td>
-				<td>
-				<input type="text" size="50" name="nWriter" value="${notice.nWriter }">
-				</td>
-			</tr>
-			<tr>
-				<td>내용</td>
-				<td>
-				<input type="text" size="50" name="nContent" value="${notice.nContent }">
-				</td>
-			</tr>
-			<tr>
-				<td>첨부파일</td>
-				<td>
-					<input type="file" name="reloadFile">
-					<c:if test="${!empty notice.filePath }">
-						<br>현재 업로드한 파일:
-						<img src="${contextPath }/resources/nuploadFiles/${notice.filePath}">
-						<a href="${contextPath }/resources/nuploadFiles/${notice.filePath }" download>
-						</a>
-					</c:if>
-					<br>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center">
-					<input type="submit" value="수정하기">
-				</td>
-			</tr>
-		</table>
-	</form> --%>
+	</div>
+</div>
 
 <script>
- function insertSubmit(){
-	$("#updateForm").submit();	
+function insertSubmit(){
+
+	 if($("#nTitle").val() == ""){
+		 swal("제목을 입력해주세요.");
+		 return false;
+	 }
+	 
+	/*  if($("#nContent").text() == ""){
+		 swal("내용을 입력해주세요.");
+		 return false;
+	 } */
+	 
+	 swal({
+  	  title: "글을 수정하시겠습니까?",
+  	  icon: "info",
+  	  buttons: true,
+  	  dangerMode: false,
+  	})
+  	.then((willDelete) => {
+  	  if (willDelete) {
+  	 	$("#updateForm").submit();	
+  	  } else {
+  		  return false;
+  	  }
+  	});
+	 
+	
 } 
 </script>	
 	
