@@ -279,7 +279,6 @@
 	.likeImg:hover{
 		cursor: pointer;
 		width: 45px;
-		
 	}
  </style> 
 
