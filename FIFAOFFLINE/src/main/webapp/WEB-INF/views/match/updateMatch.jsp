@@ -19,6 +19,7 @@
 <!-- CSS 파일 -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" type='text/css' rel='stylesheet'/>
 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 
 <title>Insert title here</title>
@@ -59,21 +60,32 @@
 			
 				
 				 if(Number(dateNow)>Number(dateCompare)){
-					alert("지난 날짜를 선택할 수 없습니다.");
+					 swal("", "지난 날짜는 선택할 수 없습니다.", "warning");
 					return false;
 				}  
 				
 				
-				if(confirm("날짜를 선택하시겠습니까?") == false){
-					return false;
-				}
+				 swal({
+				  	  title: "날짜를 선택하시겠습니까?",
+				  	  icon: "info",
+				  	  buttons: true,
+				  	  dangerMode: false,
+				  	})
+				  	.then((willDelete) => {
+				  	  if (willDelete) {
+				  		console.log(startDate.format(), endDate.format());
+						sDate = startDate.format();
+						eDate = endDate.format();
+						$$("#dayInfo").html(sDate);
+						$$("#mDayInfo").val(sDate);
+						$$("#calendar").fullCalendar("refetchEvents");
+				  	  } else {
+				  		  return false;
+				  	  }
+				  	});
+
 				
-				console.log(startDate.format(), endDate.format());
-				sDate = startDate.format();
-				eDate = endDate.format();
-				$$("#dayInfo").html(sDate);
-				$$("#mDayInfo").val(sDate);
-				$$("#calendar").fullCalendar("refetchEvents");
+				
 				
  			}
 		});
@@ -652,40 +664,51 @@ table {
 	function submitCreate(){
 		
 		if($$("#mTitle").val() == ""){
-			alert("매치 제목을 입력하세요.");
+			swal("", "매치 제목을 입력하세요.", "warning");
 			$$("#basicLabel").click();
 			return false;
 		}else if($$("#teamSelect").val() == ""){
-			alert("팀을 선택하세요.");
+			swal("", "팀을 선택하세요.", "warning");
 			$$("#basicLabel").click();
 			return false;
 		}else if($$("#systemSelect").val() == ""){
-			alert("매치 유형을 선택하세요.");
+			swal("", "매치 유형을 선택하세요.", "warning");
 			$$("#basicLabel").click();
 			return false;
 		}else if($$("#dues").val() == ""){
-			alert("회비를 입력하세요.");
+			swal("", "회비를 입력하세요.", "warning");
 			$$("#basicLabel").click();
 			return false;
 		}else if($$("#cplace").html() == "장소를 선택하세요."){
-			alert("장소를 선택하세요.");
+			swal("", "장소를 선택하세요.", "warning");
 			$$("#locationLabel").click();
 			return false;
 		}else if($$("#dayInfo").html() == "날짜를 선택하세요."){
-			alert("날짜를 선택하세요.");
+			swal("", "날짜를 선택하세요.", "warning");
 			$$("#timeLabel").click();
 			return false;
 		}else if($$("#mContent").val() == ""){
-			alert("남기실 말을 입력하세요.");
+			swal("", "남기실 말을 입력하세요.", "warning");
 			return false;
 		}
 		
-		if(!confirm("정보를 수정하시겠습니까?")){
-			return false;
-		}
+		swal({
+		  	  title: "정보를 수정하시겠습니까?",
+		  	  icon: "info",
+		  	  buttons: true,
+		  	  dangerMode: false,
+		  	})
+		  	.then((willDelete) => {
+		  	  if (willDelete) {
+		  		swal("", "메인 페이지로 이동합니다.", "warning");
+		  		setTimeout(function() { $$("#updateForm").submit(); }, 3000);
+		  	  } else {
+		  		  return false;
+		  	  }
+		  	});
+
 		
-		alert("로 이동합니다");
-		$$("#updateForm").submit();
+		
 	}
 </script>
 
@@ -733,7 +756,7 @@ function searchPlaces() {
     var keyword = document.getElementById('keyword').value;
 
     if (!keyword.replace(/^\s+|\s+$/g, '')) {
-        alert('키워드를 입력해주세요!');
+    	swal("", "키워드를 입력하세요.", "warning");
         return false;
     }
 
@@ -754,12 +777,12 @@ function placesSearchCB(data, status, pagination) {
 
     } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
 
-        alert('검색 결과가 존재하지 않습니다.');
+    	swal("", "검색 결과가 존재 하지 않습니다..", "warning");
         return;
 
     } else if (status === kakao.maps.services.Status.ERROR) {
 
-        alert('검색 결과 중 오류가 발생했습니다.');
+    	swal("", "검색 결과 중 오류가 발생했습니다.", "warning");
         return;
 
     }
@@ -845,14 +868,25 @@ function getListItem(index, places) {
     el.className = 'item';
 	el.onclick = function (){
 		
-		if(confirm("장소를 선택하시겠습니까?") == false){
-			return false;
-		}
+
 		
-		$$("#cplace").html(places.place_name);
-		$$("#cplaceName").val(places.place_name);
-		$$("#cplaceX").val(places.x);
-		$$("#cplaceY").val(places.y);
+		swal({
+		  	  title: "장소를 선택하시겠습니까?",
+		  	  icon: "info",
+		  	  buttons: true,
+		  	  dangerMode: false,
+		  	})
+		  	.then((willDelete) => {
+		  	  if (willDelete) {
+		  		$$("#cplace").html(places.place_name);
+				$$("#cplaceName").val(places.place_name);
+				$$("#cplaceX").val(places.x);
+				$$("#cplaceY").val(places.y);
+		  	  } else {
+		  		  return false;
+		  	  }
+		  	});
+
 	}
 	
     return el;

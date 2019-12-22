@@ -76,7 +76,7 @@
   <update id="updateNotice" parameterType="Notice">
  	<![CDATA[
  	UPDATE NOTICE
- 	SET NTITLE=#{nTitle}, NCONTENT=#{nContent}, FILEPATH=#{filePath}, CID=#{cId}
+ 	SET NTITLE=#{nTitle}, NCONTENT=#{nContent}, FILEPATH=#{filePath}, CID=#{cId}, NOTICEYN=#{noticeYN}
   	WHERE NID=#{nId} 	 
  		]]>
   </update>

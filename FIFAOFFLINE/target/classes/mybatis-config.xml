@@ -16,6 +16,9 @@
 		<typeAlias type="com.kh.FIFAOFFLINE.tournament.model.vo.Tournament" alias="Tournament"/>
 		<typeAlias type="com.kh.FIFAOFFLINE.tournament.model.vo.TournamentInfo" alias="TournamentInfo"/>
 		<typeAlias type="com.kh.FIFAOFFLINE.tournament.model.vo.TournamentSche" alias="TournamentSche"/>
+		<typeAlias type="com.kh.FIFAOFFLINE.question.model.vo.Question" alias="Question"/>
+		
+		
 		
 		<!-- ======================= 배성용 ========================= -->
 		<typeAlias type="com.kh.FIFAOFFLINE.notice.model.vo.Notice" alias="Notice"/>
@@ -24,6 +27,8 @@
 		<typeAlias type="com.kh.FIFAOFFLINE.notice.model.vo.SearchCondition" alias="SearchCondition"/>
 		<typeAlias type="com.kh.FIFAOFFLINE.notice.model.vo.Catagory" alias="Catagory"/>
 		<typeAlias type="com.kh.FIFAOFFLINE.notice.model.vo.Like" alias="Like"/>
+		
+		
 		
 		
 		<!-- ======================= 서재웅 ========================= -->
@@ -69,6 +74,7 @@
 		<!-- ======================= 강현모 ========================= -->
 		<mapper resource="mappers/match-mapper.xml"/>
 		<mapper resource="mappers/tournament-mapper.xml"/>
+		<mapper resource="mappers/question-mapper.xml"/>
 		
 		
 		

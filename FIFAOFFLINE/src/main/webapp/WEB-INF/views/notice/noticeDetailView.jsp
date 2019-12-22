@@ -631,7 +631,8 @@
 						success:function(data){
 							if(data == 1){
 								swal("", "정상적으로 수정되었습니다.", "success");
-								getReplyList();
+								setTimeout(function() { getReplyList(); }, 3000);
+								
 							}
 						},
 						error:function(request, status, errorData){
@@ -704,7 +705,7 @@
 						success:function(data){
 							if(data == 1){
 								swal("", "정상적으로 삭제되었습니다.", "success");
-								getReplyList();
+								setTimeout(function() {getReplyList(); }, 3000);
 							}
 						},
 						error:function(request, status, errorData){
@@ -743,7 +744,8 @@
 		  	})
 		  	.then((willDelete) => {
 		  	  if (willDelete) {
-		  		location.href="ndelete.do?nId=" + ${notice.nId};
+		  		swal("", "삭제가 완료되었습니다.", "success");
+		  		setTimeout(function() {location.href="ndelete.do?nId=" + ${notice.nId}; }, 3000);
 		  	  } else {
 		  		  return false;
 		  	  }
@@ -753,7 +755,7 @@
 	
 </script>
 
-			<script>
+<script>
 	var $head = $( '#ha-header' );
 	$( '.ha-waypoint' ).each( function(i) {
 		var $el = $( this ),

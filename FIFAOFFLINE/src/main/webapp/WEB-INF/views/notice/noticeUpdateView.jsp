@@ -349,7 +349,8 @@ function insertSubmit(){
   	})
   	.then((willDelete) => {
   	  if (willDelete) {
-  	 	$("#updateForm").submit();	
+  		swal("", "글이 수정되었습니다.", "success");
+  		setTimeout(function() {$("#updateForm").submit(); }, 3000);		
   	  } else {
   		  return false;
   	  }

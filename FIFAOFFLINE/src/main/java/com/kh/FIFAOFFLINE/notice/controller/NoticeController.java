@@ -207,7 +207,7 @@ public class NoticeController {
 	
 	@RequestMapping("nupView.do")
 	public String noticeUpdateView(Model model, int nId) {
-			model.addAttribute("notice", nService.selectOne(nId));	// 이건 기존에 상세보기에서 구현했샴
+		model.addAttribute("notice", nService.selectOne(nId));	// 이건 기존에 상세보기에서 구현했샴
 			
 		return "notice/noticeUpdateView";
 	}
@@ -222,6 +222,12 @@ public class NoticeController {
 		 * 라는 예외가 발생 되므로 사용자가 파일을 올리지 않아도 수정이 되게 required=false로 하자.
 		 * 
 		 */
+		
+		if(n.getcId() == 1) {
+			n.setNoticeYN(1);
+		}else {
+			n.setNoticeYN(0);
+		}
 		
 		
 		 if(reloadFile != null && !reloadFile.isEmpty()) {	// 새로 업로드한 파일이 있다면

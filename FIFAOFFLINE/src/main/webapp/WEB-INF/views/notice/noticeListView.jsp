@@ -12,6 +12,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <meta name="viewport" content="width=device-width" initial-scale="1">
 <link rel="stylesheet" href="css/bootstrap.css">
 <title>Insert title here</title>
@@ -386,7 +387,7 @@ span.psw {
 <script type="text/javascript">
 	function createBoard(){
 		<%if(m == null){%> 
-			alert("로그인이 필요한 기능입니다.");
+			swal("", "로그인이 필요한 기능입니다.", "warning");
 		<%}else{%>
 			location.href='nWriterView.do'
 		<%}%>
