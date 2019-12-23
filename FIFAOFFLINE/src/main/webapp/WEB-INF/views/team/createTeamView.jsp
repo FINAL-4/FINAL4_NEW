@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script   src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
   var $$ = jQuery.noConflict();
 </script>
@@ -28,36 +28,36 @@
 
 
 <script type="text/javascript">
-	$$(function(){
-		$$("#calendar").fullCalendar({
-			navLinkDayClick: function(){
-				return false;
-			},
-			selectable: true,
-			header : {
-				left : 'prev,next',
-				center : 'title',
-				right : 'today,addScheduleBtn' 
-			},
-			select: function(startDate ,endDate){
-			
-				alert($$(this).parent().parent().hasClass("fc-day-top"));
-				
-				if(confirm("날짜를 선택하시겠습니까?") == false){
-					return false;
-				}
-				
-				console.log(startDate.format(), endDate.format());
-				sDate = startDate.format();
-				eDate = endDate.format();
-				$$("#dayInfo").html(sDate);
-				$$("#mDayInfo").val(sDate);
-				$$("#calendar").fullCalendar("refetchEvents");
-				
- 			}
-		});
-	});
-	
+   $$(function(){
+      $$("#calendar").fullCalendar({
+         navLinkDayClick: function(){
+            return false;
+         },
+         selectable: true,
+         header : {
+            left : 'prev,next',
+            center : 'title',
+            right : 'today,addScheduleBtn' 
+         },
+         select: function(startDate ,endDate){
+         
+            alert($$(this).parent().parent().hasClass("fc-day-top"));
+            
+            if(confirm("날짜를 선택하시겠습니까?") == false){
+               return false;
+            }
+            
+            console.log(startDate.format(), endDate.format());
+            sDate = startDate.format();
+            eDate = endDate.format();
+            $$("#dayInfo").html(sDate);
+            $$("#mDayInfo").val(sDate);
+            $$("#calendar").fullCalendar("refetchEvents");
+            
+          }
+      });
+   });
+   
 
 
 </script>
@@ -67,17 +67,17 @@
 /* ---------선택된 메뉴 색상 변경-------- */
 #teamMenu .menu__item-name::after,
 #teamMenu .menu__item-name::before{
-	background: red;
-	color: red;
+   background: red;
+   color: red;
 }
 
 #teamMenu.menu__item::after,
 #teamMenu.menu__item::before{
-   	color: red;
+      color: red;
 }
 
 #teamMenu .menu__item-name{
-	color: red;
+   color: red;
 }
 /* ----------------------------------- */
 
@@ -92,9 +92,9 @@
 
 
 #calendar{
-	width: 30%;
-	height: 100%;
-	margin-left: 10%;
+   width: 30%;
+   height: 100%;
+   margin-left: 10%;
 }
 
 .fc-basic-view .fc-body .fc-row {
@@ -102,14 +102,14 @@
 }
 
 .fc-today-button{
-	width: 50px;
-	height: 20px;
+   width: 50px;
+   height: 20px;
 
 }
 
 .fc-button-group{
-	width: 30px;
-	height: 5px;
+   width: 30px;
+   height: 5px;
 }
 
 .fc button, .fc table, body .fc {
@@ -131,13 +131,13 @@ body{
     -moz-border-radius: 50% !important;
     -ms-border-radius: 50% !important;
     border-radius: 50% !important;
-    background: black;	/* 선택안된 원 배경색*/
+    background: black;   /* 선택안된 원 배경색*/
     display: inline-block;
     height: 40px;
     width: 40px;
     margin-top: 10px;
     text-align: center;
-    color: white;	/* 선택안된 원 글자색*/
+    color: white;   /* 선택안된 원 글자색*/
     padding-top: 7px;
     font-size: 20px
 }
@@ -151,7 +151,7 @@ body{
 
 #employer-post-new-job .res-steps-container .res-steps .res-progress-bar {
     height: 5px;
-    background: black;	/* 막대기 색 */
+    background: black;   /* 막대기 색 */
     width: 50%;
     margin: -22px 0 0 50%;
     float: left
@@ -187,17 +187,17 @@ body{
 }
 
 #employer-post-new-job .active .res-step-bar {
-    background: lightgrey !important;	/* 선택된 원 색 */
+    background: lightgrey !important;   /* 선택된 원 색 */
 }
 
 #employer-post-new-job .active .res-progress-title {
-    color: lightgrey;	/* 선택된 글자색 */
+    color: lightgrey;   /* 선택된 글자색 */
 }
 
 .contents{
 
-	width : 100%;
-	height: 470px;
+   width : 100%;
+   height: 470px;
 }
 
 button,
@@ -264,12 +264,12 @@ button:hover {
 
 
 #timeInfoTable{
-	width: 500px;
-	height: 100%;
+   width: 500px;
+   height: 100%;
 }
 
 #timeInfoTable td{
-	border-bottom: 3px solid lightgrey;
+   border-bottom: 3px solid lightgrey;
 }
 
 li{
@@ -278,16 +278,16 @@ li{
 }
 
 .item{
-	width: 100%;
-	height: 10px;
-	margin: 0px;
-	padding: 0px;
+   width: 100%;
+   height: 10px;
+   margin: 0px;
+   padding: 0px;
 
 }
 
 .info h5{
-	margin: 0px;
-	padding: 0px;
+   margin: 0px;
+   padding: 0px;
 }
 
 .info {
@@ -299,51 +299,52 @@ li{
 }
 
 #infoTable td{
-	border-bottom: 3px solid lightgrey;
-/* 	height: 80px; */
+   border-bottom: 3px solid lightgrey;
+/*    height: 80px; */
 }
 
 #placesList td{
-	height: 10px;
-	margin: 0px;
-	padding: 0px;
+   height: 10px;
+   margin: 0px;
+   padding: 0px;
 }
 
 #placesList tr:hover{
-	background: whitesmoke;
-	cursor: pointer;
+   background: whitesmoke;
+   cursor: pointer;
 }
 
 #placeInfoTable{
-	width: 700px;
-	height: 100%;
+   width: 700px;
+   height: 100%;
 }
 
 #placeInfoTable td{
-	font-size: 13px;
-	border-bottom: 3px solid lightgrey;
+   font-size: 13px;
+   border-bottom: 3px solid lightgrey;
 }
 
 #searchLocation{
- 	width: 80px;
- 	height: 28px;
- 	border: 1px solid black;
- 	background: white;
- 	font-size: 15px;
- 	color: black;
-	padding: 0;
+    width: 80px;
+    height: 28px;
+    border: 1px solid black;
+    background: white;
+    font-size: 15px;
+    color: black;
+   padding: 0;
 }
 
 input, select{
 	height: 35px;
+
 }
 .checks{
-	padding:20px;
+   padding:20px;
 }
 
 label{
-	padding-right:10px;
-	font-size:0.8em;
+   padding-right:10px;
+   font-size:0.8em;
 }
 
 .checks input[type="checkbox"] {  /* 실제 체크박스는 화면에서 숨김 */
@@ -435,10 +436,12 @@ label{
   text-align: center;
   border: 1px solid #6cc0e5;
 }
+
 #title{
    font-size: 40px; 
    margin-top: 120px; 
    border-bottom: 5px solid grey;
+
 }
 
 </style>
@@ -450,6 +453,7 @@ label{
       <div class="ha-waypoint" data-animate-down="ha-header-show"
          data-animate-up="ha-header-subshow"
          style="height: 730px; width: 90%; border: black; margin: auto;">
+
 			<section id="employer-post-new-job">
 				<div class="row">
 					<div class="container">
@@ -630,14 +634,19 @@ label{
 	</div>
 
 
+        
+
 <script type="text/javascript">
+
 	function goMatch(){
 		location.href='managedTeam.tm';
 	}
+
 </script>
 
 
 <script type="text/javascript">
+
 	
 	var isImg = false;
 	var teamNameCheck = false;
@@ -677,6 +686,10 @@ label{
 		$$("#createForm").submit();
 	}
 
+   
+   
+
+
 	
 	function upload(){
 	var Ican = document.getElementById ("teamImgTag");
@@ -693,128 +706,130 @@ label{
 		var teamName = document.getElementById("teamName").value;
 		var idRe = /^[a-z,A-Z,0-9,가-힣]{2,12}$/;
 
-		$.ajax({
-			url : "Du.tm",
-			data : {
-				teamName : teamName
-			},
-			success : function(data) {
-				if (teamName == "") {
-					$("#checkId").css("color", "#f53f29");
-					$("#teamName").css("border", "2px solid #f53f29");
-					$("#checkId").text("팀 이름을 입력하세요.");
-					teamNameCheck = false;
-				} else if (!idRe.test(teamName)) {
-					$("#checkId").css("color", "#f53f29");
-					$("#teamName").css("border", "2px solid #f53f29");
-					$("#checkId").text("2-12의 영문자,숫자,한글만 입력가능합니다.");
-					teamNameCheck = false;
-				} else if (data.Usable ==false) {
-					$("#checkId").css("color", "#f53f29");
-					$("#teamName").css("border", "2px solid #f53f29");
-					$("#checkId").text("중복된 팀 이름입니다.");
-					teamNameCheck = false;
-				} else {
-					$("#checkId").text("사용가능한 팀 이름입니다.");
-					$("#checkId").css("color", "green");
-					$("#teamName").css("border", "2px solid blue");
-					teamNameCheck = true;
-				}
-			}
-			
-		});
-	});
+
+      $.ajax({
+         url : "Du.tm",
+         data : {
+            teamName : teamName
+         },
+         success : function(data) {
+            if (teamName == "") {
+               $("#checkId").css("color", "#f53f29");
+               $("#teamName").css("border", "2px solid #f53f29");
+               $("#checkId").text("팀 이름을 입력하세요.");
+               teamNameCheck = false;
+            } else if (!idRe.test(teamName)) {
+               $("#checkId").css("color", "#f53f29");
+               $("#teamName").css("border", "2px solid #f53f29");
+               $("#checkId").text("2-12의 영문자,숫자,한글만 입력가능합니다.");
+               teamNameCheck = false;
+            } else if (data.Usable ==false) {
+               $("#checkId").css("color", "#f53f29");
+               $("#teamName").css("border", "2px solid #f53f29");
+               $("#checkId").text("중복된 팀 이름입니다.");
+               teamNameCheck = false;
+            } else {
+               $("#checkId").text("사용가능한 팀 이름입니다.");
+               $("#checkId").css("color", "green");
+               $("#teamName").css("border", "2px solid blue");
+               teamNameCheck = true;
+            }
+         }
+         
+      });
+   });
 </script>
 <script type="text/javascript">
 $(document).ready(function(){
-	var steps = ['.res-step-one','.res-step-two','.res-step-three','.res-step-four'];
-		var i = 1;
-		
-		$(".res-form-one").css("left","10%");
-		
-		$(".res-step-form .res-btn-orange").click(function(){
-			var getClass = $(this).attr('data-class');
-			$(".res-steps").removeClass('active');
-			i--;
-			$(steps[i-1]).addClass('active');
-			$(getClass).prev().css('left','-150%')
-			$(getClass).animate({
-				left: '150%'
-			}, 500);
-			$(getClass).prev().animate({
-				left: '10%'
-			}, 500)
-		});
-		
-		$(".res-step-form .res-btn-gray").click(function(){
-			var getClass = $(this).attr('data-class');
-			$(".res-steps").removeClass('active');
-			$(steps[i]).addClass('active');
-			i++;
-			if(getClass != ".res-form-four"){
-				$(getClass).animate({
-					left: '-150%'
-				}, 500, function(){
-					$(getClass).css('left', '150%');
-				});
-				$(getClass).next().animate({
-					left: '10%'
-				}, 500, function(){
-					$(this).css('display','block');
-				});
-			}
-		});
+   var steps = ['.res-step-one','.res-step-two','.res-step-three','.res-step-four'];
+      var i = 1;
+      
+      $(".res-form-one").css("left","10%");
+      
+      $(".res-step-form .res-btn-orange").click(function(){
+         var getClass = $(this).attr('data-class');
+         $(".res-steps").removeClass('active');
+         i--;
+         $(steps[i-1]).addClass('active');
+         $(getClass).prev().css('left','-150%')
+         $(getClass).animate({
+            left: '150%'
+         }, 500);
+         $(getClass).prev().animate({
+            left: '10%'
+         }, 500)
+      });
+      
+      $(".res-step-form .res-btn-gray").click(function(){
+         var getClass = $(this).attr('data-class');
+         $(".res-steps").removeClass('active');
+         $(steps[i]).addClass('active');
+         i++;
+         if(getClass != ".res-form-four"){
+            $(getClass).animate({
+               left: '-150%'
+            }, 500, function(){
+               $(getClass).css('left', '150%');
+            });
+            $(getClass).next().animate({
+               left: '10%'
+            }, 500, function(){
+               $(this).css('display','block');
+            });
+         }
+      });
 
 
 
-		/* click from top bar steps */
-		$('.res-step-one').click(function(){
-			if(!$(this).hasClass('active')){
-				$(".res-steps").removeClass('active');
-				i = 0;
-				$(steps[i]).addClass('active');
-				i++;
-				$('.res-form-one').css('left','-150%');
-				$('.res-form-two, .res-form-three, .res-form-four').animate({
-					left: '150%'
-				}, 500);
-				$('.res-form-one').animate({
-					left: '10%'
-				}, 500);
-			}
-		});
+      /* click from top bar steps */
+      $('.res-step-one').click(function(){
+         if(!$(this).hasClass('active')){
+            $(".res-steps").removeClass('active');
+            i = 0;
+            $(steps[i]).addClass('active');
+            i++;
+            $('.res-form-one').css('left','-150%');
+            $('.res-form-two, .res-form-three, .res-form-four').animate({
+               left: '150%'
+            }, 500);
+            $('.res-form-one').animate({
+               left: '10%'
+            }, 500);
+         }
+      });
 
-		$('.res-step-two').click(function(){
-			if(!$(this).hasClass('active')){
-				$(".res-steps").removeClass('active');
-				i = 1;
-				$(steps[i]).addClass('active');
-				i++;
-				$('.res-form-two').css('left','-150%');
-				$('.res-form-one, .res-form-three, .res-form-four').animate({
-					left: '150%'
-				}, 500);
-				$('.res-form-two').animate({
-					left: '10%'
-				}, 500);
-			}
-		});
+      $('.res-step-two').click(function(){
+         if(!$(this).hasClass('active')){
+            $(".res-steps").removeClass('active');
+            i = 1;
+            $(steps[i]).addClass('active');
+            i++;
+            $('.res-form-two').css('left','-150%');
+            $('.res-form-one, .res-form-three, .res-form-four').animate({
+               left: '150%'
+            }, 500);
+            $('.res-form-two').animate({
+               left: '10%'
+            }, 500);
+         }
+      });
 
-		$('.res-step-three').click(function(){
-			if(!$(this).hasClass('active')){
-				$(".res-steps").removeClass('active');
-				i = 2;
-				$(steps[i]).addClass('active');
-				i++;
-				$('.res-form-three').css('left','-150%');
-				$('.res-form-one, .res-form-two, .res-form-four').animate({
-					left: '150%'
-				}, 500);
-				$('.res-form-three').animate({
-					left: '10%'
-				}, 500);
-			}
-		});
+      $('.res-step-three').click(function(){
+         if(!$(this).hasClass('active')){
+            $(".res-steps").removeClass('active');
+            i = 2;
+            $(steps[i]).addClass('active');
+            i++;
+            $('.res-form-three').css('left','-150%');
+            $('.res-form-one, .res-form-two, .res-form-four').animate({
+               left: '150%'
+            }, 500);
+            $('.res-form-three').animate({
+               left: '10%'
+            }, 500);
+         }
+      });
+
 
 		$('.res-step-four').click(function(){
 			preveal();
@@ -833,6 +848,7 @@ $(document).ready(function(){
 			}
 		});
 	});
+
 
 </script>
 <script type="text/javascript">
@@ -860,22 +876,22 @@ function preveal(){
 
 </script>
 <script>
-			var $head = $( '#ha-header' );
-			$( '.ha-waypoint' ).each( function(i) {
-				var $el = $( this ),
-					animClassDown = $el.data( 'animateDown' ),
-					animClassUp = $el.data( 'animateUp' );
+         var $head = $( '#ha-header' );
+         $( '.ha-waypoint' ).each( function(i) {
+            var $el = $( this ),
+               animClassDown = $el.data( 'animateDown' ),
+               animClassUp = $el.data( 'animateUp' );
 
-				$el.waypoint( function( direction ) {
-					if( direction === 'down' && animClassDown ) {
-						$head.attr('class', 'ha-header ' + animClassDown);
-					}
-					else if( direction === 'up' && animClassUp ){
-						$head.attr('class', 'ha-header ' + animClassUp);
-					}
-				}, { offset: '100%' } );
-			} );
-	</script>
+            $el.waypoint( function( direction ) {
+               if( direction === 'down' && animClassDown ) {
+                  $head.attr('class', 'ha-header ' + animClassDown);
+               }
+               else if( direction === 'up' && animClassUp ){
+                  $head.attr('class', 'ha-header ' + animClassUp);
+               }
+            }, { offset: '100%' } );
+         } );
+   </script>
 <jsp:include page = "../common/footer.jsp"/>
 </body>
 </html>

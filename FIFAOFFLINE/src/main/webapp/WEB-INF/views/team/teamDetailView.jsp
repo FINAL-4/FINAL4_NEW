@@ -2,7 +2,7 @@
     pageEncoding="UTF-8" import="com.kh.FIFAOFFLINE.team.model.vo.MyTeam, java.util.ArrayList"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <%
-	ArrayList<MyTeam> myTeam =(ArrayList<MyTeam>)session.getAttribute("myTeam");
+   ArrayList<MyTeam> myTeam =(ArrayList<MyTeam>)session.getAttribute("myTeam");
 %>
 <!DOCTYPE html>
 <html>
@@ -21,21 +21,25 @@
    color: red;
 }
 #title{
-	font-size: 40px; 
-	margin-top: 120px; 
-	border-bottom: 5px solid grey;
+   font-size: 40px; 
+   margin-top: 120px; 
+   border-bottom: 5px solid grey;
 }
 #picture{
+
 	width : 300px;
 	height : 250px;
 	margin-top : 50px;
 	margin-left: 200px;
+
 }
 #pictureContent{
+
 	font-size:2.4em;
 	font-weight: bold;
 	margin-top : 30px;
 	margin-left: 200px;
+
 }
 #detailContent1{
 	margin-left:150px;
@@ -50,81 +54,87 @@
 	font-size:2em;
 	border-collapse: separate;
 	border-spacing: 0 30px;
+
 }
 #btn{
+
 	margin-left : 180px;
+
+
 }
 #recruitBtn, #applyBtn{
-	width:250px;
-	height: 50px;
-	font-size: 2em;
-	font-weight: bold;
-	background: black;
-	border: 1px solid white;
-	color:white;
+   width:250px;
+   height: 50px;
+   font-size: 2em;
+   font-weight: bold;
+   background: black;
+   border: 1px solid white;
+   color:white;
 }
 #deleteBtn{
-	background:black;
-	border:1px solid black;
-	color:white;
-	width: 45%; 
-	height: 40px; 
-	padding: 0px; 
-	margin-right: 5%; 
-	font-size: 15px;
+   background:black;
+   border:1px solid black;
+   color:white;
+   width: 45%; 
+   height: 40px; 
+   padding: 0px; 
+   margin-right: 5%; 
+   font-size: 15px;
 }
 #modifyBtn{
-	background:black;
-	border:1px solid black;
-	color:white;
-	width: 45%; 
-	height: 40px; 
-	padding: 0px; 
-	font-size: 15px; 
+   background:black;
+   border:1px solid black;
+   color:white;
+   width: 45%; 
+   height: 40px; 
+   padding: 0px; 
+   font-size: 15px; 
 }
 #applyingBtn{
-	width:505px;
-	height:50px;
-	font-size: 2em;
-	font-weight: bold;
-	background: black;
-	color:white;
-	border: 1px solid white;
+   width:505px;
+   height:50px;
+   font-size: 2em;
+   font-weight: bold;
+   background: black;
+   color:white;
+   border: 1px solid white;
 }
-#recruitBtn:hover, #applyBtn:hover, #applyingBtn:hover, #deleteBtn:hover, #modifyBtn:hover{
-	color:black;
-	background: white;
-	border-radius: 13px;
-	border:1px solid black;
+
+#closeBtn{
+	background:black;
+	color:white;
+}
+#recruitBtn:hover, #applyBtn:hover, #applyingBtn:hover, #deleteBtn:hover, #modifyBtn:hover, #closeBtn:hover{
+   color:black;
+   background: white;
+   border:1px solid black;
 }
 #applyDetail{
-	margin-top:20px;
-	margin-left:20px;
+   margin-top:50px;
+   margin-left:20px;
 }
 #applyDetailTable{
-	width:320px;
-	border-collapse: separate;
-	border-spacing: 10px 25px;
+   width:320px;
+   border-collapse: separate;
+   border-spacing: 10px 25px;
 } 
 .agreeBtn, .cancelBtn{
-	width:35px;
-	height:30px;
-	font-weight: bold; 
+   width:35px;
+   height:30px;
+   font-weight: bold; 
 }
 
 #agreeBtn:hover, #cancelBtn:hover, #closeBtn:hover, .detailBtn:hover{
-	cursor: pointer;
-}
-#closeBtn{
-	background: white;
-	border: 1px solid white;
+   cursor: pointer;
 }
 #detailContent1 td{
-	width:400px;
-	text-align:left;
+   width:300px;
+   text-align:left;
+   border-bottom: 2px solid lightgrey;
 }
 #detailContent2 td{
-	text-align:left;
+   text-align:left;
+   border-bottom: 2px solid lightgrey;
 }
 .chip {
   display: inline-block;
@@ -144,7 +154,7 @@
   border-radius: 50%;
 }
 .chip img:hover{
-	cursor:pointer;
+   cursor:pointer;
 }
 
 /* The Modal (background) */
@@ -195,6 +205,7 @@
   vertical-align:center;
   text-align:center;
   align:center;
+
 }
 
 img.avatarM {
@@ -223,7 +234,7 @@ img.avatarM {
 }
 
 .card:hover{
-	cursor:pointer;
+   cursor:pointer;
 }
 
 table.type03 {
@@ -400,12 +411,13 @@ table.type03 td {
 		</div>
 		</form>
 	</div>
+
 </div>
 
 <div id="myModal" class="modal">
   <div class="modal-contentM animateM">
-  	<span class="closeM" onclick="closeM()">&times;</span>
-  	<div class="imgcontainerM">
+     <span class="closeM" onclick="closeM()">&times;</span>
+     <div class="imgcontainerM">
       <img alt="Avatar" class="avatarM">
     </div>
     <div class="container" align="center">
@@ -434,11 +446,12 @@ table.type03 td {
 
 
 <script>
-	var $head = $( '#ha-header' );
-	$( '.ha-waypoint' ).each( function(i) {
-		var $el = $( this ),
-			animClassDown = $el.data( 'animateDown' ),
-			animClassUp = $el.data( 'animateUp' );
+   var $head = $( '#ha-header' );
+   $( '.ha-waypoint' ).each( function(i) {
+      var $el = $( this ),
+         animClassDown = $el.data( 'animateDown' ),
+         animClassUp = $el.data( 'animateUp' );
+
 
 		$el.waypoint( function( direction ) {
 			if( direction === 'down' && animClassDown ) {
@@ -477,8 +490,11 @@ table.type03 td {
 		}else{
 			swal("같은 팀이 아닙니다.",'',"error");
 		}
+
+    
         
     });
+
 	$("#closeBtn").click(function(){
 		$("#applyDetail").hide();
 		$("#detailContentDiv1").show();
@@ -506,6 +522,8 @@ table.type03 td {
 			}
 		});
 
+  
+
 	}
 	
 	function agree(id){
@@ -532,51 +550,52 @@ table.type03 td {
 	}
 
 
-	// When the user clicks anywhere outside of the modal, close it
-		window.onclick = function(event) {
-	  if (event.target == modal) {
-	    modal.style.display = "none";
-	  }
-	}
-	
-	function modalUp(id){
-		
-		var userNo = id;
-		
-		$.ajax({
-			url:"modal.tm",
-			data:{userNo:userNo},
-			dataType:"json",
-			success:function(data){
-				
-				$(".mUserName").text(data.userName);
-				$(".mGender").text(data.gender);
-				$(".mEmail").text(data.userEmail);
-				$(".mAddress").text(data.address);
-				$(".avatarM").attr('src',"resources/images/testimage/"+data.profile)
-				
-				var modal = document.getElementById("myModal");
-				
-				modal.style.display="block";
-			}
-		});
-		
-		
-	}
-	
-	function closeM(){
-		var modal = document.getElementById("myModal");
-		
-		modal.style.display="none";
-	}
-	
-	window.onclick = function(event) {
-		var modal = document.getElementById("myModal");
-		if (event.target == modal) {
-		   modal.style.display = "none";
-		}
-	}
-	
+
+   // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+     if (event.target == modal) {
+       modal.style.display = "none";
+     }
+   }
+   
+   function modalUp(id){
+      
+      var userNo = id;
+      
+      $.ajax({
+         url:"modal.tm",
+         data:{userNo:userNo},
+         dataType:"json",
+         success:function(data){
+            
+            $(".mUserName").text(data.userName);
+            $(".mGender").text(data.gender);
+            $(".mEmail").text(data.userEmail);
+            $(".mAddress").text(data.address);
+            $(".avatarM").attr('src',"resources/images/testimage/"+data.profile)
+            
+            var modal = document.getElementById("myModal");
+            
+            modal.style.display="block";
+         }
+      });
+      
+      
+   }
+   
+   function closeM(){
+      var modal = document.getElementById("myModal");
+      
+      modal.style.display="none";
+   }
+   
+   window.onclick = function(event) {
+      var modal = document.getElementById("myModal");
+      if (event.target == modal) {
+         modal.style.display = "none";
+      }
+   }
+   
 
 	function applyTeam(){
 		if(${myTeam.size()} == 3){
@@ -718,9 +737,9 @@ table.type03 td {
 		
 	}
 	
-	
 
-	
+
+   
 </script>
 
 <jsp:include page = "../common/footer.jsp"/>

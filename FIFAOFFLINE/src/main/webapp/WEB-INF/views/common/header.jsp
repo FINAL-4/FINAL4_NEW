@@ -185,7 +185,11 @@
 						<c:if test="${!empty sessionScope.loginUser }">
 						<a class="menu__item" href="mypage.me" style = "border: none;"> <span class="menu__item-name">마이페이지   </span></a>
 						</c:if>
-
+						
+						<c:if test="${!empty sessionScope.loginUser }">
+						<a class="menu__item" href="qList.do" style = "border: none;"> <span class="menu__item-name">문의     </span></a>
+						</c:if>
+						
 						<span>
 						<c:if test="${empty sessionScope.loginUser }">
 						<img id = "login-logo" src="resources/images/login.png" width="30px;" height="30px;" onclick="document.getElementById('id01').style.display='block'">

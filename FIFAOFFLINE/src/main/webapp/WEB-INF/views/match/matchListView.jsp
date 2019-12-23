@@ -30,6 +30,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 * {
   box-sizing: border-box;
@@ -614,7 +615,7 @@ hr.new4 {
 				}
 			})
 		<%}else{%>
-			alert("소속된 팀이 없습니다.");
+			swal("", "소속된 팀이 없습니다.", "warning");
 			$("#myBtn").toggleClass('clicked');
 		<%}%>
 		
@@ -628,11 +629,11 @@ hr.new4 {
 	function goCreateMatch(loginUser){
 		
 		if(loginUser == ""){
-			alert("로그인이 필요합니다.");
+			swal("", "로그인이 필요한 기능입니다.", "warning");
 			return false;
 		}else{
 			<%if(mt == null){%>
-			alert("소속된 팀이 없어 매칭생성이 불가합니다.");
+			swal("", "소속된 팀이 없어 매칭생성이 불가능합니다.", "warning");
 			<%}else{%>
 				<%for(int i = 0 ; i < mt.size() ; i++){
 					if(mt.get(i).getT_Grade()==1){
@@ -644,7 +645,7 @@ hr.new4 {
 		<%if(flag){%>
 			location.href="goCreateMatch.ma";
 		<%}else{%>
-			alert("주장만이 매칭을 생성할 수 있습니다.");
+			aswal("", "주장만이 매치를 생성할 수 있습니다.", "warning");
 		<%}%>
 	}
 
@@ -661,7 +662,7 @@ hr.new4 {
 	$(".addressB").click(function(){
 		$(this).toggleClass('clicked');
 		if($("#sDate").val() != "" && $("#eDate").val() == ""){
-			alert("종료날짜를 먼저 입력하세요.");
+			swal("", "종료 날짜를 먼저 입력해주세요.", "warning");
 			$("#eDate").focus();
 			$(this).toggleClass('clicked');
 			
@@ -675,7 +676,7 @@ hr.new4 {
 	/* 유형이 선택되었을 시 */
 	$("#mSystem").change(function(){
 		if($("#sDate").val() != "" && $("#eDate").val() == ""){
-			alert("종료날짜를 먼저 입력하세요.");
+			swal("", "종료 날짜를 먼저 입력해주세요.", "warning");
 			$("#eDate").focus();
 			$(this).val("");
 			
@@ -691,13 +692,13 @@ hr.new4 {
 		
 		$("#eDate").change(function(){
 			if($("#sDate").val() == ""){
-				alert("시작날짜를 입력하세요.");
+				swal("", "시작 날짜를 입력해주세요.", "warning");
 				$("#eDate").val("");
 				$("#sDate").focus();
 				
 				return false;
 			}else if($("#eDate").val() < $("#sDate").val()){
-				alert("종료날짜는 시작날짜보다 빠를 수 없습니다.");
+				swal("", "종료 날짜는 시작 날짜보다 빠를 수 없습니다.", "warning");
 				$("#eDate").val("");
 				$("#eDate").focus();
 				

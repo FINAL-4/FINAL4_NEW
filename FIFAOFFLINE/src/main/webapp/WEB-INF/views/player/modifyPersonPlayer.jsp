@@ -8,7 +8,7 @@
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
-  var $$ = jQuery.noConflict();
+  var $$$ = jQuery.noConflict();
 </script>
 <script src='resources/js/moment.min.js'></script>
 <script src='resources/js/fullcalendar.min.js'></script>
@@ -52,13 +52,23 @@
 			
 				
 				 if(Number(dateNow)>Number(dateCompare)){
-					alert("지난 날짜를 선택할 수 없습니다.");
+					 swal("지난 날짜를 선택할 수 없습니다!", "", "error");
 					return false;
 				}  
 				
-				if(confirm("날짜를 선택하시겠습니까?") == false){
-					return false;
-				}
+				 swal({
+					 title: "날짜를 선택하시겠습니까 ? ",
+					 buttons: true,
+					 dangerMode: true,
+				}).then((willDelete) => {
+					  if (willDelete) {
+					    swal("날짜를 선택 완료되었습니다!", {
+					      icon: "success",
+					    });
+					  } else {
+					    swal("날짜선택을 취소했습니다!");
+					  }
+					});
 				
 				console.log(startDate.format(), endDate.format());
 				sDate = startDate.format();
@@ -85,9 +95,19 @@
 			},
 			select: function(startDate ,endDate){
 				
-				if(confirm("날짜를 선택하시겠습니까?") == false){
-					return false;
-				}
+				 swal({
+					 title: "날짜를 선택하시겠습니까 ? ",
+					 buttons: true,
+					 dangerMode: true,
+				}).then((willDelete) => {
+					  if (willDelete) {
+					    swal("날짜를 선택 완료되었습니다!", {
+					      icon: "success",
+					    });
+					  } else {
+					    swal("날짜선택을 취소했습니다!");
+					  }
+					});
 				
 				console.log(startDate.format(), endDate.format());
 				sDate = startDate.format();
@@ -559,27 +579,27 @@ input, select{
 <script type="text/javascript">
 	function submitModify(){		
 		if($$("#playerTitle").val() == ""){
-			alert("용병 등록 제목을 입력하세요.");
-			$$("#basicLabel").click();
-			return false;
-		}else if($$("#cplace").html() == "장소를 선택하세요."){
-			alert("장소를 선택하세요.");
-			$$("#locationLabel").click();
-			return false;
-		}else if($$("#dayInfo").html() == "날짜를 선택하세요."){
-			alert("날짜를 선택하세요.");
-			$$("#timeLabel").click();
-			return false;
-		}else if($$("#mContent").val() == ""){
-			alert("남기실 말을 입력하세요.");
-			return false;
-		}else if($$("#skill").val() == ""){
-			alert("실력을 선택하세요.");
+			swal("용병 등록 제목을 입력하세요!", "", "error");
 			$$("#basicLabel").click();
 			return false;
 		}else if($$("#manner").val() == "") {
-			alert("매너를 선택하세요.");
+			swal("매너를 선택하세요!", "", "error");
 			$$("#basicLabel").click();
+			return false;
+		}else if($$("#skill").val() == ""){
+			swal("실력을 선택하세요!", "", "error");
+			$$("#basicLabel").click();
+			return false;
+		}else if($$("#cplace").html() == "장소를 선택하세요."){
+			swal("장소를 선택하세요!", "", "error");
+			$$("#locationLabel").click();
+			return false;
+		}else if($$("#dayInfo").html() == "날짜를 선택하세요."){
+			swal("날짜를 선택하세요!", "", "error");
+			$$("#timeLabel").click();
+			return false;
+		}else if($$("#mContent").val() == ""){
+			swal("남기실 말을 입력하세요!", "", "error");
 			return false;
 		}
 		$$("#modifyForm").submit();
@@ -625,7 +645,7 @@ searchPlaces();
 function searchPlaces() {
     var keyword = document.getElementById('keyword').value;
     if (!keyword.replace(/^\s+|\s+$/g, '')) {
-        alert('키워드를 입력해주세요!');
+    	swal("키워드를 입력하세요!", "", "error");
         return false;
     }
     // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
@@ -640,10 +660,10 @@ function placesSearchCB(data, status, pagination) {
         // 페이지 번호를 표출합니다
         displayPagination(pagination);
     } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-        alert('검색 결과가 존재하지 않습니다.');
+    	swal("검색 결과가 존재하지 않습니다!", "", "error");
         return;
     } else if (status === kakao.maps.services.Status.ERROR) {
-        alert('검색 결과 중 오류가 발생했습니다.');
+    	swal("검색 결과 중 오류가 발생하였습니다!", "", "error");
         return;
     }
 }
@@ -717,9 +737,19 @@ function getListItem(index, places) {
     el.innerHTML = itemStr;
     el.className = 'item';
 	el.onclick = function (){
-		if(confirm("장소를 선택하시겠습니까?") == false){
-			return false;
-		}
+		swal({
+			 title: "장소를 선택하시겠습니까 ? ",
+			 buttons: true,
+			 dangerMode: true,
+		}).then((willDelete) => {
+			  if (willDelete) {
+			    swal("장소가 선택 완료되었습니다!", {
+			      icon: "success",
+			    });
+			  } else {
+			    swal("장소선택을 취소했습니다!");
+			  }
+			});
 		$$("#cplace").html(places.place_name);
 		$$("#cplaceName").val(places.place_name);
 		$$("#cplaceX").val(places.x);

@@ -31,6 +31,10 @@
 	--menu-item-color:red;
 }
 
+.menu--ama .menu__item:nth-child(6) {
+	--menu-item-color:red;
+}
+
 .menu--ama .menu__item::before {
 	content: counter(itemCounter,decimal-leading-zero);
 	font-size: 0.85em;

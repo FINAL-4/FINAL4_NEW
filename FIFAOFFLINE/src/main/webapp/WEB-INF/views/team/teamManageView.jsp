@@ -1270,7 +1270,7 @@ $(document).on("mouseover",".modalUp",function(){
 			$(".mUserName").text(data.userName);
 			$(".mGender").text(data.gender);
 			$(".mEmail").text(data.userEmail);
-			$(".mAddress").text(data.address);
+			$(".mPhone").text(data.phone);
 			$(".avatarM").attr('src',"resources/proFiles/"+data.profile)
 			
 			var modal = document.getElementById("myModal");
