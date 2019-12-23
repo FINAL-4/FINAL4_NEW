@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="questionMapper">
+
+  <resultMap type="Question" id="questionResultSet">
+  		<id property="qId" column="QID"/>
+		<result property="userNo" column="USER_NO"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="userName" column="USER_NAME"/>
+		<result property="profile" column="PROFILE"/>
+		<result property="qTitle" column="QTITLE"/>
+		<result property="qContent" column="QCONTENT"/>
+		<result property="qAnswer" column="QANSWER"/>
+		<result property="qDate" column="QDATE"/>
+		<result property="aDate" column="ADATE"/>
+		<result property="qStatus" column="QSTATUS"/>
+		<result property="aYN" column="ANSWERYN"/>
+		<result property="rYN" column="READYN"/>		
+  </resultMap>
+  
+  <select id="selectAllqList" resultMap="questionResultSet">
+  	SELECT *
+  	FROM QUESTION Q
+  	JOIN MEMBER M ON(Q.USER_NO=M.USER_NO)
+  	WHERE QSTATUS='Y'
+  </select>
+  
+  <select id="selectqList" parameterType="_int" resultMap="questionResultSet">
+  	SELECT *
+  	FROM QUESTION Q
+  	JOIN MEMBER M ON(Q.USER_NO=M.USER_NO)
+  	WHERE QSTATUS='Y' AND Q.USER_NO=#{userNo}
+  </select>
+  
+  <insert id="insertQuestion" parameterType="Question">
+  	INSERT INTO QUESTION
+  	VALUES(SEQ_QID.NEXTVAL, #{userNo}, #{qTitle}, #{qContent},
+  			DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
+  </insert>
+  
+  <select id="selectQuestion" parameterType="_int" resultMap="questionResultSet">
+  	SELECT * 
+  	FROM QUESTION Q
+  	JOIN MEMBER M ON(Q.USER_NO=M.USER_NO)
+  	WHERE Q.QID=#{qId} AND Q.QSTATUS='Y'
+  </select>
+  
+  <update id="deleteQuestion" parameterType="_int">
+  	UPDATE QUESTION
+  	SET QSTATUS='N'
+  	WHERE QID=#{qId}
+  </update>
+  
+  <update id="updateAnswer" parameterType="Question">
+  	UPDATE QUESTION
+  	SET QANSWER=#{qAnswer}, ANSWERYN='Y', ADATE=SYSDATE
+  	WHERE QID=#{qId}
+  </update>
+  
+   <update id="updateRead" parameterType="Question">
+  	UPDATE QUESTION
+  	SET READYN='Y'
+  	WHERE QID=#{qId}
+  </update>
+  
+</mapper>

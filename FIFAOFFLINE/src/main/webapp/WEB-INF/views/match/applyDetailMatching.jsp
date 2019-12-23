@@ -12,7 +12,7 @@
   var $$$ = jQuery.noConflict();
 </script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.min.js'></script>
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <title>Insert title here</title>
 <style>
 /* ---------선택된 메뉴 색상 변경-------- */
@@ -564,7 +564,7 @@ h6{
 					<input type = button id = applyingBtn value = "신  청  현  황" style = "margin-right: 26%;" onclick = "showAppMatch();">
 					<input type = button id = recruitBtn value = "돌아가기" onclick = "location.href='goMatch.ma'" style = "margin-right: 1%;">
 					<div class="con-tooltip bottom">
-						<input type = button id = applyBtn value = "신청하기" onclick = "alert('팀을 선택하세요')">
+						<input type = button id = applyBtn value = "신청하기" onclick = "swal('', '팀을 선택해주세요.', 'warning');">
 						<div class="tooltip">
 							<div id = "teamList">
 							<c:forEach var="team" items="${myTeam }">
@@ -768,16 +768,16 @@ h6{
 						"<td colspan='4'><h2>팀원 확인</h2></td>"+
 						"</tr>"+
 						"<tr>"+
-							"<td><h4>이름</h4></td>"+
-							"<td><h4>성별</h4></td>"+
-							"<td><h4>생년월일</h4></td>"+
-							"<td><h4>포지션</h4></td>"+
+							"<td width = '10%'><h4></h4></td>"+
+							"<td width = '20%'><h4>이름</h4></td>"+
+							"<td width = '30%'><h4>생년월일</h4></td>"+
+							"<td width = '40%'><h4>포지션</h4></td>"+
 						"</tr>");
 				
 				for(var i in data){
 					$("#memberInfoTb").append("<tr>"+
+							"<td><img src = 'resources/proFiles/"+data[i].profile+"' width = '22px' height = '22px' style = 'border-radius: 50%;'></td>"+
 							"<td><h4>"+data[i].userName+"</h4></td>"+
-							"<td><h4>"+data[i].gender+"</h4></td>"+
 							"<td><h4>"+data[i].birthDay+"</h4></td>"+
 							"<td><h4>"+data[i].position+"</h4></td>"+
 						"</tr>")
@@ -880,39 +880,52 @@ h6{
 <script type="text/javascript">
 
 	function confirmAm(amTeamNo, mId, amTeamName, amUserName, mTeamNo, mTeamName, mUserName, mSystem, mLocationName, mDay, sHour, sMinute, eHour, eMinute, dues){
-		if(!confirm(amTeamName+"와 매칭을 확정하시겠습니까.\n매칭 확정 시에 문자로 매칭정보가 전송됩니다.")){
-			return false;
-		}
 		
-		$.ajax({
-			url:"confirmMatching.ma",
-			data:{amTeamNo:amTeamNo,
-				mId:mId, 
-				amTeamName:amTeamName,
-				amUserName:amUserName,
-				mTeamNo:mTeamNo,
-				mTeamName:mTeamName, 
-				mUserName:mUserName,
-				mSystem:mSystem, 
-				mLocationName:mLocationName,
-				mDay:mDay,
-				sHour:sHour,
-				sMinute:sMinute,
-				eHour:eHour,
-				eMinute:eMinute,
-				dues:dues
-			},
-			success:function(data){
-				alert("매치가 확정되었습니다.\n경기 종료 후에 매칭결과를 입력하셔야 다음 매치생성이 가능합니다.");
-				alert("리스트로 돌아갑니다.");
-				location.href="goMatch.ma";
-			},
-			error:function(request, status, errorData){
-				alert("error code: " + request.status + "\n"
-						+"message: " + request.responseText
-						+"error: " + errorData);
-			}
-		})
+		swal({
+		  	  title: amTeamName+"와의 매칭을 확정하시겠습니까.\n매칭 확정 시에 문자로 매칭정보가 전송됩니다.",
+		  	  icon: "info",
+		  	  buttons: true,
+		  	  dangerMode: false,
+		  	})
+		  	.then((willDelete) => {
+		  	  if (willDelete) {
+		  		$.ajax({
+					url:"confirmMatching.ma",
+					data:{amTeamNo:amTeamNo,
+						mId:mId, 
+						amTeamName:amTeamName,
+						amUserName:amUserName,
+						mTeamNo:mTeamNo,
+						mTeamName:mTeamName, 
+						mUserName:mUserName,
+						mSystem:mSystem, 
+						mLocationName:mLocationName,
+						mDay:mDay,
+						sHour:sHour,
+						sMinute:sMinute,
+						eHour:eHour,
+						eMinute:eMinute,
+						dues:dues
+					},
+					success:function(data){
+						swal("", "매치가 확정되었습니다.\n경기 종료 후에 매칭결과를 입력하셔야 다음 매치생성이 가능합니다.", "success");
+						swal("", "리스트로 돌아갑니다..", "success");
+						
+						setTimeout(function() { location.href="goMatch.ma"; }, 3000);
+					},
+					error:function(request, status, errorData){
+						alert("error code: " + request.status + "\n"
+								+"message: " + request.responseText
+								+"error: " + errorData);
+					}
+				})
+		  	  } else {
+		  		  return false;
+		  	  }
+		  	});
+
+		
+		
 		
 	}
 
@@ -926,12 +939,23 @@ h6{
 <script type="text/javascript">
 
 	function deleteMatch(mId){
-		if(!confirm("매칭을 삭제하시겠습니까?")){
-			return false;
-		}
+		swal({
+		  	  title: "매칭을 삭제하시겠습니까?",
+		  	  icon: "info",
+		  	  buttons: true,
+		  	  dangerMode: true,
+		  	})
+		  	.then((willDelete) => {
+		  	  if (willDelete) {
+		  		swal("", "매칭이 삭제되었습니다.", "success");
+		  		setTimeout(function() { location.href="deleteMatch.ma?mId="+mId; }, 3000);
+		  	  } else {
+		  		  return false;
+		  	  }
+		  	});
+
 		
-		alert("매칭이 삭제됩니다.");
-		location.href="deleteMatch.ma?mId="+mId;
+		
 	}
 </script>
 
@@ -950,27 +974,38 @@ h6{
 <script type="text/javascript">
 
 	function cancleAm(tId, mId){
-		if(!confirm("신청을 취소하시겠습니까?")){
-			return false;
-		}
-		
-		$.ajax({
-			url:"cancleAm.ma",
-			data:{mId:mId,
-				tId:tId
-			},
-			success:function(data){
-				
-			},
-			error:function(request, status, errorData){
-				alert("error code: " + request.status + "\n"
-						+"message: " + request.responseText
-						+"error: " + errorData);
-			}
-		})
+		swal({
+		  	  title: "신청을 취소하시겠습니까?",
+		  	  icon: "info",
+		  	  buttons: true,
+		  	  dangerMode: false,
+		  	})
+		  	.then((willDelete) => {
+		  	  if (willDelete) {
+		  		$.ajax({
+					url:"cancleAm.ma",
+					data:{mId:mId,
+						tId:tId
+					},
+					success:function(data){
+						
+					},
+					error:function(request, status, errorData){
+						alert("error code: " + request.status + "\n"
+								+"message: " + request.responseText
+								+"error: " + errorData);
+					}
+				})
 
-		$("#"+tId).css("display","none");
-		alert("신청이 취소되었습니다.");
+				$("#"+tId).css("display","none");
+				swal("", "신청이 취소되었습니다.", "success");
+		  	  } else {
+		  		  return false;
+		  	  }
+		  	});
+
+		
+		
 	}
 
 </script>
@@ -1011,7 +1046,6 @@ h6{
 <script type="text/javascript">
 	function appMatch(tId, tName){
 	
-		alert(tId +tName);
 		$.ajax({
 			url:"checkAppMatch.ma",
 			data:{mId:${match.mId},
@@ -1019,59 +1053,62 @@ h6{
 			},
 			success:function(data){
 				if(data>0){
-					alert("이미 신청한 매치입니다.");
+					swal("", "이미 신청한 매치입니다.", "warning");
 					return false;
 				}
 				
 				if(${match.userNo} == ${loginUser.userNo}){
-					alert("자신의 매치글에 신청할 수 없습니다.");
+					swal("", "자신의 매치글에는 신청할 수 없습니다.", "warning");
 					return false;
 				}
 				
 				
-				if(!confirm('팀"'+tName+'"으로 매치를 신청하시겠습니까?')){
-					return false;
-				}
-				
-				
-				$.ajax({
-					url:"appMatch.ma",
-					data:{mId:${match.mId},
-						tId:tId,
-						userNo:${loginUser.userNo}
-					},
-					success:function(data){
-						if(data == "1"){
-							$("#applyDetailTable").append("<tr id = '"+tId+"'>"+
-								"<td>"+
-									"<input type = 'hidden' value ='"+tId+"' style = 'disply:none;'/>"+
-								"</td>"+
-								"<td style = 'font-size:1.7em; width: 50%;'>"+
-									tName+
-								"</td>"+
-								"<td style = 'width: 25%;'> "+
-									"<input type = button id = 'matchingBtn' name = 'O' value='신청취소' style= 'background: black; color:white; font-size: 15px;' onclick = 'cancleAm("+tId+", "+${match.mId}+")'>"+
-								"</td>"+
-								"<td style = 'width: 25%;'> "+
-									"<input type = 'button' id = 'detailTeamBtn' name = 'O' value='팀상세보기' style= 'background: black; color:white; font-size: 15px;' onclick = 'showTeamInfo("+tId+")'>"+
-								"</td>"+
-							"</tr>");
-						}
-						
-						$("#noInfo").css("display","none");
-						alert("신청이 완료되었습니다.");
-							
-					},
-					error:function(request, status, errorData){
-						alert("error code: " + request.status + "\n"
-								+"message: " + request.responseText
-								+"error: " + errorData);
-					}
-				})
-				
-				
-				
-					
+				swal({
+				  	  title: '팀"'+tName+'"으로 매치를 신청하시겠습니까?',
+				  	  icon: "info",
+				  	  buttons: true,
+				  	  dangerMode: false,
+				  	})
+				  	.then((willDelete) => {
+				  	  if (willDelete) {
+				  		$.ajax({
+							url:"appMatch.ma",
+							data:{mId:${match.mId},
+								tId:tId,
+								userNo:${loginUser.userNo}
+							},
+							success:function(data){
+								if(data == "1"){
+									$("#applyDetailTable").append("<tr id = '"+tId+"'>"+
+										"<td>"+
+											"<input type = 'hidden' value ='"+tId+"' style = 'disply:none;'/>"+
+										"</td>"+
+										"<td style = 'font-size:1.7em; width: 50%;'>"+
+											tName+
+										"</td>"+
+										"<td style = 'width: 25%;'> "+
+											"<input type = button id = 'matchingBtn' name = 'O' value='신청취소' style= 'background: black; color:white; font-size: 15px;' onclick = 'cancleAm("+tId+", "+${match.mId}+")'>"+
+										"</td>"+
+										"<td style = 'width: 25%;'> "+
+											"<input type = 'button' id = 'detailTeamBtn' name = 'O' value='팀상세보기' style= 'background: black; color:white; font-size: 15px;' onclick = 'showTeamInfo("+tId+")'>"+
+										"</td>"+
+									"</tr>");
+								}
+								
+								$("#noInfo").css("display","none");
+								swal("", "신청이 완료되었습니다.", "success");
+									
+							},
+							error:function(request, status, errorData){
+								alert("error code: " + request.status + "\n"
+										+"message: " + request.responseText
+										+"error: " + errorData);
+							}
+						})
+				  	  } else {
+				  		  return false;
+				  	  }
+				  	});	
 			},
 			error:function(request, status, errorData){
 				alert("error code: " + request.status + "\n"
@@ -1105,20 +1142,28 @@ h6{
 	
 	function insertResult(loginUser, matchUser){
 		if(loginUser != "" && loginUser != matchUser){
-			alert("팀의 팀장만 점수를 입력할 수 있습니다.");
+			swal("", "팀의 팀장만 점수를 입력할 수 있습니다.", "warning");
 			return false;
 		}
 		
 		if($("#yourScore").val() == "" || $("#myScore").val() == ""){
-			alert("점수를 입력하세요");
+			swal("", "점수를 입력하세요.", "warning");
 			return false;
 		}else{
-			if(!confirm("결과를 등록하시겠습니까?")){
-				return false;
-			}else{
-				alert("리스트 페이지로 돌아갑니다.");
-				$("#scoreForm").submit();
-			}
+			swal({
+			  	  title: "결과를 등록하시겠습니까?",
+			  	  icon: "info",
+			  	  buttons: true,
+			  	  dangerMode: false,
+			  	})
+			  	.then((willDelete) => {
+			  	  if (willDelete) {
+			  		swal("", "리스트 페이지로 이동합니다.", "success");
+			  		setTimeout(function() { $("#scoreForm").submit(); }, 3000);
+			  	  } else {
+			  		  return false;
+			  	  }
+			  	});
 		}
 		
 	}

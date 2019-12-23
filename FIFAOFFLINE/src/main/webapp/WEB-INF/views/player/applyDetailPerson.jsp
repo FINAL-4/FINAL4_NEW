@@ -317,12 +317,13 @@ h6{
 	function applyBtn(){
 		var playerFlag = false;
 		var userNo = ${loginUser.userNo};
+		var userNo1 = ${pEnroll.userNo};
 		var eNum = ${pEnroll.eNum};
 		
 		if(!playerFlag){
 			$.ajax({
 				url:"ajaxApplyPerson.pl",
-				data:{userNo:userNo, eNum:eNum},
+				data:{userNo:userNo, eNum:eNum, userNo1:userNo1},
 				success:function(data){
 					if(data == 1){
 						swal("신청을 이미 했습니다!", "", "error");
@@ -330,7 +331,6 @@ h6{
 						swal({
 							  title: "정말로 신청하시겠습니까 ? ",
 							  text: "해당 번호로 문자메세지가 전송됩니다.",
-							  icon: "warning",
 							  buttons: true,
 							  dangerMode: true,
 							})
@@ -366,20 +366,51 @@ h6{
 	
 	
 	function deleteBtn(){
-		var deleteBtn = confirm("정말로 삭제하시겠습니까 ?");
+		swal({
+			  title: "정말로 삭제하시겠습니까 ? ",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willDelete) => {
+			  if (willDelete) {
+				location.href='${pplDelete}'
+			   swal("삭제가 완료되었습니다!", {
+			      icon: "success",
+			    });
+			  } else {
+			    swal("삭제를 취소했습니다!");
+			  }
+			});
+		
+		/* var deleteBtn = confirm("정말로 삭제하시겠습니까 ?");
 		if(deleteBtn){
 			location.href='${pplDelete}'
 		}else{
 			return false;
-		}
+		} */
 	}
 	function modifyBtn(){
-	var modifyBtn = confirm("정말로 수정하시겠습니까 ?");
+		swal({
+			  title: "정말로 수정하시겠습니까 ? ",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willDelete) => {
+			  if (willDelete) {
+				location.href='${pplModify}'
+			    swal("수정이 완료되었습니다!", {
+			      icon: "success",
+			    });
+			  } else {
+			    swal("수정을 취소했습니다!");
+			  }
+			});
+	/* var modifyBtn = confirm("정말로 수정하시겠습니까 ?");
 		if(modifyBtn){
 			location.href='${pplModify}'
 		} else {
 			return false;
-		}
+		} */
 	}
 </script>
 

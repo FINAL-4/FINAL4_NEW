@@ -123,18 +123,21 @@
 <body>
 
 <div id = "outer" style = "margin-top: 180px;">
-			<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style = "height: 1000px; width: 100%; background: white; margin: auto;">
+			<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style = "height: 1000px; width: 95%; background: white; margin: auto;">
 				<div class="mainPage1">
 					<ul class="slider">
 						<li>
-							<img src="resources/images/slide1.jpg" alt="slide1"/>
+							<img src="resources/images/55555.png" alt="slide1" style="height:800px;"/>
 						</li>
 						<li>
-						    <img src="resources/images/slide2.jpg" alt="slide2"/>
+						    <img src="resources/images/66666.png" alt="slide2" style="height:800px;"/>
 						</li>
 						<li>
-						    <img src="resources/images/slide3.jpg"  alt="slide3"/>
+						    <img src="resources/images/77777.png"  alt="slide3" style="height:800px;"/>
 						</li>
+						<li>
+							<img src="resources/images/88888.png" alt="slide4" style="height:800px;"/>
+						</li> 
 					</ul>
 				</div>
 			</div>
@@ -273,7 +276,7 @@ $.ajax({
 $$$(".slider").slider({
 
 	  // animation speed
-	   speed: 1500,
+	   speed: 1000,
 
 	  // animation delay
 	   delay: 15000,
