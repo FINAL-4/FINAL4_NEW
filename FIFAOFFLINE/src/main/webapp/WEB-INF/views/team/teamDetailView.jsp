@@ -211,6 +211,9 @@ img.avatarM {
 				<img id = "picture" src="resources/images/team/${t.teamImage }"> 
 				<td> ${t.teamName }</td>
 			</tr>
+			<tr>
+				<td>${scoreStr}</td>
+			</tr>
 		</table>
 		</div>
 		
@@ -304,7 +307,7 @@ img.avatarM {
 					<td id="joinUser${join.userNo }">
 						<div class="chip">
   							<img onclick="modalUp(${join.userNo})" src="resources/proFiles/${join.profile }" alt="Person" width="96" height="96">
-  							${join.name }
+  							${join.userName }
   							<%-- <c:url var="cancel" value="cancel.tm">
 								<c:param name="userNo" value="${join.userNo }"/>
 								<c:param name="teamNo" value="${t.teamNo}"/>
@@ -501,46 +504,50 @@ img.avatarM {
 	
 
 	function applyTeam(){
-		
-		var teamFlag = false;
-		var myTeamNo = [];
-		var userNo=${loginUser.userNo};
-		var teamNo=${t.teamNo};
-		
-		<%for(int i=0; i<myTeam.size(); i++){%>
-			myTeamNo[<%=i%>] = <%=myTeam.get(i).getTeamNo()%>;
-		<%}%>
-		
-		
-		for(var i=0; i<myTeamNo.length; i++){
-			if(teamNo == myTeamNo[i]){
-				teamFlag = true;
-			}
-		}
-		
-		
-		if(!teamFlag){
-		$.ajax({
-			url:"dupApply.tm",
-			data:{userNo:userNo,
-				  teamNo:teamNo},
-			success:function(data){
-				if(data == 1){
-					alert("이미 신청한 팀입니다.");
-				}else{
-					var confirmFlag = confirm("신청하시겠습니까?");
-					if(confirmFlag){
-						location.href="applyTeam.tm?userNo="+userNo+"&teamNo="+teamNo;
-						alert("신청완료");
-					}	
-					else
-						alert("취소");
-				}
-			}	  
-		});
+		if(${myTeam.size()} == 3){
+			alert("3개이상 팀을 가입하거나 생성할 수 없습니다.");
 		}else{
-			alert("이미 가입되어있는 팀 입니다.");
-		}
+			var teamFlag = false;
+			var myTeamNo = [];
+			var userNo=${loginUser.userNo};
+			var teamNo=${t.teamNo};
+			
+			<%for(int i=0; i<myTeam.size(); i++){%>
+				myTeamNo[<%=i%>] = <%=myTeam.get(i).getTeamNo()%>;
+			<%}%>
+			
+			
+			for(var i=0; i<myTeamNo.length; i++){
+				if(teamNo == myTeamNo[i]){
+					teamFlag = true;
+				}
+			}
+			
+			
+			if(!teamFlag){
+			$.ajax({
+				url:"dupApply.tm",
+				data:{userNo:userNo,
+					  teamNo:teamNo},
+				success:function(data){
+					if(data == 1){
+						alert("이미 신청한 팀입니다.");
+					}else{
+						var confirmFlag = confirm("신청하시겠습니까?");
+						if(confirmFlag){
+							location.href="applyTeam.tm?userNo="+userNo+"&teamNo="+teamNo;
+							alert("신청완료");
+						}	
+						else
+							alert("취소");
+					}
+				}	  
+			});
+			}else{
+				alert("이미 가입되어있는 팀 입니다.");
+			}
+		}	
+		
 	}		
 	
 	function deleteTeamAD(){
@@ -556,7 +563,6 @@ img.avatarM {
 				teamFlag = true;
 			}
 		}
-		
 		if(teamFlag){
 			if(${t.userNo} == ${loginUser.userNo}){
 				var teamNo = ${t.teamNo};
@@ -594,7 +600,6 @@ img.avatarM {
 				if(confirmFlag){
 					location.href="updateTeamView.tm?teamNo="+teamNo;
 				}
-				
 			}else{
 				alert("팀장만 수정할 수 있습니다.");
 			}

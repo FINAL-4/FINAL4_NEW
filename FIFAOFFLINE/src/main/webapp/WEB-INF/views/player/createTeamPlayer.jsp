@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
   var $$$ = jQuery.noConflict();
 </script>
@@ -51,7 +52,7 @@
 			
 				
 				 if(Number(dateNow)>Number(dateCompare)){
-					alert("지난 날짜를 선택할 수 없습니다.");
+					swal("지난 날짜를 선택할 수 없습니다.", "", "error");
 					return false;
 				}  
 				
@@ -590,27 +591,27 @@ input, select{
 <script type="text/javascript">
 	function submitCreate(){		
 		if($$("#playerTitle").val() == ""){
-			alert("용병 모집 제목을 입력하세요.");
+			swal("용병 등록 제목을 입력하세요!", "", "error");
 			$$("#basicLabel").click();
 			return false;
 		}
 		if($$("#playerMoney").val() == ""){
-			alert("참가비를 입력하세요.");
+			swal("참가비를 입력하세요!", "", "error");
 			$$("#basicLabel").click();
 			return false;
 		}
 		if($$("#cplace").html() == "장소를 선택하세요."){
-			alert("장소를 선택하세요.");
+			swal("장소를 선택하세요!", "", "error");
 			$$("#locationLabel").click();
 			return false;
 		}
 		if($$("#dayInfo").html() == "날짜를 선택하세요."){
-			alert("날짜를 선택하세요.");
+			swal("날짜를 선택하세요!", "", "error");
 			$$("#timeLabel").click();
 			return false;
 		}
 		if($$("#mContent").val() == ""){
-			alert("남기실 말을 입력하세요.");
+			swal("남기실 말을 입력하세요!", "", "error");
 			return false;
 		} 
 		$$("#createForm").submit();

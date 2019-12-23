@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.FIFAOFFLINE.match.model.vo.SmsInfo;
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.player.model.dao.PlayerDao;
 import com.kh.FIFAOFFLINE.player.model.vo.P_ENROLL;
@@ -136,6 +137,16 @@ public class PlayerServiceImpl implements PlayerService{
 	@Override
 	public int deletePlay() {
 		return pDao.deletePlay();
+	}
+
+	@Override
+	public ArrayList<SmsInfo> SMSservice(int getrNum) {
+		return pDao.SMSservice(getrNum);
+	}
+
+	@Override
+	public ArrayList<SmsInfo> SMSservice1(int geteNum) {
+		return pDao.SMSservice1(geteNum);
 	}
 
 

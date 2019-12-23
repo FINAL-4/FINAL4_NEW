@@ -9,6 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 #playerMenu .menu__item-name::after,
 #playerMenu .menu__item-name::before{
@@ -478,11 +479,11 @@ function agree1(id){
 		dataType:"json",
 		success:function(data){
 			if(data != 0){
-				alert("신청을 수락하였습니다.\n 수락 문자메세지가 전송됩니다.");
+				swal("신청을 수락하였습니다. \n수락 문자메세지가 전송됩니다!", "", "success");
 				$("#listTd"+id).remove();
 				$(".deadlineCount").text(parseInt($(".deadlineCount").text())-1 + " 명");
 			} else {
-				alert("이미 수락하였습니다.");
+				swal("이미 수락하였습니다!", "", "error");
 			}
 		}
 	});
@@ -499,10 +500,10 @@ function cancel1(id){
 		dataType:"json",
 		success:function(data){
 			if(data != 0){
-				alert("신청을 거절하였습니다.\n 거절 문자메세지가 전송됩니다.");
+				swal("신청을 거절하였습니다. \n거절 문자메세지가 전송됩니다!", "", "success");
 				$("#listTd"+id).remove();
 			} else {
-				alert("거절 실패");
+				swal("거절실패!", "", "error");
 			}
 		}
 	});
@@ -520,19 +521,29 @@ function applyBtn(){
 			data:{userNo:userNo, rNum:rNum},
 			success:function(data){
 				if(data == 1){
-					alert("이미 신청했습니다.");
+					swal("이미 신청했습니다.", "", "error");
 				} else {
-					var confirmFlag = confirm("정말로 신청하시겠습니까 ?");
-					if(confirmFlag){
-						location.href="teamPlayApply.pl?userNo="+userNo+"&rNum="+rNum;
-					} else {
-						alert("취소");
-					}
+					swal({
+						  title: "정말로 신청하시겠습니까 ? ",
+						  icon: "warning",
+						  buttons: true,
+						  dangerMode: true,
+						})
+						.then((willDelete) => {
+						  if (willDelete) {
+						    swal("신청이 완료되었습니다!", {
+						      icon: "success",
+						    });
+						    location.href="teamPlayApply.pl?userNo="+userNo+"&rNum="+rNum;
+						  } else {
+						    swal("신청을 취소했습니다!");
+						  }
+						});
 				}
 			}
 		});
 	} else {
-		alert("이미 가입되어있는 팀 입니다.");
+		swal("이미 가입되어있는 팀 입니다!", "", "error");
 	}
 }
 
