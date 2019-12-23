@@ -1,48 +1,41 @@
 package  com.kh.FIFAOFFLINE.notice.model.vo;
 
 public class SearchCondition {
-	private String writer;
-	private String title;
-	private String content;
+	private int catagory;
+	private String sCondition;
+	private String sContent;
 	
-	public SearchCondition() {
-	}
-
-	public SearchCondition(String writer, String title, String content) {
+	public SearchCondition() {}
+	
+	public SearchCondition(int catagory, String sCondition, String sContent) {
 		super();
-		this.writer = writer;
-		this.title = title;
-		this.content = content;
+		this.catagory = catagory;
+		this.sCondition = sCondition;
+		this.sContent = sContent;
 	}
-
-	public String getWriter() {
-		return writer;
+	public int getCatagory() {
+		return catagory;
 	}
-
-	public void setWriter(String writer) {
-		this.writer = writer;
+	public void setCatagory(int catagory) {
+		this.catagory = catagory;
 	}
-
-	public String getTitle() {
-		return title;
+	public String getsCondition() {
+		return sCondition;
 	}
-
-	public void setTitle(String title) {
-		this.title = title;
+	public void setsCondition(String sCondition) {
+		this.sCondition = sCondition;
 	}
-
-	public String getContent() {
-		return content;
+	public String getsContent() {
+		return sContent;
 	}
-
-	public void setContent(String content) {
-		this.content = content;
+	public void setsContent(String sContent) {
+		this.sContent = sContent;
 	}
-
 	@Override
 	public String toString() {
-		return "SearchCondition [writer=" + writer + ", title=" + title + ", content=" + content + "]";
+		return "SearchCondition [catagory=" + catagory + ", sCondition=" + sCondition + ", sContent=" + sContent + "]";
 	}
+	
 	
 	
 }

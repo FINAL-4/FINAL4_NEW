@@ -9,6 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 #playerMenu .menu__item-name::after,
 #playerMenu .menu__item-name::before{
@@ -147,7 +148,7 @@
 #detailContent1 td{
 	width:400px;
 	margin-left: 15px;
-	border-bottom: 1px solid lightgrey;
+	border-bottom: 2px solid lightgrey;
 }
 h6{
 	margin-top:0px;
@@ -161,7 +162,7 @@ h6{
 	z-index: 1; /* Sit on top */
 	left: 0;
 	top: 0;
-	width: 50%; /* Full width */
+	width: 60%; /* Full width */
 	height: 100%; /* Full height */
 	overflow: auto; /* Enable scroll if needed */
 	background-color: rgb(0,0,0); /* Fallback color */
@@ -173,7 +174,7 @@ h6{
 	background-color: #fefefe;
 	margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
 	border: 1px solid #888;
-	width: 50%; /* Could be more or less, depending on screen size */
+	width: 60%; /* Could be more or less, depending on screen size */
 }
 /* The Close Button (x) */
 .close {
@@ -223,8 +224,9 @@ h6{
 	font-size : 2.5em;
 	border-bottom: 2px solid grey;
 	text-align: center;
-	border-spacing: 35px;
+	border-spacing: 20px;
 }
+
 #listTr, #listTd{
 	border-bottom:2px solid grey;
 }
@@ -333,10 +335,10 @@ h6{
     	<table id = listTable>
     	<c:if test="${!empty pList }">
     	<thead>
-    		<tr id = listTr>
+    		<tr id = listTr >
     			<th> 프로필사진 </th>
     			<th> 이름 </th>
-    			<th> 포지션 </th>
+    			<th style="width:90px;"> 포지션 </th>
     			<th> 번호 </th>
     			<th></th>
     			<th></th>
@@ -478,11 +480,11 @@ function agree1(id){
 		dataType:"json",
 		success:function(data){
 			if(data != 0){
-				alert("신청을 수락하였습니다.\n 수락 문자메세지가 전송됩니다.");
+				swal("신청을 수락하였습니다. \n수락 문자메세지가 전송됩니다!", "", "success");
 				$("#listTd"+id).remove();
 				$(".deadlineCount").text(parseInt($(".deadlineCount").text())-1 + " 명");
 			} else {
-				alert("이미 수락하였습니다.");
+				swal("이미 수락하였습니다!", "", "error");
 			}
 		}
 	});
@@ -499,10 +501,10 @@ function cancel1(id){
 		dataType:"json",
 		success:function(data){
 			if(data != 0){
-				alert("신청을 거절하였습니다.\n 거절 문자메세지가 전송됩니다.");
+				swal("신청을 거절하였습니다. \n거절 문자메세지가 전송됩니다!", "", "success");
 				$("#listTd"+id).remove();
 			} else {
-				alert("거절 실패");
+				swal("거절실패!", "", "error");
 			}
 		}
 	});
@@ -520,38 +522,77 @@ function applyBtn(){
 			data:{userNo:userNo, rNum:rNum},
 			success:function(data){
 				if(data == 1){
-					alert("이미 신청했습니다.");
+					swal("이미 신청했습니다.", "", "error");
 				} else {
-					var confirmFlag = confirm("정말로 신청하시겠습니까 ?");
-					if(confirmFlag){
-						location.href="teamPlayApply.pl?userNo="+userNo+"&rNum="+rNum;
-					} else {
-						alert("취소");
-					}
+					swal({
+						  title: "정말로 신청하시겠습니까 ? ",
+						  buttons: true,
+						  dangerMode: true,
+						})
+						.then((willDelete) => {
+						  if (willDelete) {
+						    swal("신청이 완료되었습니다!", {
+						      icon: "success",
+						    });
+						    location.href="teamPlayApply.pl?userNo="+userNo+"&rNum="+rNum;
+						  } else {
+						    swal("신청을 취소했습니다!");
+						  }
+						});
 				}
 			}
 		});
 	} else {
-		alert("이미 가입되어있는 팀 입니다.");
+		swal("이미 가입되어있는 팀 입니다!", "", "error");
 	}
 }
 
 function deleteBtn(){
-	var deleteBtn = confirm("정말로 삭제하시겠습니까 ?");
+	swal({
+		  title: "정말로 삭제하시겠습니까 ? ",
+		  buttons: true,
+		  dangerMode: true,
+		})
+		.then((willDelete) => {
+		  if (willDelete) {
+			location.href='${tplDelete}'
+		    swal("삭제가 완료되었습니다!", {
+		      icon: "success",
+		    });
+		  } else {
+		    swal("삭제를 취소했습니다!");
+		  }
+		});
+	/* var deleteBtn = confirm("정말로 삭제하시겠습니까 ?");
 	if(deleteBtn){
 		location.href='${tplDelete}';
 	}else{
 		return false;
-	}
+	} */
 }
 
 function modifyBtn(){
-var modifyBtn = confirm("정말로 수정하시겠습니까 ?");
+	swal({
+		  title: "정말로 수정하시겠습니까 ? ",
+		  buttons: true,
+		  dangerMode: true,
+		})
+		.then((willDelete) => {
+		  if (willDelete) {
+			location.href='${tplModify}'
+		   swal("수정이 완료되었습니다!", {
+		      icon: "success",
+		    });
+		  } else {
+		    swal("수정을 취소했습니다!");
+		  }
+		});
+/* var modifyBtn = confirm("정말로 수정하시겠습니까 ?");
 	if(modifyBtn){
 		location.href='${tplModify}';
 	} else {
 		return false;
-	}
+	} */
 }
 </script>
 

@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
 @import url(//fonts.googleapis.com/earlyaccess/jejumyeongjo.css);
@@ -316,23 +317,40 @@ h6{
 	function applyBtn(){
 		var playerFlag = false;
 		var userNo = ${loginUser.userNo};
+		var userNo1 = ${pEnroll.userNo};
 		var eNum = ${pEnroll.eNum};
 		
 		if(!playerFlag){
 			$.ajax({
 				url:"ajaxApplyPerson.pl",
-				data:{userNo:userNo, eNum:eNum},
+				data:{userNo:userNo, eNum:eNum, userNo1:userNo1},
 				success:function(data){
 					if(data == 1){
-						alert("이미 신청했습니다.");
+						swal("신청을 이미 했습니다!", "", "error");
 					} else {
-						var confirmFlag = confirm("정말로 신청하시겠습니까 ? \n해당 번호로 문자메세지가 전송됩니다.");
-						if(confirmFlag){
+						swal({
+							  title: "정말로 신청하시겠습니까 ? ",
+							  text: "해당 번호로 문자메세지가 전송됩니다.",
+							  buttons: true,
+							  dangerMode: true,
+							})
+							.then((willDelete) => {
+							  if (willDelete) {
+							    location.href="personApply.pl?userNo="+userNo+"&eNum="+eNum;
+							    swal("신청이 완료되었습니다!", {
+							      icon: "success",
+							    });
+							  } else {
+							    swal("신청을 취소했습니다!");
+							  }
+							});
+						/*var confirmFlag = confirm("정말로 신청하시겠습니까 ? \n해당 번호로 문자메세지가 전송됩니다.");
+						 if(confirmFlag){
 							location.href="personApply.pl?userNo="+userNo+"&eNum="+eNum;
-							alert("신청이 완료 되었습니다.");
+							swal("신청이 완료되었습니다!", "", "success");
 						} else {
-							alert("신청을 취소 하였습니다.");
-						}
+							swal("신청을 취소했습니다!", "", "success");
+						} */
 					}
 				},
 				error:function(request, status, errorData){
@@ -342,26 +360,57 @@ h6{
 				}
 			});
 		} else {
-			alert("신청이 불가능합니다.");
+			swal("신청이 불가합니다!", "", "error");
 		}
 	}
 	
 	
 	function deleteBtn(){
-		var deleteBtn = confirm("정말로 삭제하시겠습니까 ?");
+		swal({
+			  title: "정말로 삭제하시겠습니까 ? ",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willDelete) => {
+			  if (willDelete) {
+				location.href='${pplDelete}'
+			   swal("삭제가 완료되었습니다!", {
+			      icon: "success",
+			    });
+			  } else {
+			    swal("삭제를 취소했습니다!");
+			  }
+			});
+		
+		/* var deleteBtn = confirm("정말로 삭제하시겠습니까 ?");
 		if(deleteBtn){
 			location.href='${pplDelete}'
 		}else{
 			return false;
-		}
+		} */
 	}
 	function modifyBtn(){
-	var modifyBtn = confirm("정말로 수정하시겠습니까 ?");
+		swal({
+			  title: "정말로 수정하시겠습니까 ? ",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willDelete) => {
+			  if (willDelete) {
+				location.href='${pplModify}'
+			    swal("수정이 완료되었습니다!", {
+			      icon: "success",
+			    });
+			  } else {
+			    swal("수정을 취소했습니다!");
+			  }
+			});
+	/* var modifyBtn = confirm("정말로 수정하시겠습니까 ?");
 		if(modifyBtn){
 			location.href='${pplModify}'
 		} else {
 			return false;
-		}
+		} */
 	}
 </script>
 

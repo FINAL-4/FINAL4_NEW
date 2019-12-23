@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.FIFAOFFLINE.match.model.vo.ScoreInfo;
+import com.kh.FIFAOFFLINE.match.model.vo.SmsInfo;
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.team.model.dao.TeamDao;
 import com.kh.FIFAOFFLINE.team.model.vo.PageInfo;
@@ -177,7 +179,7 @@ public class TeamServiceImpl implements TeamService{
 	}
 
 	@Override
-	public Team searchTeamName(String teamName) {
+	public ArrayList<Team> searchTeamName(String teamName) {
 		// TODO Auto-generated method stub
 		return tDao.searchTeamName(teamName);
 	}
@@ -193,6 +195,83 @@ public class TeamServiceImpl implements TeamService{
 		// TODO Auto-generated method stub
 		return tDao.moreTeamMember(teamNo);
 	}
+
+	@Override
+	public int inviteTeam(TeamJoinedMember tjm) {
+		// TODO Auto-generated method stub
+		return tDao.inviteTeam(tjm);
+	}
+
+	@Override
+	public ArrayList<Team> selectInviteMe(int userNo) {
+		// TODO Auto-generated method stub
+		return tDao.selectInviteMe(userNo);
+	}
+
+	@Override
+	public Team getModalTeam(int teamNo) {
+		// TODO Auto-generated method stub
+		return tDao.getModalTeam(teamNo);
+	}
+
+	@Override
+	public int inviteAgree(TeamJoinedMember tjm) {
+		// TODO Auto-generated method stub
+		return tDao.inviteAgree(tjm);
+	}
+
+	@Override
+	public Team teamDetail2(int teamNo) {
+		// TODO Auto-generated method stub
+		return tDao.teamDetail2(teamNo);
+	}
+
+	@Override
+	public int updateTeamInfo(Team t) {
+		// TODO Auto-generated method stub
+		return tDao.updateTeamInfo(t);
+	}
+
+	@Override
+	public int deleteTeam(int teamNo) {
+		// TODO Auto-generated method stub
+		return tDao.deleteTeam(teamNo);
+	}
+
+	@Override
+	public int deleteTeamM(int teamNo) {
+		// TODO Auto-generated method stub
+		return tDao.deleteTeamM(teamNo);
+	}
+
+	@Override
+	public int withdrawal(TeamMember tm) {
+		// TODO Auto-generated method stub
+		return tDao.withdrawal(tm);
+	}
+
+	@Override
+	public ArrayList<SmsInfo> getSmsInfo(int userNo) {
+		// TODO Auto-generated method stub
+		return tDao.getSmsInfo(userNo);
+	}
+
+	@Override
+	public int selectTeamMember(int userNo) {
+		// TODO Auto-generated method stub
+		return tDao.selectTeamMember(userNo);
+	}
+
+	@Override
+	public int banishmentTeam(TeamMember tm) {
+		// TODO Auto-generated method stub
+		return tDao.banishmentTeam(tm);
+	}
+	
+	
+
+
+	
 
 
 }

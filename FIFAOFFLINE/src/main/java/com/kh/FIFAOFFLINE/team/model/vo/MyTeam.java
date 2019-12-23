@@ -1,8 +1,10 @@
 package com.kh.FIFAOFFLINE.team.model.vo;
 
 //	12월 11일 세션 myTeam 변경 ( userName 추가했음 )
+//	12월 18일 세션 myTeam 변경 ( 팀장번호 추가 )
 public class MyTeam {
 	private int userNo;	//	로그인한놈 유저넘버
+	private int leaderNo;	//	팀장 번호
 	private String userName;	//	팀장 이름
 	private int teamNo;	//	로그인한놈이 속한 팀 넘버
 	private int t_Grade;	//	속한팀에서 팀장구분 ( 1 = 팀장 / 2 = 팀원 )
@@ -15,10 +17,11 @@ public class MyTeam {
 		super();
 	}
 
-	public MyTeam(int userNo, String userName, int teamNo, int t_Grade, String teamName, String teamImage,
+	public MyTeam(int userNo, int leaderNo, String userName, int teamNo, int t_Grade, String teamName, String teamImage,
 			String teamArea, String teamIntro) {
 		super();
 		this.userNo = userNo;
+		this.leaderNo = leaderNo;
 		this.userName = userName;
 		this.teamNo = teamNo;
 		this.t_Grade = t_Grade;
@@ -34,6 +37,14 @@ public class MyTeam {
 
 	public void setUserNo(int userNo) {
 		this.userNo = userNo;
+	}
+
+	public int getLeaderNo() {
+		return leaderNo;
+	}
+
+	public void setLeaderNo(int leaderNo) {
+		this.leaderNo = leaderNo;
 	}
 
 	public String getUserName() {
@@ -94,10 +105,12 @@ public class MyTeam {
 
 	@Override
 	public String toString() {
-		return "MyTeam [userNo=" + userNo + ", userName=" + userName + ", teamNo=" + teamNo + ", t_Grade=" + t_Grade
-				+ ", teamName=" + teamName + ", teamImage=" + teamImage + ", teamArea=" + teamArea + ", teamIntro="
-				+ teamIntro + "]";
+		return "MyTeam [userNo=" + userNo + ", leaderNo=" + leaderNo + ", userName=" + userName + ", teamNo=" + teamNo
+				+ ", t_Grade=" + t_Grade + ", teamName=" + teamName + ", teamImage=" + teamImage + ", teamArea="
+				+ teamArea + ", teamIntro=" + teamIntro + "]";
 	}
+
+	
 	
 	
 	

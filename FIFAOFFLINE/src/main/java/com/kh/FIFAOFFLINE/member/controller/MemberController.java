@@ -105,7 +105,7 @@ public class MemberController {
 		
 		m.setPhone(phone1+"-"+phone2+"-"+phone3);
 		m.setUserEmail(emailId+"@"+email2);
-		m.setAddress(address1+", "+address2);
+		m.setAddress(address1+","+address2);
 		if(!file.getOriginalFilename().contentEquals("")) {
 			String proFile = saveFile(file, request);
 			
@@ -204,7 +204,7 @@ public String saveFile(MultipartFile file, HttpServletRequest request) {
 		
 		m.setPhone(phone1+"-"+phone2+"-"+phone3);
 		m.setUserEmail(emailId+"@"+email2);
-		m.setAddress(address1+", "+address2);
+		m.setAddress(address1+","+address2);
 		Member loginUser =(Member)session.getAttribute("loginUser");
 		
 		if(m.getUserPwd().equals("")) {

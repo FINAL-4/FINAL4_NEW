@@ -169,7 +169,7 @@
 						<!-- <a class="menu__item" href="nlist.do" style = "border: none;"> <span class="menu__item-name">공지    </span></a> -->
 						<a class="menu__item" href="nlist.do" style = "border: none;"> <span class="menu__item-name">공지    </span></a>  
 						<c:if test="${!empty sessionScope.loginUser }">
-						<a class="menu__item" href="tlist.tm" id="teamMenu"> <span class="menu__item-name">팀       </span> </a>
+						<a class="menu__item" href="managedTeam.tm" id="teamMenu"> <span class="menu__item-name">팀       </span> </a>
 						</c:if>
 						<c:if test="${empty sessionScope.loginUser }">
 						<a class="menu__item" onclick="document.getElementById('id01').style.display='block'" id= "teamMenu"> <span class="menu__item-name">팀       </span> </a>
@@ -185,7 +185,11 @@
 						<c:if test="${!empty sessionScope.loginUser }">
 						<a class="menu__item" href="mypage.me" style = "border: none;"> <span class="menu__item-name">마이페이지   </span></a>
 						</c:if>
-
+						
+						<c:if test="${!empty sessionScope.loginUser }">
+						<a class="menu__item" href="qList.do" style = "border: none;"> <span class="menu__item-name">문의     </span></a>
+						</c:if>
+						
 						<span>
 						<c:if test="${empty sessionScope.loginUser }">
 						<img id = "login-logo" src="resources/images/login.png" width="30px;" height="30px;" onclick="document.getElementById('id01').style.display='block'">

@@ -15,6 +15,7 @@
 <html>
 <head>
 <script src="http://cdn.ckeditor.com/4.7.0/standard-all/ckeditor.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <meta charset="UTF-8">
  <style>
@@ -218,6 +219,20 @@
 	    margin: 30px auto;
 	    margin-top: 300px;
 	}
+	
+	#cke_1_bottom{
+		display: none;
+	}
+	
+
+	
+	#cke_1_contents{
+		height: 500px !important;
+	}
+	
+	.cke_wysiwyg_frame{
+		height: 500px !important;
+	}
  </style> 
 </head>
 
@@ -226,42 +241,50 @@
 <body>
 <!-- 각페이지별 고정  start-->
 	<div id = "outer" style = "margin-top: 180px;">
-			<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; margin: auto;">
-		<div style="height:100%; width:100%; border-bottom:3px solid red;">
-			<div class="example">
-			<br><br><br>
-		</div>
-			</div>
-			<br>
-			<div class="ha-waypoint" data-animate-down="ha-header-shrink" data-animate-up="ha-header-show" style = "height: 1200px; width: 90%;  margin: auto;">
-			<div align="center">
-	<br><br>
-	<!-- 각 페이지별 고정  end-->
-
-	
-<div id="container" style="overflow: auto;"><!-- container -->
-   <div id="mainContent" style="overflow: auto;"><!-- mainContent -->
-
+			<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; height:1000px; margin: auto;">
+			<div id="container" style="overflow: auto;"><!-- container -->
+   			<div id="mainContent" style="overflow: auto;"><!-- mainContent -->
+			<c:out value="${loginUser }"></c:out>
 			<form id= insertForm action = "<%=request.getContextPath()%>/ninsert.do" method="post" encType="multipart/form-data">
-			<div id="outer">
-				<div class="titleDiv1"><div class= "titleDiv2"><b>공&nbsp;지&nbsp;사&nbsp;항&nbsp;등&nbsp;록&nbsp;</b></div></div>
+
+				<input type="hidden" name = "userNo" value = "${loginUser.userNo }"/>
+				<input type="hidden" name = "profile" value = "${loginUser.profile }"/>
+
+				<div class="titleDiv1"><div class= "titleDiv2"><b>게&nbsp;시&nbsp;글&nbsp;등&nbsp;록&nbsp;</b></div></div>
 				<br>
 				<div id = "tableDiv">
 					<table align="center" id="listArea">
 						<tr>
 							<td class= "titleTd tableTd"><b>제목</b></td>
-							<td class ="tableTd"><input type="text" name= "nTitle" class="inputTd">
+							<td class ="tableTd" style = "font-size: 15px;"><input id = "nTitle" type="text" name= "nTitle" class="inputTd">
 							</td> 
 						</tr>
+						<tr>
 							<td class= "titleTd tableTd"><b>작성자</b></td>
-							<td  class ="tableTd"><span style="padding-left: 17px; font-size: 16px;"><input id="nWriter" name="nWriter" value="${loginUser.userId }" readonly></span></td>
+							<td  class ="tableTd"><img src ="resources/proFiles/${loginUser.profile }" width= "25px" height= "25px" style = "float: left; margin-left: 10px; margin-right: 5px;"><span style="font-size: 16px;"><input id="nWriter" name="nWriter" value="${loginUser.userId }" readonly style = "border: 0px solid white;"></span></td>
+						</tr>
+						<tr>
+							<td class= "titleTd tableTd"><b>분류</b></td>
+							<td class ="tableTd">
+								<span style="padding-left: 10px; font-size: 16px;">
+									<select id="nCate" name="cId" value="${loginUser.userId }" readonly style = "width: 150px; height: 30px;">
+										<c:if test="${loginUser.userId == 'admin' }">
+										<option value="${cList[0].cId }">${cList[0].cName }</option>
+										</c:if>
+										<c:forEach var="c" items="${cList }" begin="1">
+										<option value="${c.cId }">${c.cName }</option>
+										</c:forEach>
+									</select>
+								</span>
+							</td>
+						</tr>
 						<tr>
 							<td class= "titleTd tableTd"><b>작성일</b></td>
 							<td class ="tableTd"><span style="padding-left: 17px; font-size: 16px;" id="nCreateDate" name="nCreateDate" ><%=today%></span></td>
 						</tr>
 					</table>
 						<div id="textareaDiv">
-						<textarea id="nContent" name="nContent"></textarea>
+						<textarea id="nContent" name="nContent" ></textarea>
 						<script>
 						    CKEDITOR.replace( 'nContent', {
 						    //filebrowserImageUploadUrl : '/dev-guide/ckeditorImageUpload.do'
@@ -269,9 +292,12 @@
 						</script>
 						</div>
 					<br>
+					<div style = "margin-left: 25px;">
 					<table id = "attachTable">
 						<tr class= attachTr align="left">
+							<td>
 								<input type="file" name="uploadFile">
+							</td>
 						</tr>
 					</table>
 					<br><br>
@@ -279,10 +305,19 @@
 							<button type='button'id=listBtn onclick="Nlist()"><b>목록</b></button>&nbsp;&nbsp;
 							<button id=insertBtn type="button" onclick="insertSubmit();"><b>등록</b></button>
 					</div>
+					</div>
 				</div>
 			</form>
 		</div><!-- container -->
 </div><!-- mainContent -->
+			</div>
+		
+			<div class="ha-waypoint" data-animate-down="ha-header-shrink" data-animate-up="ha-header-show" style = "height: 100px; width: 90%;  margin: auto;">
+			</div>
+	</div>
+
+	
+
 
 </body>
 
@@ -295,7 +330,32 @@ function Nlist(){
 
 
  function insertSubmit(){
-	$("#insertForm").submit();	
+
+	 if($("#nTitle").val() == ""){
+		 swal("제목을 입력해주세요.");
+		 return false;
+	 }
+	 
+	/*  if($("#nContent").text() == ""){
+		 swal("내용을 입력해주세요.");
+		 return false;
+	 } */
+	 
+	 swal({
+   	  title: "글을 등록하시겠습니까?",
+   	  icon: "info",
+   	  buttons: true,
+   	  dangerMode: false,
+   	})
+   	.then((willDelete) => {
+   	  if (willDelete) {
+   	 	$("#insertForm").submit();	
+   	  } else {
+   		  return false;
+   	  }
+   	});
+	 
+	
 } 
 
 
@@ -332,7 +392,7 @@ function Nlist(){
 		});
 	});
 </script>	
-<jsp:include page="../common/footer.jsp"/>
 </body>
+<jsp:include page="../common/footer.jsp"/>
 
 </html>

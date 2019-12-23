@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.FIFAOFFLINE.match.model.vo.SmsInfo;
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.team.model.vo.PageInfo;
 import com.kh.FIFAOFFLINE.team.model.vo.Team;
@@ -157,9 +158,9 @@ public class TeamDao {
 		return (ArrayList)sqlSession.selectList("teamMapper.selectSearchList", tf, rowBounds);
 	}
 
-	public Team searchTeamName(String teamName) {
+	public ArrayList<Team> searchTeamName(String teamName) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("teamMapper.searchTeamName",teamName);
+		return (ArrayList)sqlSession.selectList("teamMapper.searchTeamName",teamName);
 	}
 
 	public ArrayList<Team> selectAllTeam() {
@@ -170,6 +171,66 @@ public class TeamDao {
 	public ArrayList<TeamMember> moreTeamMember(int teamNo) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("teamMapper.moreListMember",teamNo);
+	}
+
+	public int inviteTeam(TeamJoinedMember tjm) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("teamMapper.inviteTeam",tjm);
+	}
+
+	public ArrayList<Team> selectInviteMe(int userNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("teamMapper.selectInviteMe",userNo);
+	}
+
+	public Team getModalTeam(int teamNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("teamMapper.getModalTeam",teamNo);
+	}
+
+	public int inviteAgree(TeamJoinedMember tjm) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("teamMapper.inviteAgree",tjm);
+	}
+
+	public Team teamDetail2(int teamNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("teamMapper.teamDetail2",teamNo);
+	}
+
+	public int updateTeamInfo(Team t) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("teamMapper.updateTeamInfo",t);
+	}
+
+	public int deleteTeam(int teamNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("teamMapper.deleteTeam",teamNo);
+	}
+
+	public int deleteTeamM(int teamNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("teamMapper.deleteTeamM",teamNo);
+	}
+
+	public int withdrawal(TeamMember tm) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("teamMapper.withdrawal",tm);
+	}
+
+	public ArrayList<SmsInfo> getSmsInfo(int userNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("teamMapper.getSmsInfo",userNo);
+	}
+
+	public int selectTeamMember(int userNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("teamMapper.selectTM",userNo);
+	}
+
+	public int banishmentTeam(TeamMember tm) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("teamMapper.banishmentTeam",tm);
 	}
 
 

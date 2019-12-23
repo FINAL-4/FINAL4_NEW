@@ -8,6 +8,7 @@
   	<result property="userName" column="USER_NAME"/>
   	<result property="userId" column="USER_ID"/>
   	<result property="profile" column="PROFILE"/>
+  	<result property="phone" column="PHONE"/>
   	<result property="teamName" column="TEAM_NAME"/>
   	<result property="teamImage" column="TEAM_IMAGE"/>
   	<result property="teamAdver" column="TEAM_ADVER"/>
@@ -32,6 +33,7 @@
   <resultMap type="MyTeam" id="MyTeamResultSet">
   	<id property="teamNo" column="TEAM_NO"/>
   	<result property="userNo" column="USER_NO"/>
+  	<result property="leaderNo" column="LEADER_NO"/>
   	<result property="userName" column="USER_NAME"/>
   	<result property="t_Grade" column="T_GRADE"/>
   	<result property="teamName" column="TEAM_NAME"/>
@@ -40,16 +42,19 @@
   	<result property="teamIntro" column="TEAM_INTRO"/>
   </resultMap>
   
-  <!-- 콜렉션용 팀에 신청한 유저 / 팀이 초대한 유저 ResultMap -->
+  <!-- 콜렉션용 팀에 신청한 유저 / 유저가 가입신청한 ResultMap -->
   <resultMap type="TeamJoinedMember" id="JoinedResultSet">
   	<id property="teamNo" column="TEAM_NO"/>
   	<result property="userNo" column="USER_NO"/>
-  	<result property="name" column="USER_NAME"/>
+  	<result property="teamName" column="TEAM_NAME"/>
+  	<result property="userName" column="USER_NAME"/>
   	<result property="profile" column="PROFILE"/>
+  	<result property="teamArea" column="TEAM_AREA"/>
   	<result property="reg_Date" column="REG_DATE"/>
   	<result property="fromInvite" column="FROMINVITE"/>
   	<result property="reg_Status" column="REG_STATUS"/>
   </resultMap>
+
   
   <!-- TEAM 모집 광고글 -->
   <resultMap type="TeamAD" id="ADResultSet">
@@ -79,6 +84,11 @@
 	<!-- 변수명 디비값 -->
   </resultMap>
   
+  <resultMap type="SmsInfo" id="smsInfoResultSet">
+	<result property="phone" column="PHONE"/>
+	<result property="userName" column="USER_NAME"/>
+  </resultMap>
+  
   
   <select id="getListCount" resultType="_int">
   	SELECT COUNT(*)
@@ -100,7 +110,7 @@
   
   <select id="teamDetail" resultMap="teamResultSet" parameterType="_int">
   	SELECT T.TEAM_NO,T.USER_NO,M.USER_NAME,M.USER_ID,M.PROFILE,T.TEAM_NAME,T.TEAM_IMAGE,TA.TEAM_ADVER,
-  		   TA.RESISTERDAY,TA.AD_STATUS,T.TEAM_AREA,T.TEAM_INTRO	,TA.RECRUITCOUNT		  
+  		   TA.RESISTERDAY,TA.AD_STATUS,T.TEAM_AREA,T.TEAM_INTRO	,TA.RECRUITCOUNT,M.PHONE	  
   	FROM TEAM T
   	JOIN MEMBER M ON (T.USER_NO = M.USER_NO)
   	JOIN TEAM_AD TA ON (T.TEAM_NO = TA.TEAM_NO)
@@ -122,8 +132,9 @@
   </select>
   
   <!-- 12/11일 MYTEAM 세션 변경 -->
+  <!-- 12/18일 MYTEAM 세션 변경 -->
   <select id="selectMyTeam" resultMap="MyTeamResultSet">
-  	SELECT TM.USER_NO, TM.TEAM_NO, TM.T_GRADE, T.TEAM_NAME,T.TEAM_IMAGE,T.TEAM_AREA,T.TEAM_INTRO,M.USER_NAME
+  	SELECT TM.USER_NO, T.USER_NO AS LEADER_NO, TM.TEAM_NO, TM.T_GRADE, T.TEAM_NAME,T.TEAM_IMAGE,T.TEAM_AREA,T.TEAM_INTRO,M.USER_NAME
 	FROM T_MEMBER TM
 	JOIN TEAM T ON(T.TEAM_NO = TM.TEAM_NO)
 	JOIN MEMBER M ON (T.USER_NO = M.USER_NO)
@@ -252,7 +263,7 @@
 	 	AND T.TEAM_AREA = '대치2/대치4/역삼1'
 	</if>
 	<if test='tArea7.equals("1")'>
-	 	AND T.TEAM_AREA = '역삼1/역삼2/도곡1'
+	 	AND T.TEAM_AREA = '역삼1/역삼2/도곡'
 	</if>
 	<if test='tArea8.equals("1")'>
 	 	AND T.TEAM_AREA = '도곡2/개포1/일원본'
@@ -288,7 +299,7 @@
 	 	AND T.TEAM_AREA = '대치2/대치4/역삼1'
 	</if>
 	<if test='tArea7.equals("1")'>
-	 	AND T.TEAM_AREA = '역삼1/역삼2/도곡1'
+	 	AND T.TEAM_AREA = '역삼1/역삼2/도곡'
 	</if>
 	<if test='tArea8.equals("1")'>
 	 	AND T.TEAM_AREA = '도곡2/개포1/일원본'
@@ -302,8 +313,7 @@
   	FROM TEAM T
   	JOIN TEAM_AD TA ON (T.TEAM_NO = TA.TEAM_NO)
   	JOIN MEMBER M ON (T.USER_NO = M.USER_NO)
-  	WHERE TEAM_NAME = #{teamName}	   
-  
+  	WHERE TEAM_NAME LIKE '%'||#{teamName}||'%'
   </select>
   
   <select id="selectAllTeam" resultMap="teamResultSet">
@@ -319,6 +329,83 @@
   	JOIN MEMBER M ON (TM.USER_NO = M.USER_NO)  
   	WHERE TM.TEAM_NO = #{teamNo}	
   </select>
+  
+  <insert id="inviteTeam" parameterType="TeamJoinedMember">
+  	INSERT INTO T_JOINED_MEMBER
+  	VALUES(#{userNo},#{teamNo},SYSDATE,'N','M')
+  </insert>
+  
+  <select id="selectInviteMe" parameterType="_int" resultMap="JoinedResultSet">
+  	SELECT * 
+  	FROM T_JOINED_MEMBER TJM
+  	JOIN TEAM T ON(TJM.TEAM_NO = T.TEAM_NO)
+  	JOIN MEMBER M ON (T.USER_NO = M.USER_NO)
+  	WHERE FROMINVITE='M' AND REG_STATUS='N' AND TJM.USER_NO=#{userNo}
+  </select>
+  
+  <select id="getModalTeam" parameterType="_int" resultMap="teamResultSet">
+  	SELECT *
+  	FROM TEAM T 
+  	JOIN MEMBER M ON (T.USER_NO = M.USER_NO)
+  	WHERE TEAM_NO = #{teamNo}
+  </select>
+  
+  <delete id="inviteAgree" parameterType="TeamJoinedMember">
+  	DELETE FROM
+  	T_JOINED_MEMBER
+  	WHERE USER_NO=#{userNo} AND TEAM_NO=#{teamNo} AND FROMINVITE='M'
+  </delete>
+  
+  <select id="teamDetail2" parameterType="_int" resultMap="teamResultSet">
+  	SELECT T.TEAM_NO,T.USER_NO,M.USER_NAME,M.USER_ID,M.PROFILE,T.TEAM_NAME,T.TEAM_IMAGE,
+  		   T.TEAM_AREA,T.TEAM_INTRO,M.PHONE 
+  	FROM TEAM T
+  	JOIN MEMBER M ON (T.USER_NO = M.USER_NO)
+  	WHERE T.TEAM_NO=#{teamNo}
+  	
+  </select>
+  
+  <update id="updateTeamInfo" parameterType="Team">
+  	UPDATE TEAM
+  	SET TEAM_INTRO=#{teamIntro}, TEAM_IMAGE=#{teamImage}, TEAM_AREA=#{teamArea}
+  	WHERE TEAM_NO = #{teamNo}
+  </update>
+  
+  <delete id="deleteTeam" parameterType="_int">
+  	DELETE FROM
+  	TEAM
+  	WHERE TEAM_NO = #{teamNo}
+  </delete>
+  
+  <delete id="deleteTeamM" parameterType="_int">
+  	DELETE FROM
+  	T_MEMBER
+  	WHERE TEAM_NO = #{teamNo}
+  </delete>
+  
+  <delete id="withdrawal" parameterType="TeamMember">
+  	DELETE FROM
+  	T_MEMBER
+  	WHERE TEAM_NO = #{teamNo} AND USER_NO = #{userNo}
+  </delete>
+  
+  <select id="getSmsInfo" resultMap="smsInfoResultSet">
+	SELECT *
+	FROM MEMBER
+	WHERE USER_NO=#{userNo}
+  </select>
+  
+  <select id="selectTM" parameterType="_int" resultType="_int">
+  	SELECT COUNT(*)
+  	FROM T_MEMBER
+  	WHERE USER_NO=#{teamNo}
+  </select>
+  
+  <delete id="banishmentTeam" parameterType="TeamMember">
+  	DELETE FROM
+  	T_MEMBER
+  	WHERE TEAM_NO = #{teamNo} AND USER_NO = #{userNo}
+  </delete>
 
 <!-- ===================매칭===================== -->
 	<select id="selectTeam" resultMap="teamResultSet">

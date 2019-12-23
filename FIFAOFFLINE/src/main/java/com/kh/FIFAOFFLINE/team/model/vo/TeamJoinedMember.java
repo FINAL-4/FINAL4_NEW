@@ -6,20 +6,24 @@ public class TeamJoinedMember {
 	private int userNo;
 	private int teamNo;
 	private String profile;
-	private String name;
+	private String userName;
+	private String teamArea;
+	private String teamName;
 	private Date reg_Date;
 	private String fromInvite;
 	private String reg_Status;
 	public TeamJoinedMember() {
 		super();
 	}
-	public TeamJoinedMember(int userNo, int teamNo, String profile, String name, Date reg_Date, String fromInvite,
-			String reg_Status) {
+	public TeamJoinedMember(int userNo, int teamNo, String profile, String userName, String teamArea, String teamName,
+			Date reg_Date, String fromInvite, String reg_Status) {
 		super();
 		this.userNo = userNo;
 		this.teamNo = teamNo;
 		this.profile = profile;
-		this.name = name;
+		this.userName = userName;
+		this.teamArea = teamArea;
+		this.teamName = teamName;
 		this.reg_Date = reg_Date;
 		this.fromInvite = fromInvite;
 		this.reg_Status = reg_Status;
@@ -42,11 +46,23 @@ public class TeamJoinedMember {
 	public void setProfile(String profile) {
 		this.profile = profile;
 	}
-	public String getName() {
-		return name;
+	public String getUserName() {
+		return userName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getTeamArea() {
+		return teamArea;
+	}
+	public void setTeamArea(String teamArea) {
+		this.teamArea = teamArea;
+	}
+	public String getTeamName() {
+		return teamName;
+	}
+	public void setTeamName(String teamName) {
+		this.teamName = teamName;
 	}
 	public Date getReg_Date() {
 		return reg_Date;
@@ -68,9 +84,15 @@ public class TeamJoinedMember {
 	}
 	@Override
 	public String toString() {
-		return "TeamJoinedMember [userNo=" + userNo + ", teamNo=" + teamNo + ", profile=" + profile + ", name=" + name
-				+ ", reg_Date=" + reg_Date + ", fromInvite=" + fromInvite + ", reg_Status=" + reg_Status + "]";
+		return "TeamJoinedMember [userNo=" + userNo + ", teamNo=" + teamNo + ", profile=" + profile + ", userName="
+				+ userName + ", teamArea=" + teamArea + ", teamName=" + teamName + ", reg_Date=" + reg_Date
+				+ ", fromInvite=" + fromInvite + ", reg_Status=" + reg_Status + "]";
 	}
+	
+
+	
+	
+	
 	
 	
 	

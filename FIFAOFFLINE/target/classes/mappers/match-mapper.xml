@@ -39,8 +39,7 @@
   
   <resultMap type="SmsInfo" id="smsInfoResultSet">
 	<result property="tGrade" column="T_GRADE"/>
-	<!-- <result property="phone" column="PHONE"/> -->
-	<result property="phone" column="POSITION"/>
+	<result property="phone" column="PHONE"/>
 	<result property="userName" column="USER_NAME"/>
   </resultMap>
   
