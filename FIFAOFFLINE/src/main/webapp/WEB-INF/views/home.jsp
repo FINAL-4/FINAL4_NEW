@@ -123,20 +123,20 @@
 <body>
 
 <div id = "outer" style = "margin-top: 180px;">
-			<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style = "height: 1000px; width: 100%; background: white; margin: auto;">
+			<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style = "height: 1000px; width: 95%; background: white; margin: auto;">
 				<div class="mainPage1">
 					<ul class="slider">
 						<li>
-							<img src="resources/images/33333.png" alt="slide1" style="height:800px;"/>
+							<img src="resources/images/55555.png" alt="slide1" style="height:800px;"/>
 						</li>
 						<li>
-						    <img src="resources/images/11111.png" alt="slide2" style="height:800px;"/>
+						    <img src="resources/images/66666.png" alt="slide2" style="height:800px;"/>
 						</li>
 						<li>
-						    <img src="resources/images/22222.png"  alt="slide3" style="height:800px;"/>
+						    <img src="resources/images/77777.png"  alt="slide3" style="height:800px;"/>
 						</li>
 						<li>
-							<img src="resources/images/44444.png" alt="slide4" style="height:800px;"/>
+							<img src="resources/images/88888.png" alt="slide4" style="height:800px;"/>
 						</li> 
 					</ul>
 				</div>
