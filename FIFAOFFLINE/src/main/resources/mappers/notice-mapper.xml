@@ -4,22 +4,40 @@
   
   <resultMap id="noticeResultSet" type="Notice">
   	<id property="nId" column="NID"/>
+  	<result property="cId" column="CID"/>
+  	<result property="userNo" column="USER_NO"/>
+  	<result property="profile" column="PROFILE"/>
+  	<result property="cName" column="CNAME"/>
   	<result property="nTitle" column="NTITLE"/>
   	<result property="nWriter" column="NWRITER"/>
   	<result property="nContent" column="NCONTENT"/>
   	<result property="nCreateDate" column="NCREATEDATE"/>
   	<result property="nModifyDate" column="NMODIFYDATE"/>
+  	<result property="nStatus" column="STATUS"/>
   	<result property="filePath" column="FILEPATH"/>
+  	<result property="noticeYN" column="NOTICEYN"/>
   </resultMap>
   
   <resultMap type="Reply" id="replyResultSet">
   	<id property="rId" column="RID"/>
   	<result property="rContent" column="RCONTENT"/>
-  	<result property="refBid" column="REF_BID"/>
+  	<result property="nId" column="NID"/>
+  	<result property="userNo" column="USER_NO"/>
+  	<result property="profile" column="PROFILE"/>
   	<result property="rWriter" column="RWRITER"/>
-  	<result property="rCreateDate" column="RCREATEDATE"/>
-  	<result property="rModifyDate" column="RMODIFYDATE"/>
-  	<result property="rStatus" column="RSTATUS"/>
+  	<result property="rCreateDate" column="C_DATE"/>
+  	<result property="rModifyDate" column="M_DATE"/>
+  	<result property="rStatus" column="STATUS"/>
+  </resultMap>
+  
+  <resultMap type="Catagory" id="catagoryResultSet">
+  	<id property="cId" column="CID"/>
+  	<result property="cName" column="CNAME"/>
+  </resultMap>
+  
+  <resultMap type="Like" id="likeResultSet">
+  	<result property="userNo" column="USER_NO"/>
+  	<result property="cId" column="CID"/>
   </resultMap>
   
   <select id="getListCount" resultType="_int">
@@ -30,26 +48,24 @@
   
   <select id="selectList" resultMap="noticeResultSet">
   	SELECT *
-  	FROM NOTICE
-  	ORDER BY NID DESC
-  	<!-- ORDER BY N_CREATE_DATE DESC -->
+	FROM NOTICE N
+	JOIN MEMBER M ON(N.USER_NO=M.USER_NO)
+	JOIN CATAGORY C ON(N.CID=C.CID)
+	WHERE N.STATUS='Y'
+	ORDER BY N.NOTICEYN DESC, N.NCREATEDATE DESC
   </select>
   
   <select id="selectOne" parameterType="_int" resultMap="noticeResultSet">
   	SELECT *
-  	FROM NOTICE
-  	WHERE NID=#{nId}
+  	FROM NOTICE N
+  	JOIN MEMBER M ON (N.USER_NO=M.USER_NO)
+  	JOIN CATAGORY C ON (C.CID=N.CID)
+  	WHERE N.NID=#{nId}
   </select>
   
    <insert id="insertNotice" parameterType="Notice">
-<!-- 	<insert id="insertNotice" parameterType="Notice"> 
-		INSERT INTO NOTICE VALUES(
-		SEQ_NID.NEXTVAL, #{userName}, #{nTitle}, #{nContent}, #{nWriter}, #{nCount}, SYSDATE, SYSDATE, 'Y', #{filePath}
-    </insert> -->
-    
-  	INSERT INTO NOTICE VALUES(
-  		SEQ_NID.NEXTVAL, '1', #{nTitle}, #{nContent}, #{nWriter}, #{nCount}, SYSDATE, SYSDATE, 'Y', #{filePath}
-  	)
+  	INSERT INTO NOTICE 
+  	VALUES(SEQ_NID.NEXTVAL, #{userNo}, #{cId}, #{nTitle}, #{nContent}, #{nWriter}, DEFAULT, SYSDATE, SYSDATE, DEFAULT, #{filePath}, #{noticeYN})
   </insert> 
   
   
@@ -58,36 +74,125 @@
 </update>
     
   <update id="updateNotice" parameterType="Notice">
-<!--  	UPDATE NOTICE
- 	SET NTITLE=#{nTitle},
- 		NCONTENT=#{nContent},
- 		FILEPATH=#{filePath}
- 	WHERE NID=#{nId} 	 -->
  	<![CDATA[
  	UPDATE NOTICE
- 	SET NTITLE=#{nTitle},
- 	NCONTENT=#{nContent},
- 	FILEPATH=#{filePath}
+ 	SET NTITLE=#{nTitle}, NCONTENT=#{nContent}, FILEPATH=#{filePath}, CID=#{cId}, NOTICEYN=#{noticeYN}
   	WHERE NID=#{nId} 	 
  		]]>
   </update>
   
-  <delete id="deleteNotice" parameterType="_int">
-  DELETE NOTICE 
+  <update id="deleteNotice" parameterType="_int">
+  UPDATE NOTICE 
+  SET STATUS='N'
   WHERE NID=#{nId} 	
-  </delete>
+  </update>
   
  <select id="selectReplyList" resultMap="replyResultSet" parameterType="_int">
   	SELECT *
   	FROM REPLY R
-  	JOIN NOTICE N ON (R.REF_BID=N.NID)
-  	WHERE REF_BID=#{nId}
+  	JOIN NOTICE N ON (R.NID=N.NID)
+  	JOIN MEMBER M ON (M.USER_NO=R.USER_NO)
+  	WHERE R.NID=#{nId} AND R.STATUS='Y'
   	ORDER BY RID DESC
  </select>
   
 <insert id="insertReply" parameterType="Reply">
 	INSERT INTO REPLY VALUES
-	(SEQ_RID.NEXTVAL, #{rContent}, #{refBid}, #{rWriter}, SYSDATE, SYSDATE, DEFAULT)
+	(SEQ_RID.NEXTVAL, #{nId}, #{userNo}, #{rContent},  #{rWriter}, SYSDATE, SYSDATE, DEFAULT)
 </insert>
+  
+  <select id="selectCList" resultMap="catagoryResultSet">
+  	SELECT *
+  	FROM CATAGORY
+  </select>
+  
+  <update id="modifyReply" parameterType="Reply">
+  	UPDATE REPLY
+  	SET RCONTENT=#{rContent}
+  	WHERE RID=#{rId}
+  </update>
+  
+  <update id="deleteReply">
+  	UPDATE REPLY
+  	SET STATUS='N'
+  	WHERE RID=#{rId}
+  </update>
+  
+  <select id="getsListCount" parameterType="SearchCondition" resultType="_int">
+  	SELECT COUNT(*)
+  	FROM NOTICE
+  	WHERE STATUS='Y'
+	  	<if test="catagory != 0">
+	  		AND CID=#{catagory}
+	  	</if>
+	  	<if test="sCondition!=null and !sCondition.equals('') and sContent!=null and !sContent.equals('')">
+	  		<if test = "sCondition == 'nWriter'">
+	  			AND NWRITER LIKE '%'||#{sContent}||'%'
+	  		</if>
+	  		<if test = "sCondition == 'nTitle'">
+	  			AND NTITLE LIKE '%'||#{sContent}||'%'
+	  		</if>
+	  		<if test = "sCondition == 'nContent'">
+	  			AND NCONTENT LIKE '%'||#{sContent}||'%'
+	  		</if>
+	  		<if test = "sCondition == 'plus'">
+	  			AND NCONTENT LIKE '%'||#{sContent}||'%' OR NTITLE LIKE '%'||#{sContent}||'%'
+	  		</if>
+	  	</if>
+  </select>
+  
+  <select id="selectsList" parameterType="SearchCondition" resultMap="noticeResultSet">
+  	SELECT *
+	FROM NOTICE N
+	JOIN MEMBER M ON(N.USER_NO=M.USER_NO)
+	JOIN CATAGORY C ON(N.CID=C.CID)
+	WHERE N.STATUS='Y'
+		<if test="catagory != 0">
+	  		AND N.CID=#{catagory}
+	  	</if>
+	  	<if test="sCondition!=null and !sCondition.equals('') and sContent!=null and !sContent.equals('')">
+	  		<if test = "sCondition == 'nWriter'">
+	  			AND N.NWRITER LIKE '%'||#{sContent}||'%'
+	  		</if>
+	  		<if test = "sCondition == 'nTitle'">
+	  			AND N.NTITLE LIKE '%'||#{sContent}||'%'
+	  		</if>
+	  		<if test = "sCondition == 'nContent'">
+	  			AND N.NCONTENT LIKE '%'||#{sContent}||'%'
+	  		</if>
+	  		<if test = "sCondition == 'plus'">
+	  			AND N.NCONTENT LIKE '%'||#{sContent}||'%' OR N.NTITLE LIKE '%'||#{sContent}||'%'
+	  		</if>
+	  	</if>
+	ORDER BY N.NOTICEYN DESC, N.NCREATEDATE DESC
+  </select>
+  
+  <select id="selectLikeList" resultMap="likeResultSet">
+  	SELECT *
+  	FROM NLIKE
+  </select>
+  
+  <select id="selectLike" parameterType="Like" resultType="_int">
+  	SELECT COUNT(*)
+  	FROM NLIKE
+  	WHERE USER_NO=#{userNo} AND NID=#{nId}
+  </select>
+  
+  <select id="selectnLike" parameterType="Like" resultType="_int">
+  	SELECT COUNT(*)
+  	FROM NLIKE
+  	WHERE NID=#{nId}
+  </select>
+  
+  <insert id="insertLike">
+  	INSERT INTO NLIKE
+  	VALUES(#{nId}, #{userNo})
+  </insert>
+  
+  <delete id="deleteLike">
+  	DELETE 
+  	FROM NLIKE
+  	WHERE USER_NO=#{userNo} AND NID=#{nId}
+  </delete>
   
 </mapper>

@@ -29,6 +29,7 @@
 <head>
 <meta charset="UTF-8">
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
   var $$$ = jQuery.noConflict();
 </script>
@@ -443,10 +444,23 @@ input.val(data ? data.flag + ':' + data.name : '')
 
 <script type="text/javascript">
 	function endTo(toNo){
-		if(!confirm("대회를 마감하시겠습니까?")){
-			return false;
-		}
-		location.href="endTo.to?toNo="+toNo;
+		
+		swal({
+		  	  title: "대회를 마감하시겠습니까?",
+		  	  icon: "info",
+		  	  buttons: true,
+		  	  dangerMode: false,
+		  	})
+		  	.then((willDelete) => {
+		  	  if (willDelete) {
+		  		swal("", "대회를 마감합니다.", "success");
+		  		setTimeout(function() {location.href="endTo.to?toNo="+toNo; }, 3000);	
+		  	  } else {
+		  		  return false;
+		  	  }
+		  	});
+
+		
 		
 	}
 
@@ -458,44 +472,26 @@ input.val(data ? data.flag + ':' + data.name : '')
 
 	function saveInfoSche(){
 		
-		if(!confirm("대회정보와 일정을 저장하시겠습니까?")){
-			return false;
-		}
 		
-		 $.ajax({
-				url:"saveInfo.to",
-				data:{toNo:<%=tInfo.getToNo()%>,
-					toContent:$$$("#toContent").val(),
-					toReward:$$$("#toReward").val(),
-					toLocation:$$$("#toLocation").val(),
-					toName:$$$("#toName").val(),
-				},
-				success:function(data){
-					
-					
-					
-				},
-				error:function(request, status, errorData){
-					alert("error code: " + request.status + "\n"
-							+"message: " + request.responseText
-							+"error: " + errorData);
-				}
-			})
-				
-			scheArr = new Array();
-			
-			for(var i = 0 ; i < 15 ; i++){
-				scheArr[i] = $$$("#sche"+i).val();
-				$.ajax({
-					url:"saveSche.to",
+		
+		swal({
+		  	  title: "대회정보와 일정을 저장하시겠습니까?",
+		  	  icon: "info",
+		  	  buttons: true,
+		  	  dangerMode: false,
+		  	})
+		  	.then((willDelete) => {
+		  	  if (willDelete) {
+		  		$.ajax({
+					url:"saveInfo.to",
 					data:{toNo:<%=tInfo.getToNo()%>,
-						toTime:scheArr[i],
-						sSlotNum:i
+						toContent:$$$("#toContent").val(),
+						toReward:$$$("#toReward").val(),
+						toLocation:$$$("#toLocation").val(),
+						toName:$$$("#toName").val(),
 					},
 					success:function(data){
-						
-						
-						
+							
 					},
 					error:function(request, status, errorData){
 						alert("error code: " + request.status + "\n"
@@ -503,7 +499,36 @@ input.val(data ? data.flag + ':' + data.name : '')
 								+"error: " + errorData);
 					}
 				})
-			}
+					
+				scheArr = new Array();
+				
+				for(var i = 0 ; i < 15 ; i++){
+					scheArr[i] = $$$("#sche"+i).val();
+					$.ajax({
+						url:"saveSche.to",
+						data:{toNo:<%=tInfo.getToNo()%>,
+							toTime:scheArr[i],
+							sSlotNum:i
+						},
+						success:function(data){
+							
+							
+						},
+						error:function(request, status, errorData){
+							alert("error code: " + request.status + "\n"
+									+"message: " + request.responseText
+									+"error: " + errorData);
+						}
+					})
+				}
+				swal("", "정보가 저장되었습니다.", "success");
+		  	  } else {
+		  		  return false;
+		  	  }
+		  	});
+
+		
+		 
 	
 	}
 
@@ -524,7 +549,7 @@ input.val(data ? data.flag + ':' + data.name : '')
 		
 		
 		if(!flag){
-			alert("신청가능한 팀이 없습니다.");
+			swal("", "신청 가능한 팀이 없습니다.", "warning");
 			return false;
 		}
 		
@@ -547,7 +572,7 @@ input.val(data ? data.flag + ':' + data.name : '')
 		<%}%>
 		
 		if(!flag){
-			alert("이미 신청된 팀입니다.");
+			swal("", "이미 신청된 팀입니다..", "warning");
 			return false;
 		}
 		
@@ -561,33 +586,45 @@ input.val(data ? data.flag + ':' + data.name : '')
 			<%}%>
 		<%}%>
 	
-		if(!confirm("신청하시겠습니까?")){
-			return false;
-		}
+
+		swal({
+		  	  title: "신청하시겠습니까?",
+		  	  icon: "info",
+		  	  buttons: true,
+		  	  dangerMode: false,
+		  	})
+		  	.then((willDelete) => {
+		  	  if (willDelete) {
+		  		$.ajax({
+					url:"saveResult.to",
+					data:{teamNo:teamNo,
+						teamLogo:teamLogo,
+						teamName:teamName,
+						rSlotNum:rSlotNum,
+						score:0,
+						toNo:toNo,
+						userNo:userNo
+					},
+					success:function(data){
+						
+						swal("", "신청이 완료되었습니다.", "warning");
+						setTimeout(function() {location.reload(); }, 3000);
+
+					},
+					error:function(request, status, errorData){
+						alert("error code: " + request.status + "\n"
+								+"message: " + request.responseText
+								+"error: " + errorData);
+					}
+				})
+		  	  } else {
+		  		  return false;
+		  	  }
+		  	});
+
 		
-		$.ajax({
-			url:"saveResult.to",
-			data:{teamNo:teamNo,
-				teamLogo:teamLogo,
-				teamName:teamName,
-				rSlotNum:rSlotNum,
-				score:0,
-				toNo:toNo,
-				userNo:userNo
-			},
-			success:function(data){
-				
-				
-				alert("신청이 완료되었습니다.");
-				location.reload();
-				
-			},
-			error:function(request, status, errorData){
-				alert("error code: " + request.status + "\n"
-						+"message: " + request.responseText
-						+"error: " + errorData);
-			}
-		})
+		
+		
 		
 	}
 
