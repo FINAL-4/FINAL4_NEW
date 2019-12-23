@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.kh.FIFAOFFLINE.member.model.vo.Member, com.kh.FIFAOFFLINE.team.model.vo.Team, java.util.ArrayList"%>
+    pageEncoding="UTF-8" import="com.kh.FIFAOFFLINE.team.model.vo.MyTeam,com.kh.FIFAOFFLINE.member.model.vo.Member, com.kh.FIFAOFFLINE.team.model.vo.Team, java.util.ArrayList"%>
     
 <%
 	ArrayList<Member> mList =(ArrayList)request.getAttribute("mList");
 	ArrayList<Team> teamLeader = (ArrayList)request.getAttribute("teamLeader");
+	ArrayList<MyTeam> myTeam =(ArrayList<MyTeam>)session.getAttribute("myTeam");
 %>   
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <!DOCTYPE html>
@@ -11,6 +12,7 @@
 <head>
 <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- <link rel="stylesheet" type="text/css" href="resources/css/style.css" /> -->
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/076ff59e02.js" crossorigin="anonymous"></script>
@@ -18,9 +20,25 @@
 
 
 <style>
+
+
 * { box-sizing: border-box; }
 
 body { font-family: sans-serif; }
+
+#teamMenu .menu__item-name::after,
+#teamMenu .menu__item-name::before{
+	background: red;
+}
+
+#teamMenu.menu__item::after,
+#teamMenu.menu__item::before{
+   	color: red;
+}
+
+#teamMenu .menu__item-name{
+	color: red;
+}
 
 .carousel{
 	padding-bottom:25px;
@@ -451,12 +469,17 @@ div[id^="test"]{
   text-align: center;
   margin: 24px 0 12px 0;
   position: relative;
-  height:150px;
-  vertical-align: center;
+  height:180px;
+  width:100%;
+  vertical-align:center;
+  text-align:center;
+  align:center;
 }
 
 img.avatarM, img.avatarT {
-  width: 50%;
+  margin-top:20px;
+  margin-left:13px;
+  width: 458px;
   height:100%;
 }
 
@@ -491,13 +514,13 @@ img.avatarM, img.avatarT {
 	margin-bottom:5px;
 	height:40px;
 }
-.createTeam:hover{
+.createTeam:hover,.listTeam:hover{
 	background:red;
 	color:white;
 	cursor:pointer;
 	border:1px solid red;
 }
-.updateTeam,.disTeam{
+.updateTeam,.disTeam,.listTeam{
 	float:right;
 	background:black;
 	color:white;
@@ -599,6 +622,35 @@ table.type08 td {
 	cursor:pointer;
 }
 
+table.type03 {
+    border-collapse: collapse;
+    text-align: left;
+    line-height: 1.5;
+    border-top: 1px solid #ccc;
+    border-left: 3px solid #369;
+    margin : 20px 10px;
+}
+table.type03 th {
+    width: 147px;
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: center;
+    background: #efefef;
+    /* color: #153d73; */
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    font-size:1.7em;
+
+}
+table.type03 td {
+    width: 349px;
+    padding: 10px;
+    vertical-align: top;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    font-size:1.7em;
+}
+
 
 
 </style>
@@ -634,7 +686,7 @@ table.type08 td {
             						<div class="card-body">
                			 				<p class="category" style="font-size:1.8em;">팀장 : ${myTeam.userName }</p>
                 						<h1 style="font-size:38px;">${myTeam.teamName }</h1>
-                						<p class="description" style="text-align:center;">${myTeam.teamIntro }${myTeam.teamIntro }${myTeam.teamIntro }</p>
+                						<p class="description" style="text-align:center;">${myTeam.teamIntro }</p>
             						</div>
             						<div class="card-footer" style="padding-top:10px; padding-bottom:0px;">
                 						<p style="font-size:16px;">활동 지역 : ${myTeam.teamArea }</p>
@@ -657,6 +709,7 @@ table.type08 td {
 				<div class="contents" style="width:100%; padding-top:75px; margin-bottom:300px;" >
 					<h1 style="font-size:48px;">팀원 초대</h1>
 					<hr style="border:1px solid black;">
+					<button class="listTeam" onclick="location.href='tlist.tm'">팀원 모집</button>
 					<form autocomplete="off" action="/action_page.php" style="padding-bottom:20px; padding-top:20px;">
 						<select style="float:left; font-size:18px;" class="teamSelect" onchange="choiceTeamMember()">
 							<option selected value="0">-- 팀을 선택하세요 --</option>
@@ -763,16 +816,24 @@ table.type08 td {
 	     					<img alt="Avatar" class="avatarM">
     					</div>
    			 			<div class="container" align="center">
-      						<label><b>유저 이름</b></label>
-     				 		<p class="mUserName"></p>
-      						<label><b>성별</b></label>
-      						<p class="mGender"></p>
-      		
-     						<label><b>이메일</b></label>
-      						<p class="mEmail"></p>
-      
-      						<label><b>주소</b></label>
-      						<p class="mAddress"></p>
+      						<table class="type03">
+							    <tr>
+							        <th scope="row">유저이름</th>
+							        <td><p class="mUserName"></p></td>
+							    </tr>
+							    <tr>
+							        <th scope="row">성별</th>
+							        <td><p class="mGender"></p></td>
+							    </tr>
+							    <tr>
+							        <th scope="row">이메일</th>
+							        <td><p class="mEmail"></p></td>
+							    </tr>
+							    <tr>
+							        <th scope="row">전화번호</th>
+							        <td><p class="mPhone"></p></td>
+							    </tr>
+							</table>
     					</div>
   					</div>
 				</div>
@@ -783,16 +844,24 @@ table.type08 td {
 	     					<img alt="Avatar" class="avatarT">
     					</div>
    			 			<div class="container" align="center">
-      						<label><b>팀 이름</b></label>
-     				 		<p class="tTeamName"></p>
-      						<label><b>팀장 이름</b></label>
-      						<p class="tUserName"></p>
-      		
-     						<label><b>활동 지역</b></label>
-      						<p class="tTeamArea"></p>
-      
-      						<label><b>전적</b></label>
-      						<p class="tScore"></p>
+      						<table class="type03">
+							    <tr>
+							        <th scope="row">팀 이름</th>
+							        <td><p class="tTeamName"></p></td>
+							    </tr>
+							    <tr>
+							        <th scope="row">팀장 이름</th>
+							        <td><p class="tUserName"></p></td>
+							    </tr>
+							    <tr>
+							        <th scope="row">활동 지역</th>
+							        <td><p class="tTeamArea"></p></td>
+							    </tr>
+							    <tr>
+							        <th scope="row">전적</th>
+							        <td><p class="tScore"></p></td>
+							    </tr>
+							</table>
     					</div>
   					</div>
 				</div>  
@@ -979,13 +1048,79 @@ $(document).on("click",".searchMember",function(){
 	selectedNo = selUserNo;
 });
 
+$(document).on("click",".chip img",function(){
+	
+	event.stopPropagation();
+	var userNo = $(this).parent('.chip').children('.hUserNo').val();
+	var teamNo = $(this).parent('.chip').children('.hhTeamNo').val();
+	var teamFlag = false;
+	var myTeamNo = [];
+	
+	<%for(int i=0; i<myTeam.size(); i++){%>
+		myTeamNo[<%=i%>] = <%=myTeam.get(i).getTeamNo()%>;
+	<%}%>
+	
+	for(var i =0; i<myTeamNo.length; i++){
+		if(teamNo == myTeamNo[i]){
+			teamFlag = true;
+		}
+	}
+	if(teamFlag){
+		$.ajax({
+			url:"modal.tm",
+			data:{userNo:userNo},
+			dataType:"json",
+			success:function(data){
+				
+				$(".mUserName").text(data.userName);
+				$(".mGender").text(data.gender);
+				$(".mEmail").text(data.userEmail);
+				$(".mPhone").text(data.phone);
+				$(".avatarM").attr('src',"resources/proFiles/"+data.profile)
+				
+				var modal = document.getElementById("myModal");
+				
+				modal.style.display="block";
+			}
+		});
+	}
+	
+});
+
 $(document).on("click",".closebtn",function(){
-	/* var userNo = $(this).parent('.chip').children('.hUserNo').val();
-	var teamNo = $(this).parent('.chip').children('.hhTeamNo').val(); */
 	
+	var userNo = $(this).parent('.chip').children('.hUserNo').val();
+	var teamNo = $(this).parent('.chip').children('.hhTeamNo').val();
 	
-	alert("야호");
-	
+	if(userNo == ${loginUser.userNo}){
+		swal("본인은 추방할 수 없습니다.",'',"error");
+	}else{
+		swal({
+			  title: "추방하시겠습니까?",
+			  icon: "warning",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willDelete) => {
+			  if (willDelete) {
+				  $.ajax({
+						url:'banishment.tm',
+						data:{teamNo:teamNo,userNo:userNo},
+						success:function(data){
+							if(data > 0){
+								swal("추방 되었습니다.",'',"success");
+							}else{
+								swal('추방을 실패했습니다.');
+							}
+						}
+					});
+			  } else {
+			    swal("취소 되었습니다.");
+			  }
+			});
+		
+		
+	}
 	event.stopPropagation();
 });
 
@@ -1017,10 +1152,10 @@ $(".InviteMyTeam").click(function(){
 				}
 			}
 		}else{
-			alert('추가할 유저를 먼저 선택하세요');
+			swal('추가할 유저를 먼저 선택하세요','',"warning");
 		}
 	}else{
-		alert('팀을 먼저 선택하세요');
+		swal('팀을 먼저 선택하세요','','error');
 	}
 	
 	if(dupFlag){
@@ -1032,11 +1167,11 @@ $(".InviteMyTeam").click(function(){
 				  teamNo:teamNo},
 			success:function(data){
 				if(data > 0){
-					alert("추가되었습니다.");
+					swal("추가되었습니다.",'',"success");
 					
 					$('.chipM').remove();
 				}else{
-					alert("실패");
+					swal("실패",'',"error");
 				}
 			}
 		});
@@ -1074,19 +1209,19 @@ function newElement(){
 						
 						
 						}else{
-							alert("해당하는 회원이 없습니다.");
+							swal("해당하는 회원이 없습니다.",'',"info");
 						}
 					}
 						
 				});
 			}else{
-				alert("이미 추가시킨 인원입니다.");
+				swal("이미 추가시킨 인원입니다.",'',"error");
 			}
 		}else{
-			alert("한번에 5명 이상을 추가할 수 없습니다.");
+			swal("한번에 5명 이상을 추가할 수 없습니다.",'',"error");
 		}
 	}else{
-		alert("추가할 회원을 먼저 검색하세요");
+		swal("추가할 회원을 먼저 검색하세요",'',"error");
 	}
 	selectedNo = 0;
 }
@@ -1103,8 +1238,10 @@ $(document).on("click",".closebtnM",function(){
 
 $(document).on("click",".chipM",function(){
 	
+	var teamNo = $('.teamSelect').val();
 	var userNo = $(this).children('.hUserNo').val();
 	
+	if(teamNo != '0'){
 	if($(this).hasClass('clickChip')){
 		$(this).toggleClass('clickChip');
 		
@@ -1115,6 +1252,9 @@ $(document).on("click",".chipM",function(){
 		
 		$(this).toggleClass('clickChip');
 		console.log(sendArr);
+	}
+	}else{
+		swal("팀을 먼저 선택하세요.",'',"error");
 	}
 });
 
@@ -1184,7 +1324,7 @@ window.onclick = function(event) {
 function beforeCreateTeam(){
 
 	if(${myTeam.size()}==3){
-		alert("3개 이상의 팀을 가입하거나 생성할 수 없습니다.");
+		swal("3개 이상의 팀을 가입하거나 생성할 수 없습니다.",'',"error");
 	}else{
 		location.href='createTeamView.tm';
 	}
@@ -1212,32 +1352,37 @@ function choiceTeamMember(){
 $('.agree').click(function(){
 	var teamNo = $(this).children('.hTeamNo').val();
 	
-	var confirmFlag = confirm("승인 하시겠습니까?");
-	
-	if(confirmFlag){
-		$.ajax({
-			url:'inviteAgree.tm',
-			data:{teamNo:teamNo},
-			success:function(data){
-				if(${myTeam.size()} == 3){
-					alert("3개 이상의 팀을 가입 할 수 없습니다.");
-				}else{
-					if(data > 0){
-						alert("가입되었습니다.");
-						$(this).parent('.teamTR').remove();
-						
-						location.href='managedTeam.tm';
-					}else{
-						alert("이미 가입된 팀입니다.");
+	swal({
+		  title: "승인하시겠습니까?",
+		  icon: "info",
+		  buttons: true,
+		  dangerMode: true,
+		})
+		.then((willDelete) => {
+		  if (willDelete) {
+			  $.ajax({
+					url:'inviteAgree.tm',
+					data:{teamNo:teamNo},
+					success:function(data){
+						if(${myTeam.size()} == 3){
+							swal("3개 이상의 팀을 가입 할 수 없습니다.",'',"error");
+						}else{
+							if(data > 0){
+								swal("가입되었습니다.",'',"success");
+								$(this).parent('.teamTR').remove();
+								
+								location.href='managedTeam.tm';
+							}else{
+								swal("이미 가입된 팀입니다.",'',"error");
+							}
+						}
 					}
-				}
-			}
+				});
+		  } else {
+		    swal("취소");
+		  }
 		});
-	}else
-		alert("취소");
-	
-	
-	
+
 });
 
 
@@ -1246,14 +1391,41 @@ $('.agree').click(function(){
 $('.deny').click(function(){
 	var teamNo = $(this).children('.hTeamNo').val();
 	
-	alert(teamNo);
+	swal({
+		  title: "거절하시겠습니까?",
+		  icon: "info",
+		  buttons: true,
+		  dangerMode: true,
+		})
+		.then((willDelete) => {
+		  if (willDelete) {
+			  $.ajax({
+					url:'inviteDeny.tm',
+					data:{teamNo:teamNo},
+					success:function(data){
+						
+						if(data > 0){
+							swal("거절되었습니다.",'',"success");
+							$(this).parent('.teamTR').remove();
+							
+							location.href='managedTeam.tm';
+						}else{
+							swal("이미 가입된 팀입니다.",'',"error");
+						}
+					}
+				});
+		  } else {
+		    swal("취소");
+		  }
+		});
+	
 });
 
 function updateTeam(){
 	var teamNo = $('.teamSelector').val();
 	
 	if(teamNo == '0'){
-		alert("팀을 먼저 선택해주세요");
+		swal("팀을 먼저 선택해주세요",'',"warning");
 	}else{
 		location.href="updateTeamInfo.tm?teamNo="+teamNo;
 	}
@@ -1266,7 +1438,7 @@ function disTeam(){
 	
 	
 	if(teamNo == '0'){
-		alert("먼저 팀을 선택 해주세요");
+		swal("먼저 팀을 선택 해주세요",'',"warning");
 	}else{
 		<%for(int i=0; i<teamLeader.size(); i++){%>
 			leaderNo[<%=i%>] = <%=teamLeader.get(i).getTeamNo()%>;
@@ -1279,42 +1451,56 @@ function disTeam(){
 		}
 	
 		if(disFlag){
-			var confirmFlag = confirm("정말로 해체 하시겠습니까?");
-			if(confirmFlag){
-				$.ajax({
-					url:'breakUpTeam.tm',
-					data:{teamNo:teamNo},
-					success:function(data){
-						if(data > 0){
-							alert("해체 되었습니다.. ㅜㅜ");
-							location.href="managedTeam.tm";
-						}else{
-							alert('해체 실패');
-						}
-					}
+			swal({
+				  title: "정말로 해체 하시겠습니까?",
+				  icon: "warning",
+				  buttons: true,
+				  dangerMode: true,
+				})
+				.then((willDelete) => {
+				  if (willDelete) {
+					  $.ajax({
+							url:'breakUpTeam.tm',
+							data:{teamNo:teamNo},
+							success:function(data){
+								if(data > 0){
+									swal("해체 되었습니다.. ㅜㅜ",'',"success");
+									location.href="managedTeam.tm";
+								}else{
+									swal('해체 실패','',"error");
+								}
+							}
+						});
+				  } else {
+				    swal("해체 취소");
+				  }
 				});
-			}else{
-				alert('취소 되었습니다.');
-			}
+		
 		}else{
-			var confirmFlag = confirm("정말로 탈퇴 하시겠습니까?");
-			
-			if(confirmFlag){
-				$.ajax({
-					url:'withdrawal.tm',
-					data:{teamNo:teamNo},
-					success:function(data){
-						if(data > 0){
-							alert("탈퇴 되었습니다 .. ㅠㅠ");
-							location.href="managedTeam.tm";
-						}else{
-							alert("탈퇴 실패");
-						}
-					}
+			swal({
+				  title: "정말로 탈퇴하시겠습니까?",
+				  icon: "warning",
+				  buttons: true,
+				  dangerMode: true,
+				})
+				.then((willDelete) => {
+				  if (willDelete) {
+					  $.ajax({
+							url:'withdrawal.tm',
+							data:{teamNo:teamNo},
+							success:function(data){
+								if(data > 0){
+									swal("탈퇴 되었습니다 .. ㅠㅠ",'',"success");
+									location.href="managedTeam.tm";
+								}else{
+									alert("탈퇴 실패",'',"error");
+								}
+							}
+						});
+				  } else {
+				    swal("탈퇴 취소");
+				  }
 				});
-			}else{
-				alert("취소 되었습니다.");
-			}
 		}
 	}
 	

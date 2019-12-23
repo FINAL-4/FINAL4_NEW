@@ -8,6 +8,7 @@
   	<result property="userName" column="USER_NAME"/>
   	<result property="userId" column="USER_ID"/>
   	<result property="profile" column="PROFILE"/>
+  	<result property="phone" column="PHONE"/>
   	<result property="teamName" column="TEAM_NAME"/>
   	<result property="teamImage" column="TEAM_IMAGE"/>
   	<result property="teamAdver" column="TEAM_ADVER"/>
@@ -83,6 +84,11 @@
 	<!-- 변수명 디비값 -->
   </resultMap>
   
+  <resultMap type="SmsInfo" id="smsInfoResultSet">
+	<result property="phone" column="PHONE"/>
+	<result property="userName" column="USER_NAME"/>
+  </resultMap>
+  
   
   <select id="getListCount" resultType="_int">
   	SELECT COUNT(*)
@@ -104,7 +110,7 @@
   
   <select id="teamDetail" resultMap="teamResultSet" parameterType="_int">
   	SELECT T.TEAM_NO,T.USER_NO,M.USER_NAME,M.USER_ID,M.PROFILE,T.TEAM_NAME,T.TEAM_IMAGE,TA.TEAM_ADVER,
-  		   TA.RESISTERDAY,TA.AD_STATUS,T.TEAM_AREA,T.TEAM_INTRO	,TA.RECRUITCOUNT		  
+  		   TA.RESISTERDAY,TA.AD_STATUS,T.TEAM_AREA,T.TEAM_INTRO	,TA.RECRUITCOUNT,M.PHONE	  
   	FROM TEAM T
   	JOIN MEMBER M ON (T.USER_NO = M.USER_NO)
   	JOIN TEAM_AD TA ON (T.TEAM_NO = TA.TEAM_NO)
@@ -257,7 +263,7 @@
 	 	AND T.TEAM_AREA = '대치2/대치4/역삼1'
 	</if>
 	<if test='tArea7.equals("1")'>
-	 	AND T.TEAM_AREA = '역삼1/역삼2/도곡1'
+	 	AND T.TEAM_AREA = '역삼1/역삼2/도곡'
 	</if>
 	<if test='tArea8.equals("1")'>
 	 	AND T.TEAM_AREA = '도곡2/개포1/일원본'
@@ -293,7 +299,7 @@
 	 	AND T.TEAM_AREA = '대치2/대치4/역삼1'
 	</if>
 	<if test='tArea7.equals("1")'>
-	 	AND T.TEAM_AREA = '역삼1/역삼2/도곡1'
+	 	AND T.TEAM_AREA = '역삼1/역삼2/도곡'
 	</if>
 	<if test='tArea8.equals("1")'>
 	 	AND T.TEAM_AREA = '도곡2/개포1/일원본'
@@ -307,8 +313,7 @@
   	FROM TEAM T
   	JOIN TEAM_AD TA ON (T.TEAM_NO = TA.TEAM_NO)
   	JOIN MEMBER M ON (T.USER_NO = M.USER_NO)
-  	WHERE TEAM_NAME = #{teamName}	   
-  
+  	WHERE TEAM_NAME LIKE '%'||#{teamName}||'%'
   </select>
   
   <select id="selectAllTeam" resultMap="teamResultSet">
@@ -353,7 +358,7 @@
   
   <select id="teamDetail2" parameterType="_int" resultMap="teamResultSet">
   	SELECT T.TEAM_NO,T.USER_NO,M.USER_NAME,M.USER_ID,M.PROFILE,T.TEAM_NAME,T.TEAM_IMAGE,
-  		   T.TEAM_AREA,T.TEAM_INTRO	  
+  		   T.TEAM_AREA,T.TEAM_INTRO,M.PHONE 
   	FROM TEAM T
   	JOIN MEMBER M ON (T.USER_NO = M.USER_NO)
   	WHERE T.TEAM_NO=#{teamNo}
@@ -379,6 +384,24 @@
   </delete>
   
   <delete id="withdrawal" parameterType="TeamMember">
+  	DELETE FROM
+  	T_MEMBER
+  	WHERE TEAM_NO = #{teamNo} AND USER_NO = #{userNo}
+  </delete>
+  
+  <select id="getSmsInfo" resultMap="smsInfoResultSet">
+	SELECT *
+	FROM MEMBER
+	WHERE USER_NO=#{userNo}
+  </select>
+  
+  <select id="selectTM" parameterType="_int" resultType="_int">
+  	SELECT COUNT(*)
+  	FROM T_MEMBER
+  	WHERE USER_NO=#{teamNo}
+  </select>
+  
+  <delete id="banishmentTeam" parameterType="TeamMember">
   	DELETE FROM
   	T_MEMBER
   	WHERE TEAM_NO = #{teamNo} AND USER_NO = #{userNo}

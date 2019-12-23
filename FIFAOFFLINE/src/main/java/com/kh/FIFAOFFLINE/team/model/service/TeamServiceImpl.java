@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.FIFAOFFLINE.match.model.vo.ScoreInfo;
+import com.kh.FIFAOFFLINE.match.model.vo.SmsInfo;
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.team.model.dao.TeamDao;
 import com.kh.FIFAOFFLINE.team.model.vo.PageInfo;
@@ -178,7 +179,7 @@ public class TeamServiceImpl implements TeamService{
 	}
 
 	@Override
-	public Team searchTeamName(String teamName) {
+	public ArrayList<Team> searchTeamName(String teamName) {
 		// TODO Auto-generated method stub
 		return tDao.searchTeamName(teamName);
 	}
@@ -247,6 +248,24 @@ public class TeamServiceImpl implements TeamService{
 	public int withdrawal(TeamMember tm) {
 		// TODO Auto-generated method stub
 		return tDao.withdrawal(tm);
+	}
+
+	@Override
+	public ArrayList<SmsInfo> getSmsInfo(int userNo) {
+		// TODO Auto-generated method stub
+		return tDao.getSmsInfo(userNo);
+	}
+
+	@Override
+	public int selectTeamMember(int userNo) {
+		// TODO Auto-generated method stub
+		return tDao.selectTeamMember(userNo);
+	}
+
+	@Override
+	public int banishmentTeam(TeamMember tm) {
+		// TODO Auto-generated method stub
+		return tDao.banishmentTeam(tm);
 	}
 	
 	

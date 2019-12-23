@@ -9,6 +9,7 @@ public class Team {
 	private String userName;
 	private String userId;
 	private String profile;
+	private String phone;
 	private String teamName;
 	private String teamImage;
 	private String teamArea;
@@ -31,7 +32,7 @@ public class Team {
 		super();
 	}
 
-	public Team(int teamNo, int userNo, String userName, String userId, String profile, String teamName,
+	public Team(int teamNo, int userNo, String userName, String userId, String profile, String phone, String teamName,
 			String teamImage, String teamArea, String teamIntro, String teamAdver, int recruitCount, String resisterDay,
 			String ad_status, int memberCount, String teamRecord) {
 		super();
@@ -40,6 +41,7 @@ public class Team {
 		this.userName = userName;
 		this.userId = userId;
 		this.profile = profile;
+		this.phone = phone;
 		this.teamName = teamName;
 		this.teamImage = teamImage;
 		this.teamArea = teamArea;
@@ -90,6 +92,14 @@ public class Team {
 
 	public void setProfile(String profile) {
 		this.profile = profile;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public String getTeamName() {
@@ -175,11 +185,13 @@ public class Team {
 	@Override
 	public String toString() {
 		return "Team [teamNo=" + teamNo + ", userNo=" + userNo + ", userName=" + userName + ", userId=" + userId
-				+ ", profile=" + profile + ", teamName=" + teamName + ", teamImage=" + teamImage + ", teamArea="
-				+ teamArea + ", teamIntro=" + teamIntro + ", teamAdver=" + teamAdver + ", recruitCount=" + recruitCount
-				+ ", resisterDay=" + resisterDay + ", ad_status=" + ad_status + ", memberCount=" + memberCount
-				+ ", teamRecord=" + teamRecord + "]";
+				+ ", profile=" + profile + ", phone=" + phone + ", teamName=" + teamName + ", teamImage=" + teamImage
+				+ ", teamArea=" + teamArea + ", teamIntro=" + teamIntro + ", teamAdver=" + teamAdver + ", recruitCount="
+				+ recruitCount + ", resisterDay=" + resisterDay + ", ad_status=" + ad_status + ", memberCount="
+				+ memberCount + ", teamRecord=" + teamRecord + "]";
 	}
+
+	
 
 	
 

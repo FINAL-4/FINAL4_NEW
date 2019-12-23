@@ -11,6 +11,7 @@
 <script src='resources/js/moment.min.js'></script>
 <script src='resources/js/fullcalendar.min.js'></script>
 <script src='resources/js/gcal.min.js'></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <!-- locale = ko ==> 한글로 -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/locale/ko.js'></script>
@@ -84,7 +85,8 @@
 #teamImgTag{
 	width: 400px;
 	height: 400px;
-	margin-left: 10%;
+	margin-left: 36%;
+	margin-right:30px;
 	border: 3px solid grey;
 }
 
@@ -334,7 +336,6 @@ li{
 
 input, select{
 	height: 35px;
-	text-align-last:center;
 }
 .checks{
 	padding:20px;
@@ -434,19 +435,21 @@ label{
   text-align: center;
   border: 1px solid #6cc0e5;
 }
-
-
+#title{
+   font-size: 40px; 
+   margin-top: 120px; 
+   border-bottom: 5px solid grey;
+}
 
 </style>
 </head>
 <jsp:include page = "../common/header.jsp"/>
 <body>
-	<div id = "title" style = "font-size: 40px; margin-top: 80px; margin-left: 5%;">매치 생성</div>
-	<div id="outer" style="margin-top: 15px; border-bottom: 5px solid grey; border-top: 5px solid grey; margin-left: 5%; margin-right:5%; width: 90%; ">
-		<div class="ha-waypoint" data-animate-down="ha-header-show"
-			data-animate-up="ha-header-subshow"
-			style="height: 730px; width: 90%; border: black; margin: auto;">
-
+   <div id="outer" style="margin-top: 15px; border-bottom: 5px solid grey; border-top: 5px solid grey; margin-left: 5%; margin-right:5%; width: 90%; ">
+   <div id = "title">팀 생성</div>
+      <div class="ha-waypoint" data-animate-down="ha-header-show"
+         data-animate-up="ha-header-subshow"
+         style="height: 730px; width: 90%; border: black; margin: auto;">
 			<section id="employer-post-new-job">
 				<div class="row">
 					<div class="container">
@@ -528,6 +531,7 @@ label{
   																<input type="checkbox" id="ex_chk8" name="teamArea" value="도곡2/개포/일원본" onclick="oneCheckbox(this)">
   																<label for="ex_chk8">도곡2/개포/일원본</label> 
   																<input type="hidden" id="chkvalue" value="0">
+  																<input type="hidden" id="prevealVal" value="활동지역을 입력하세요">
 															</div>	
 														</td>
 													</tr>
@@ -545,9 +549,8 @@ label{
 									</div>
 	
 									<div class="res-step-form col-md-8 col-md-offset-2 res-form-two" style = "/* border: 3px solid green; */ width: 80%; height: 570px;">
-										<div class = "contents" style="display:inline">
+										<div class = "contents" style="display:inline; align:center">
 											<h2  id = "subTitle" align="center" style = "margin-top: 0px">팀 로고</h2>
-											<h4 id = "subsubTitle" align="center" >이미지를 선택해주세요.</h4>
 											<canvas id = "teamImgTag"  style = "display: inline-block;">
 											
 											</canvas>
@@ -576,37 +579,38 @@ label{
 													data-class=".res-form-three">이전</button>
 												<button type="button"
 														class="btn btn-default btn res-btn-gray"
-														data-class=".res-form-three">다음</button>
+														data-class=".res-form-three" onclick="preveal()">다음</button>
 											</div>
 									</div>
 	
 									
 	
 									<div class="res-step-form col-md-8 col-md-offset-2 res-form-four" style = "/* border: 3px solid yellow; */ width: 80%; height: 570px;">
+										<div class = "contents">
 											<h2 id = "subTitle"  align="center" style = "margin-top: 0px">미리보기</h2>
 											<div id = "infoTable" style = "width: 50%; margin-left: 30%; margin-right: 20%; ">
 												<table>
 													<tr>
 														<td style = "width: 40%; font-size: 20px; text-align: center">팀 명</td>
 														<td style = "width: 60%;">
-															<input id ="copyTeamName" type = "text" style = "width: 400px;" disabled>
+															<input id ="copyTeamName" type = "text" style = "width: 400px;" readonly>
 														</td>
 													</tr>
 													<tr>
 														<td style = "width: 40%; font-size: 20px; text-align: center">활동 지역</td>
 														<td style = "width: 60%;">
-															<input id = "copyTeamArea" type = "text" style = "width: 400px;" disabled>
+															<input id = "copyTeamArea" type = "text" style = "width: 400px;" readonly>
 														</td>
 													</tr>
 													<tr>
 														<td style = "width: 40%; font-size: 20px; text-align: center">팀 소개</td>
 														<td style = "width:60%;">
-															<textarea id = "copyTeamIntro" rows="10" cols="50" style = "resize: none;"></textarea>
+															<textarea id = "copyTeamIntro" rows="10" cols="50" style = "resize: none;" readonly></textarea>
 														</td>		
 													</tr>
 												</table>
 											</div>
-										
+										</div>
 											<div class = "btns" align="center">
 												<button type="button"
 													class="btn btn-default btn res-btn-orange"
@@ -628,7 +632,7 @@ label{
 
 <script type="text/javascript">
 	function goMatch(){
-		location.href='goMatch.ma';
+		location.href='managedTeam.tm';
 	}
 </script>
 
@@ -647,23 +651,23 @@ label{
 		var introLabel = document.getElementById("introLabel");
 		
 		if(teamName == ""){
-			alert("팀명을 입력하세요");
+			swal("팀명을 입력하세요.",'',"error");
 			basicLabel.click();
 			return false;
 		}else if(checkValue == "0"){
-			alert("팀 활동지역을 입력하세요");
+			swal("팀 활동지역을 선택하세요.",'',"error");
 			basicLabel.click();
 			return false;
 		}else if(!isImg){
-			alert("이미지를 입력하세요");
+			swal("팀 이미지를 선택하세요.",'',"error");
 			logoLabel.click();
 			return false;
 		}else if(teamIntro == ""){
-			alert("팀 소개를 입력하세요");
+			swal("팀 소개를 입력하세요.",'',"error");
 			introLabel.click();
 			return false;
 		}else if(!teamNameCheck){
-			alert("팀 이름을 확인하세요.");
+			swal("팀 이름을 확인하세요.",'',"error");
 			basicLabel.click();
 			return false;
 		}
@@ -679,6 +683,8 @@ label{
 	var proup = document.getElementById ("uploadFile");
 	var ima1 = new SimpleImage (proup);
 	ima1.drawTo (Ican);
+	
+	$('#subsubTitle').remove();
 	
 	isImg = true;
 	}
@@ -811,6 +817,7 @@ $(document).ready(function(){
 		});
 
 		$('.res-step-four').click(function(){
+			preveal();
 			if(!$(this).hasClass('active')){
 				$(".res-steps").removeClass('active');
 				i = 3;
@@ -840,6 +847,15 @@ function oneCheckbox(a){
             obj[i].checked = false;
         }
     }
+    
+    $('#prevealVal').val(a.value);
+}
+
+function preveal(){
+	
+	$('#copyTeamName').val($('#teamName').val());
+	$('#copyTeamArea').val($('#prevealVal').val());
+	$('#copyTeamIntro').val($('#teamIntro').val());
 }
 
 </script>

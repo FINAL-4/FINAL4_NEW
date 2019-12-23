@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.FIFAOFFLINE.match.model.vo.SmsInfo;
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
 import com.kh.FIFAOFFLINE.team.model.vo.PageInfo;
 import com.kh.FIFAOFFLINE.team.model.vo.Team;
@@ -157,9 +158,9 @@ public class TeamDao {
 		return (ArrayList)sqlSession.selectList("teamMapper.selectSearchList", tf, rowBounds);
 	}
 
-	public Team searchTeamName(String teamName) {
+	public ArrayList<Team> searchTeamName(String teamName) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("teamMapper.searchTeamName",teamName);
+		return (ArrayList)sqlSession.selectList("teamMapper.searchTeamName",teamName);
 	}
 
 	public ArrayList<Team> selectAllTeam() {
@@ -215,6 +216,21 @@ public class TeamDao {
 	public int withdrawal(TeamMember tm) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("teamMapper.withdrawal",tm);
+	}
+
+	public ArrayList<SmsInfo> getSmsInfo(int userNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("teamMapper.getSmsInfo",userNo);
+	}
+
+	public int selectTeamMember(int userNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("teamMapper.selectTM",userNo);
+	}
+
+	public int banishmentTeam(TeamMember tm) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("teamMapper.banishmentTeam",tm);
 	}
 
 

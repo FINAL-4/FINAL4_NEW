@@ -9,6 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <title>Insert title here</title>
 <style>
 #teamMenu .menu__item-name::after,
@@ -25,7 +26,7 @@
 	border-bottom: 5px solid grey;
 }
 #picture{
-	width : 250px;
+	width : 300px;
 	height : 250px;
 	margin-top : 50px;
 	margin-left: 200px;
@@ -34,7 +35,7 @@
 	font-size:2.4em;
 	font-weight: bold;
 	margin-top : 30px;
-	margin-left: 270px;
+	margin-left: 200px;
 }
 #detailContent1{
 	margin-left:150px;
@@ -42,7 +43,6 @@
 	font-size:2em;
 	border-collapse: separate;
 	border-spacing: 0 30px;
-	letter-spacing: 6px;
 }
 #detailContent2{
 	margin-left:70px;
@@ -50,35 +50,56 @@
 	font-size:2em;
 	border-collapse: separate;
 	border-spacing: 0 30px;
-	letter-spacing: 4px;
 }
 #btn{
-	margin-left : 210px;
+	margin-left : 180px;
 }
-#recruitBtn, #applyBtn, #deleteBtn, #modifyBtn {
+#recruitBtn, #applyBtn{
 	width:250px;
 	height: 50px;
 	font-size: 2em;
 	font-weight: bold;
-	background: white;
+	background: black;
 	border: 1px solid white;
+	color:white;
+}
+#deleteBtn{
+	background:black;
+	border:1px solid black;
+	color:white;
+	width: 45%; 
+	height: 40px; 
+	padding: 0px; 
+	margin-right: 5%; 
+	font-size: 15px;
+}
+#modifyBtn{
+	background:black;
+	border:1px solid black;
+	color:white;
+	width: 45%; 
+	height: 40px; 
+	padding: 0px; 
+	font-size: 15px; 
 }
 #applyingBtn{
 	width:505px;
 	height:50px;
 	font-size: 2em;
 	font-weight: bold;
-	background: white;
+	background: black;
+	color:white;
 	border: 1px solid white;
 }
 #recruitBtn:hover, #applyBtn:hover, #applyingBtn:hover, #deleteBtn:hover, #modifyBtn:hover{
-	color:white;
-	background: #2AF08E;
+	color:black;
+	background: white;
 	border-radius: 13px;
+	border:1px solid black;
 }
 #applyDetail{
-	margin-top:50px;
-	margin-left:50px;
+	margin-top:20px;
+	margin-left:20px;
 }
 #applyDetailTable{
 	width:320px;
@@ -145,9 +166,10 @@
 .modal-contentM {
   background-color: #fefefe;
   margin: auto;
+  z-index:2;
   padding: 20px;
   border: 1px solid #888;
-  width: 800px;
+  width: 600px;
 }
 
 /* The Close Button */
@@ -168,11 +190,18 @@
   text-align: center;
   margin: 24px 0 12px 0;
   position: relative;
+  height:180px;
+  width:100%;
+  vertical-align:center;
+  text-align:center;
+  align:center;
 }
 
 img.avatarM {
-  width: 40%;
-  border-radius: 50%;
+  margin-top:20px;
+  margin-left:13px;
+  width: 458px;
+  height:100%;
 }
 
 .container {
@@ -197,22 +226,59 @@ img.avatarM {
 	cursor:pointer;
 }
 
+table.type03 {
+    border-collapse: collapse;
+    text-align: left;
+    line-height: 1.5;
+    border-top: 1px solid #ccc;
+    border-left: 3px solid #369;
+    margin : 20px 10px;
+}
+table.type03 th {
+    width: 147px;
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: center;
+    background: #efefef;
+    /* color: #153d73; */
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    font-size:1.7em;
+
+}
+table.type03 td {
+    width: 349px;
+    padding: 10px;
+    vertical-align: top;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    font-size:1.7em;
+}
+
 </style>
 </head>
 <jsp:include page = "../common/header.jsp"/>
 <body>
 <div id="content" style="margin-top: 15px; border-bottom: 5px solid grey; border-top: 5px solid grey; margin-left: 5%; margin-right:5%; width: 90%;">
-<div id = "title"> 모집글 상세보기 </div>
+<br><br><br><br><div id = "title"> 
+	<h4 style="font-size:45px; margin-bottom: 10px; margin-top: 0px; width: 85%; display: inline-block;"">모집글 상세보기</h4>
+	<div style = "width: 14%; display: inline-block;">
+	<input type = button id = deleteBtn value = "글 삭제하기" onclick="deleteTeamAD()">			
+	<input type = button id = modifyBtn value = "글 수정하기" onclick="UpdateView()">
+	</div>
+</div>
 	<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style="height: 900px; width: 90%; border: black; margin: auto;">
 		<form>																									<!-- 730 -->
 		<div style = "float:left;"> 
 		<table align = center id = pictureContent>
 			<tr>
 				<img id = "picture" src="resources/images/team/${t.teamImage }"> 
-				<td> ${t.teamName }</td>
 			</tr>
 			<tr>
-				<td>${scoreStr}</td>
+				<td style="width:100%; text-align:center;">팀 이름 : ${t.teamName }</td>
+			</tr>
+			<tr>
+				<td colspan="2">${scoreStr}</td>
 			</tr>
 		</table>
 		</div>
@@ -220,20 +286,20 @@ img.avatarM {
 		<div style = "float:left;">
 		<div id = "detailContentDiv1">
 		<table id = detailContent1> 
-			<tr>
-				<td>팀 장</td> 
+			<tr style="">
+				<td style="font-weight:bold;">팀 장</td> 
 				<td>${t.userName }</td>
 			</tr>
 			<tr>
-				<td>활동지역</td>
+				<td style="font-weight:bold;">활동지역</td>
 				<td>${t.teamArea }</td>
 			</tr>
 			<tr>
-				<td>모집인원</td>
+				<td style="font-weight:bold;">모집인원</td>
 				<td class="tRecruitCount">${t.recruitCount }</td>
 			</tr>
 			<tr>
-				<td align> 모집내용 </td>
+				<td style="font-weight:bold;"> 모집내용 </td>
 			</tr>
 			<tr>
 				<td colspan=2>${t.teamAdver }</td>
@@ -248,19 +314,19 @@ img.avatarM {
 		<div id = "detailContentDiv2" style = "display:none;">
 		<table id = detailContent2> 
 			<tr>
-				<td> 팀 장 </td> 
+				<td style="font-weight:bold;"> 팀 장 </td> 
 				<td> ${t.userName } </td>
 			</tr>
 			<tr>
-				<td> 활동지역 </td>
+				<td style="font-weight:bold;"> 활동지역 </td>
 				<td> ${t.teamArea } </td>
 			</tr>
 			<tr>
-				<td> 모집인원</td>
+				<td style="font-weight:bold;"> 모집인원</td>
 				<td class="tRecruitCount"> ${t.recruitCount} </td>
 			</tr>
 			<tr>
-				<td> 모집내용 </td>
+				<td style="font-weight:bold;"> 모집내용 </td>
 			</tr>
 			<tr>
 				<td colspan=2>${t.teamAdver }</td>
@@ -288,8 +354,7 @@ img.avatarM {
 				<input type = button id = applyBtn value="신청하기" onclick='applyTeam()'> <br> <br>
 				</div>
 				<div id = btnPosition2>
-				<input type = button id = deleteBtn value = "글 삭제하기" onclick="deleteTeamAD()">
-				<input type = button id = modifyBtn value = "글 수정하기" onclick="UpdateView()"> <br> <br>
+				 <br> <br>
 				<input type = button id = applyingBtn value = "신  청  현  황">
 				</div>
 			</div>
@@ -344,17 +409,24 @@ img.avatarM {
       <img alt="Avatar" class="avatarM">
     </div>
     <div class="container" align="center">
-      <label><b>유저 이름</b></label>
-      <p class="mUserName"></p>
-
-      <label><b>성별</b></label>
-      <p class="mGender"></p>
-      
-      <label><b>이메일</b></label>
-      <p class="mEmail"></p>
-      
-      <label><b>주소</b></label>
-      <p class="mAddress"></p>
+     <table class="type03">
+	    <tr>
+	        <th scope="row">유저이름</th>
+	        <td><p class="mUserName"></p></td>
+	    </tr>
+	    <tr>
+	        <th scope="row">성별</th>
+	        <td><p class="mGender"></p></td>
+	    </tr>
+	    <tr>
+	        <th scope="row">이메일</th>
+	        <td><p class="mEmail"></p></td>
+	    </tr>
+	    <tr>
+	        <th scope="row">주소</th>
+	        <td><p class="mAddress"></p></td>
+	    </tr>
+	</table>
     </div>
   </div>
 </div>
@@ -399,10 +471,11 @@ img.avatarM {
 			     $("#detailContentDiv1").hide();
 			     $("#detailContentDiv2").show();
 			}else{
-				alert("팀장만 확인 할 수 있습니다.");
+				swal("팀장만 확인 할 수 있습니다.",'',"error");
+				
 			}
 		}else{
-			alert("같은 팀이 아닙니다.");
+			swal("같은 팀이 아닙니다.",'',"error");
 		}
         
     });
@@ -424,11 +497,11 @@ img.avatarM {
 			dataType:"json",
 			success:function(data){
 				if(data != 0){
-					alert("거절하셨습니다.");
+					swal("거절 하셨습니다.",'',"info");
 					$("#joinUser"+id).remove();
 				}
 				else{
-					alert("거절 실패.");
+					swal("거절 실패.");
 				}
 			}
 		});
@@ -445,12 +518,14 @@ img.avatarM {
 				  teamNo:teamNo},
 			dataType:"json",
 			success:function(data){
-				if(data != 0){
-					alert("승인하셨습니다.");
+				if(data == 1){
+					swal("승인하셨습니다.", "새로운 팀 멤버가 들어 왔습니다.", "success");
 					$("#joinUser"+id).remove();
 					$('.tRecruitCount').text(parseInt($('.tRecruitCount').text()) -1);
+				}else if(data == 3){
+					swal("해당 유저가 팀이 3개 입니다.",'',"warning");
 				}else{
-					alert("승인 실패");
+					swal("실패");
 				}
 			}
 		});
@@ -505,7 +580,8 @@ img.avatarM {
 
 	function applyTeam(){
 		if(${myTeam.size()} == 3){
-			alert("3개이상 팀을 가입하거나 생성할 수 없습니다.");
+			swal("3개 이상 팀을 가입하거나 생성할 수 없습니다.",'',"warning");
+			
 		}else{
 			var teamFlag = false;
 			var myTeamNo = [];
@@ -531,20 +607,29 @@ img.avatarM {
 					  teamNo:teamNo},
 				success:function(data){
 					if(data == 1){
-						alert("이미 신청한 팀입니다.");
+						swal("이미 신청한 팀입니다.",'',"error");
 					}else{
-						var confirmFlag = confirm("신청하시겠습니까?");
-						if(confirmFlag){
-							location.href="applyTeam.tm?userNo="+userNo+"&teamNo="+teamNo;
-							alert("신청완료");
-						}	
-						else
-							alert("취소");
+						swal({
+							  title: "신청하시겠습니까?",
+							  icon: "info",
+							  buttons: true,
+							  dangerMode: true,
+							})
+							.then((willDelete) => {
+							  if (willDelete) {
+								location.href="applyTeam.tm?userNo="+userNo+"&teamNo="+teamNo;
+							    swal("신청완료", {
+							      icon: "success",
+							    });
+							  } else {
+							    swal("취소");
+							  }
+							});
 					}
 				}	  
 			});
 			}else{
-				alert("이미 가입되어있는 팀 입니다.");
+				swal("이미 가입되어있는 팀 입니다.");
 			}
 		}	
 		
@@ -566,16 +651,29 @@ img.avatarM {
 		if(teamFlag){
 			if(${t.userNo} == ${loginUser.userNo}){
 				var teamNo = ${t.teamNo};
-				var confirmFlag = confirm("삭제하시겠습니까");
-				if(confirmFlag){
-					location.href="deleteTeamAD.tm?teamNo="+teamNo;
-				}
+				
+				swal({
+					  title: "삭제 하시겠습니까?",
+					  icon: "warning",
+					  buttons: true,
+					  dangerMode: true,
+					})
+					.then((willDelete) => {
+					  if (willDelete) {
+						location.href="deleteTeamAD.tm?teamNo="+teamNo;
+					    swal("삭제되었습니다.", {
+					      icon: "success",
+					    });
+					  } else {
+					    swal("취소되었습니다.");
+					  }
+					}); 
 				
 			}else{
-				alert("팀장만 삭제할 수 있습니다.");
+				swal("팀장만 삭제할 수 있습니다.",'',"error");
 			}
 		}else{
-			alert("팀장만 삭제할 수 있습니다.");
+			swal("팀장만 삭제할 수 있습니다.",'',"error");
 		}
 	}
 	
@@ -596,15 +694,26 @@ img.avatarM {
 		if(teamFlag){
 			if(${t.userNo} == ${loginUser.userNo}){
 				var teamNo = ${t.teamNo};
-				var confirmFlag = confirm("수정하시겠습니까");
-				if(confirmFlag){
-					location.href="updateTeamView.tm?teamNo="+teamNo;
-				}
+				
+				swal({
+					  title: "수정하시겠습니까?",
+					  icon: "info",
+					  buttons: true,
+					  dangerMode: true,
+					})
+					.then((willDelete) => {
+					  if (willDelete) {
+						location.href="updateTeamView.tm?teamNo="+teamNo;  
+					  } else {
+					    swal("취소되었습니다.");
+					  }
+					});
+				
 			}else{
-				alert("팀장만 수정할 수 있습니다.");
+				swal("팀장만 수정할 수 있습니다.",'',"error");
 			}
 		}else{
-			alert("팀장만 수정할 수 있습니다.");
+			swal("팀장만 수정할 수 있습니다.",'',"error");
 		}
 		
 	}
