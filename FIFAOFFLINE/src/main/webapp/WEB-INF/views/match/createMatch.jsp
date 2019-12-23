@@ -750,7 +750,7 @@ $(function(){
 		  	.then((willDelete) => {
 		  	  if (willDelete) {
 		  		swal("", "매치를 생성합니다.", "success");
-		  		setTimeout(function() { $$("#createForm").submit() }, 3000);
+		  		setTimeout(function() { $$("#createForm").submit() }, 1000);
 		  	  } else {
 		  		  return false;
 		  	  }

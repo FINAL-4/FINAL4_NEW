@@ -260,7 +260,7 @@ public class MatchController {
 						+ "시간 : "+m.getsHour()+":"+m.getsMinute()+"~"+m.geteHour()+":"+m.geteMinute()+"\n"
 						+ "참가비 : "+m.getDues()+"\n"
 						+ "항상 이용해주셔서 감사합니다. ";
-				count = sendMSG(amSi.get(i).getUserName(), amSi.get(i).getPhone(), text, count);
+				//count = sendMSG(amSi.get(i).getUserName(), amSi.get(i).getPhone(), text, count);
 			}
 			
 			ArrayList<SmsInfo> mSi = maService.getSmsInfo(m.getTeamNo());
@@ -274,7 +274,7 @@ public class MatchController {
 						+ "시간 : "+m.getsHour()+":"+m.getsMinute()+"~"+m.geteHour()+":"+m.geteMinute()+"\n"
 						+ "참가비 : "+m.getDues()+"\n"
 						+ "항상 이용해주셔서 감사합니다. ";
-				count = sendMSG(mSi.get(i).getUserName(), mSi.get(i).getPhone(), text, count);
+				//count = sendMSG(mSi.get(i).getUserName(), mSi.get(i).getPhone(), text, count);
 				
 			}
 		
