@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
   var $$ = jQuery.noConflict();
 </script>
@@ -82,17 +83,23 @@
 /* ----------------------------------- */
 
 #img{
-	width:400px;
-	height:400px;
-	margin-left:10%;
-	border:3px solid grey;
+	width: 400px;
+	height: 400px;
+	margin-left: 36%;
+	margin-right:30px;
+	border: 3px solid grey;
+
+
 }
 
 #teamImgTag{
 	width: 400px;
 	height: 400px;
-	margin-left: 10%;
+	margin-left: 36%;
+	margin-right:30px;
 	border: 3px solid grey;
+
+
 }
 
 
@@ -341,7 +348,7 @@ li{
 
 input, select{
 	height: 35px;
-	text-align-last:center;
+	
 }
 .checks{
 	padding:20px;
@@ -581,17 +588,16 @@ label{
 									</div>
 	
 									<div class="res-step-form col-md-8 col-md-offset-2 res-form-two" style = "/* border: 3px solid green; */ width: 80%; height: 570px;">
-										<div class = "contents" style="display:inline">
+										<div class = "contents" style="display:inline; align:center">
 											<h2  id = "subTitle" align="center" style = "margin-top: 0px">팀 로고</h2>
-											<h4 id = "subsubTitle" align="center" >이미지를 선택해주세요.</h4>
-											<div id ="img">
+											<div id ="img" style="display:inline-block">
 												<img id="teamImg" style="display:inline-block; width:100%; height:100%" src="resources/images/team/${t.teamImage }">
 											</div>
-											
 											<canvas id = "teamImgTag"  style="display:none">
 											
 											</canvas>
 											<input type="file" name="uploadFile" id ="uploadFile" onchange = "upload()" value="${t.teamImage }">
+											
 										</div>
 										
 										
@@ -623,6 +629,7 @@ label{
 									
 	
 									<div class="res-step-form col-md-8 col-md-offset-2 res-form-four" style = "/* border: 3px solid yellow; */ width: 80%; height: 570px;">
+										<div class = "contents">
 											<h2 id = "subTitle"  align="center" style = "margin-top: 0px">미리보기</h2>
 											<div id = "infoTable" style = "width: 50%; margin-left: 30%; margin-right: 20%; ">
 												<table>
@@ -646,7 +653,7 @@ label{
 													</tr>
 												</table>
 											</div>
-										
+											</div>
 											<div class = "btns" align="center">
 												<button type="button"
 													class="btn btn-default btn res-btn-orange"
@@ -687,23 +694,23 @@ label{
 		var introLabel = document.getElementById("introLabel");
 		
 		if(teamName == ""){
-			alert("팀명을 입력하세요");
+			swal("팀명을 입력하세요",'',"error");
 			basicLabel.click();
 			return false;
 		}else if(checkValue == "0"){
-			alert("팀 활동지역을 입력하세요");
+			alert("팀 활동지역을 입력하세요",'','error');
 			basicLabel.click();
 			return false;
 		}else if(!isImg){
-			alert("이미지를 입력하세요");
+			alert("이미지를 입력하세요",'','error');
 			logoLabel.click();
 			return false;
 		}else if(teamIntro == ""){
-			alert("팀 소개를 입력하세요");
+			alert("팀 소개를 입력하세요",'','error');
 			introLabel.click();
 			return false;
 		}else if(!teamNameCheck){
-			alert("팀 이름을 확인하세요.");
+			alert("팀 이름을 확인하세요.",'','error');
 			basicLabel.click();
 			return false;
 		}
@@ -838,7 +845,7 @@ $(document).ready(function(){
 		});
 
 		$('.res-step-three').click(function(){
-			preveal();
+			
 			if(!$(this).hasClass('active')){
 				$(".res-steps").removeClass('active');
 				i = 2;
@@ -855,6 +862,7 @@ $(document).ready(function(){
 		});
 
 		$('.res-step-four').click(function(){
+			preveal();
 			if(!$(this).hasClass('active')){
 				$(".res-steps").removeClass('active');
 				i = 3;

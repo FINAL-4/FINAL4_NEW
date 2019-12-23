@@ -631,7 +631,7 @@
 						success:function(data){
 							if(data == 1){
 								swal("", "정상적으로 수정되었습니다.", "success");
-								setTimeout(function() { getReplyList(); }, 3000);
+								setTimeout(function() { getReplyList(); }, 1000);
 								
 							}
 						},
@@ -705,7 +705,7 @@
 						success:function(data){
 							if(data == 1){
 								swal("", "정상적으로 삭제되었습니다.", "success");
-								setTimeout(function() {getReplyList(); }, 3000);
+								setTimeout(function() {getReplyList(); }, 1000);
 							}
 						},
 						error:function(request, status, errorData){
@@ -745,7 +745,7 @@
 		  	.then((willDelete) => {
 		  	  if (willDelete) {
 		  		swal("", "삭제가 완료되었습니다.", "success");
-		  		setTimeout(function() {location.href="ndelete.do?nId=" + ${notice.nId}; }, 3000);
+		  		setTimeout(function() {location.href="ndelete.do?nId=" + ${notice.nId}; }, 1000);
 		  	  } else {
 		  		  return false;
 		  	  }

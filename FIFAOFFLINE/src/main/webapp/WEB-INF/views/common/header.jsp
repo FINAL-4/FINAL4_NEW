@@ -169,7 +169,7 @@
 						<!-- <a class="menu__item" href="nlist.do" style = "border: none;"> <span class="menu__item-name">공지    </span></a> -->
 						<a class="menu__item" href="nlist.do" style = "border: none;"> <span class="menu__item-name">공지    </span></a>  
 						<c:if test="${!empty sessionScope.loginUser }">
-						<a class="menu__item" href="tlist.tm" id="teamMenu"> <span class="menu__item-name">팀       </span> </a>
+						<a class="menu__item" href="managedTeam.tm" id="teamMenu"> <span class="menu__item-name">팀       </span> </a>
 						</c:if>
 						<c:if test="${empty sessionScope.loginUser }">
 						<a class="menu__item" onclick="document.getElementById('id01').style.display='block'" id= "teamMenu"> <span class="menu__item-name">팀       </span> </a>

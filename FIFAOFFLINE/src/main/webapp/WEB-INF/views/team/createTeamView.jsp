@@ -83,10 +83,11 @@
 
 
 #teamImgTag{
-   width: 400px;
-   height: 400px;
-   margin-left: 10%;
-   border: 3px solid grey;
+	width: 400px;
+	height: 400px;
+	margin-left: 36%;
+	margin-right:30px;
+	border: 3px solid grey;
 }
 
 
@@ -334,8 +335,8 @@ li{
 }
 
 input, select{
-   height: 35px;
-   text-align-last:center;
+	height: 35px;
+
 }
 .checks{
    padding:20px;
@@ -437,9 +438,10 @@ label{
 }
 
 #title{
-	font-size: 40px; 
-	margin-top: 120px; 
-	border-bottom: 5px solid grey;
+   font-size: 40px; 
+   margin-top: 120px; 
+   border-bottom: 5px solid grey;
+
 }
 
 </style>
@@ -452,247 +454,258 @@ label{
          data-animate-up="ha-header-subshow"
          style="height: 730px; width: 90%; border: black; margin: auto;">
 
-         <section id="employer-post-new-job">
-            <div class="row">
-               <div class="container">
-                  <div class="row">
-                     <form id = "createForm" action="createTeam.tm" enctype="multipart/form-data" method="post">
-                        <div class="col-xs-10 col-xs-offset-1" id="container">
-                           <div class="res-steps-container">
-                              <div class="res-steps res-step-one active"
-                                 data-class=".res-form-one">
-                                 <div class="res-step-bar">1</div>
-                                 <div class="res-progress-bar"></div>
-                                 <div class="res-progress-title" id = "basicLabel"
-                                    style="width: 170px; margin: auto;">기본정보</div>
-                              </div>
-                              <div class="res-steps res-step-two" data-class=".res-form-two">
-                                 <div class="res-step-bar">2</div>
-                                 <div class="res-progress-bar"></div>
-                                 <div class="res-progress-title" id = "logoLabel"
-                                    style="width: 170px; margin: auto;">팀 로고</div>
-                              </div>
-                              <div class="res-steps res-step-three"
-                                 data-class=".res-form-three">
-                                 <div class="res-step-bar">3</div>
-                                 <div class="res-progress-bar"></div>
-                                 <div class="res-progress-title" id = "introLabel"
-                                    style="width: 170px; margin: auto;">팀 소개</div>
-                              </div>
-                              <div class="res-steps res-step-four"
-                                 data-class=".res-form-four">
-                                 <div class="res-step-bar">4</div>
-                                 <div class="res-progress-bar"></div>
-                                 <div class="res-progress-title" id = "submitLabel"
-                                    style="width: 170px; margin: auto;">제출(미리보기)</div>
-                              </div>
-                           </div>
-                           
-                           <div class="clearfix">&nbsp;</div>
-   
-                           <div class="res-step-form col-md-8 col-md-offset-2 res-form-one" style = "/* border: 3px solid red; */ width: 80%; height: 570px;">
-                              <div class = "contents">
-                                 <h2 id = "subTitle"  align="center" style = "margin-top: 0px">기본 정보</h2>
-                                 <div id = "infoTable" style = "width: 50%; margin-left: 30%; margin-right: 20%; ">
-                                    <table>
-                                       <tr>
-                                          <td style = "width: 40%; font-size: 20px; text-align: center">팀 이름</td>
-                                          <td style = "width: 60%;">
-                                             <input id="teamName" name="teamName" type = "text" style = "width: 400px;">
-                                             <div id="checkId" class="checkInfo" style="font-size: 0.7em"></div>
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td style = "width: 40%; font-size: 20px; text-align: center">활동지역 선택</td>
-                                          <td class="checks">
-                                             <div class="checks etrans">
-                                                  <input type="checkbox" id="ex_chk1" name="teamArea" value="역삼/개포/청담" onclick="oneCheckbox(this)"> 
-                                                  <label for="ex_chk1">역삼/개포/청담</label> 
-                                                  
-                                                  <input type="checkbox" id="ex_chk2" name="teamArea" value="삼성/대치/신사" onclick="oneCheckbox(this)"> 
-                                                  <label for="ex_chk2">삼성/대치/신사</label>
-                                             </div>
-                                             <div class="checks etrans">
-                                                  <input type="checkbox" id="ex_chk3" name="teamArea" value="논현/압구정/세곡" onclick="oneCheckbox(this)"> 
-                                                  <label for="ex_chk3">논현/압구정/세곡</label>
-                                                  
-                                                  <input type="checkbox" id="ex_chk4" name="teamArea" value="자곡/율현/일원" onclick="oneCheckbox(this)"> 
-                                                  <label for="ex_chk4">자곡/율현/일원</label> 
-                                             </div>   
-                                             <div class="checks etrans">
-                                                  <input type="checkbox" id="ex_chk5" name="teamArea" value="수서/도곡/대치1" onclick="oneCheckbox(this)"> 
-                                                  <label for="ex_chk5">수서/도곡/대치1</label>
-                                                  
-                                                  <input type="checkbox" id="ex_chk6" name="teamArea" value="대치2/대치4/역삼1" onclick="oneCheckbox(this)"> 
-                                                  <label for="ex_chk6">대치2/대치4/역삼1</label> 
-                                             </div>   
-                                             <div class="checks etrans">
-                                                  <input type="checkbox" id="ex_chk7" name="teamArea" value="역삼1/역삼2/도곡" onclick="oneCheckbox(this)"> 
-                                                  <label for="ex_chk7">역삼1/역삼2/도곡</label>
-                                                  
-                                                  <input type="checkbox" id="ex_chk8" name="teamArea" value="도곡2/개포/일원본" onclick="oneCheckbox(this)">
-                                                  <label for="ex_chk8">도곡2/개포/일원본</label> 
-                                                  <input type="hidden" id="chkvalue" value="0">
-                                             </div>   
-                                          </td>
-                                       </tr>
-                                    </table>
-                                 </div>
-                              </div>
-                              <div class = "btns" align="center">
-                                 <button type="button"
-                                    class="btn" onclick = "goMatch();"
-                                    data-class="">이전</button>
-                                 <button type="button"
-                                    class="btn btn-default btn res-btn-gray"
-                                    data-class=".res-form-one">다음</button>
-                              </div>
-                           </div>
-   
-                           <div class="res-step-form col-md-8 col-md-offset-2 res-form-two" style = "/* border: 3px solid green; */ width: 80%; height: 570px;">
-                              <div class = "contents" style="display:inline">
-                                 <h2  id = "subTitle" align="center" style = "margin-top: 0px">팀 로고</h2>
-                                 <h4 id = "subsubTitle" align="center" >이미지를 선택해주세요.</h4>
-                                 <canvas id = "teamImgTag"  style = "display: inline-block;">
-                                 
-                                 </canvas>
-                                 <input type="file" name="uploadFile" id ="uploadFile" onchange = "upload()">
-                              </div>
-                              
-                              
-                              <div class = "btns" align="center">
-                                 <button type="button" style = "float : none;"
-                                    class="btn btn-default col-xs-offset-1 btn res-btn-orange"
-                                    data-class=".res-form-two">이전</button>
-                                 <button type="button"
-                                    class="btn btn-default btn res-btn-gray"
-                                    data-class=".res-form-two">다음</button>
-                              </div>
-                           </div>
-                           
-                           <div class="res-step-form col-md-8 col-md-offset-2 res-form-three" style = "/* border: 3px solid yellow; */ width: 80%; height: 570px;">
-                                 <div class = "contents" style = "margin-left: 25%; margin-right: 25%; margin-top: 0px;">
-                                    <h2 style = "padding-top: 50px; margin-top: 0px; margin-bottom: 0px;">팀 소개</h2>
-                                    <textarea id = "teamIntro" name = "teamIntro" rows="10" cols="80" style = "resize: none;" value ="" ></textarea>
-                                 </div>
-                                 <div class = "btns" align="center">
-                                    <button type="button"
-                                       class="btn btn-default btn res-btn-orange"
-                                       data-class=".res-form-three">이전</button>
-                                    <button type="button"
-                                          class="btn btn-default btn res-btn-gray"
-                                          data-class=".res-form-three">다음</button>
-                                 </div>
-                           </div>
-   
-                           
-   
-                           <div class="res-step-form col-md-8 col-md-offset-2 res-form-four" style = "/* border: 3px solid yellow; */ width: 80%; height: 570px;">
-                                 <h2 id = "subTitle"  align="center" style = "margin-top: 0px">미리보기</h2>
-                                 <div id = "infoTable" style = "width: 50%; margin-left: 30%; margin-right: 20%; ">
-                                    <table>
-                                       <tr>
-                                          <td style = "width: 40%; font-size: 20px; text-align: center">팀 명</td>
-                                          <td style = "width: 60%;">
-                                             <input id ="copyTeamName" type = "text" style = "width: 400px;" disabled>
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td style = "width: 40%; font-size: 20px; text-align: center">활동 지역</td>
-                                          <td style = "width: 60%;">
-                                             <input id = "copyTeamArea" type = "text" style = "width: 400px;" disabled>
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td style = "width: 40%; font-size: 20px; text-align: center">팀 소개</td>
-                                          <td style = "width:60%;">
-                                             <textarea id = "copyTeamIntro" rows="10" cols="50" style = "resize: none;"></textarea>
-                                          </td>      
-                                       </tr>
-                                    </table>
-                                 </div>
-                              
-                                 <div class = "btns" align="center">
-                                    <button type="button"
-                                       class="btn btn-default btn res-btn-orange"
-                                       data-class=".res-form-four">이전</button>
-                                    <button type="button" onclick="submitCreate();"
-                                       class="btn"
-                                       data-class=".res-form-four">제출</button>
-                                 </div>
-                           </div>
-                        </div>
-                     </form>
-                  </div>
-               </div>
-            </div>
-         </section>
-      </div>
-   </div>
+			<section id="employer-post-new-job">
+				<div class="row">
+					<div class="container">
+						<div class="row">
+							<form id = "createForm" action="createTeam.tm" enctype="multipart/form-data" method="post">
+								<div class="col-xs-10 col-xs-offset-1" id="container">
+									<div class="res-steps-container">
+										<div class="res-steps res-step-one active"
+											data-class=".res-form-one">
+											<div class="res-step-bar">1</div>
+											<div class="res-progress-bar"></div>
+											<div class="res-progress-title" id = "basicLabel"
+												style="width: 170px; margin: auto;">기본정보</div>
+										</div>
+										<div class="res-steps res-step-two" data-class=".res-form-two">
+											<div class="res-step-bar">2</div>
+											<div class="res-progress-bar"></div>
+											<div class="res-progress-title" id = "logoLabel"
+												style="width: 170px; margin: auto;">팀 로고</div>
+										</div>
+										<div class="res-steps res-step-three"
+											data-class=".res-form-three">
+											<div class="res-step-bar">3</div>
+											<div class="res-progress-bar"></div>
+											<div class="res-progress-title" id = "introLabel"
+												style="width: 170px; margin: auto;">팀 소개</div>
+										</div>
+										<div class="res-steps res-step-four"
+											data-class=".res-form-four">
+											<div class="res-step-bar">4</div>
+											<div class="res-progress-bar"></div>
+											<div class="res-progress-title" id = "submitLabel"
+												style="width: 170px; margin: auto;">제출(미리보기)</div>
+										</div>
+									</div>
+									
+									<div class="clearfix">&nbsp;</div>
+	
+									<div class="res-step-form col-md-8 col-md-offset-2 res-form-one" style = "/* border: 3px solid red; */ width: 80%; height: 570px;">
+										<div class = "contents">
+											<h2 id = "subTitle"  align="center" style = "margin-top: 0px">기본 정보</h2>
+											<div id = "infoTable" style = "width: 50%; margin-left: 30%; margin-right: 20%; ">
+												<table>
+													<tr>
+														<td style = "width: 40%; font-size: 20px; text-align: center">팀 이름</td>
+														<td style = "width: 60%;">
+															<input id="teamName" name="teamName" type = "text" style = "width: 400px;">
+															<div id="checkId" class="checkInfo" style="font-size: 0.7em"></div>
+														</td>
+													</tr>
+													<tr>
+														<td style = "width: 40%; font-size: 20px; text-align: center">활동지역 선택</td>
+														<td class="checks">
+															<div class="checks etrans">
+  																<input type="checkbox" id="ex_chk1" name="teamArea" value="역삼/개포/청담" onclick="oneCheckbox(this)"> 
+  																<label for="ex_chk1">역삼/개포/청담</label> 
+  																
+  																<input type="checkbox" id="ex_chk2" name="teamArea" value="삼성/대치/신사" onclick="oneCheckbox(this)"> 
+  																<label for="ex_chk2">삼성/대치/신사</label>
+															</div>
+															<div class="checks etrans">
+  																<input type="checkbox" id="ex_chk3" name="teamArea" value="논현/압구정/세곡" onclick="oneCheckbox(this)"> 
+  																<label for="ex_chk3">논현/압구정/세곡</label>
+  																
+  																<input type="checkbox" id="ex_chk4" name="teamArea" value="자곡/율현/일원" onclick="oneCheckbox(this)"> 
+  																<label for="ex_chk4">자곡/율현/일원</label> 
+															</div>	
+															<div class="checks etrans">
+  																<input type="checkbox" id="ex_chk5" name="teamArea" value="수서/도곡/대치1" onclick="oneCheckbox(this)"> 
+  																<label for="ex_chk5">수서/도곡/대치1</label>
+  																
+  																<input type="checkbox" id="ex_chk6" name="teamArea" value="대치2/대치4/역삼1" onclick="oneCheckbox(this)"> 
+  																<label for="ex_chk6">대치2/대치4/역삼1</label> 
+															</div>	
+															<div class="checks etrans">
+  																<input type="checkbox" id="ex_chk7" name="teamArea" value="역삼1/역삼2/도곡" onclick="oneCheckbox(this)"> 
+  																<label for="ex_chk7">역삼1/역삼2/도곡</label>
+  																
+  																<input type="checkbox" id="ex_chk8" name="teamArea" value="도곡2/개포/일원본" onclick="oneCheckbox(this)">
+  																<label for="ex_chk8">도곡2/개포/일원본</label> 
+  																<input type="hidden" id="chkvalue" value="0">
+  																<input type="hidden" id="prevealVal" value="활동지역을 입력하세요">
+															</div>	
+														</td>
+													</tr>
+												</table>
+											</div>
+										</div>
+										<div class = "btns" align="center">
+											<button type="button"
+												class="btn" onclick = "goMatch();"
+												data-class="">이전</button>
+											<button type="button"
+												class="btn btn-default btn res-btn-gray"
+												data-class=".res-form-one">다음</button>
+										</div>
+									</div>
+	
+									<div class="res-step-form col-md-8 col-md-offset-2 res-form-two" style = "/* border: 3px solid green; */ width: 80%; height: 570px;">
+										<div class = "contents" style="display:inline; align:center">
+											<h2  id = "subTitle" align="center" style = "margin-top: 0px">팀 로고</h2>
+											<canvas id = "teamImgTag"  style = "display: inline-block;">
+											
+											</canvas>
+											<input type="file" name="uploadFile" id ="uploadFile" onchange = "upload()">
+										</div>
+										
+										
+										<div class = "btns" align="center">
+											<button type="button" style = "float : none;"
+												class="btn btn-default col-xs-offset-1 btn res-btn-orange"
+												data-class=".res-form-two">이전</button>
+											<button type="button"
+												class="btn btn-default btn res-btn-gray"
+												data-class=".res-form-two">다음</button>
+										</div>
+									</div>
+									
+									<div class="res-step-form col-md-8 col-md-offset-2 res-form-three" style = "/* border: 3px solid yellow; */ width: 80%; height: 570px;">
+											<div class = "contents" style = "margin-left: 25%; margin-right: 25%; margin-top: 0px;">
+												<h2 style = "padding-top: 50px; margin-top: 0px; margin-bottom: 0px;">팀 소개</h2>
+												<textarea id = "teamIntro" name = "teamIntro" rows="10" cols="80" style = "resize: none;" value ="" ></textarea>
+											</div>
+											<div class = "btns" align="center">
+												<button type="button"
+													class="btn btn-default btn res-btn-orange"
+													data-class=".res-form-three">이전</button>
+												<button type="button"
+														class="btn btn-default btn res-btn-gray"
+														data-class=".res-form-three" onclick="preveal()">다음</button>
+											</div>
+									</div>
+	
+									
+	
+									<div class="res-step-form col-md-8 col-md-offset-2 res-form-four" style = "/* border: 3px solid yellow; */ width: 80%; height: 570px;">
+										<div class = "contents">
+											<h2 id = "subTitle"  align="center" style = "margin-top: 0px">미리보기</h2>
+											<div id = "infoTable" style = "width: 50%; margin-left: 30%; margin-right: 20%; ">
+												<table>
+													<tr>
+														<td style = "width: 40%; font-size: 20px; text-align: center">팀 명</td>
+														<td style = "width: 60%;">
+															<input id ="copyTeamName" type = "text" style = "width: 400px;" readonly>
+														</td>
+													</tr>
+													<tr>
+														<td style = "width: 40%; font-size: 20px; text-align: center">활동 지역</td>
+														<td style = "width: 60%;">
+															<input id = "copyTeamArea" type = "text" style = "width: 400px;" readonly>
+														</td>
+													</tr>
+													<tr>
+														<td style = "width: 40%; font-size: 20px; text-align: center">팀 소개</td>
+														<td style = "width:60%;">
+															<textarea id = "copyTeamIntro" rows="10" cols="50" style = "resize: none;" readonly></textarea>
+														</td>		
+													</tr>
+												</table>
+											</div>
+										</div>
+											<div class = "btns" align="center">
+												<button type="button"
+													class="btn btn-default btn res-btn-orange"
+													data-class=".res-form-four">이전</button>
+												<button type="button" onclick="submitCreate();"
+													class="btn"
+													data-class=".res-form-four">제출</button>
+											</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
 
+
+        
 
 <script type="text/javascript">
-   function goMatch(){
-      location.href='goMatch.ma';
-   }
+
+	function goMatch(){
+		location.href='managedTeam.tm';
+	}
+
 </script>
 
 
 <script type="text/javascript">
-   
-   var isImg = false;
-   var teamNameCheck = false;
-   var checkValue = document.getElementById("chkvalue").value;
-   
-   function submitCreate(){
-      var teamName = document.getElementById("teamName").value;
-      var teamIntro = document.getElementById("teamIntro").value;
-      var basicLabel = document.getElementById("basicLabel");
-      var logoLabel = document.getElementById("logoLabel");
-      var introLabel = document.getElementById("introLabel");
-      
-      if(teamName == ""){
-         swal("팀명을 입력하세요.");
-         basicLabel.click();
-         return false;
-      }else if(checkValue == "0"){
-         swal("팀 활동지역을 선택하세요.");
-         basicLabel.click();
-         return false;
-      }else if(!isImg){
-         alert("이미지를 입력하세요");
-         logoLabel.click();
-         return false;
-      }else if(teamIntro == ""){
-         alert("팀 소개를 입력하세요");
-         introLabel.click();
-         return false;
-      }else if(!teamNameCheck){
-         alert("팀 이름을 확인하세요.");
-         basicLabel.click();
-         return false;
-      }
-      
-      
-      
-      $$("#createForm").submit();
-   }
+
+	
+	var isImg = false;
+	var teamNameCheck = false;
+	var checkValue = document.getElementById("chkvalue").value;
+	
+	function submitCreate(){
+		var teamName = document.getElementById("teamName").value;
+		var teamIntro = document.getElementById("teamIntro").value;
+		var basicLabel = document.getElementById("basicLabel");
+		var logoLabel = document.getElementById("logoLabel");
+		var introLabel = document.getElementById("introLabel");
+		
+		if(teamName == ""){
+			swal("팀명을 입력하세요.",'',"error");
+			basicLabel.click();
+			return false;
+		}else if(checkValue == "0"){
+			swal("팀 활동지역을 선택하세요.",'',"error");
+			basicLabel.click();
+			return false;
+		}else if(!isImg){
+			swal("팀 이미지를 선택하세요.",'',"error");
+			logoLabel.click();
+			return false;
+		}else if(teamIntro == ""){
+			swal("팀 소개를 입력하세요.",'',"error");
+			introLabel.click();
+			return false;
+		}else if(!teamNameCheck){
+			swal("팀 이름을 확인하세요.",'',"error");
+			basicLabel.click();
+			return false;
+		}
+		
+		
+		
+		$$("#createForm").submit();
+	}
 
    
-   function upload(){
-   var Ican = document.getElementById ("teamImgTag");
-   var proup = document.getElementById ("uploadFile");
-   var ima1 = new SimpleImage (proup);
-   ima1.drawTo (Ican);
    
-   $('#subsubTitle').remove();
-   
-   isImg = true;
-   }
-   
-   $("#teamName").keyup(function() {
-      var teamName = document.getElementById("teamName").value;
-      var idRe = /^[a-z,A-Z,0-9,가-힣]{2,12}$/;
+
+
+	
+	function upload(){
+	var Ican = document.getElementById ("teamImgTag");
+	var proup = document.getElementById ("uploadFile");
+	var ima1 = new SimpleImage (proup);
+	ima1.drawTo (Ican);
+	
+	$('#subsubTitle').remove();
+	
+	isImg = true;
+	}
+	
+	$("#teamName").keyup(function() {
+		var teamName = document.getElementById("teamName").value;
+		var idRe = /^[a-z,A-Z,0-9,가-힣]{2,12}$/;
+
 
       $.ajax({
          url : "Du.tm",
@@ -817,22 +830,25 @@ $(document).ready(function(){
          }
       });
 
-      $('.res-step-four').click(function(){
-         if(!$(this).hasClass('active')){
-            $(".res-steps").removeClass('active');
-            i = 3;
-            $(steps[i]).addClass('active');
-            i++;
-            $('.res-form-four').css('left','-150%');
-            $('.res-form-one, .res-form-two, .res-form-three').animate({
-               left: '150%'
-            }, 500);
-            $('.res-form-four').animate({
-               left: '10%'
-            }, 500);
-         }
-      });
-   });
+
+		$('.res-step-four').click(function(){
+			preveal();
+			if(!$(this).hasClass('active')){
+				$(".res-steps").removeClass('active');
+				i = 3;
+				$(steps[i]).addClass('active');
+				i++;
+				$('.res-form-four').css('left','-150%');
+				$('.res-form-one, .res-form-two, .res-form-three').animate({
+					left: '150%'
+				}, 500);
+				$('.res-form-four').animate({
+					left: '10%'
+				}, 500);
+			}
+		});
+	});
+
 
 </script>
 <script type="text/javascript">
@@ -847,6 +863,15 @@ function oneCheckbox(a){
             obj[i].checked = false;
         }
     }
+    
+    $('#prevealVal').val(a.value);
+}
+
+function preveal(){
+	
+	$('#copyTeamName').val($('#teamName').val());
+	$('#copyTeamArea').val($('#prevealVal').val());
+	$('#copyTeamIntro').val($('#teamIntro').val());
 }
 
 </script>
