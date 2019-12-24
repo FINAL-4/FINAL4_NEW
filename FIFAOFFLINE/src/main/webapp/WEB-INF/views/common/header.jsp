@@ -22,7 +22,15 @@
 		<script src="js/modernizr.custom.js"></script>
 		<script src="js/modernizr.custom.js"></script>
 		
-		<style>	
+		<style>   
+      @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+      body{
+         font-family: 'Jeju Gothic', sans-serif !important;
+      }
+      
+      input[type=password]{
+         font-family: serif;
+      } 
 		#loginModal input[type=text], #loginModal input[type=password] {
 		 outline:none;
 		  width: 100%;
@@ -255,7 +263,8 @@
 		var userId=$$(".id").val();
 		var userPwd=$$(".pwd").val();
 		 if(userId =="" || userPwd == ""){
-			alert("아이디와 비밀번호를 입력하세요");
+			$$("#loginInfo").css("color","red");
+			$$("#loginInfo").html("정보를 입력해주세요.");
 			return false;
 		} 
 		$$.ajax({
