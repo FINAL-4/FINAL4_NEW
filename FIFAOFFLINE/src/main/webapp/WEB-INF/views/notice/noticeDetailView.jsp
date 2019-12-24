@@ -16,7 +16,8 @@
 
 <!DOCTYPE html>
 <html>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/ui.css'/>" /> <!-- css파일에서 상세읽기 스타일 정의 -->
