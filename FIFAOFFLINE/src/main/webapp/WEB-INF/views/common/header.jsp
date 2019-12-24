@@ -22,7 +22,15 @@
 		<script src="js/modernizr.custom.js"></script>
 		<script src="js/modernizr.custom.js"></script>
 		
-		<style>	
+		<style>   
+      	@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+     		 body{
+         font-family: 'Jeju Gothic', sans-serif !important;
+      	}
+      
+      	input[type=password]{
+      	   font-family: serif;
+      } 
 		#loginModal input[type=text], #loginModal input[type=password] {
 		 outline:none;
 		  width: 100%;
