@@ -11,8 +11,8 @@
 <script src='resources/js/moment.min.js'></script>
 <script src='resources/js/fullcalendar.min.js'></script>
 <script src='resources/js/gcal.min.js'></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <!-- locale = ko ==> 한글로 -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/locale/ko.js'></script>
   

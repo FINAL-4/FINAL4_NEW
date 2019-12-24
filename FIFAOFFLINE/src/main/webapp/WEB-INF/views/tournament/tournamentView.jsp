@@ -29,7 +29,8 @@
 <head>
 <meta charset="UTF-8">
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <script>
   var $$$ = jQuery.noConflict();
 </script>
@@ -96,7 +97,7 @@ input.val(data ? data.flag + ':' + data.name : '')
 		case "entry-no-score":
 		case "entry-default-win":
 		case "entry-complete":
-			container.append('<img class = "num" src="resources/images/'+data.flag+'" style = "width:15px; height:15px;" />').append(data.name).append('<input class ="tNum" type="hidden" style = "display:none;" value = "'+data.num+'">').append('<input class ="tFlag" type="hidden" style = "display:none;" value = "'+data.flag+'">');
+			container.append('<img class = "num" src="resources/images/team/'+data.flag+'" style = "width:17px; height:17px;" />').append(data.name).append('<input class ="tNum" type="hidden" style = "display:none;" value = "'+data.num+'">').append('<input class ="tFlag" type="hidden" style = "display:none;" value = "'+data.flag+'">');
 			
 			return;
 		}
@@ -454,7 +455,7 @@ input.val(data ? data.flag + ':' + data.name : '')
 		  	.then((willDelete) => {
 		  	  if (willDelete) {
 		  		swal("", "대회를 마감합니다.", "success");
-		  		setTimeout(function() {location.href="endTo.to?toNo="+toNo; }, 3000);	
+		  		setTimeout(function() {location.href="endTo.to?toNo="+toNo; }, 1000);	
 		  	  } else {
 		  		  return false;
 		  	  }
@@ -608,7 +609,7 @@ input.val(data ? data.flag + ':' + data.name : '')
 					success:function(data){
 						
 						swal("", "신청이 완료되었습니다.", "warning");
-						setTimeout(function() {location.reload(); }, 3000);
+						setTimeout(function() {location.reload(); }, 1000);
 
 					},
 					error:function(request, status, errorData){

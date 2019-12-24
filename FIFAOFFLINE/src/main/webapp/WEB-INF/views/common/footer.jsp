@@ -12,7 +12,7 @@
    <footer>
       <div class="footer-main" style="background: black; margin-top: 200px;">
 
-         <div class="row" style = "margin: 0px; max-width: none; margin-left: 14%;">
+         <div class="row" style = "margin: 0px; max-width: none; margin-left: 3%;">
 
             <div class="col-five tab-full footer-about">
 
@@ -23,7 +23,7 @@
             </div>
             <!-- end footer-about -->
 
-            <div style="padding:0 -50px; float: left;">
+            <div style="padding:0 -50px; float: left; margin-right: 20%;">
 
                <h2 class="h05">유사사이트</h4>
 
@@ -36,7 +36,7 @@
             </div>
             <!-- end footer-social -->
 
-            <div class="col-four tab-full footer-subscribe end" style="padding:0 100px; width:400px; float: left; margin-left : 5%;">
+            <div class="col-four tab-full footer-subscribe end" style="padding:0 100px; width:400px; float: left;">
 
                <h2 class="h05">연락처</h2>
 

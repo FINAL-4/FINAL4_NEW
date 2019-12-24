@@ -17,8 +17,8 @@
 <head>
 <meta charset="UTF-8">
 <script src="http://cdn.ckeditor.com/4.7.0/standard-all/ckeditor.js"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
  <style>
     #outer{
   		position: relative;
@@ -350,7 +350,7 @@ function insertSubmit(){
   	.then((willDelete) => {
   	  if (willDelete) {
   		swal("", "글이 수정되었습니다.", "success");
-  		setTimeout(function() {$("#updateForm").submit(); }, 3000);		
+  		setTimeout(function() {$("#updateForm").submit(); }, 1000);		
   	  } else {
   		  return false;
   	  }

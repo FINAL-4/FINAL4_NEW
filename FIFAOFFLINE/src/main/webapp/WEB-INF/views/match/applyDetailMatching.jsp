@@ -12,7 +12,8 @@
   var $$$ = jQuery.noConflict();
 </script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.min.js'></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <title>Insert title here</title>
 <style>
 /* ---------선택된 메뉴 색상 변경-------- */
@@ -911,7 +912,7 @@ h6{
 						swal("", "매치가 확정되었습니다.\n경기 종료 후에 매칭결과를 입력하셔야 다음 매치생성이 가능합니다.", "success");
 						swal("", "리스트로 돌아갑니다..", "success");
 						
-						setTimeout(function() { location.href="goMatch.ma"; }, 3000);
+						setTimeout(function() { location.href="goMatch.ma"; }, 1000);
 					},
 					error:function(request, status, errorData){
 						alert("error code: " + request.status + "\n"
@@ -948,7 +949,7 @@ h6{
 		  	.then((willDelete) => {
 		  	  if (willDelete) {
 		  		swal("", "매칭이 삭제되었습니다.", "success");
-		  		setTimeout(function() { location.href="deleteMatch.ma?mId="+mId; }, 3000);
+		  		setTimeout(function() { location.href="deleteMatch.ma?mId="+mId; }, 1000);
 		  	  } else {
 		  		  return false;
 		  	  }
@@ -1159,7 +1160,7 @@ h6{
 			  	.then((willDelete) => {
 			  	  if (willDelete) {
 			  		swal("", "리스트 페이지로 이동합니다.", "success");
-			  		setTimeout(function() { $("#scoreForm").submit(); }, 3000);
+			  		setTimeout(function() { $("#scoreForm").submit(); }, 1000);
 			  	  } else {
 			  		  return false;
 			  	  }

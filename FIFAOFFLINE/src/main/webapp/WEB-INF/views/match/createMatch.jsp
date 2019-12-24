@@ -19,8 +19,8 @@
 <!-- CSS 파일 -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" type='text/css' rel='stylesheet'/>
 
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <title>Insert title here</title>
 
 
@@ -750,7 +750,7 @@ $(function(){
 		  	.then((willDelete) => {
 		  	  if (willDelete) {
 		  		swal("", "매치를 생성합니다.", "success");
-		  		setTimeout(function() { $$("#createForm").submit() }, 3000);
+		  		setTimeout(function() { $$("#createForm").submit() }, 1000);
 		  	  } else {
 		  		  return false;
 		  	  }

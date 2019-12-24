@@ -16,7 +16,8 @@
 
 <!DOCTYPE html>
 <html>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/ui.css'/>" /> <!-- css파일에서 상세읽기 스타일 정의 -->
@@ -631,7 +632,7 @@
 						success:function(data){
 							if(data == 1){
 								swal("", "정상적으로 수정되었습니다.", "success");
-								setTimeout(function() { getReplyList(); }, 3000);
+								setTimeout(function() { getReplyList(); }, 1000);
 								
 							}
 						},
@@ -705,7 +706,7 @@
 						success:function(data){
 							if(data == 1){
 								swal("", "정상적으로 삭제되었습니다.", "success");
-								setTimeout(function() {getReplyList(); }, 3000);
+								setTimeout(function() {getReplyList(); }, 1000);
 							}
 						},
 						error:function(request, status, errorData){
@@ -745,7 +746,7 @@
 		  	.then((willDelete) => {
 		  	  if (willDelete) {
 		  		swal("", "삭제가 완료되었습니다.", "success");
-		  		setTimeout(function() {location.href="ndelete.do?nId=" + ${notice.nId}; }, 3000);
+		  		setTimeout(function() {location.href="ndelete.do?nId=" + ${notice.nId}; }, 1000);
 		  	  } else {
 		  		  return false;
 		  	  }

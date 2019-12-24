@@ -12,7 +12,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <meta name="viewport" content="width=device-width" initial-scale="1">
 <link rel="stylesheet" href="css/bootstrap.css">
 <title>Insert title here</title>
