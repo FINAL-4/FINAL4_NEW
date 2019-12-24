@@ -362,7 +362,7 @@ table.type03 td {
 			</c:url>		
 			<div id = btn>
 				<div id = btnPosition1>
-				<input type = button id = recruitBtn value = "모집 리스트 보기">
+				<input type = button id = recruitBtn value = "모집 리스트 보기" onclick="location.href='tlist.tm'">
 				<input type = button id = applyBtn value="신청하기" onclick='applyTeam()'> <br> <br>
 				</div>
 				<div id = btnPosition2>

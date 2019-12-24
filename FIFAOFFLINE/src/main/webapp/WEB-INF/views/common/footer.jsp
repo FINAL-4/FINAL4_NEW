@@ -5,59 +5,60 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-    	<link rel="stylesheet" href="resources/css/base.css">
-  		<link rel="stylesheet" href="resources/css/main.css"> 
+       <link rel="stylesheet" href="resources/css/base.css">
+        <link rel="stylesheet" href="resources/css/main.css"> 
 </head>
 <body>
-	<footer>
-		<div class="footer-main" style="background: black; margin-top: 200px;">
+   <footer>
+      <div class="footer-main" style="background: black; margin-top: 200px;">
 
-			<div class="row">
+         <div class="row" style = "margin: 0px; max-width: none; margin-left: 3%;">
 
-				<div class="col-five tab-full footer-about">
+            <div class="col-five tab-full footer-about">
 
-					<h4 class="h05">Footer1</h4>
+               <h2 class="h05">FIFA OFFLINE</h2>
+                  <p> FIFA OFFLNIE 에서 다양한 경험을 즐겨주세요 </p>
+               
 
-					<p>Footer1</p>
+            </div>
+            <!-- end footer-about -->
 
-				</div>
-				<!-- end footer-about -->
+            <div style="padding:0 -50px; float: left; margin-right: 20%;">
 
-				<div class="col-three tab-full footer-social">
+               <h2 class="h05">유사사이트</h4>
 
-					<h4 class="h05">Footer2</h4>
+               <ul class="list-links" style="padding:10px; ">
+                  <li><a href="https://www.footballground.kr/">풋볼그라운드</a></li> <br>
+                  <li><a href="https://web.facebook.com/howaboutsoccer/?_rdc=1&_rdr">축구어때</a></li>
+                  <br><li><a href="https://www.plabfootball.com/">플랩풋볼</a></li>
+                  <br><li><a href="http://soccerline.kr/">사커라인</a></li>
+               </ul>
 
-					<ul class="list-links">
-						<li><a href="#">Facebook</a></li>
-						<li><a href="#">Twitter</a></li>
-						<li><a href="#">Instagram</a></li>
-						<li><a href="#">Behance</a></li>
-						<li><a href="#">Dribble</a></li>
-					</ul>
+            </div>
+            <!-- end footer-social -->
 
-				</div>
-				<!-- end footer-social -->
+            <div class="col-four tab-full footer-subscribe end" style="padding:0 100px; width:400px; float: left;">
 
-				<div class="col-four tab-full footer-subscribe end">
+               <h2 class="h05">연락처</h2>
 
-					<h4 class="h05">Footer3</h4>
+               <p>강현모 010-3340-6861</p>
+               <p>서재웅 010-8003-4359</p>
+               <p>안효찬 010-2777-5764</p>
+               <p>이성호 010-2262-2938</p>
 
-					<p>Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.
-						Praesent sapien massa.</p>
+            </div>
+         </div>
+      </div>
 
-				</div>
-			</div>
-		</div>
-
-		<div id="go-top" >
-			<a class="smoothscroll" title="Back to Top" href="#outer"> <i class="fa fa-long-arrow-up" aria-hidden="true">TOP</i></a>
-		</div>
-	</footer>
+      <div id="go-top" >
+         <a class="smoothscroll" title="Back to Top" href="#outer"> <i class="fa fa-long-arrow-up" aria-hidden="true">TOP</i></a>
+      </div>
+   </footer>
 
 
-		<script src="resources/js/jquery-2.1.3.min.js"></script>
-  		<script src="resources/js/plugins.js"></script>
- 		<script src="resources/js/main.js"></script>
+      <script src="resources/js/jquery-2.1.3.min.js"></script>
+        <script src="resources/js/plugins.js"></script>
+       <script src="resources/js/main.js"></script>
 
 
 </body>

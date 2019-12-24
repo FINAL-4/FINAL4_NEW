@@ -309,7 +309,7 @@ public class TeamController {
 
 		System.out.println(result);
 
-		return "home";
+		return "redirect:tlist.tm";
 	}
 
 	@RequestMapping("deleteTeamAD.tm")
@@ -318,7 +318,7 @@ public class TeamController {
 
 		int result = tService.deleteTeamAD(teamNo);
 
-		mv.setViewName("home");
+		mv.setViewName("redirect:tlist.tm");
 
 		return mv;
 	}
@@ -366,7 +366,7 @@ public class TeamController {
 
 		int result = tService.ADinsert(ta);
 
-		mv.setViewName("home");
+		mv.setViewName("redirect:tlist.tm");
 
 		return mv;
 	}
