@@ -309,12 +309,8 @@ public class PlayerController {
 		int count = 0;
 		
 		ArrayList<SmsInfo> smsInfo = pService.SMSservice(pl.getUserNo());
-		// System.out.println("문자 테스트 : " + smsInfo);
 		
-		//System.out.println("컨트롤러 수락 테스트 유저 넘버 : " + userNo);
-		//System.out.println("컨트롤러 수락 테스트 글 넘버 : " + rNum);
 		int applyListdelete = pService.ald(pl);  // <- 신청 리스트에 신청 한 사람 없어지는 거
-		//System.out.println("컨트롤러 수락 테스트 : " + applyListdelete);
 		
 		System.out.println(smsInfo);
 		if(applyListdelete > 0 && smsInfo.size() > 0) {

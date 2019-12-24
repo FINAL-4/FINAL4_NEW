@@ -7,7 +7,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <style>
 * {
   box-sizing: border-box;
@@ -321,7 +322,7 @@ input[type=text], input[type=password] {
 
 <body>
 
-<div id = "outer" style = "margin-top:180px;">
+<div id = "outer" style = "margin-top:280px;">
 	<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; height:800px; margin:auto; padding-bottom:50px;">
 		<div style="height:100%; width:100%; background:#eaeaea;">
 			<div class="example">
@@ -361,7 +362,7 @@ input[type=text], input[type=password] {
 		<button class="createAD" onclick="document.getElementById('createAD').style.display='block'">모집글 작성</button>
 		<button class="managedTeam" onclick="location.href='managedTeam.tm'">팀 관리</button>
 	</div>
-	<div class="ha-waypoint" data-animate-down="ha-header-shrink" data-animate-up="ha-header-show" style = "width: 90%; margin: auto;">
+	<div class="ha-waypoint" data-animate-down="ha-header-shrink" data-animate-up="ha-header-show" style = "width: 90%; margin:auto">
 		<table>
 			<thead>
 			<tr>

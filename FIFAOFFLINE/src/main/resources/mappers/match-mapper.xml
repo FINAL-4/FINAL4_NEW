@@ -219,10 +219,10 @@
 	</update>
 
 	<select id="selectSmsInfo" resultMap="smsInfoResultSet">
-		SELECT *
-		FROM MEMBER M
-		JOIN MATCHING MA ON(M.USER_NO=MA.USER_NO)
-		WHERE TEAM_NO=#{teamNo}
+		SELECT * 
+		FROM T_MEMBER TM
+		JOIN MEMBER M ON(TM.USER_NO = M.USER_NO)
+		WHERE TM.TEAM_NO = #{teamNo}
 	</select>
 
  	<insert id="insertScore">

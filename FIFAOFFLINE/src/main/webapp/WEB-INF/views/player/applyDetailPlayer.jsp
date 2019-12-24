@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <style>
 #playerMenu .menu__item-name::after,
 #playerMenu .menu__item-name::before{
@@ -377,7 +377,7 @@ h6{
    
   </form>
 </div>
-	
+	</div>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e5f9f6250199748b3a23d7b3d7d88dde&libraries=services"></script>
 <script type="text/javascript">
 	var X = Number("${pRecruit.rPlaceX }");
@@ -580,7 +580,7 @@ function modifyBtn(){
 		.then((willDelete) => {
 		  if (willDelete) {
 			location.href='${tplModify}'
-		   swal("수정이 완료되었습니다!", {
+		   swal("수정화면으로 넘어가겠습니다!", {
 		      icon: "success",
 		    });
 		  } else {

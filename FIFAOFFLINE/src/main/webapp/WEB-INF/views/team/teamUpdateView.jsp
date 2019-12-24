@@ -6,7 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <title>Insert title here</title>
 <style>
 #teamMenu .menu__item-name::after,
@@ -224,7 +225,7 @@ img.avatarM {
 </head>
 <jsp:include page = "../common/header.jsp"/>
 <body>
-<div id="content" style="margin-top: 15px; border-bottom: 5px solid grey; border-top: 5px solid grey; margin-left: 5%; margin-right:5%; width: 90%;">
+<div id="content" style="margin-top: 250px; border-bottom: 5px solid grey; border-top: 5px solid grey; margin-left: 5%; margin-right:5%; width: 90%;">
 <br><br><br><br><div id = "title"> 
 	<h4 style="font-size:45px; margin-bottom: 10px; margin-top: 0px; width: 85%; display: inline-block;">모집글 수정</h4>
 	
@@ -258,7 +259,7 @@ img.avatarM {
 			<tr>
 				<td style="font-weight:bold;">모집인원</td>
 				<td class="tRecruitCount">
-					<input type="text" class="recruitCount" placeholder="${t.recruitCount }">
+					<input type="text" class="recruitCount" value="${t.recruitCount }">
 				</td>
 			</tr>
 			<tr>
@@ -266,7 +267,7 @@ img.avatarM {
 			</tr>
 			<tr>
 				<td colspan=2>
-					<textarea rows="5" cols="40" wrap="hard" placeholder="${t.teamAdver }" class="teamAdver"></textarea>
+					<textarea rows="5" cols="40" wrap="hard" class="teamAdver">${t.teamAdver }</textarea>
 				</td>
 			</tr>
 			

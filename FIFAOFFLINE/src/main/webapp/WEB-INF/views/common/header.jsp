@@ -263,7 +263,8 @@
 		var userId=$$(".id").val();
 		var userPwd=$$(".pwd").val();
 		 if(userId =="" || userPwd == ""){
-			alert("아이디와 비밀번호를 입력하세요");
+			$$("#loginInfo").css("color","red");
+			$$("#loginInfo").html("정보를 입력해주세요.");
 			return false;
 		} 
 		$$.ajax({

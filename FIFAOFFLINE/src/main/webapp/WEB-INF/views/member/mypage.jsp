@@ -21,7 +21,8 @@
 <script
    src='https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.min.js'></script>
 
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
 <title>KH sports</title>
 <style>
@@ -243,7 +244,7 @@ th {
 
 
 .memberjoinForm {
-   padding: 50px 0 250px 0;
+   padding: 0px 0 150px 0;
    margin: 0 auto 0 auto;
    width: 100%;
    height: 700px;
@@ -353,7 +354,7 @@ canvas {
          
       
          <div class="memberjoinForm">
-               <h1 align="center"style="font-size: 50px;">
+               <h1 align="center"style="font-size: 50px;margin-top: 0;">
                   회원정보수정
                </h1>
             <br>

@@ -19,8 +19,8 @@
 <!-- CSS 파일 -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" type='text/css' rel='stylesheet'/>
 
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <title>Insert title here</title>
 
 
@@ -392,7 +392,7 @@ table {
 <jsp:include page = "../common/header.jsp"/>
 <body>
 
-	<div id = "title" style = "font-size: 40px; margin-top: 80px; margin-left: 5%;">매치 생성</div>
+	<div id = "title" style = "font-size: 40px; margin-top: 180px; margin-left: 5%;">매치 생성</div>
 	<div id="outer" style="margin-top: 15px; border-bottom: 5px solid grey; border-top: 5px solid grey; margin-left: 5%; margin-right:5%; width: 90%; ">
 		<div class="ha-waypoint" data-animate-down="ha-header-show"
 			data-animate-up="ha-header-subshow"

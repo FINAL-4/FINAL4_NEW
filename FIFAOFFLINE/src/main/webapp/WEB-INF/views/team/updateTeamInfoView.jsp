@@ -6,7 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <script>
   var $$ = jQuery.noConflict();
 </script>
@@ -455,7 +456,7 @@ label{
 </head>
 <jsp:include page = "../common/header.jsp"/>
 <body>
-	<div id = "title" style = "font-size: 40px; margin-top: 80px; margin-left: 5%;">매치 생성</div>
+	<div id = "title" style = "font-size: 40px; margin-top: 140px; margin-left: 5%;">팀 정보 수정</div>
 	<div id="outer" style="margin-top: 15px; border-bottom: 5px solid grey; border-top: 5px solid grey; margin-left: 5%; margin-right:5%; width: 90%; ">
 		<div class="ha-waypoint" data-animate-down="ha-header-show"
 			data-animate-up="ha-header-subshow"
@@ -733,41 +734,7 @@ label{
 	isImg = true;
 	}
 	
-	$("#teamName").keyup(function() {
-		var teamName = document.getElementById("teamName").value;
-		var idRe = /^[a-z,A-Z,0-9,가-힣]{2,12}$/;
 
-		$.ajax({
-			url : "Du.tm",
-			data : {
-				teamName : teamName
-			},
-			success : function(data) {
-				if (teamName == "") {
-					$("#checkId").css("color", "#f53f29");
-					$("#teamName").css("border", "2px solid #f53f29");
-					$("#checkId").text("팀 이름을 입력하세요.");
-					teamNameCheck = false;
-				} else if (!idRe.test(teamName)) {
-					$("#checkId").css("color", "#f53f29");
-					$("#teamName").css("border", "2px solid #f53f29");
-					$("#checkId").text("2-12의 영문자,숫자,한글만 입력가능합니다.");
-					teamNameCheck = false;
-				} else if (data.Usable ==false) {
-					$("#checkId").css("color", "#f53f29");
-					$("#teamName").css("border", "2px solid #f53f29");
-					$("#checkId").text("중복된 팀 이름입니다.");
-					teamNameCheck = false;
-				} else {
-					$("#checkId").text("사용가능한 팀 이름입니다.");
-					$("#checkId").css("color", "green");
-					$("#teamName").css("border", "2px solid blue");
-					teamNameCheck = true;
-				}
-			}
-			
-		});
-	});
 </script>
 <script type="text/javascript">
 $(document).ready(function(){

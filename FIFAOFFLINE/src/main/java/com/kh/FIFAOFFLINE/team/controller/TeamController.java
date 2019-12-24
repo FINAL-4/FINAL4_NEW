@@ -454,7 +454,7 @@ public class TeamController {
 		boolean Usable = tService.checkTeamNameDup(teamName) == 0 ? true : false;
 		map.put("Usable", Usable);
 		mv.addAllObjects(map);
-		mv.setViewName("team/createTeamView");
+		mv.setViewName("jsonView");
 		return mv;
 	}
 
