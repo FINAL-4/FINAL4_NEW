@@ -22,6 +22,7 @@
 		<script src="js/modernizr.custom.js"></script>
 		<script src="js/modernizr.custom.js"></script>
 		
+
 		<style>   
       @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
       body{
@@ -31,6 +32,7 @@
       input[type=password]{
          font-family: serif;
       } 
+
 		#loginModal input[type=text], #loginModal input[type=password] {
 		 outline:none;
 		  width: 100%;
