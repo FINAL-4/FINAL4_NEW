@@ -296,7 +296,7 @@ public class NoticeController {
 			r.setrContent(r.getrContent());
 		}
 		
-		Gson gson =new GsonBuilder().setDateFormat("yyyyMMddHHmmss").create();
+		Gson gson =new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		gson.toJson(rList, response.getWriter());
 	}
 	

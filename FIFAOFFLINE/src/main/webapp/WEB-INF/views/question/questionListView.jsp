@@ -157,11 +157,11 @@ input:focus, textarea:focus, button:focus{
 					<table align="center">
 						<thead>
 							<tr>
-								<th width="10%">작성자</th>
-								<th width="40%">제목</th>
-								<th width="20%">게시일</th>
+								<th width="15%">작성자</th>
+								<th width="38%">제목</th>
+								<th width="18%">게시일</th>
 								<th width="10%">상태</th>
-								<th width="20%">답변일</th>
+								<th width="18%">답변일</th>
 							</tr>
 						</thead>
 						<tbody id = "qTbody">
