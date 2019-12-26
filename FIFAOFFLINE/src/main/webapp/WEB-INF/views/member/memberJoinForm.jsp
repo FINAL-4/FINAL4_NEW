@@ -248,7 +248,7 @@ canvas {
 	border: 1px solid #ebebeb;
 	border-bottom-color: #e2e2e2;
 	border-radius: 4px;
-	width: 25%;
+	width: 100px;
 	height: 20px;
 	
 } /* named upload */
@@ -419,15 +419,16 @@ canvas {
 						<tr>
 							<td class="profile" colspan="2">
 						
-						<script src = "https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js">
-						</script>
-						<canvas
+						<img id="contentImg" width="300" height="300">
+						
+						<!-- <canvas
 							  id = "canvas">
-						</canvas>
+						</canvas> -->
 							</td>
-						</tr><tr>
+						</tr>
+						<tr>
 							<td colspan="2">
-							<input class="upload-name" value="" disabled="disabled">
+							
 							<label for="uploadFile">사진선택</label>
 							<input 
 							       id = "uploadFile"
@@ -439,26 +440,55 @@ canvas {
 							      
 							       onchange = "upload()" style = "width: 280px;">
 							</td></tr>
-						<script>
-						function upload()
-						{
-						  var Ican = document.getElementById ("canvas");
-						  var proup = document.getElementById ("uploadFile");
-						  var ima1 = new SimpleImage (proup);
-						  ima1.drawTo (Ican);
-						}
-						$(document).ready(function(){
-						var fileTarget = $('.filebox .upload-hidden');
-						fileTarget.on('change', function(){ // 값이 변경되면 
-						if(window.FileReader){ // modern browser 
-						var filename = $(this)[0].files[0].name; } else { // old IE 
-						var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출 
-						} // 추출한 파일명 삽입
-						$(this).siblings('.upload-name').val(filename); 
-						});
-						});
+						
+						
+						
+						
+						
+    </div>
+    
+	<div id="fileArea">
+		<input type="file" id="uploadFile" multiple="multiple" name="uploadFile" onchange="LoadImg(this,1)">
+	</div>
+	
+	<script>
+	$(document).ready(function(){ 
+	var fileTarget = $('.filebox .upload-hidden'); 
+	fileTarget.on('change', function(){ // 값이 변경되면 
+	if(window.FileReader){ // modern browser 
+	var filename = $(this)[0].files[0].name; } else { // old IE 
+	var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출 
+	} // 추출한 파일명 삽입
+	$(this).siblings('.upload-name').val(filename); 
+	}); 
+	});
 
-						</script>
+		
+	
+		// 각각의 영역에 파일을 첨부 했을 경우 미리 보기가 가능하도록 하는 부분(함수)
+		function LoadImg(value, num){
+			if(value.files[0] != undefined){	
+				// value는 함수를 발동시킨 객체(file타입 input태그)이고
+				// value.files[0]은 input태그로 파일을 선택했으면 undefined가 아니고 선택안했으면 undefined다.
+				var reader = new FileReader();
+				
+				reader.onload = function(e){
+					switch(num){
+					case 1:
+						$("#contentImg").attr("src", e.target.result);
+						break;
+				}
+			}
+				reader.readAsDataURL(value.files[0]);
+			}
+		}
+		
+
+	</script>
+						
+						
+						
+						<!-- </script> -->
 						</table>
 						</div>
 						<div style = " display: inline-block; width: 35%; margin-left: 10%;"><table>

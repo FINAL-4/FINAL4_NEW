@@ -530,10 +530,9 @@ canvas {
                   <script   src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js">
                   </script>
                      <div id = "img">
-                        <img src ="resources/proFiles/${loginUser.profile }" style = "width: 300px; height: 300px;">
+                        <img id ="contentImg" src ="resources/proFiles/${loginUser.profile }" style = "width: 300px; height: 300px;">
                      </div>
-                  <canvas id="canvas" style = "display: none;">
-                  </canvas>
+
                   </td>   
                </tr>
                <tr>
@@ -548,12 +547,30 @@ canvas {
                          type="file"
                          multiple="false"
                          accept="image/*" 
-                         onchange="upload()" style="width: 280px;">
+                         onchange="LoadImg(this,1)" style="width: 280px;">
                            
             
                         </td>
                         </tr>
-                     <script>
+                        <script>
+                        function LoadImg(value, num){
+			if(value.files[0] != undefined){	
+				// value는 함수를 발동시킨 객체(file타입 input태그)이고
+				// value.files[0]은 input태그로 파일을 선택했으면 undefined가 아니고 선택안했으면 undefined다.
+				var reader = new FileReader();
+				
+				reader.onload = function(e){
+					switch(num){
+					case 1:
+						
+						$("#contentImg").attr("src", e.target.result);
+						break;
+				}
+			}
+				reader.readAsDataURL(value.files[0]);
+			}
+		}
+                 
                   
                      
                   function upload()

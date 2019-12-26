@@ -279,7 +279,7 @@ $$$(".slider").slider({
 	   speed: 1000,
 
 	  // animation delay
-	   delay: 15000,
+	   delay: 7000,
 
 	  // autoplay
 	  //autoplay: true,
