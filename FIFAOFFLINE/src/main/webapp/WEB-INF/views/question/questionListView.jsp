@@ -27,7 +27,20 @@
 <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <style>
+  #questionMenu .menu__item-name::after,
+#questionMenu .menu__item-name::before{
+	background: red;
+	color: red;
+}
 
+#questionMenu.menu__item::after,
+#questionMenu.menu__item::before{
+   	color: red;
+}
+
+#questionMenu .menu__item-name{
+	color: red;
+}
 #outer {
 	width: 98%;
 	height: 100%;
@@ -158,11 +171,11 @@ input:focus, textarea:focus, button:focus{
 					<table align="center">
 						<thead>
 							<tr>
-								<th width="10%">작성자</th>
-								<th width="40%">제목</th>
-								<th width="20%">게시일</th>
+								<th width="15%">작성자</th>
+								<th width="38%">제목</th>
+								<th width="18%">게시일</th>
 								<th width="10%">상태</th>
-								<th width="20%">답변일</th>
+								<th width="18%">답변일</th>
 							</tr>
 						</thead>
 						<tbody id = "qTbody">
@@ -361,8 +374,8 @@ input:focus, textarea:focus, button:focus{
 						$("#readN").html("답변 완료");
 						$("#answerN").html("답변 완료");
 						$("#aDate").html(formatDate(new Date()));
-						$$$("#popUp").bPopup().close();
-					},
+						location.reload();
+						},
 					error:function(request, status, errorData){
 						alert("error code: " + request.status + "\n"
 								+"message: " + request.responseText

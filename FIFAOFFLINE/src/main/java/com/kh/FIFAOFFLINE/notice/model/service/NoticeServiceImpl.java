@@ -132,4 +132,10 @@ public class NoticeServiceImpl implements NoticeService{
 		return nDao.canLike(l);
 	}
 
+	@Override
+	public ArrayList<Notice> getNotice() {
+		
+		return nDao.getNotice();
+	}
+
 }

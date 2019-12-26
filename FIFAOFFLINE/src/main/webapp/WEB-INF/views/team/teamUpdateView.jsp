@@ -13,9 +13,15 @@
 #teamMenu .menu__item-name::after,
 #teamMenu .menu__item-name::before{
    background: red;
+   color: red;
 }
+
 #teamMenu.menu__item::after,
 #teamMenu.menu__item::before{
+      color: red;
+}
+
+#teamMenu .menu__item-name{
    color: red;
 }
 #title{
@@ -225,7 +231,7 @@ img.avatarM {
 </head>
 <jsp:include page = "../common/header.jsp"/>
 <body>
-<div id="content" style="margin-top: 15px; border-bottom: 5px solid grey; border-top: 5px solid grey; margin-left: 5%; margin-right:5%; width: 90%;">
+<div id="content" style="margin-top: 250px; border-bottom: 5px solid grey; border-top: 5px solid grey; margin-left: 5%; margin-right:5%; width: 90%;">
 <br><br><br><br><div id = "title"> 
 	<h4 style="font-size:45px; margin-bottom: 10px; margin-top: 0px; width: 85%; display: inline-block;">모집글 수정</h4>
 	
@@ -259,7 +265,7 @@ img.avatarM {
 			<tr>
 				<td style="font-weight:bold;">모집인원</td>
 				<td class="tRecruitCount">
-					<input type="text" class="recruitCount" placeholder="${t.recruitCount }">
+					<input type="text" class="recruitCount" value="${t.recruitCount }">
 				</td>
 			</tr>
 			<tr>
@@ -267,7 +273,7 @@ img.avatarM {
 			</tr>
 			<tr>
 				<td colspan=2>
-					<textarea rows="5" cols="40" wrap="hard" placeholder="${t.teamAdver }" class="teamAdver"></textarea>
+					<textarea rows="5" cols="40" wrap="hard" class="teamAdver">${t.teamAdver }</textarea>
 				</td>
 			</tr>
 			

@@ -26,7 +26,20 @@
        padding: 0px;
    	   border:none;
   	} 
-   
+     #noticeMenu .menu__item-name::after,
+#noticeMenu .menu__item-name::before{
+	background: red;
+	color: red;
+}
+
+#noticeMenu.menu__item::after,
+#noticeMenu.menu__item::before{
+   	color: red;
+}
+
+#noticeMenu .menu__item-name{
+	color: red;
+}
     #tableDiv{
       position: relative;
       width: 1300px;

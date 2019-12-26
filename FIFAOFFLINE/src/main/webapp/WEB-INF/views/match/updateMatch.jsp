@@ -98,18 +98,18 @@
 <style>
 
 /* ---------선택된 메뉴 색상 변경-------- */
-#matchMenu .menu__item-name::after,
-#matchMenu .menu__item-name::before{
+#matchingMenu .menu__item-name::after,
+#matchingMenu .menu__item-name::before{
 	background: red;
 	color: red;
 }
 
-#matchMenu.menu__item::after,
-#matchMenu.menu__item::before{
+#matchingMenu.menu__item::after,
+#matchingMenu.menu__item::before{
    	color: red;
 }
 
-#matchMenu .menu__item-name{
+#matchingMenu .menu__item-name{
 	color: red;
 }
 /* ----------------------------------- */
@@ -396,7 +396,7 @@ table {
 <jsp:include page = "../common/header.jsp"/>
 <body>
 
-	<div id = "title" style = "font-size: 40px; margin-top: 80px; margin-left: 5%;">매치 수정</div>
+	<div id = "title" style = "font-size: 40px; margin-top: 180px; margin-left: 5%;">매치 수정</div>
 	<div id="outer" style="margin-top: 15px; border-bottom: 5px solid grey; border-top: 5px solid grey; margin-left: 5%; margin-right:5%; width: 90%; ">
 		<div class="ha-waypoint" data-animate-down="ha-header-show"
 			data-animate-up="ha-header-subshow"

@@ -7,7 +7,6 @@
 <meta charset="UTF-8">
 
 <title>Insert title here</title>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <style>
 @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
@@ -17,13 +16,19 @@
 @import url(//fonts.googleapis.com/earlyaccess/jejuhallasan.css);
 @import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
 
-#playerMenu .menu__item-name::after,
+  #playerMenu .menu__item-name::after,
 #playerMenu .menu__item-name::before{
-   background: red;
+	background: red;
+	color: red;
 }
+
 #playerMenu.menu__item::after,
 #playerMenu.menu__item::before{
-   color: red;
+   	color: red;
+}
+
+#playerMenu .menu__item-name{
+	color: red;
 }
 #title{
    font-size: 40px; 
@@ -400,7 +405,7 @@ h6{
          .then((willDelete) => {
            if (willDelete) {
             location.href='${pplModify}'
-             swal("수정이 완료되었습니다!", {
+             swal("수정 화면으로 넘어가겠습니다!", {
                icon: "success",
              });
            } else {

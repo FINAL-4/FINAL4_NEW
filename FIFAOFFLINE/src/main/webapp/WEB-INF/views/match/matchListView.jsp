@@ -104,18 +104,18 @@ tbody tr:nth-child(4n-1) {
 } */
 
 /* ---------선택된 메뉴 색상 변경-------- */
-#matchMenu .menu__item-name::after,
-#matchMenu .menu__item-name::before{
+#matchingMenu .menu__item-name::after,
+#matchingMenu .menu__item-name::before{
 	background: red;
 	color: red;
 }
 
-#matchMenu.menu__item::after,
-#matchMenu.menu__item::before{
+#matchingMenu.menu__item::after,
+#matchingMenu.menu__item::before{
    	color: red;
 }
 
-#matchMenu .menu__item-name{
+#matchingMenu .menu__item-name{
 	color: red;
 }
 /* ----------------------------------- */
@@ -354,10 +354,10 @@ hr.new4 {
 
 <body>
 
-<div id = "outer" style = "margin-top:180px;">
+<div id = "outer" style = "margin-top: 250px;">
 	
 
-<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; height:800px; margin:auto; padding-bottom:0px;">
+<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; height:900px; margin:auto; padding-bottom:0px; margin-top:180px;">
 		<div id = "searchContent" style="height:100%; width:100%; border-bottom:3px solid grey; margin-top: 100px;">
 
 			<div style = "height: 10%; border-bottom: 2px solid grey;">
@@ -425,6 +425,9 @@ hr.new4 {
 					</tr>					
 				</table>
 			</div>
+			<div id = "infoDiv" style = "margin-top: -140px; width: 40%; margin-left: 30%; text-align: center">
+				<h1 id = "searchInfo" style = "font-size: 35px;"></h1>
+			</div>
 		</div>
 	</div>
 	
@@ -433,6 +436,7 @@ hr.new4 {
 
 		<c:choose>
 		<c:when test = "${fn:length(mList) != 0 }">
+		
 		<div id = "matchingList">
 			<c:forEach var="match" items="${mList }" varStatus="status">
 				<div style = "position: relative; z-index: 1;">
@@ -599,8 +603,11 @@ hr.new4 {
 								"</div>"+
 							"</div>");
 							}
+							
+							$("#searchInfo").html("");
 					}
 					}else{
+						$("#searchInfo").html("");
 						$("#matchingList").html("<h1 style = 'text-align: center; font-size: 30px;'>검색 결과가 없습니다.</h1>");
 						
 					}
@@ -647,7 +654,7 @@ hr.new4 {
 		<%if(flag){%>
 			location.href="goCreateMatch.ma";
 		<%}else{%>
-			aswal("", "주장만이 매치를 생성할 수 있습니다.", "warning");
+			swal("", "주장만이 매치를 생성할 수 있습니다.", "warning");
 		<%}%>
 	}
 
@@ -798,10 +805,15 @@ hr.new4 {
 								"<h1 class = 'ingStatus' style  = 'color: white; font-size: 80px; margin-top: 0px; margin-bottom: 0px;'>진행 중</h1>"+
 							"</div>"+
 						"</div>");
+							
+							
 						}
+						
+						$("#searchInfo").html(data.length+"개가 검색되었습니다.");
 					
 				}
 				}else{
+					$("#searchInfo").html("");
 					$("#matchingList").html("<h1 style = 'text-align: center; font-size: 30px;'>검색 결과가 없습니다.</h1>");
 				}
 				$("#myBtn").removeClass('clicked');

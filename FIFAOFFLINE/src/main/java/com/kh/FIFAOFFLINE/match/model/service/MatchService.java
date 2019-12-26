@@ -53,4 +53,9 @@ public interface MatchService {
 
 	ArrayList<ScoreInfo> selectTeamScore(int tId);
 
+	ArrayList<ScoreInfo> getPvp(HashMap<String, Integer> hm);
+
+	SmsInfo selectManager(int mTeamNo);
+
+
 }

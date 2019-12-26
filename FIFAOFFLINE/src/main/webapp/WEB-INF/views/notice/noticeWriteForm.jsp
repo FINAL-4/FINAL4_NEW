@@ -25,7 +25,20 @@
        padding: 0px;
    	   border:none;
   	} 
-   
+     #noticeMenu .menu__item-name::after,
+#noticeMenu .menu__item-name::before{
+	background: red;
+	color: red;
+}
+
+#noticeMenu.menu__item::after,
+#noticeMenu.menu__item::before{
+   	color: red;
+}
+
+#noticeMenu .menu__item-name{
+	color: red;
+}
     #tableDiv{
       position: relative;
       width: 1300px;
@@ -244,7 +257,6 @@
 			<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style ="width: 90%; height:1000px; margin: auto;">
 			<div id="container" style="overflow: auto;"><!-- container -->
    			<div id="mainContent" style="overflow: auto;"><!-- mainContent -->
-			<c:out value="${loginUser }"></c:out>
 			<form id= insertForm action = "<%=request.getContextPath()%>/ninsert.do" method="post" encType="multipart/form-data">
 
 				<input type="hidden" name = "userNo" value = "${loginUser.userNo }"/>
@@ -302,7 +314,7 @@
 					</table>
 					<br><br>
 					<div class= btnDiv>
-							<button type='button'id=listBtn onclick="Nlist()"><b>목록</b></button>&nbsp;&nbsp;
+							<button type='button'id=listBtn onclick="location.href = 'nlist.do'"><b>목록</b></button>&nbsp;&nbsp;
 							<button id=insertBtn type="button" onclick="insertSubmit();"><b>등록</b></button>
 					</div>
 					</div>

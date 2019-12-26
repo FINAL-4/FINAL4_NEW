@@ -16,9 +16,15 @@
 #teamMenu .menu__item-name::after,
 #teamMenu .menu__item-name::before{
    background: red;
+   color: red;
 }
+
 #teamMenu.menu__item::after,
 #teamMenu.menu__item::before{
+      color: red;
+}
+
+#teamMenu .menu__item-name{
    color: red;
 }
 #title{

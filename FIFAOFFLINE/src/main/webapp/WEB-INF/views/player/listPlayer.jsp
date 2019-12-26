@@ -35,6 +35,21 @@
 body{
 /* font-family: 'Nanum Brush Script', serif; */
 /* font-family: 'Jeju Gothic', sans-serif; */
+ }
+  #playerMenu .menu__item-name::after,
+#playerMenu .menu__item-name::before{
+	background: red;
+	color: red;
+}
+
+#playerMenu.menu__item::after,
+#playerMenu.menu__item::before{
+   	color: red;
+}
+
+#playerMenu .menu__item-name{
+	color: red;
+}
 font-family: 'KoPub Batang', serif;
 }
 * {

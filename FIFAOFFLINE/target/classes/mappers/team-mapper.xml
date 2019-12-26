@@ -318,9 +318,10 @@
   
   <select id="selectAllTeam" resultMap="teamResultSet">
   	SELECT T.TEAM_NO,T.USER_NO,M.USER_NAME,M.USER_ID,M.PROFILE,T.TEAM_NAME,T.TEAM_IMAGE,
-  		   T.TEAM_AREA,T.TEAM_INTRO
+  		   T.TEAM_AREA,T.TEAM_INTRO, TA.RECRUITCOUNT
   	FROM TEAM T
   	JOIN MEMBER M ON (T.USER_NO = M.USER_NO)
+  	JOIN TEAM_AD TA ON (T.TEAM_NO=TA.TEAM_NO)
   </select>
   
   <select id="moreListMember" resultMap="TeamMemberResultSet">

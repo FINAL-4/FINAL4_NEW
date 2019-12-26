@@ -103,6 +103,21 @@
 	});
 </script>
 <style>
+  #playerMenu .menu__item-name::after,
+#playerMenu .menu__item-name::before{
+	background: red;
+	color: red;
+}
+
+#playerMenu.menu__item::after,
+#playerMenu.menu__item::before{
+   	color: red;
+}
+
+#playerMenu .menu__item-name{
+	color: red;
+}
+
 #map{
 	width: 400px;
 	height: 400px;
