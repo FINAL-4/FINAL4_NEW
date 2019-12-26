@@ -261,9 +261,13 @@ public class PlayerController {
 
 	// 개인 용병 글에 신청하기
 	@RequestMapping("ajaxApplyPerson.pl")
-	public void ajaxApplyPerson(P_EN_LIST pe, int userNo1, HttpServletResponse response) throws JsonIOException, IOException {
+	public void ajaxApplyPerson(P_EN_LIST pe, int userNo1, HttpServletResponse response, HttpSession session) throws JsonIOException, IOException {
 		String text = "";
 		int count = 0;
+		
+		Member m2 = (Member)session.getAttribute("loginUser"); 
+		String mPhone = m2.getPhone();
+
 		
 		int aap = pService.ajaxApplyPerson(pe);
 		ArrayList<SmsInfo> smsInfo = pService.SMSservice1(userNo1);
@@ -275,9 +279,9 @@ public class PlayerController {
 		if(smsInfo.size() > 0 && aap == 0) {
 			for(int i = 0; i < smsInfo.size(); i++) {
 				smsInfo.get(i).setPhone(smsInfo.get(i).getPhone().replace("-", ""));
-				text = "안녕하세요. FIFA OFFLINE 입니다. \n용병이 신청 되었습니다. \n답장을 보내주시면 경기에 대한 자세한 내용을 보내드리겠습니다.";
+				text = "안녕하세요. FIFA OFFLINE 입니다. \n용병이 신청 되었습니다. \n답장을 보내주시면 경기에 대한 자세한 내용을 보내드리겠습니다.\n 팀장 연락처 : "+mPhone;;
 				
-				System.out.println(smsInfo.get(i).getPhone());
+				
 				count = sendMSG(smsInfo.get(i).getUserName(), smsInfo.get(i).getPhone(), text, count);
 				
 			}
@@ -300,13 +304,15 @@ public class PlayerController {
 	
 	// 팀 용병 신청 수락
 	@RequestMapping("agreePlay.pl")
-	public void agreePlay(HttpServletResponse response, P_LIST pl, P_RECRUIT pr, Member m) throws JsonIOException, IOException {
+	public void agreePlay(HttpServletResponse response, P_LIST pl, P_RECRUIT pr, Member m, HttpSession session) throws JsonIOException, IOException {
 		//System.out.println("컨트롤러 수락 테스트 : " + pl);
 		
 		int userNo = pl.getUserNo();
 		int rNum = pr.getrNum();
 		String text = "";
 		int count = 0;
+		Member m2 = (Member)session.getAttribute("loginUser"); 
+		String mPhone = m2.getPhone();
 		
 		ArrayList<SmsInfo> smsInfo = pService.SMSservice(pl.getUserNo());
 		
@@ -319,14 +325,14 @@ public class PlayerController {
 			int deletePlay = pService.deletePlay();  // <- 모집 인원이 0 이 되면 글이 없어짐
 			
 			//System.out.println(smsInfo);
-			for(int i = 0; i < smsInfo.size(); i++) {
-				smsInfo.get(i).setPhone(smsInfo.get(i).getPhone().replace("-", ""));
-				text = "안녕하세요. FIFA OFFLINE 입니다. \n용병이 수락 되었습니다.";
+			
+				smsInfo.get(0).setPhone(smsInfo.get(0).getPhone().replace("-", ""));
+				text = "안녕하세요. FIFA OFFLINE 입니다. \n용병이 수락 되었습니다.\n 팀장 연락처 : "+mPhone;
 				
-				System.out.println(smsInfo.get(i).getPhone());
-				count = sendMSG(smsInfo.get(i).getUserName(), smsInfo.get(i).getPhone(), text, count);
 				
-			}
+				count = sendMSG(smsInfo.get(0).getUserName(), smsInfo.get(0).getPhone(), text, count);
+				
+			
 			new Gson().toJson(count, response.getWriter());
 		} else { 
 		new Gson().toJson(applyListdelete,response.getWriter());
@@ -347,7 +353,7 @@ public class PlayerController {
 				smsInfo.get(i).setPhone(smsInfo.get(i).getPhone().replace("-", ""));
 				text = "안녕하세요. FIFA OFFLINE 입니다. \n죄송하지만 용병이 거절 되었습니다.";
 				
-				System.out.println(smsInfo.get(i).getPhone());
+				
 				count = sendMSG(smsInfo.get(i).getUserName(), smsInfo.get(i).getPhone(), text, count);
 				
 			}

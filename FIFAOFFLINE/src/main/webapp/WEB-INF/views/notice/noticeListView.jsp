@@ -22,7 +22,20 @@ a, a:hover {
 	color: #000000;
 	text-decoration: none;
 }
+  #noticeMenu .menu__item-name::after,
+#noticeMenu .menu__item-name::before{
+	background: red;
+	color: red;
+}
 
+#noticeMenu.menu__item::after,
+#noticeMenu.menu__item::before{
+   	color: red;
+}
+
+#noticeMenu .menu__item-name{
+	color: red;
+}
 /* Full-width input fields */
 input[type=text], input[type=password] {
 	width: 100%;

@@ -98,18 +98,18 @@
 <style>
 
 /* ---------선택된 메뉴 색상 변경-------- */
-#matchMenu .menu__item-name::after,
-#matchMenu .menu__item-name::before{
+#matchingMenu .menu__item-name::after,
+#matchingMenu .menu__item-name::before{
 	background: red;
 	color: red;
 }
 
-#matchMenu.menu__item::after,
-#matchMenu.menu__item::before{
+#matchingMenu.menu__item::after,
+#matchingMenu.menu__item::before{
    	color: red;
 }
 
-#matchMenu .menu__item-name{
+#matchingMenu .menu__item-name{
 	color: red;
 }
 /* ----------------------------------- */

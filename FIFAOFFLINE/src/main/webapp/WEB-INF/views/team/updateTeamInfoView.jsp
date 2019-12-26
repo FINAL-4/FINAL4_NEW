@@ -676,7 +676,7 @@ label{
 
 <script type="text/javascript">
    function goMatch(){
-      location.href='goMatch.ma';
+      location.href='managedTeam.tm';
    }
 </script>
 

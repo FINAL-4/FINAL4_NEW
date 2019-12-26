@@ -16,13 +16,19 @@
 @import url(//fonts.googleapis.com/earlyaccess/jejuhallasan.css);
 @import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
 
-#playerMenu .menu__item-name::after,
+  #playerMenu .menu__item-name::after,
 #playerMenu .menu__item-name::before{
-   background: red;
+	background: red;
+	color: red;
 }
+
 #playerMenu.menu__item::after,
 #playerMenu.menu__item::before{
-   color: red;
+   	color: red;
+}
+
+#playerMenu .menu__item-name{
+	color: red;
 }
 #title{
    font-size: 40px; 

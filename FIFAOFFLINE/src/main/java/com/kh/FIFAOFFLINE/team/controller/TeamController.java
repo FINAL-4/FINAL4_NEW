@@ -240,6 +240,7 @@ public class TeamController {
 			text = "안녕하세요 :) FIFAOFFLINE 입니다. \n" + "신청하신 " + teamName + "팀에서 가입을 \n" + "거절 하셨습니다.";
 
 			count = sendMSG(amSi.get(i).getUserName(), amSi.get(i).getPhone(), text, count);
+			
 		}
 
 		int result = tService.joinedCancel(tjm);
@@ -273,6 +274,7 @@ public class TeamController {
 				text = "안녕하세요 :) FIFAOFFLINE 입니다. \n" + "신청하신 " + teamName + "팀에서 가입을 \n" + "승인 하셨습니다.";
 	
 				count = sendMSG(amSi.get(i).getUserName(), amSi.get(i).getPhone(), text, count);
+				
 			}
 	
 			int updateCount = 0;
@@ -806,8 +808,9 @@ public class TeamController {
 		 "안녕하세요 :) FIFAOFFLINE 입니다. \n" +teamName+ "팀에서 보냈던 초대를 \n" +userName+
 		 "님이 승인 하셨습니다.";
 		 
-		 count = sendMSG(amSi.get(i).getUserName(), amSi.get(i).getPhone(), text,
-		 count); }
+		 count = sendMSG(amSi.get(i).getUserName(), amSi.get(i).getPhone(), text, count); 
+		 
+		 }
 		 
 
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
@@ -1014,8 +1017,9 @@ public class TeamController {
 		 "안녕하세요 :) FIFAOFFLINE 입니다. \n" +teamName+ "팀에서 보냈던 초대를 \n" +userName+
 		 "님이 거절 하셨습니다.";
 		 
-		 count = sendMSG(amSi.get(i).getUserName(), amSi.get(i).getPhone(), text,
-		 count); }
+		 count = sendMSG(amSi.get(i).getUserName(), amSi.get(i).getPhone(), text, count); 
+		
+		 }
 		 
 
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();

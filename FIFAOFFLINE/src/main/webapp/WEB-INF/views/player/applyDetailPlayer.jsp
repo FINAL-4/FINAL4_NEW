@@ -11,13 +11,19 @@
 <title>Insert title here</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <style>
-#playerMenu .menu__item-name::after,
+  #playerMenu .menu__item-name::after,
 #playerMenu .menu__item-name::before{
-   background: red;
+	background: red;
+	color: red;
 }
+
 #playerMenu.menu__item::after,
 #playerMenu.menu__item::before{
-   color: red;
+   	color: red;
+}
+
+#playerMenu .menu__item-name{
+	color: red;
 }
 #title{
 	font-size: 40px; 

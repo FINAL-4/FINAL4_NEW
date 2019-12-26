@@ -13,7 +13,7 @@
 
 <body>
 	<div id = "outer" style = "margin: auto; width: 500px; height: 500px; margin-top: 200px; text-align: center">
-		<div><h1>====공지입니다====</h1></div>
+	<!-- 	<div><h1>====공지입니다====</h1></div>
 		<div><h1>프로젝트명 : FIFIAOFFLINE</h1></div>
 		<div><h2>DB username : FINAL4</h2></div>
 		<div><h2>DB password : FINAL4</h2></div>
@@ -27,8 +27,13 @@
 
 
 
-		<button id = "visual-btn" onclick="location.href='home.do'" style = "width: 100px; height: 50px; margin-top: 30px;">home.jsp로</button>
+		<button id = "visual-btn" onclick="location.href='home.do'" style = "width: 100px; height: 50px; margin-top: 30px;">home.jsp로</button> -->
 
 	</div>
+	
+	<script type="text/javascript">
+		window.onload = location.href='home.do';
+	
+	</script>
 </body>
 </html>

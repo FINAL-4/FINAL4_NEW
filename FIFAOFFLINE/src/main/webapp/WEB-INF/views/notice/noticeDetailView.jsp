@@ -28,6 +28,20 @@
        padding: 0px;
    	   border:none;
   	} 
+  #noticeMenu .menu__item-name::after,
+#noticeMenu .menu__item-name::before{
+	background: red;
+	color: red;
+}
+
+#noticeMenu.menu__item::after,
+#noticeMenu.menu__item::before{
+   	color: red;
+}
+
+#noticeMenu .menu__item-name{
+	color: red;
+}
    
    textarea:focus{
    	outline:none;
@@ -530,26 +544,28 @@
 			  	})
 			  	.then((willDelete) => {
 			  	  if (willDelete) {
+			  		$.ajax({
+						url:"addReply.do",
+						data:{rContent:rContent, nId:nId},
+						
+						success:function(data){
+							getReplyList(); // 댓글 등록 성공시 댓글 부분이 setInerval 안기다리고 바로 갱신되게 함수 실행
+							$("#rContent").val(""); // 댓글 작성한 부분 리셋 해주기
+							swal("", "정상적으로 저장되었습니다.", "success");
+						},
+						error:function(request, status, errorData){
+							alert("error code: " + request.status + "\n"
+									+"message: " + request.responseText
+									+"error: " + errorData);
+						}
+					});
 			  	  } else {
 			  		  return false;
 			  	  }
 			  	});
 			
 			
-			$.ajax({
-				url:"addReply.do",
-				data:{rContent:rContent, nId:nId},
-				
-				success:function(data){
-					getReplyList(); // 댓글 등록 성공시 댓글 부분이 setInerval 안기다리고 바로 갱신되게 함수 실행
-					$("#rContent").val(""); // 댓글 작성한 부분 리셋 해주기
-				},
-				error:function(request, status, errorData){
-					alert("error code: " + request.status + "\n"
-							+"message: " + request.responseText
-							+"error: " + errorData);
-				}
-			});
+			
 			
 		});
 		
