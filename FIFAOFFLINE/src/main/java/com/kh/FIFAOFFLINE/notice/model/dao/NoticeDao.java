@@ -130,6 +130,12 @@ public class NoticeDao {
 		return sqlSession.delete("noticeMapper.deleteLike", l);
 	}
 
+
+	public ArrayList<Notice> getNotice() {
+		
+		return (ArrayList)sqlSession.selectList("noticeMapper.getNotice");
+	}
+
 	
 	
 }

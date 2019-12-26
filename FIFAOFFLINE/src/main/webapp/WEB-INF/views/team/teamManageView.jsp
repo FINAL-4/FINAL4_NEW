@@ -10,9 +10,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css"> -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.1/flickity.pkgd.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.1/flickity.css">
+
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <!-- <link rel="stylesheet" type="text/css" href="resources/css/style.css" /> -->
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/076ff59e02.js" crossorigin="anonymous"></script>
@@ -691,6 +696,10 @@ table.type03 td {
             						<div class="card-footer" style="padding-top:10px; padding-bottom:0px;">
                 						<p style="font-size:16px;">활동 지역 : ${myTeam.teamArea }</p>
            							</div>
+           							<div id = "lp${myTeam.teamNo }">
+           								<p style ="font-size:16px; margin-bottom: 0px; color: #888">최근 전적</p>
+           								<p id = "nonLp${myTeam.teamNo }" style = "margin:5px;">기록된 전적 없음</p>
+           							</div>
   								</div>
   								<div class="back" style="width:100%; height:100%">
   									
@@ -870,6 +879,34 @@ table.type03 td {
   
 
 <jsp:include page = "../common/footer.jsp"/>
+
+
+<c:forEach var="mt" items="${myTeam }" varStatus="status">
+	<script type="text/javascript">
+	var teamNo = ${mt.teamNo};
+	$.ajax({
+		url:"getMyScore.ma",
+		data:{teamNo:teamNo},
+		success:function(data){
+			for(var i in data){
+				$("#nonLp"+data[i].tId).html("");
+				$("#lp"+data[i].tId).append("<p style = 'margin:5px;'>"+data[i].score+" : "+data[i].result+"</p>");
+				if(i==2){
+					return false;
+				}
+			}
+			
+		}
+	});
+	</script>
+</c:forEach>
+
+
+
+
+
+
+
 <script>
 
 	var selectedNo = 0;

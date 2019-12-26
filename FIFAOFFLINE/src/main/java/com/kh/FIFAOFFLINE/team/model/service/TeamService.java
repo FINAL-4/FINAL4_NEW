@@ -95,7 +95,7 @@ public interface TeamService {
 	int selectTeamMember(int userNo);
 
 	int banishmentTeam(TeamMember tm);
-	
+
 	
 
 }

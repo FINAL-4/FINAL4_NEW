@@ -87,5 +87,8 @@ public interface NoticeService {
 
 
 	public int canLike(Like l);
+
+
+	public ArrayList<Notice> getNotice();
 	
 }

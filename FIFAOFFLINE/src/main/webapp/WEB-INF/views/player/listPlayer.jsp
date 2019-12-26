@@ -23,8 +23,35 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <style>
+@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+@import url(//fonts.googleapis.com/earlyaccess/jejumyeongjo.css);
+@import url(//fonts.googleapis.com/earlyaccess/kopubbatang.css);
+@import url(//fonts.googleapis.com/earlyaccess/hanna.css);
+@import url(//fonts.googleapis.com/earlyaccess/jejuhallasan.css);
+@import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
+body{
+/* font-family: 'Nanum Brush Script', serif; */
+/* font-family: 'Jeju Gothic', sans-serif; */
+ }
+  #playerMenu .menu__item-name::after,
+#playerMenu .menu__item-name::before{
+	background: red;
+	color: red;
+}
+
+#playerMenu.menu__item::after,
+#playerMenu.menu__item::before{
+   	color: red;
+}
+
+#playerMenu .menu__item-name{
+	color: red;
+}
+font-family: 'KoPub Batang', serif;
+}
 * {
 	box-sizing: border-box;
 }

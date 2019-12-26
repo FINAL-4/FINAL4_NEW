@@ -6,7 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <script>
   var $$$ = jQuery.noConflict();
 </script>
@@ -102,6 +103,21 @@
 	});
 </script>
 <style>
+  #playerMenu .menu__item-name::after,
+#playerMenu .menu__item-name::before{
+	background: red;
+	color: red;
+}
+
+#playerMenu.menu__item::after,
+#playerMenu.menu__item::before{
+   	color: red;
+}
+
+#playerMenu .menu__item-name{
+	color: red;
+}
+
 #map{
 	width: 400px;
 	height: 400px;
@@ -322,11 +338,18 @@ input, select{
 }
 /* 위에는 현모형 css 
 밑에부터 나 css */
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothiccoding.css);
 #title{
 	font-size: 40px; 
 	margin-top: 120px; 
 	border-bottom: 5px solid grey;
+	font-family: 'Noto Sans KR', sans-serif;
 }
+body{
+	font-family: 'Nanum Gothic Coding', serif;
+}
+
 </style>
 </head>
 <jsp:include page = "../common/header.jsp"/>

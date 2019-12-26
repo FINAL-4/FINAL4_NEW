@@ -22,7 +22,15 @@
 		<script src="js/modernizr.custom.js"></script>
 		<script src="js/modernizr.custom.js"></script>
 		
-		<style>	
+		<style>   
+      	@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+     		 body{
+         font-family: 'Jeju Gothic', sans-serif !important;
+      	}
+      
+      	input[type=password]{
+      	   font-family: serif;
+      } 
 		#loginModal input[type=text], #loginModal input[type=password] {
 		 outline:none;
 		  width: 100%;
@@ -167,7 +175,7 @@
 					</span>
 					<nav class="menu menu--ama" style = "margin-bottom: 100px;">
 						<!-- <a class="menu__item" href="nlist.do" style = "border: none;"> <span class="menu__item-name">공지    </span></a> -->
-						<a class="menu__item" href="nlist.do" style = "border: none;"> <span class="menu__item-name">공지    </span></a>  
+						<a class="menu__item" href="nlist.do" style = "border: none;" id = "noticeMenu"> <span class="menu__item-name">게시판    </span></a>  
 						<c:if test="${!empty sessionScope.loginUser }">
 						<a class="menu__item" href="managedTeam.tm" id="teamMenu"> <span class="menu__item-name">팀       </span> </a>
 						</c:if>
@@ -180,14 +188,14 @@
 						<c:if test="${empty sessionScope.loginUser }">
 						<a class="menu__item" onclick="document.getElementById('id01').style.display='block'" id = "playerMenu" style = "border:none;"> <span class="menu__item-name">용병     </span> </a>
 						</c:if>
-						<a class="menu__item" href="goMatch.ma" style = "border: none;"> <span class="menu__item-name">매칭     </span></a>
+						<a class="menu__item" href="goMatch.ma" style = "border: none;" id = "matchingMenu"> <span class="menu__item-name">매칭     </span></a>
 
 						<c:if test="${!empty sessionScope.loginUser }">
 						<a class="menu__item" href="mypage.me" style = "border: none;"> <span class="menu__item-name">마이페이지   </span></a>
 						</c:if>
 						
 						<c:if test="${!empty sessionScope.loginUser }">
-						<a class="menu__item" href="qList.do" style = "border: none;"> <span class="menu__item-name">문의     </span></a>
+						<a class="menu__item" href="qList.do" style = "border: none;" id = "questionMenu"> <span class="menu__item-name">문의     </span></a>
 						</c:if>
 						
 						<span>
@@ -255,7 +263,8 @@
 		var userId=$$(".id").val();
 		var userPwd=$$(".pwd").val();
 		 if(userId =="" || userPwd == ""){
-			alert("아이디와 비밀번호를 입력하세요");
+			$$("#loginInfo").css("color","red");
+			$$("#loginInfo").html("정보를 입력해주세요.");
 			return false;
 		} 
 		$$.ajax({

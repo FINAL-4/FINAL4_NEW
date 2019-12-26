@@ -28,7 +28,6 @@
                <h2 class="h05">유사사이트</h4>
 
                <ul class="list-links" style="padding:10px; ">
-                  <li><a href="https://www.footballground.kr/">풋볼그라운드</a></li> <br>
                   <li><a href="https://web.facebook.com/howaboutsoccer/?_rdc=1&_rdr">축구어때</a></li>
                   <br><li><a href="https://www.plabfootball.com/">플랩풋볼</a></li>
                   <br><li><a href="http://soccerline.kr/">사커라인</a></li>

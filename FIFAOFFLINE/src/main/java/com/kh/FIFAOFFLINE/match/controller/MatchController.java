@@ -26,6 +26,9 @@ import com.kh.FIFAOFFLINE.match.model.vo.ScoreInfo;
 import com.kh.FIFAOFFLINE.match.model.vo.SmsInfo;
 import com.kh.FIFAOFFLINE.member.model.exception.MemberException;
 import com.kh.FIFAOFFLINE.member.model.vo.Member;
+import com.kh.FIFAOFFLINE.player.model.service.PlayerService;
+import com.kh.FIFAOFFLINE.player.model.vo.P_RECRUIT;
+import com.kh.FIFAOFFLINE.team.model.service.TeamService;
 import com.kh.FIFAOFFLINE.team.model.vo.Team;
 
 import net.nurigo.java_sdk.api.Message;
@@ -37,6 +40,12 @@ public class MatchController {
 	@Autowired
 	private MatchService maService;
 
+	@Autowired
+	private PlayerService pService;
+	
+	@Autowired
+	private TeamService tService;
+	
 	@RequestMapping("goMatch.ma")
 	public ModelAndView goMatching(ModelAndView mv) {
 
@@ -237,6 +246,7 @@ public class MatchController {
 		m.setTeamNo(mTeamNo);
 		m.setMtId(amTeamNo);
 		
+		
 		HashMap<String, Integer> hm = new HashMap<String, Integer>();
 		hm.put("mId", m.getmId());
 		hm.put("mtId", m.getMtId());
@@ -248,7 +258,8 @@ public class MatchController {
 		int count = 0;
 		
 		if(result == 1) {
-			
+			SmsInfo tMng = maService.selectManager(mTeamNo);
+			SmsInfo atMng = maService.selectManager(amTeamNo);
 			ArrayList<SmsInfo> amSi = maService.getSmsInfo(am.getTeamNo());
 			for(int i = 0 ; i<amSi.size() ; i++) {
 				amSi.get(i).setPhone(amSi.get(i).getPhone().replace("-", ""));
@@ -259,10 +270,15 @@ public class MatchController {
 						+ "일시 : "+m.getmDay()+"\n"
 						+ "시간 : "+m.getsHour()+":"+m.getsMinute()+"~"+m.geteHour()+":"+m.geteMinute()+"\n"
 						+ "참가비 : "+m.getDues()+"\n"
+						+ "팀장 : "+tMng.getUserName()+"("+tMng.getPhone()+")"+"\n"
+						+ "상대팀장 : "+atMng.getUserName()+"("+atMng.getPhone()+")"+"\n"
 						+ "항상 이용해주셔서 감사합니다. ";
-				count = sendMSG(amSi.get(i).getUserName(), amSi.get(i).getPhone(), text, count);
+				
+				
+				//count = sendMSG(amSi.get(i).getUserName(), amSi.get(i).getPhone(), text, count);
+				System.out.println(amSi.get(i).getUserName()+":"+amSi.get(i).getPhone());
+				System.out.println(text);
 			}
-			
 			ArrayList<SmsInfo> mSi = maService.getSmsInfo(m.getTeamNo());
 			for(int i = 0 ; i<mSi.size() ; i++) {
 				mSi.get(i).setPhone(mSi.get(i).getPhone().replace("-", ""));
@@ -273,9 +289,14 @@ public class MatchController {
 						+ "일시 : "+m.getmDay()+"\n"
 						+ "시간 : "+m.getsHour()+":"+m.getsMinute()+"~"+m.geteHour()+":"+m.geteMinute()+"\n"
 						+ "참가비 : "+m.getDues()+"\n"
+						+ "팀장 : "+atMng.getUserName()+"("+atMng.getPhone()+")"+"\n"
+						+ "상대팀장 : "+tMng.getUserName()+"("+tMng.getPhone()+")"+"\n"
 						+ "항상 이용해주셔서 감사합니다. ";
-				count = sendMSG(mSi.get(i).getUserName(), mSi.get(i).getPhone(), text, count);
 				
+				
+				//count = sendMSG(mSi.get(i).getUserName(), mSi.get(i).getPhone(), text, count);
+				System.out.println(mSi.get(i).getUserName()+":"+mSi.get(i).getPhone());
+				System.out.println(text);
 			}
 		
 			new Gson().toJson(count, response.getWriter());
@@ -407,10 +428,32 @@ public class MatchController {
 	public void showCal(HttpServletResponse response) throws JsonIOException, IOException {
 		response.setContentType("application/json; charset=utf-8");
 		
+		ArrayList<P_RECRUIT> team = pService.teamPlayList();
 		ArrayList<Match> mList = maService.getAllMatchList();
 		
 		HashMap resultHM = null;
 		ArrayList<HashMap> result = new ArrayList<HashMap>();
+		
+	
+		
+		for(int i = 0 ; i< team.size() ; i++) {
+			resultHM = new HashMap();
+			
+			String id = "-"+String.valueOf(team.get(i).getrNum());
+			String start = String.valueOf(team.get(i).getrDay());
+			String end = String.valueOf(team.get(i).getrDay());
+			String title = String.valueOf(team.get(i).getrTitle());
+			
+			resultHM.put("id", id);
+			resultHM.put("start", start);
+			resultHM.put("end", end);
+			resultHM.put("title", title);
+			resultHM.put("color", "#E9CBD1");
+			resultHM.put("textColor", "black");
+			
+			result.add(resultHM);
+		}
+		
 		
 		for(int i = 0 ; i < mList.size() ; i++) {
 			resultHM = new HashMap();
@@ -421,16 +464,72 @@ public class MatchController {
 			resultHM.put("id", id);
 			resultHM.put("start", start);
 			resultHM.put("end", end);
-			resultHM.put("description", "테스트입니당!!");
 			resultHM.put("title", mList.get(i).getmTitle());
-			resultHM.put("color", "#514644");
-			resultHM.put("textColor", "#F6F6F6");
+			resultHM.put("color", "#798F8C");
+			resultHM.put("textColor", "white");
 			
 			result.add(resultHM);
 		}
+		
+		
 		
 		new Gson().toJson(result, response.getWriter());
 	}
 	
 	
+	
+	@RequestMapping("showPvp.ma")
+	public void showPvp(HttpServletResponse response, int amtId, int mtId) throws JsonIOException, IOException {
+		response.setContentType("application/json; charset=utf-8");
+		
+		HashMap<String, Integer> hm = new HashMap<String, Integer>();
+		
+		hm.put("mtId", mtId);
+		hm.put("amtId", amtId);
+		
+		ArrayList<ScoreInfo> si = maService.getPvp(hm);
+		
+		String score = "";
+		int w = 0, d = 0, l = 0;
+		for(int i = 0 ; i < si.size() ; i++) {
+			if(si.get(i).getResult().equals("승")) {
+				w++;
+			}else if(si.get(i).getResult().equals("패")) {
+				l++;
+			}else {
+				d++;
+			}
+		}
+		
+		score = si.size()+"전"+w+"승"+d+"무"+l+"패";
+				
+		
+		new Gson().toJson(score, response.getWriter());
+	}
+	
+	
+	@RequestMapping("getMyScore.ma")
+	public void getMyScore(HttpServletResponse response, int teamNo) throws JsonIOException, IOException {
+		response.setContentType("application/json; charset=utf-8");
+		
+		
+		ArrayList<ScoreInfo> si = maService.selectTeamScore(teamNo);
+		
+				
+		
+		new Gson().toJson(si, response.getWriter());
+	}
+	
+	@RequestMapping("getTeamInfo.ma")
+	public void getTeamInfo(HttpServletResponse response) throws JsonIOException, IOException {
+		response.setContentType("application/json; charset=utf-8");
+		
+		
+		ArrayList<Team> tl = tService.selectAllTeam();
+		
+		Team t = tl.get((int)(Math.random()*tl.size()));
+		
+		
+		new Gson().toJson(t, response.getWriter());
+	}
 }

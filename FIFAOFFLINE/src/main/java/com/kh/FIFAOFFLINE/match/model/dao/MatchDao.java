@@ -121,5 +121,16 @@ public class MatchDao {
 		return (ArrayList)sqlSession.selectList("matchMapper.selectTeamScore", tId);
 	}
 
+	public ArrayList<ScoreInfo> getPvp(HashMap<String, Integer> hm) {
+		
+		return (ArrayList)sqlSession.selectList("matchMapper.getPvp", hm);
+	}
+
+	public SmsInfo selectManager(int tId) {
+		
+		return (SmsInfo)sqlSession.selectOne("matchMapper.selectManager", tId);
+	}
+
+
 
 }

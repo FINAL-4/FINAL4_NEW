@@ -17,8 +17,8 @@
 <head>
 <meta charset="UTF-8">
 <script src="http://cdn.ckeditor.com/4.7.0/standard-all/ckeditor.js"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
  <style>
     #outer{
   		position: relative;
@@ -26,7 +26,20 @@
        padding: 0px;
    	   border:none;
   	} 
-   
+     #noticeMenu .menu__item-name::after,
+#noticeMenu .menu__item-name::before{
+	background: red;
+	color: red;
+}
+
+#noticeMenu.menu__item::after,
+#noticeMenu.menu__item::before{
+   	color: red;
+}
+
+#noticeMenu .menu__item-name{
+	color: red;
+}
     #tableDiv{
       position: relative;
       width: 1300px;

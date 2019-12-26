@@ -12,7 +12,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <meta name="viewport" content="width=device-width" initial-scale="1">
 <link rel="stylesheet" href="css/bootstrap.css">
 <title>Insert title here</title>
@@ -21,7 +22,20 @@ a, a:hover {
 	color: #000000;
 	text-decoration: none;
 }
+  #noticeMenu .menu__item-name::after,
+#noticeMenu .menu__item-name::before{
+	background: red;
+	color: red;
+}
 
+#noticeMenu.menu__item::after,
+#noticeMenu.menu__item::before{
+   	color: red;
+}
+
+#noticeMenu .menu__item-name{
+	color: red;
+}
 /* Full-width input fields */
 input[type=text], input[type=password] {
 	width: 100%;
@@ -221,8 +235,8 @@ span.psw {
 <body>
 
 	<!-- 각페이지 고정 start -->
-	<div id="outer" style="margin-top: 200px;">
-		<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style="width: 80%; height: 800px; margin: auto;">
+	<div id="outer" style="">
+		<div class="ha-waypoint" data-animate-down="ha-header-show" data-animate-up="ha-header-subshow" style="width: 80%; height: 850px; margin: auto; margin-top: 300px;">
 			<div id = "banner">
 				<h1 id = "title" style = "margin: 0px 0px 10px 5px;">게시판</h1>
 				<div id = "btns">
@@ -250,7 +264,7 @@ span.psw {
 						<option value = "plus" <c:if test="${sc.sCondition == 'plus'}">selected</c:if>>제목+내용</option>
 					</select>
 					<input id = "sContent" type = "text" style = "width: 45%; height: 30px; margin: 0px;">
-					<button style = "width: 10%; height: 30px; padding: 0px;" onclick = "search();">검색</button>
+					<button style = "width: 8%; height: 30px; padding: 0px;" onclick = "search();">검색</button>
 				</span>
 			</div>
 			
@@ -266,9 +280,9 @@ span.psw {
 								<th style="background-color: #eeeeee; text-align: center;"
 									width="10%" height="33px;">분 류</th>
 								<th style="background-color: #eeeeee; text-align: center;"
-									width="40%">제 목</th>
+									width="37%">제 목</th>
 								<th style="background-color: #eeeeee; text-align: center;"
-									width="12%">작성자</th>
+									width="15%">작성자</th>
 								<th style="background-color: #eeeeee; text-align: center;"
 									width="10%">조회수</th>
 								<th style="background-color: #eeeeee; text-align: center;"
@@ -346,7 +360,7 @@ span.psw {
 				</div>
 			</div>
 		
-		<div class="ha-waypoint" data-animate-down="ha-header-shrink" data-animate-up="ha-header-show" style="height: 10px; width: 90%; margin: auto;">
+		<div class="ha-waypoint" data-animate-down="ha-header-shrink" data-animate-up="ha-header-show" style="height: 100px; width: 90%; margin: auto;">
 		</div>
 	</div>
 

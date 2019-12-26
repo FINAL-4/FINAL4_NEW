@@ -21,7 +21,8 @@
 <script
    src='https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.min.js'></script>
 
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
 <title>KH sports</title>
 <style>
@@ -529,10 +530,9 @@ canvas {
                   <script   src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js">
                   </script>
                      <div id = "img">
-                        <img src ="resources/proFiles/${loginUser.profile }" style = "width: 300px; height: 300px;">
+                        <img id ="contentImg" src ="resources/proFiles/${loginUser.profile }" style = "width: 300px; height: 300px;">
                      </div>
-                  <canvas id="canvas" style = "display: none;">
-                  </canvas>
+
                   </td>   
                </tr>
                <tr>
@@ -547,12 +547,30 @@ canvas {
                          type="file"
                          multiple="false"
                          accept="image/*" 
-                         onchange="upload()" style="width: 280px;">
+                         onchange="LoadImg(this,1)" style="width: 280px;">
                            
             
                         </td>
                         </tr>
-                     <script>
+                        <script>
+                        function LoadImg(value, num){
+         if(value.files[0] != undefined){   
+            // value는 함수를 발동시킨 객체(file타입 input태그)이고
+            // value.files[0]은 input태그로 파일을 선택했으면 undefined가 아니고 선택안했으면 undefined다.
+            var reader = new FileReader();
+            
+            reader.onload = function(e){
+               switch(num){
+               case 1:
+                  
+                  $("#contentImg").attr("src", e.target.result);
+                  break;
+            }
+         }
+            reader.readAsDataURL(value.files[0]);
+         }
+      }
+                 
                   
                      
                   function upload()
@@ -812,42 +830,42 @@ canvas {
       // 회원가입 하기 함수
       function insertMember(){
          if(pwdCheck  == false){
-        	 swal("비밀번호를 확인해주세요.");
+            swal("비밀번호를 확인해주세요.");
             $("#userPwd").focus();
          }else if(pwdCheck2  == false){
-        	 swal("비밀번호 일치여부를 확인해주세요.");
+            swal("비밀번호 일치여부를 확인해주세요.");
             $("#userPwd2").focus();
          }else if(nameCheck  == false){
-        	 swal("이름를 확인해주세요.");
+            swal("이름를 확인해주세요.");
             $("#name").focus();
          }else if(phoneCheck  == false){
-        	 swal("전화번호를 확인해주세요.");
+            swal("전화번호를 확인해주세요.");
             $("#tel1").focus();
          }else if(rrnCheck  == false){
-        	 swal("생년월일를 확인해주세요.");
+            swal("생년월일를 확인해주세요.");
             $("#birthDay").focus();
          }else if($("#emailId").val() == ""){
-        	 swal("이메일을 입력해주세요.");
+            swal("이메일을 입력해주세요.");
             $("#emailId").focus();
          }else{
            
             swal({
-            	  title: "정보를수정하시겠습니까?",
-            	  text: "정확하게 수정하셧는지 확인하셨나요?",
-            	  icon: "info",
-            	  buttons: true,
-            	  dangerMode: true,
-            	})
-            	.then((willDelete) => {
-            	  if (willDelete) {
-            	    swal("회원정보를 수정하엿습니다.", {
-            	      icon: "success",
-            	    });
-          		  $("#joinForm").submit();
-            	  } else {
-            		  return false;
-            	  }
-            	});
+                 title: "정보를수정하시겠습니까?",
+                 text: "정확하게 수정하셧는지 확인하셨나요?",
+                 icon: "info",
+                 buttons: true,
+                 dangerMode: true,
+               })
+               .then((willDelete) => {
+                 if (willDelete) {
+                   swal("회원정보를 수정하엿습니다.", {
+                     icon: "success",
+                   });
+                  $("#joinForm").submit();
+                 } else {
+                    return false;
+                 }
+               });
          }   
       }
    

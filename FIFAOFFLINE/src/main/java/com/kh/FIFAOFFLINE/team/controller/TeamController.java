@@ -239,7 +239,9 @@ public class TeamController {
 			amSi.get(i).setPhone(amSi.get(i).getPhone().replace("-", ""));
 			text = "안녕하세요 :) FIFAOFFLINE 입니다. \n" + "신청하신 " + teamName + "팀에서 가입을 \n" + "거절 하셨습니다.";
 
-			count = sendMSG(amSi.get(i).getUserName(), amSi.get(i).getPhone(), text, count);
+			//count = sendMSG(amSi.get(i).getUserName(), amSi.get(i).getPhone(), text, count);
+			System.out.println(amSi.get(i).getUserName()+":"+amSi.get(i).getPhone());
+			System.out.println(text);
 		}
 
 		int result = tService.joinedCancel(tjm);
@@ -272,7 +274,9 @@ public class TeamController {
 				amSi.get(i).setPhone(amSi.get(i).getPhone().replace("-", ""));
 				text = "안녕하세요 :) FIFAOFFLINE 입니다. \n" + "신청하신 " + teamName + "팀에서 가입을 \n" + "승인 하셨습니다.";
 	
-				count = sendMSG(amSi.get(i).getUserName(), amSi.get(i).getPhone(), text, count);
+				//count = sendMSG(amSi.get(i).getUserName(), amSi.get(i).getPhone(), text, count);
+				System.out.println(amSi.get(i).getUserName()+":"+amSi.get(i).getPhone());
+				System.out.println(text);
 			}
 	
 			int updateCount = 0;
@@ -454,7 +458,7 @@ public class TeamController {
 		boolean Usable = tService.checkTeamNameDup(teamName) == 0 ? true : false;
 		map.put("Usable", Usable);
 		mv.addAllObjects(map);
-		mv.setViewName("team/createTeamView");
+		mv.setViewName("jsonView");
 		return mv;
 	}
 
@@ -806,8 +810,10 @@ public class TeamController {
 		 "안녕하세요 :) FIFAOFFLINE 입니다. \n" +teamName+ "팀에서 보냈던 초대를 \n" +userName+
 		 "님이 승인 하셨습니다.";
 		 
-		 count = sendMSG(amSi.get(i).getUserName(), amSi.get(i).getPhone(), text,
-		 count); }
+		 //count = sendMSG(amSi.get(i).getUserName(), amSi.get(i).getPhone(), text, count); 
+		 System.out.println(amSi.get(i).getUserName()+":"+amSi.get(i).getPhone());
+		 System.out.println(text);
+		 }
 		 
 
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
@@ -1014,8 +1020,10 @@ public class TeamController {
 		 "안녕하세요 :) FIFAOFFLINE 입니다. \n" +teamName+ "팀에서 보냈던 초대를 \n" +userName+
 		 "님이 거절 하셨습니다.";
 		 
-		 count = sendMSG(amSi.get(i).getUserName(), amSi.get(i).getPhone(), text,
-		 count); }
+		 //count = sendMSG(amSi.get(i).getUserName(), amSi.get(i).getPhone(), text, count); 
+		 System.out.println(amSi.get(i).getUserName()+":"+amSi.get(i).getPhone());
+		 System.out.println(text);
+		 }
 		 
 
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();

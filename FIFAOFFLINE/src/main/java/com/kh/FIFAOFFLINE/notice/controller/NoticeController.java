@@ -358,6 +358,7 @@ public class NoticeController {
 		new Gson().toJson(result, response.getWriter());
 	}
 	
+	
 	@RequestMapping("canLike.do")
 	public void canLike(HttpServletResponse response, Like l) throws JsonIOException, IOException {
 		response.setContentType("application/json;charset=utf-8");
@@ -368,6 +369,16 @@ public class NoticeController {
 	}
 	
 	
+	@RequestMapping("getNotice.do")
+	public void getNotice(HttpServletResponse response) throws JsonIOException, IOException {
+		response.setContentType("application/json;charset=utf-8");
+		
+		ArrayList<Notice> nList = nService.getNotice();
+		
+		
+		
+		new Gson().toJson(nList, response.getWriter());
+	}
 	
 }
 

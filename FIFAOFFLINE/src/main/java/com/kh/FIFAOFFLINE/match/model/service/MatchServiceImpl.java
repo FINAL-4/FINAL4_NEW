@@ -142,6 +142,20 @@ public class MatchServiceImpl implements MatchService{
 		return maDao.selectTeamScore(tId);
 	}
 
+	@Override
+	public ArrayList<ScoreInfo> getPvp(HashMap<String, Integer> hm) {
+		
+		return maDao.getPvp(hm);
+	}
+
+	@Override
+	public SmsInfo selectManager(int tId) {
+		
+		return maDao.selectManager(tId);
+	}
+
+
+
 
 
 

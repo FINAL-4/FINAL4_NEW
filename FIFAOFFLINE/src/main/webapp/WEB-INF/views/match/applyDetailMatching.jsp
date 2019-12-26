@@ -12,22 +12,23 @@
   var $$$ = jQuery.noConflict();
 </script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.min.js'></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <title>Insert title here</title>
 <style>
 /* ---------선택된 메뉴 색상 변경-------- */
-#matchMenu .menu__item-name::after,
-#matchMenu .menu__item-name::before{
+#matchingMenu .menu__item-name::after,
+#matchingMenu .menu__item-name::before{
 	background: red;
 	color: red;
 }
 
-#matchMenu.menu__item::after,
-#matchMenu.menu__item::before{
+#matchingMenu.menu__item::after,
+#matchingMenu.menu__item::before{
    	color: red;
 }
 
-#matchMenu .menu__item-name{
+#matchingMenu .menu__item-name{
 	color: red;
 }
 /* ----------------------------------- */
@@ -521,6 +522,12 @@ h6{
 						<td>참가비 </td>
 						<td>${match.dues } 원</td>
 					</tr>
+					<c:if test="${match.mStatus == 'ING' }">
+					<tr>
+						<td>상대 전적 </td>
+						<td id = "Pvp"></td>
+					</tr>
+					</c:if>
 					<tr>
 						<td colspan=2>${match.mContent }</td>
 					</tr>
@@ -581,7 +588,12 @@ h6{
 			
 			<c:if test="${match.mStatus == 'ING' }">
 			<div id = btn style = "margin-left: 30%; margin-top: 5%;">
+					<c:if test = "${!empty loginUser && loginUser.userNo == match.userNo }">
 					<input type = button id = applyingBtn value = "매칭 결과 입력" style = "margin-right: 22.5%; " onclick = "showInputResult();">
+					</c:if>
+					<c:if test = "${empty loginUser || loginUser.userNo != match.userNo }">
+					<span style = "width: 30%; margin-right: 65%;"></span>
+					</c:if>
 					<input type = button id = applyBtn value = "상세위치보기" onclick = "showMap()">
 					<input type = button id = recruitBtn value = "돌아가기" onclick = "location.href='goMatch.ma'" style = "margin-left: 1%;">
 			</div>	
@@ -727,6 +739,33 @@ h6{
 		</table>
 	</form>
 </div>
+
+<c:if test="${!empty am }">
+	<script type="text/javascript">
+		var amtId = ${am.teamNo};
+		var mtId = ${match.teamNo};
+		$(function(){
+			$.ajax({
+				url:"showPvp.ma",
+				data:{amtId:amtId,
+					mtId:mtId
+				},
+				success:function(data){
+					
+					$("#Pvp").html(data);
+					
+				},
+				error:function(request, status, errorData){
+					alert("error code: " + request.status + "\n"
+							+"message: " + request.responseText
+							+"error: " + errorData);
+				}
+			})
+		})
+	
+	</script>
+
+</c:if>
 
 
 
@@ -1057,7 +1096,7 @@ h6{
 					return false;
 				}
 				
-				if(${match.userNo} == ${loginUser.userNo}){
+				if('${match.userNo}' == '${loginUser.userNo}'){
 					swal("", "자신의 매치글에는 신청할 수 없습니다.", "warning");
 					return false;
 				}

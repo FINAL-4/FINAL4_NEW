@@ -24,9 +24,23 @@
 </script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/bPopup/0.11.0/jquery.bpopup.min.js'></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <style>
+  #questionMenu .menu__item-name::after,
+#questionMenu .menu__item-name::before{
+	background: red;
+	color: red;
+}
 
+#questionMenu.menu__item::after,
+#questionMenu.menu__item::before{
+   	color: red;
+}
+
+#questionMenu .menu__item-name{
+	color: red;
+}
 #outer {
 	width: 98%;
 	height: 100%;
@@ -360,8 +374,8 @@ input:focus, textarea:focus, button:focus{
 						$("#readN").html("답변 완료");
 						$("#answerN").html("답변 완료");
 						$("#aDate").html(formatDate(new Date()));
-						$$$("#popUp").bPopup().close();
-					},
+						location.reload();
+						},
 					error:function(request, status, errorData){
 						alert("error code: " + request.status + "\n"
 								+"message: " + request.responseText

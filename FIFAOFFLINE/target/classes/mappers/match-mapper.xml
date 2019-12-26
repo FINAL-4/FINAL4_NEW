@@ -219,10 +219,10 @@
 	</update>
 
 	<select id="selectSmsInfo" resultMap="smsInfoResultSet">
-		SELECT *
-		FROM MEMBER M
-		JOIN MATCHING MA ON(M.USER_NO=MA.USER_NO)
-		WHERE TEAM_NO=#{teamNo}
+		SELECT * 
+		FROM T_MEMBER TM
+		JOIN MEMBER M ON(TM.USER_NO = M.USER_NO)
+		WHERE TM.TEAM_NO = #{teamNo}
 	</select>
 
  	<insert id="insertScore">
@@ -240,6 +240,20 @@
 		SELECT *
 		FROM MATCHING_SCORE
 		WHERE TEAM_NO = #{tId}
+		ORDER BY MSID DESC
+	</select>
+	
+	<select id="getPvp" resultMap="scoreInfoResultSet" parameterType="hashmap">
+		SELECT *
+		FROM MATCHING_SCORE
+		WHERE TEAM_NO = #{mtId} AND OPP_TEAM_NO = #{amtId}
+	</select>
+	
+	<select id="selectManager" resultMap="smsInfoResultSet">
+		SELECT M.PHONE, M.USER_NAME
+		FROM MEMBER M
+		JOIN T_MEMBER TM ON(TM.USER_NO=M.USER_NO)
+		WHERE TM.T_GRADE = 1 AND TM.TEAM_NO = #{teamNo}
 	</select>
 	
 </mapper>

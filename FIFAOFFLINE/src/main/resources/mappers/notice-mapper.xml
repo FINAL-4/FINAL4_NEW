@@ -195,4 +195,11 @@
   	WHERE USER_NO=#{userNo} AND NID=#{nId}
   </delete>
   
+  <select id="getNotice" resultMap="noticeResultSet">
+  	SELECT *
+  	FROM NOTICE N
+  	WHERE CID=1
+  </select>
+  
+  
 </mapper>
